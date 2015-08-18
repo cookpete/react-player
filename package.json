@@ -1,0 +1,49 @@
+{
+  "name": "react-player",
+  "version": "0.0.1",
+  "description": "A react component for playing media from YouTube, SoundCloud or Vimeo",
+  "main": "src/ReactPlayer.js",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CookPete/react-player.git"
+  },
+  "keywords": [
+    "react",
+    "media",
+    "player",
+    "video",
+    "audio",
+    "youtube",
+    "soundcloud",
+    "vimeo"
+  ],
+  "author": "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CookPete/react-player/issues"
+  },
+  "homepage": "https://github.com/CookPete/react-player",
+  "devDependencies": {
+    "babel-core": "^5.4.7",
+    "babel-eslint": "^4.0.10",
+    "babel-loader": "^5.1.2",
+    "react-hot-loader": "^1.2.7",
+    "standard": "^5.1.0",
+    "webpack": "^1.9.6",
+    "webpack-dev-server": "^1.8.2"
+  },
+  "dependencies": {
+    "load-script": "^1.0.0",
+    "react": "^0.13.0"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "global": [
+      "fetch"
+    ]
+  }
+}
