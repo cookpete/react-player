@@ -67,7 +67,8 @@ export default class SoundCloud extends Base {
     onbufferchange: function () {
       if (this.player.isBuffering) this.props.onBuffer()
     },
-    onfinish: this.props.onFinish
+    onfinish: this.props.onFinish,
+    ondataerror: this.props.onError
   }
   pause () {
     if (!this.player) return

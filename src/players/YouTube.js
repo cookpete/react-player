@@ -43,7 +43,8 @@ export default class YouTube extends Base {
         videoId: id,
         playerVars: { autoplay: 1, controls: 0, showinfo: 0 },
         events: {
-          onStateChange: this.onStateChange
+          onStateChange: this.onStateChange,
+          onError: this.props.onError
         }
       })
     })
