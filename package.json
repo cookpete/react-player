@@ -2,10 +2,12 @@
   "name": "react-player",
   "version": "0.0.2",
   "description": "A react component for playing media from YouTube, SoundCloud or Vimeo",
-  "main": "src/ReactPlayer.js",
+  "main": "lib/ReactPlayer.js",
   "scripts": {
     "start": "node server.js",
-    "lint": "standard"
+    "lint": "standard",
+    "build": "babel src/ -d lib/",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
     "react": ">=0.13.0"
   },
   "devDependencies": {
+    "babel": "^5.8.21",
     "babel-core": "^5.4.7",
     "babel-eslint": "^4.0.10",
     "babel-loader": "^5.1.2",
