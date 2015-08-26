@@ -1,20 +1,11 @@
-import { Component, PropTypes } from 'react'
+import { Component } from 'react'
+
+import propTypes from '../propTypes'
 
 const UPDATE_FREQUENCY = 500
 
 export default class Base extends Component {
-  static propTypes = {
-    url: PropTypes.string,
-    playing: PropTypes.bool,
-    volume: PropTypes.number,
-    width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    height: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onPlay: PropTypes.func,
-    onPause: PropTypes.func,
-    onBuffer: PropTypes.func,
-    onEnded: PropTypes.func,
-    onError: PropTypes.func
-  }
+  static propTypes = propTypes
   static defaultProps = {
     onProgress: function () {}
   }

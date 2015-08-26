@@ -1,6 +1,7 @@
 import React from 'react'
 import loadScript from 'load-script'
 
+import propTypes from '../propTypes'
 import Base from './Base'
 
 const SDK_URL = '//www.youtube.com/iframe_api'
@@ -9,7 +10,7 @@ const MATCH_URL = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:em
 const PLAYER_ID = 'youtube-player'
 
 export default class YouTube extends Base {
-  static propTypes = Base.propTypes // HACK: Prevent lint error
+  static propTypes = propTypes
   static canPlay (url) {
     return MATCH_URL.test(url)
   }

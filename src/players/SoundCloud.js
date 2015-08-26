@@ -1,6 +1,7 @@
 import React from 'react'
 import loadScript from 'load-script'
 
+import propTypes from '../propTypes'
 import Base from './Base'
 
 const CLIENT_ID = 'e8b6f84fbcad14c301ca1355cae1dea2'
@@ -10,7 +11,7 @@ const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
 const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/
 
 export default class SoundCloud extends Base {
-  static propTypes = Base.propTypes // HACK: Prevent lint error
+  static propTypes = propTypes
   static canPlay (url) {
     return MATCH_URL.test(url)
   }

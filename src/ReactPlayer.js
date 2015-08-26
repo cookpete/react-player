@@ -1,21 +1,11 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import 'array.prototype.find'
 
+import propTypes from './propTypes'
 import players from './players'
 
 export default class MediaPlayer extends Component {
-  static propTypes = {
-    url: PropTypes.string,
-    playing: PropTypes.bool,
-    volume: PropTypes.number,
-    width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    height: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onPlay: PropTypes.func,
-    onPause: PropTypes.func,
-    onBuffer: PropTypes.func,
-    onEnded: PropTypes.func,
-    onError: PropTypes.func
-  }
+  static propTypes = propTypes
   static defaultProps = {
     volume: 0.8,
     width: 640,
