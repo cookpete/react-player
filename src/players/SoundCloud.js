@@ -18,6 +18,9 @@ export default class SoundCloud extends Base {
   state = {
     image: null
   }
+  shouldComponentUpdate (nextProps, nextState) {
+    return this.state.image !== nextState.image
+  }
   getSDK () {
     if (window[SDK_GLOBAL]) {
       return Promise.resolve(window[SDK_GLOBAL])

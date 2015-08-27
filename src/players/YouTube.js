@@ -14,6 +14,9 @@ export default class YouTube extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
+  shouldComponentUpdate () {
+    return false
+  }
   getSDK () {
     if (window[SDK_GLOBAL]) {
       return Promise.resolve(window[SDK_GLOBAL])
