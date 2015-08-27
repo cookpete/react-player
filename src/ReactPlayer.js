@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import 'array.prototype.find'
 
 import players from './players'
 
