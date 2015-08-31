@@ -21,7 +21,7 @@ export default class Base extends Component {
     // Invoke player methods based on incoming props
     if (this.props.url !== nextProps.url) {
       this.play(nextProps.url)
-      this.onProgress({ played: 0, loaded: 0 })
+      this.props.onProgress({ played: 0, loaded: 0 })
     } else if (!this.props.playing && nextProps.playing) {
       this.play()
     } else if (this.props.playing && !nextProps.playing) {
