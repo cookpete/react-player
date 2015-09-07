@@ -45,6 +45,7 @@ export default class SoundCloud extends Base {
       this.player.play()
       return
     }
+    this.stop()
     this.getSDK().then(SC => {
       this.getSongData(url).then(data => {
         let image = data.artwork_url || data.user.avatar_url
