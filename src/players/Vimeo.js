@@ -68,7 +68,8 @@ export default class Vimeo extends Base {
   postMessage = (method, value) => {
     if (!this.origin) return
     let data = JSON.stringify({ method, value })
-    return this.iframe.contentWindow.postMessage(data, this.origin)
+    var contentWindow = this.iframe.contentWindow;
+    if(contentWindow) return contentWindow.postMessage(data, this.origin)
   }
   render () {
     let style = {
