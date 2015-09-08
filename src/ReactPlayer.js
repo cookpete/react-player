@@ -25,7 +25,7 @@ export default class MediaPlayer extends Component {
     if (this.props.url !== nextProps.url) {
       this.setState({
         Player: players.find(Player => Player.canPlay(nextProps.url))
-      });
+      })
     }
   }
   seekTo = fraction => {
