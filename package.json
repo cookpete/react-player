@@ -1,6 +1,6 @@
 {
   "name": "react-player",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A react component for playing media from YouTube, SoundCloud or Vimeo",
   "main": "lib/ReactPlayer.js",
   "scripts": {
