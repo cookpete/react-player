@@ -19,14 +19,17 @@ export default class MediaPlayer extends Component {
     return players.some(player => player.canPlay(url))
   }
   state = {
-    Player: null
+    Player: this.getPlayer(this.props.url)
   }
   componentWillReceiveProps (nextProps) {
     if (this.props.url !== nextProps.url) {
       this.setState({
-        Player: players.find(Player => Player.canPlay(nextProps.url))
+        Player: this.getPlayer(nextProps.url)
       })
     }
+  }
+  getPlayer (url) {
+    return players.find(Player => Player.canPlay(url))
   }
   seekTo = fraction => {
     let player = this.refs.player
