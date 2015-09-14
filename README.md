@@ -66,6 +66,14 @@ This project uses [standard](https://github.com/feross/standard) code style.
 npm run lint
 ```
 
+### Testing
+
+This project uses [mocha](https://github.com/mochajs/mocha) with [chai](https://github.com/chaijs/chai) assertions for unit testing.
+
+```bash
+npm run test
+```
+
 ### Thanks
 
 * Big thanks to [gaearon](https://github.com/gaearon) for his [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate), which this repo is roughly based on.

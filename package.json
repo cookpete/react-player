@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "lint": "standard",
+    "test": "mocha test --compilers js:babel/register",
     "build": "babel src/ -d lib/",
     "prepublish": "npm run build"
   },
@@ -37,8 +38,10 @@
     "babel-core": "^5.4.7",
     "babel-eslint": "^4.0.10",
     "babel-loader": "^5.1.2",
+    "chai": "^3.2.0",
     "exports-loader": "^0.6.2",
     "imports-loader": "^0.6.4",
+    "mocha": "^2.2.5",
     "react": ">=0.13.0",
     "react-hot-loader": "^1.2.7",
     "standard": "^5.1.0",
