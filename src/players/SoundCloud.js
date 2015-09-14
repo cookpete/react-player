@@ -8,7 +8,7 @@ const CLIENT_ID = 'e8b6f84fbcad14c301ca1355cae1dea2'
 const SDK_URL = '//connect.soundcloud.com/sdk-2.0.0.js'
 const SDK_GLOBAL = 'SC'
 const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
-const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$/
+const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-]+\/[a-z0-9-]+)$/
 
 export default class SoundCloud extends Base {
   static propTypes = propTypes
