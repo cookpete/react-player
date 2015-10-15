@@ -1,7 +1,9 @@
 react-player
 ============
 
-A react component for playing media from YouTube, SoundCloud or Vimeo.
+A react component for playing media from YouTube, SoundCloud and Vimeo, as well as supported media files.
+
+The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#Supported Media). [Props](#Props) can be passed in to control playback and react to events such as buffering or media ending.
 
 ### Usage
 
@@ -18,7 +20,6 @@ class App extends Component {
     <ReactPlayer
       url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
       playing={true}
-      volume={0.8}
     />
   }
 }
@@ -45,6 +46,8 @@ Prop | Description
 url | The url of a video or song to play
 playing | Set to `true` or `false` to pause or play the media
 volume | Sets the volume of the appropriate player
+width | Sets the width of the player
+height | Sets the height of the player
 onProgress | Callback containing `played` and `loaded` progress as a fraction eg `{ played: 0.12, loaded: 0.34 }`
 onPlay | Called when media starts or resumes playing after pausing or buffering
 onPause | Called when media is paused
@@ -57,6 +60,13 @@ onError | Called when an error occurs whilst attempting to play media
 There is a static method  `ReactPlayer.canPlay(url)` to determine if a URL can be played by the media player. Note that this does *not* detect media that is unplayable due to streaming permissions etc. In that case, `onError` will occur after attemping to play.
 
 To seek to a certain part of the media, there is a `seekTo(fraction)` instance method that will seek to the appropriate place in the media. See `App.js` for an example of this using `refs`.
+
+### Supported Media
+
+* YouTube videos use the [YouTube iFrame Player API]()
+* Soundcloud tracks use the [Soundcloud JS SDK 2.0]()
+* Vimeo videos use the [Vimeo Player API]()
+* MP4/WEBM/OGG/MP3/WAV files use the [HTML media object]()
 
 ### Linting
 
