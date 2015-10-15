@@ -17,14 +17,11 @@ export default class Vimeo extends Base {
     this.iframe = React.findDOMNode(this.refs.iframe)
     super.componentDidMount()
   }
-  shouldComponentUpdate () {
-    return false
+  shouldComponentUpdate (nextProps) {
+    return this.props.url !== nextProps.url
   }
   play (url) {
-    if (url) {
-      let id = url.match(MATCH_URL)[3]
-      this.iframe.src = IFRAME_SRC + id + '?api=1&autoplay=1&badge=0&byline=0&portrait=0&title=0'
-    } else {
+    if (!url) {
       this.postMessage('play')
     }
   }
@@ -32,7 +29,7 @@ export default class Vimeo extends Base {
     this.postMessage('pause')
   }
   stop () {
-    this.iframe.src = ''
+    // No need
   }
   seekTo (fraction) {
     this.postMessage('seekTo', this.duration * fraction)
@@ -49,7 +46,7 @@ export default class Vimeo extends Base {
   onMessage = e => {
     if (!MATCH_MESSAGE_ORIGIN.test(e.origin)) return
     this.origin = this.origin || e.origin
-    let data = JSON.parse(e.data)
+    const data = JSON.parse(e.data)
     if (data.event === 'ready') {
       this.postMessage('getDuration')
       this.postMessage('addEventListener', 'playProgress')
@@ -67,14 +64,22 @@ export default class Vimeo extends Base {
   }
   postMessage = (method, value) => {
     if (!this.origin) return
-    let data = JSON.stringify({ method, value })
+    const data = JSON.stringify({ method, value })
     return this.iframe.contentWindow && this.iframe.contentWindow.postMessage(data, this.origin)
   }
   render () {
-    let style = {
+    const id = this.props.url.match(MATCH_URL)[3]
+    const style = {
       width: '100%',
       height: '100%'
     }
-    return <iframe ref='iframe' frameBorder='0' style={style} />
+    return (
+      <iframe
+        ref='iframe'
+        src={IFRAME_SRC + id + '?api=1&autoplay=1&badge=0&byline=0&portrait=0&title=0'}
+        style={style}
+        frameBorder='0'
+      />
+    )
   }
 }
