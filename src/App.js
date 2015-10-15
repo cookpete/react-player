@@ -58,6 +58,9 @@ export default class App extends Component {
         <button onClick={this.load.bind(this, 'https://www.youtube.com/watch?v=oUFJJNQGwhk')}>Youtube video</button>
         <button onClick={this.load.bind(this, 'https://soundcloud.com/miami-nights-1984/accelerated')}>Soundcloud song</button>
         <button onClick={this.load.bind(this, 'https://vimeo.com/90509568')}>Vimeo video</button>
+        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4')}>MP4 video</button>
+        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv')}>OGV video</button>
+        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm')}>WEBM video</button>
         <input
           type='range' min={0} max={1} step='any'
           value={this.state.played}
