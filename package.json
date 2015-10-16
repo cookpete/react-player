@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/CookPete/react-player",
   "peerDependencies": {
-    "react": ">=0.13.0"
+    "react": "^0.14.0"
   },
   "devDependencies": {
     "babel": "^5.8.21",
@@ -42,7 +42,8 @@
     "exports-loader": "^0.6.2",
     "imports-loader": "^0.6.4",
     "mocha": "^2.2.5",
-    "react": ">=0.13.0",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
     "react-hot-loader": "^1.2.7",
     "standard": "^5.1.0",
     "webpack": "^1.9.6",

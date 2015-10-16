@@ -14,7 +14,7 @@ export default class Vimeo extends Base {
   }
   componentDidMount () {
     window.addEventListener('message', this.onMessage, false)
-    this.iframe = React.findDOMNode(this.refs.iframe)
+    this.iframe = this.refs.iframe
     super.componentDidMount()
   }
   shouldComponentUpdate (nextProps) {

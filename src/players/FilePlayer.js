@@ -12,7 +12,7 @@ export default class FilePlayer extends Base {
     return VIDEO_EXTENSIONS.test(url) || AUDIO_EXTENSIONS.test(url)
   }
   componentDidMount () {
-    this.player = React.findDOMNode(this.refs.player)
+    this.player = this.refs.player
     this.player.onended = this.props.onEnded
     this.player.onplay = this.props.onPlay
     this.player.onpause = this.props.onPause
