@@ -48,6 +48,9 @@ playing | Set to `true` or `false` to pause or play the media
 volume | Sets the volume of the appropriate player
 width | Sets the width of the player
 height | Sets the height of the player
+soundcloudConfig | An object containing configuration for the SoundCloud player. Includes `clientId`, which can be used to override the default `client_id`
+vimeoConfig | An object containing configuration for the Vimeo player. Includes `iframeParams`, which maps to the [parameters accepted by the Vimeo iframe player](https://developer.vimeo.com/player/embedding#universal-parameters)
+youtubeConfig | An object containing configuration for the YouTube player. Includes `playerVars`, which maps to the [parameters accepted by the YouTube iframe player](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)
 onProgress | Callback containing `played` and `loaded` progress as a fraction eg `{ played: 0.12, loaded: 0.34 }`
 onPlay | Called when media starts or resumes playing after pausing or buffering
 onPause | Called when media is paused

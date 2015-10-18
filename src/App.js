@@ -38,6 +38,16 @@ export default class App extends Component {
       this.setState(state)
     }
   }
+  onConfigSubmit = () => {
+    let config
+    try {
+      config = JSON.parse(this.refs.config.value)
+    } catch (error) {
+      config = {}
+      console.error('Error setting config:', error)
+    }
+    this.setState(config)
+  }
   render () {
     return (
       <div>
@@ -48,6 +58,9 @@ export default class App extends Component {
           playing={this.state.playing}
           volume={this.state.volume}
           onProgress={this.onProgress}
+          soundcloudConfig={this.state.soundcloudConfig}
+          vimeoConfig={this.state.vimeoConfig}
+          youtubeConfig={this.state.youtubeConfig}
           onPlay={() => console.log('onPlay')}
           onPause={() => console.log('onPause')}
           onBuffer={() => console.log('onBuffer')}
@@ -61,20 +74,26 @@ export default class App extends Component {
         <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4')}>MP4 video</button>
         <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv')}>OGV video</button>
         <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm')}>WEBM video</button>
-        <input
+        <input ref='url' placeholder='url' />
+        <button onClick={() => { this.load(this.refs.url.value) }}>Load URL</button>
+        <hr />
+        seek: <input
           type='range' min={0} max={1} step='any'
           value={this.state.played}
           onMouseDown={this.onSeekMouseDown}
           onChange={this.onSeekChange}
           onMouseUp={this.onSeekMouseUp}
         />
-        <input
+        played: <progress max={1} value={this.state.played} />
+        loaded: <progress max={1} value={this.state.loaded} />
+        volume: <input
           type='range' min={0} max={1} step='any'
           value={this.state.volume}
           onChange={this.setVolume}
         />
-        played: <progress max={1} value={this.state.played} />
-        loaded: <progress max={1} value={this.state.loaded} />
+        <hr />
+        <textarea ref='config' placeholder='Config JSON' style={{width: '200px', height: '200px'}}></textarea>
+        <button onClick={this.onConfigSubmit}>Update Config</button>
       </div>
     )
   }

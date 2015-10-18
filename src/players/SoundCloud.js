@@ -4,7 +4,7 @@ import loadScript from 'load-script'
 import propTypes from '../propTypes'
 import Base from './Base'
 
-const CLIENT_ID = 'e8b6f84fbcad14c301ca1355cae1dea2'
+const DEFAULT_CLIENT_ID = 'e8b6f84fbcad14c301ca1355cae1dea2'
 const SDK_URL = '//connect.soundcloud.com/sdk-2.0.0.js'
 const SDK_GLOBAL = 'SC'
 const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
@@ -12,6 +12,11 @@ const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-]+\/[a-z0-9-]+)
 
 export default class SoundCloud extends Base {
   static propTypes = propTypes
+  static defaultProps = {
+    soundcloudConfig: {
+      clientId: DEFAULT_CLIENT_ID
+    }
+  }
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
@@ -30,14 +35,14 @@ export default class SoundCloud extends Base {
         if (err) {
           reject(err)
         } else {
-          window[SDK_GLOBAL].initialize({ client_id: CLIENT_ID })
+          window[SDK_GLOBAL].initialize({ client_id: this.props.soundcloudConfig.clientId })
           resolve(window[SDK_GLOBAL])
         }
       })
     })
   }
   getSongData (url) {
-    return fetch(RESOLVE_URL + '?url=' + url + '&client_id=' + CLIENT_ID)
+    return fetch(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
       .then(response => response.json())
   }
   play (url) {
