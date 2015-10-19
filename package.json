@@ -44,6 +44,7 @@
     "mocha": "^2.2.5",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-addons-test-utils": "^0.14.0",
     "react-hot-loader": "^1.2.7",
     "standard": "^5.1.0",
     "webpack": "^1.9.6",
