@@ -53,7 +53,8 @@
   },
   "dependencies": {
     "array.prototype.find": "^1.0.0",
-    "load-script": "^1.0.0"
+    "load-script": "^1.0.0",
+    "query-string": "^3.0.0"
   },
   "standard": {
     "parser": "babel-eslint",

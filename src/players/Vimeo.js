@@ -1,4 +1,5 @@
 import React from 'react'
+import queryString from 'query-string'
 
 import propTypes from '../propTypes'
 import Base from './Base'
@@ -6,9 +7,20 @@ import Base from './Base'
 const IFRAME_SRC = 'https://player.vimeo.com/video/'
 const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
 const MATCH_MESSAGE_ORIGIN = /^https?:\/\/player.vimeo.com/
+const DEFAULT_IFRAME_PARAMS = {
+  api: 1,
+  autoplay: 1,
+  badge: 0,
+  byline: 0,
+  portrait: 0,
+  title: 0
+}
 
 export default class Vimeo extends Base {
   static propTypes = propTypes
+  static defaultProps = {
+    vimeoConfig: {}
+  }
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
@@ -55,6 +67,7 @@ export default class Vimeo extends Base {
       this.postMessage('addEventListener', 'pause')
       this.postMessage('addEventListener', 'finish')
     }
+    if (data.event === 'ready') this.onReady()
     if (data.event === 'playProgress') this.fractionPlayed = data.data.percent
     if (data.event === 'loadProgress') this.fractionLoaded = data.data.percent
     if (data.event === 'play') this.props.onPlay()
@@ -73,10 +86,11 @@ export default class Vimeo extends Base {
       width: '100%',
       height: '100%'
     }
+    const iframeParams = { ...DEFAULT_IFRAME_PARAMS, ...this.props.vimeoConfig.iframeParams }
     return (
       <iframe
         ref='iframe'
-        src={IFRAME_SRC + id + '?api=1&autoplay=1&badge=0&byline=0&portrait=0&title=0'}
+        src={IFRAME_SRC + id + '?' + queryString.stringify(iframeParams)}
         style={style}
         frameBorder='0'
       />

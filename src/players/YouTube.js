@@ -8,9 +8,17 @@ const SDK_URL = '//www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
 const PLAYER_ID = 'youtube-player'
+const DEFAULT_PLAYER_VARS = {
+  autoplay: 1,
+  controls: 0,
+  showinfo: 0
+}
 
 export default class YouTube extends Base {
   static propTypes = propTypes
+  static defaultProps = {
+    youtubeConfig: {}
+  }
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
@@ -45,8 +53,9 @@ export default class YouTube extends Base {
         width: '100%',
         height: '100%',
         videoId: id,
-        playerVars: { autoplay: 1, controls: 0, showinfo: 0 },
+        playerVars: { ...DEFAULT_PLAYER_VARS, ...this.props.youtubeConfig.playerVars },
         events: {
+          onReady: this.onReady,
           onStateChange: this.onStateChange,
           onError: this.props.onError
         }

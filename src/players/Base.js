@@ -45,4 +45,7 @@ export default class Base extends Component {
     }
     this.updateTimeout = setTimeout(this.update, UPDATE_FREQUENCY)
   }
+  onReady = () => {
+    this.setVolume(this.props.volume)
+  }
 }
