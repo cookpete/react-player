@@ -48,6 +48,7 @@ export default class SoundCloud extends Base {
     this.stop()
     this.getSDK().then(SC => {
       this.getSongData(url).then(data => {
+        if (url !== this.props.url) return // Abort if url changes during async requests
         let image = data.artwork_url || data.user.avatar_url
         if (image) {
           this.setState({ image: image.replace('-large', '-t500x500') })
