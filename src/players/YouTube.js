@@ -55,6 +55,7 @@ export default class YouTube extends Base {
         videoId: id,
         playerVars: { ...DEFAULT_PLAYER_VARS, ...this.props.youtubeConfig.playerVars },
         events: {
+          onReady: this.onReady,
           onStateChange: this.onStateChange,
           onError: this.props.onError
         }

@@ -67,6 +67,7 @@ export default class Vimeo extends Base {
       this.postMessage('addEventListener', 'pause')
       this.postMessage('addEventListener', 'finish')
     }
+    if (data.event === 'ready') this.onReady()
     if (data.event === 'playProgress') this.fractionPlayed = data.data.percent
     if (data.event === 'loadProgress') this.fractionLoaded = data.data.percent
     if (data.event === 'play') this.props.onPlay()
