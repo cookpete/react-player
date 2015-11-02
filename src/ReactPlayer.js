@@ -4,7 +4,7 @@ import 'array.prototype.find'
 import propTypes from './propTypes'
 import players from './players'
 
-export default class MediaPlayer extends Component {
+export default class ReactPlayer extends Component {
   static propTypes = propTypes
   static defaultProps = {
     volume: 0.8,
