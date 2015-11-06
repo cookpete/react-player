@@ -4,11 +4,17 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Unreleased
 
+* [Full commit list](https://github.com/CookPete/react-player/compare/v0.2.0...master)
+
+
+### 0.2.0
+
+* Released on **6 November 2015**
 * Add [player configuration props](https://github.com/CookPete/react-player/pull/4) (thanks [Fauntleroy](https://github.com/Fauntleroy))
 * Fix [Soundcloud player bug](https://github.com/CookPete/react-player/issues/6)
 * Add basic support for Travis (build status) and David (dependency status)
 * Add a change log
-* [Full commit list](https://github.com/CookPete/react-player/compare/v0.1.0...master)
+* [Full commit list](https://github.com/CookPete/react-player/compare/v0.1.0...v0.2.0)
 
 
 ### 0.1.0
