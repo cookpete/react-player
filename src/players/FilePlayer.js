@@ -17,7 +17,7 @@ export default class FilePlayer extends Base {
     this.player.onplay = this.props.onPlay
     this.player.onpause = this.props.onPause
     super.componentDidMount()
-    this.onReady();
+    this.onReady()
   }
   shouldComponentUpdate (nextProps) {
     return this.props.url !== nextProps
