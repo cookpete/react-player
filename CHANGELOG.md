@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file. This projec
 
 * Add [player configuration props](https://github.com/CookPete/react-player/pull/4) (thanks [Fauntleroy](https://github.com/Fauntleroy))
 * Fix [Soundcloud player bug](https://github.com/CookPete/react-player/issues/6)
-* Add basic support for Travis
+* Add basic support for Travis (build status) and David (dependency status)
 * Add a change log
 * [Full commit list](https://github.com/CookPete/react-player/compare/v0.1.0...master)
 

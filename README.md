@@ -2,6 +2,8 @@ ReactPlayer
 ===========
 
 [![Build Status](https://travis-ci.org/CookPete/react-player.svg)](https://travis-ci.org/CookPete/react-player)
+[![Dependency Status](https://david-dm.org/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player)
+[![devDependency Status](https://david-dm.org/CookPete/react-player/dev-status.svg)](https://david-dm.org/CookPete/react-player#info=devDependencies)
 
 A react component for playing media from YouTube, SoundCloud and Vimeo, as well as supported media files.
 
