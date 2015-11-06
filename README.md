@@ -7,7 +7,7 @@ ReactPlayer
 
 A react component for playing media from YouTube, SoundCloud and Vimeo, as well as supported media files.
 
-The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#Supported Media). [Props](#Props) can be passed in to control playback and react to events such as buffering or media ending.
+The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending.
 
 ### Usage
 
