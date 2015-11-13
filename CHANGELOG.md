@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Unreleased
 
+* [Full commit list](https://github.com/CookPete/react-player/compare/v0.2.1...master)
+
+
+### 0.2.1
+
+* Released on **13 November 2015**
 * Fix [autoplay bug](https://github.com/CookPete/react-player/issues/10)
 * Add `onError` to `FilePlayer`
-* [Full commit list](https://github.com/CookPete/react-player/compare/v0.2.0...master)
+* [Full commit list](https://github.com/CookPete/react-player/compare/v0.2.0...v0.2.1)
 
 
 ### 0.2.0
