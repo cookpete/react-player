@@ -9,7 +9,7 @@ const SDK_GLOBAL = 'YT'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
 const PLAYER_ID = 'youtube-player'
 const DEFAULT_PLAYER_VARS = {
-  autoplay: 1,
+  autoplay: 0,
   controls: 0,
   showinfo: 0
 }

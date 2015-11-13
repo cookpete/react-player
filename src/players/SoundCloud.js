@@ -60,9 +60,8 @@ export default class SoundCloud extends Base {
         }
         SC.stream(data.uri, this.options, player => {
           this.player = player
-          this.onReady()
-          player.play()
           player._player.on('stateChange', this.onStateChange)
+          this.onReady()
         })
       })
     })

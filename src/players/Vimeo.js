@@ -9,7 +9,7 @@ const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\
 const MATCH_MESSAGE_ORIGIN = /^https?:\/\/player.vimeo.com/
 const DEFAULT_IFRAME_PARAMS = {
   api: 1,
-  autoplay: 1,
+  autoplay: 0,
   badge: 0,
   byline: 0,
   portrait: 0,

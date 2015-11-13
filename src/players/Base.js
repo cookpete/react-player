@@ -47,5 +47,8 @@ export default class Base extends Component {
   }
   onReady = () => {
     this.setVolume(this.props.volume)
+    if (this.props.playing) {
+      this.play()
+    }
   }
 }

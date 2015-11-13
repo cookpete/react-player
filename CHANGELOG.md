@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Unreleased
 
+* Fix [autoplay bug](https://github.com/CookPete/react-player/issues/10)
 * [Full commit list](https://github.com/CookPete/react-player/compare/v0.2.0...master)
 
 

@@ -13,11 +13,11 @@ export default class FilePlayer extends Base {
   }
   componentDidMount () {
     this.player = this.refs.player
-    this.player.onended = this.props.onEnded
+    this.player.oncanplay = this.onReady
     this.player.onplay = this.props.onPlay
     this.player.onpause = this.props.onPause
+    this.player.onended = this.props.onEnded
     super.componentDidMount()
-    this.onReady()
   }
   shouldComponentUpdate (nextProps) {
     return this.props.url !== nextProps
@@ -53,7 +53,6 @@ export default class FilePlayer extends Base {
         src={this.props.url}
         width={this.props.width}
         height={this.props.height}
-        autoPlay
       />
     )
   }
