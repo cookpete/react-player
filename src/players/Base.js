@@ -32,8 +32,8 @@ export default class Base extends Component {
   }
   update = () => {
     let progress = {}
-    let loaded = this.getFractionLoaded()
-    let played = this.getFractionPlayed()
+    const loaded = this.getFractionLoaded()
+    const played = this.getFractionPlayed()
     if (!this.prevLoaded || loaded !== this.prevLoaded) {
       progress.loaded = this.prevLoaded = loaded
     }

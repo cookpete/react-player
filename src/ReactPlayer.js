@@ -32,14 +32,14 @@ export default class ReactPlayer extends Component {
     return players.find(Player => Player.canPlay(url))
   }
   seekTo = fraction => {
-    let player = this.refs.player
+    const player = this.refs.player
     if (player) {
       player.seekTo(fraction)
     }
   }
   render () {
-    let Player = this.state.Player
-    let style = {
+    const Player = this.state.Player
+    const style = {
       width: this.props.width,
       height: this.props.height
     }

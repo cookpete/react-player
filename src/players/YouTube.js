@@ -39,7 +39,7 @@ export default class YouTube extends Base {
     })
   }
   play (url) {
-    let id = url && url.match(MATCH_URL)[1]
+    const id = url && url.match(MATCH_URL)[1]
     if (this.player) {
       if (id) {
         this.player.loadVideoById(id)
@@ -63,7 +63,7 @@ export default class YouTube extends Base {
     })
   }
   onStateChange = state => {
-    let YT = window[SDK_GLOBAL]
+    const YT = window[SDK_GLOBAL]
     if (state.data === YT.PlayerState.PLAYING) this.props.onPlay()
     if (state.data === YT.PlayerState.PAUSED) this.props.onPause()
     if (state.data === YT.PlayerState.BUFFERING) this.props.onBuffer()

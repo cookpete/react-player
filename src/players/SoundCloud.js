@@ -54,7 +54,7 @@ export default class SoundCloud extends Base {
     this.getSDK().then(SC => {
       this.getSongData(url).then(data => {
         if (url !== this.props.url) return // Abort if url changes during async requests
-        let image = data.artwork_url || data.user.avatar_url
+        const image = data.artwork_url || data.user.avatar_url
         if (image) {
           this.setState({ image: image.replace('-large', '-t500x500') })
         }
@@ -107,7 +107,7 @@ export default class SoundCloud extends Base {
     return this.player.getLoadedPosition() / this.player.getDuration()
   }
   render () {
-    let style = {
+    const style = {
       height: '100%',
       backgroundImage: this.state.image ? 'url(' + this.state.image + ')' : null,
       backgroundSize: 'cover',
