@@ -7,8 +7,10 @@
     "start": "node server.js",
     "lint": "standard",
     "test": "mocha test --compilers js:babel/register",
-    "build": "babel src/ -d lib/",
-    "prepublish": "npm run build"
+    "build": "babel src -d lib",
+    "clean": "rimraf lib",
+    "prepublish": "npm run build",
+    "postpublish": "npm run clean"
   },
   "repository": {
     "type": "git",
@@ -43,9 +45,10 @@
     "imports-loader": "^0.6.4",
     "mocha": "^2.2.5",
     "react": "^0.14.0",
-    "react-dom": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
+    "react-dom": "^0.14.0",
     "react-hot-loader": "^1.2.7",
+    "rimraf": "^2.4.3",
     "standard": "^5.1.0",
     "webpack": "^1.9.6",
     "webpack-dev-server": "^1.8.2",
