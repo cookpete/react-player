@@ -22,6 +22,7 @@ export default class YouTube extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
+  state = {}
   shouldComponentUpdate () {
     return false
   }
@@ -43,6 +44,7 @@ export default class YouTube extends Base {
     if (this.player) {
       if (id) {
         this.player.loadVideoById(id)
+        this.player.playVideo()
       } else {
         this.player.playVideo()
       }

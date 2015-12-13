@@ -11,6 +11,7 @@ export default class FilePlayer extends Base {
   static canPlay (url) {
     return VIDEO_EXTENSIONS.test(url) || AUDIO_EXTENSIONS.test(url)
   }
+  state = {}
   componentDidMount () {
     this.player = this.refs.player
     this.player.oncanplay = this.onReady
@@ -47,13 +48,14 @@ export default class FilePlayer extends Base {
     return this.player.buffered.end(0) / this.player.duration
   }
   render () {
-    const Media = AUDIO_EXTENSIONS.test(this.props.url) ? 'audio' : 'video'
+    const { url, width, height } = this.props
+    const Media = AUDIO_EXTENSIONS.test(url) ? 'audio' : 'video'
     return (
       <Media
         ref='player'
-        src={this.props.url}
-        width={this.props.width}
-        height={this.props.height}
+        src={url}
+        width={width}
+        height={height}
       />
     )
   }
