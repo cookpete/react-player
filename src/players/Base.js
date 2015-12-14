@@ -10,8 +10,7 @@ export default class Base extends Component {
     onProgress: function () {}
   }
   componentDidMount () {
-    //this.play(this.props.url)
-    //this.update()
+    this.update()
   }
   componentWillUnmount () {
     this.stop()

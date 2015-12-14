@@ -47,7 +47,7 @@ export default class ReactPlayer extends Component {
       }
       return (
         <div style={style}>
-          <Player {...this.props} />
+          <Player ref={canPlay ? "player" : null} {...this.props} />
         </div>
       )
     })
