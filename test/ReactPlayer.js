@@ -24,24 +24,28 @@ describe('ReactPlayer', () => {
   it('renders YouTube player', () => {
     shallowRenderer.render(<ReactPlayer url={YOUTUBE_URL} />)
     const result = shallowRenderer.getRenderOutput()
-    expect(result.props.children.type).to.equal(YouTube)
+    const activePlayer = result.props.children.find(child => child.props.children.ref === 'player')
+    expect(activePlayer.props.children.type).to.equal(YouTube)
   })
 
   it('renders SoundCloud player', () => {
     shallowRenderer.render(<ReactPlayer url={SOUNDCLOUD_URL} />)
     const result = shallowRenderer.getRenderOutput()
-    expect(result.props.children.type).to.equal(SoundCloud)
+    const activePlayer = result.props.children.find(child => child.props.children.ref === 'player')
+    expect(activePlayer.props.children.type).to.equal(SoundCloud)
   })
 
   it('renders Vimeo player', () => {
     shallowRenderer.render(<ReactPlayer url={VIMEO_URL} />)
     const result = shallowRenderer.getRenderOutput()
-    expect(result.props.children.type).to.equal(Vimeo)
+    const activePlayer = result.props.children.find(child => child.props.children.ref === 'player')
+    expect(activePlayer.props.children.type).to.equal(Vimeo)
   })
 
   it('renders FilePlayer', () => {
     shallowRenderer.render(<ReactPlayer url={FILE_URL} />)
     const result = shallowRenderer.getRenderOutput()
-    expect(result.props.children.type).to.equal(FilePlayer)
+    const activePlayer = result.props.children.find(child => child.props.children.ref === 'player')
+    expect(activePlayer.props.children.type).to.equal(FilePlayer)
   })
 })
