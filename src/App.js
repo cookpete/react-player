@@ -2,16 +2,22 @@ import React, { Component } from 'react'
 
 import ReactPlayer from './ReactPlayer'
 
+const DELAY = 5000;
+
 export default class App extends Component {
   state = {
     url: null,
     playing: false,
     volume: 0.8,
     played: 0,
-    loaded: 0
+    loaded: 0,
+    delayLoad: false
   }
   load = url => {
-    this.setState({ url, playing: true })
+    const delay = this.state.delayLoad ? DELAY : 0;
+    setTimeout(() => {
+      this.setState({ url, playing: true })
+    }, delay)
   }
   playPause = () => {
     this.setState({ playing: !this.state.playing })
@@ -51,7 +57,7 @@ export default class App extends Component {
   render () {
     return (
       <div>
-        <h1>rmp</h1>
+        <h1>React Player Test App</h1>
         <ReactPlayer
           ref='player'
           url={this.state.url}
@@ -68,15 +74,6 @@ export default class App extends Component {
         />
         <button onClick={this.stop}>Stop</button>
         <button onClick={this.playPause}>{this.state.playing ? 'Pause' : 'Play'}</button>
-        <button onClick={this.load.bind(this, 'https://www.youtube.com/watch?v=oUFJJNQGwhk')}>Youtube video</button>
-        <button onClick={this.load.bind(this, 'https://soundcloud.com/miami-nights-1984/accelerated')}>Soundcloud song</button>
-        <button onClick={this.load.bind(this, 'https://vimeo.com/90509568')}>Vimeo video</button>
-        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4')}>MP4 video</button>
-        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv')}>OGV video</button>
-        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm')}>WEBM video</button>
-        <input ref='url' placeholder='url' />
-        <button onClick={() => { this.load(this.refs.url.value) }}>Load URL</button>
-        <hr />
         seek: <input
           type='range' min={0} max={1} step='any'
           value={this.state.played}
@@ -91,6 +88,22 @@ export default class App extends Component {
           value={this.state.volume}
           onChange={this.setVolume}
         />
+        <hr />
+        <button onClick={this.load.bind(this, 'https://www.youtube.com/watch?v=oUFJJNQGwhk')}>Youtube video</button>
+        <button onClick={this.load.bind(this, 'https://soundcloud.com/miami-nights-1984/accelerated')}>Soundcloud song</button>
+        <button onClick={this.load.bind(this, 'https://vimeo.com/90509568')}>Vimeo video</button>
+        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4')}>MP4 video</button>
+        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv')}>OGV video</button>
+        <button onClick={this.load.bind(this, 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm')}>WEBM video</button>
+        <input ref='url' placeholder='url' />
+        <button onClick={() => { this.load(this.refs.url.value) }}>Load URL</button>
+        <label>
+          <input
+            type="checkbox"
+            value={this.state.delayLoad}
+            onClick={()=>{this.setState({ delayLoad: !this.state.delayLoad })}}/>
+            <span> delay {DELAY / 1000} seconds</span>
+        </label>
         <hr />
         <textarea ref='config' placeholder='Config JSON' style={{width: '200px', height: '200px'}}></textarea>
         <button onClick={this.onConfigSubmit}>Update Config</button>

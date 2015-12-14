@@ -24,6 +24,7 @@ export default class Vimeo extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
+  state = {}
   componentDidMount () {
     window.addEventListener('message', this.onMessage, false)
     this.iframe = this.refs.iframe
@@ -81,12 +82,13 @@ export default class Vimeo extends Base {
     return this.iframe.contentWindow && this.iframe.contentWindow.postMessage(data, this.origin)
   }
   render () {
-    const id = this.props.url.match(MATCH_URL)[3]
+    const { url, vimeoConfig } = this.props
+    const id = ((url || '').match(MATCH_URL) || [])[3]
     const style = {
       width: '100%',
       height: '100%'
     }
-    const iframeParams = { ...DEFAULT_IFRAME_PARAMS, ...this.props.vimeoConfig.iframeParams }
+    const iframeParams = { ...DEFAULT_IFRAME_PARAMS, ...vimeoConfig.iframeParams }
     return (
       <iframe
         ref='iframe'

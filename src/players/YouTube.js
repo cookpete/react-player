@@ -22,6 +22,7 @@ export default class YouTube extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
+  state = {}
   shouldComponentUpdate () {
     return false
   }
