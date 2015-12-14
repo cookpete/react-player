@@ -46,7 +46,7 @@ export default class ReactPlayer extends Component {
         display: canPlay ? 'block' : 'none'
       }
       return (
-        <div style={style}>
+        <div style={style} key={Player.name}>
           <Player ref={canPlay ? "player" : null} {...this.props} />
         </div>
       )
