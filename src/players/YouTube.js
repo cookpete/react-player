@@ -44,7 +44,6 @@ export default class YouTube extends Base {
     if (this.player) {
       if (id) {
         this.player.loadVideoById(id)
-        this.player.playVideo()
       } else {
         this.player.playVideo()
       }

@@ -19,9 +19,6 @@ export default class Base extends Component {
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     const canPlay = this.constructor.canPlay(nextProps.url);
-    this.setState({
-      canPlay
-    });
     if ((this.props.url !== nextProps.url)) {
       if (canPlay) {
         this.play(nextProps.url)
@@ -30,7 +27,7 @@ export default class Base extends Component {
         this.stop()
       }
     } else if ((!this.props.playing && nextProps.playing) && canPlay) {
-      this.play()
+      this.play(nextProps.url)
     } else if ((this.props.playing && !nextProps.playing) && canPlay) {
       this.pause()
     } else if (this.props.volume !== nextProps.volume) {
