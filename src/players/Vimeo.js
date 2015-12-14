@@ -1,5 +1,5 @@
 import React from 'react'
-import queryString from 'query-string'
+import { stringify } from 'query-string'
 
 import propTypes from '../propTypes'
 import Base from './Base'
@@ -29,11 +29,18 @@ export default class Vimeo extends Base {
     this.iframe = this.refs.iframe
     super.componentDidMount()
   }
-  shouldComponentUpdate (nextProps) {
-    return this.props.url !== nextProps.url
+  shouldComponentUpdate () {
+    return false
   }
   play (url) {
-    if (!url) {
+    if (url) {
+      const id = url.match(MATCH_URL)[3]
+      const iframeParams = {
+        ...DEFAULT_IFRAME_PARAMS,
+        ...this.props.vimeoConfig.iframeParams
+      }
+      this.iframe.src = IFRAME_SRC + id + '?' + stringify(iframeParams)
+    } else {
       this.postMessage('play')
     }
   }
@@ -41,7 +48,7 @@ export default class Vimeo extends Base {
     this.postMessage('pause')
   }
   stop () {
-    // No need
+    this.iframe.src = ''
   }
   seekTo (fraction) {
     this.postMessage('seekTo', this.duration * fraction)
@@ -81,19 +88,10 @@ export default class Vimeo extends Base {
     return this.iframe.contentWindow && this.iframe.contentWindow.postMessage(data, this.origin)
   }
   render () {
-    const id = this.props.url.match(MATCH_URL)[3]
     const style = {
       width: '100%',
       height: '100%'
     }
-    const iframeParams = { ...DEFAULT_IFRAME_PARAMS, ...this.props.vimeoConfig.iframeParams }
-    return (
-      <iframe
-        ref='iframe'
-        src={IFRAME_SRC + id + '?' + queryString.stringify(iframeParams)}
-        style={style}
-        frameBorder='0'
-      />
-    )
+    return <iframe ref='iframe' frameBorder='0' style={style} />
   }
 }
