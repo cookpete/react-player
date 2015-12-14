@@ -18,18 +18,12 @@ export default class ReactPlayer extends Component {
   static canPlay (url) {
     return players.some(player => player.canPlay(url))
   }
-  state = {
-    Player: this.getPlayer(this.props.url)
-  }
-  componentWillReceiveProps (nextProps) {
-    if (this.props.url !== nextProps.url) {
-      this.setState({
-        Player: this.getPlayer(nextProps.url)
-      })
-    }
-  }
-  getPlayer (url) {
-    return players.find(Player => Player.canPlay(url))
+  shouldComponentUpdate (nextProps) {
+    return (
+      this.props.url !== nextProps.url ||
+      this.props.playing !== nextProps.playing ||
+      this.props.volume !== nextProps.volume
+    )
   }
   seekTo = fraction => {
     const player = this.refs.player
@@ -37,15 +31,19 @@ export default class ReactPlayer extends Component {
       player.seekTo(fraction)
     }
   }
+  renderPlayer = Player => {
+    const active = Player.canPlay(this.props.url)
+    const props = active ? { ...this.props, ref: 'player' } : {}
+    return <Player key={Player.name} {...props} />
+  }
   render () {
-    const Player = this.state.Player
     const style = {
       width: this.props.width,
       height: this.props.height
     }
     return (
       <div style={style}>
-        { Player && <Player ref='player' {...this.props} /> }
+        { players.map(this.renderPlayer) }
       </div>
     )
   }

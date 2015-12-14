@@ -10,7 +10,6 @@ export default class Base extends Component {
     onProgress: function () {}
   }
   componentDidMount () {
-    this.play(this.props.url)
     this.update()
   }
   componentWillUnmount () {
@@ -20,8 +19,13 @@ export default class Base extends Component {
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     if (this.props.url !== nextProps.url) {
-      this.play(nextProps.url)
-      this.props.onProgress({ played: 0, loaded: 0 })
+      if (nextProps.url) {
+        this.play(nextProps.url)
+        this.props.onProgress({ played: 0, loaded: 0 })
+      } else {
+        this.stop()
+        clearTimeout(this.updateTimeout)
+      }
     } else if (!this.props.playing && nextProps.playing) {
       this.play()
     } else if (this.props.playing && !nextProps.playing) {

@@ -48,10 +48,12 @@ export default class FilePlayer extends Base {
   }
   render () {
     const Media = AUDIO_EXTENSIONS.test(this.props.url) ? 'audio' : 'video'
+    const style = { display: this.props.url ? 'block' : 'none' }
     return (
       <Media
         ref='player'
         src={this.props.url}
+        style={style}
         width={this.props.width}
         height={this.props.height}
       />

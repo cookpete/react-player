@@ -89,6 +89,7 @@ export default class Vimeo extends Base {
   }
   render () {
     const style = {
+      display: this.props.url ? 'block' : 'none',
       width: '100%',
       height: '100%'
     }

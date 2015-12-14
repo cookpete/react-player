@@ -107,6 +107,7 @@ export default class SoundCloud extends Base {
   }
   render () {
     const style = {
+      display: this.props.url ? 'block' : 'none',
       height: '100%',
       backgroundImage: this.state.image ? 'url(' + this.state.image + ')' : null,
       backgroundSize: 'cover',
