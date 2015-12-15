@@ -4,11 +4,19 @@ import 'array.prototype.find'
 import { propTypes, defaultProps } from './props'
 import players from './players'
 
+const PROGRESS_FREQUENCY = 500
+
 export default class ReactPlayer extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay (url) {
     return players.some(player => player.canPlay(url))
+  }
+  componentDidMount () {
+    this.progress()
+  }
+  componentWillUnmount () {
+    clearTimeout(this.progressTimeout)
   }
   shouldComponentUpdate (nextProps) {
     return (
@@ -22,6 +30,23 @@ export default class ReactPlayer extends Component {
     if (player) {
       player.seekTo(fraction)
     }
+  }
+  progress = () => {
+    if (this.props.url && this.refs.player) {
+      let progress = {}
+      const loaded = this.refs.player.getFractionLoaded()
+      const played = this.refs.player.getFractionPlayed()
+      if (!this.prevLoaded || loaded !== this.prevLoaded) {
+        progress.loaded = this.prevLoaded = loaded
+      }
+      if (!this.prevPlayed || played !== this.prevPlayed) {
+        progress.played = this.prevPlayed = played
+      }
+      if (progress.loaded || progress.played) {
+        this.props.onProgress(progress)
+      }
+    }
+    this.progressTimeout = setTimeout(this.progress, PROGRESS_FREQUENCY)
   }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)

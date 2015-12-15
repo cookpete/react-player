@@ -2,20 +2,16 @@ import { Component } from 'react'
 
 import { propTypes, defaultProps } from '../props'
 
-const UPDATE_FREQUENCY = 500
-
 export default class Base extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   componentDidMount () {
-    this.update()
     if (this.props.url) {
       this.load(this.props.url)
     }
   }
   componentWillUnmount () {
     this.stop()
-    clearTimeout(this.updateTimeout)
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
@@ -35,21 +31,6 @@ export default class Base extends Component {
   }
   shouldComponentUpdate (nextProps) {
     return this.props.url !== nextProps.url
-  }
-  update = () => {
-    let progress = {}
-    const loaded = this.getFractionLoaded()
-    const played = this.getFractionPlayed()
-    if (!this.prevLoaded || loaded !== this.prevLoaded) {
-      progress.loaded = this.prevLoaded = loaded
-    }
-    if (!this.prevPlayed || played !== this.prevPlayed) {
-      progress.played = this.prevPlayed = played
-    }
-    if (progress.loaded || progress.played) {
-      this.props.onProgress(progress)
-    }
-    this.updateTimeout = setTimeout(this.update, UPDATE_FREQUENCY)
   }
   onReady = () => {
     this.setVolume(this.props.volume)
