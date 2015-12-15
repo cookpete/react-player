@@ -27,9 +27,6 @@ export default class Vimeo extends Base {
     this.iframe = this.refs.iframe
     super.componentDidMount()
   }
-  shouldComponentUpdate () {
-    return false
-  }
   play (url) {
     if (url) {
       const id = url.match(MATCH_URL)[3]

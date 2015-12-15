@@ -32,6 +32,9 @@ export default class Base extends Component {
       this.setVolume(nextProps.volume)
     }
   }
+  shouldComponentUpdate (nextProps) {
+    return this.props.url !== nextProps.url
+  }
   update = () => {
     let progress = {}
     const loaded = this.getFractionLoaded()

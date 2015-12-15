@@ -21,9 +21,6 @@ export default class FilePlayer extends Base {
     this.player.onerror = this.props.onError
     super.componentDidMount()
   }
-  shouldComponentUpdate (nextProps) {
-    return this.props.url !== nextProps
-  }
   play (url) {
     this.player.play()
   }
