@@ -7,6 +7,7 @@ import Base from './Base'
 const IFRAME_SRC = 'https://player.vimeo.com/video/'
 const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
 const MATCH_MESSAGE_ORIGIN = /^https?:\/\/player.vimeo.com/
+const BLANK_VIDEO_URL = 'https://vimeo.com/127250231'
 const DEFAULT_IFRAME_PARAMS = {
   api: 1,
   autoplay: 0,
@@ -25,19 +26,24 @@ export default class Vimeo extends Base {
   componentDidMount () {
     window.addEventListener('message', this.onMessage, false)
     this.iframe = this.refs.iframe
+
+    if (!this.props.url && this.props.vimeoConfig.preload) {
+      this.preloading = true
+      this.load(BLANK_VIDEO_URL)
+    }
+
     super.componentDidMount()
   }
-  play (url) {
-    if (url) {
-      const id = url.match(MATCH_URL)[3]
-      const iframeParams = {
-        ...DEFAULT_IFRAME_PARAMS,
-        ...this.props.vimeoConfig.iframeParams
-      }
-      this.iframe.src = IFRAME_SRC + id + '?' + stringify(iframeParams)
-    } else {
-      this.postMessage('play')
+  load (url) {
+    const id = url.match(MATCH_URL)[3]
+    const iframeParams = {
+      ...DEFAULT_IFRAME_PARAMS,
+      ...this.props.vimeoConfig.iframeParams
     }
+    this.iframe.src = IFRAME_SRC + id + '?' + stringify(iframeParams)
+  }
+  play () {
+    this.postMessage('play')
   }
   pause () {
     this.postMessage('pause')

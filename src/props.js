@@ -31,10 +31,12 @@ export const defaultProps = {
     clientId: 'e8b6f84fbcad14c301ca1355cae1dea2'
   },
   youtubeConfig: {
-    playerVars: {}
+    playerVars: {},
+    preload: false
   },
   vimeoConfig: {
-    iframeParams: {}
+    iframeParams: {},
+    preload: false
   },
   onPlay: function () {},
   onPause: function () {},

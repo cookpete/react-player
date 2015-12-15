@@ -25,8 +25,17 @@ export default class ReactPlayer extends Component {
   }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
-    const props = active ? { ...this.props, ref: 'player' } : {}
-    return <Player key={Player.name} {...props} />
+    const { youtubeConfig, soundcloudConfig, vimeoConfig, ...activeProps } = this.props
+    const props = active ? { ...activeProps, ref: 'player' } : {}
+    return (
+      <Player
+        key={Player.name}
+        youtubeConfig={youtubeConfig}
+        soundcloudConfig={soundcloudConfig}
+        vimeoConfig={vimeoConfig}
+        {...props}
+      />
+    )
   }
   render () {
     const style = {

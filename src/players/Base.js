@@ -9,6 +9,9 @@ export default class Base extends Component {
   static defaultProps = defaultProps
   componentDidMount () {
     this.update()
+    if (this.props.url) {
+      this.load(this.props.url)
+    }
   }
   componentWillUnmount () {
     this.stop()
@@ -16,14 +19,12 @@ export default class Base extends Component {
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
-    if (this.props.url !== nextProps.url) {
-      if (nextProps.url) {
-        this.play(nextProps.url)
-        this.props.onProgress({ played: 0, loaded: 0 })
-      } else {
-        this.stop()
-        clearTimeout(this.updateTimeout)
-      }
+    if (this.props.url !== nextProps.url && nextProps.url) {
+      this.load(nextProps.url, nextProps.playing)
+      this.props.onProgress({ played: 0, loaded: 0 }) // Needed?
+    } else if (this.props.url && !nextProps.url) {
+      this.stop()
+      clearTimeout(this.updateTimeout)
     } else if (!this.props.playing && nextProps.playing) {
       this.play()
     } else if (this.props.playing && !nextProps.playing) {
@@ -52,7 +53,8 @@ export default class Base extends Component {
   }
   onReady = () => {
     this.setVolume(this.props.volume)
-    if (this.props.playing) {
+    if (this.props.playing || this.preloading) {
+      this.preloading = false
       this.play()
     }
   }

@@ -43,11 +43,7 @@ export default class SoundCloud extends Base {
     return fetch(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
       .then(response => response.json())
   }
-  play (url) {
-    if (!url && this.player) {
-      this.player.play()
-      return
-    }
+  load (url) {
     this.stop()
     this.getSDK().then(SC => {
       this.getSongData(url).then(data => {
@@ -78,6 +74,10 @@ export default class SoundCloud extends Base {
     },
     onfinish: this.props.onFinish,
     ondataerror: this.props.onError
+  }
+  play () {
+    if (!this.player) return
+    this.player.play()
   }
   pause () {
     if (!this.player) return

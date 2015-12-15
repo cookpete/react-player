@@ -19,16 +19,18 @@ export default class FilePlayer extends Base {
     this.player.onpause = this.props.onPause
     this.player.onended = this.props.onEnded
     this.player.onerror = this.props.onError
-    super.componentDidMount()
   }
-  play (url) {
+  load (url) {
+    this.player.src = url
+  }
+  play () {
     this.player.play()
   }
   pause () {
     this.player.pause()
   }
   stop () {
-    // No need to stop
+    this.player.src = ''
   }
   seekTo (fraction) {
     this.player.currentTime = this.player.duration * fraction
@@ -50,7 +52,6 @@ export default class FilePlayer extends Base {
     return (
       <Media
         ref='player'
-        src={this.props.url}
         style={style}
         width={this.props.width}
         height={this.props.height}
