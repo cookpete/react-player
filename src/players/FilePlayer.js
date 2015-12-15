@@ -1,6 +1,6 @@
 import React from 'react'
 
-import propTypes from '../propTypes'
+import { propTypes, defaultProps } from '../props'
 import Base from './Base'
 
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm)$/
@@ -8,6 +8,7 @@ const AUDIO_EXTENSIONS = /\.(mp3|wav)$/
 
 export default class FilePlayer extends Base {
   static propTypes = propTypes
+  static defaultProps = defaultProps
   static canPlay (url) {
     return VIDEO_EXTENSIONS.test(url) || AUDIO_EXTENSIONS.test(url)
   }

@@ -1,20 +1,12 @@
 import React, { Component } from 'react'
 import 'array.prototype.find'
 
-import propTypes from './propTypes'
+import { propTypes, defaultProps } from './props'
 import players from './players'
 
 export default class ReactPlayer extends Component {
   static propTypes = propTypes
-  static defaultProps = {
-    volume: 0.8,
-    width: 640,
-    height: 360,
-    onPlay: function () {}, // TODO: Empty func var in react?
-    onPause: function () {},
-    onBuffer: function () {},
-    onEnded: function () {}
-  }
+  static defaultProps = defaultProps
   static canPlay (url) {
     return players.some(player => player.canPlay(url))
   }

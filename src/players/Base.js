@@ -1,14 +1,12 @@
 import { Component } from 'react'
 
-import propTypes from '../propTypes'
+import { propTypes, defaultProps } from '../props'
 
 const UPDATE_FREQUENCY = 500
 
 export default class Base extends Component {
   static propTypes = propTypes
-  static defaultProps = {
-    onProgress: function () {}
-  }
+  static defaultProps = defaultProps
   componentDidMount () {
     this.update()
   }
