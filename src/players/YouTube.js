@@ -23,7 +23,7 @@ export default class YouTube extends Base {
     return MATCH_URL.test(url)
   }
   state = {
-    playerId: PLAYER_ID + Date.now(),
+    playerId: PLAYER_ID + Date.now()
   }
   shouldComponentUpdate () {
     return false
