@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Unreleased
 
+* Enable [multiple YouTube players](https://github.com/CookPete/react-player/issues/15)
 * Fix [YouTube and Vimeo autoplay bug](https://github.com/CookPete/react-player/issues/7)
 * [Full commit list](https://github.com/CookPete/react-player/compare/v0.2.1...master)
 

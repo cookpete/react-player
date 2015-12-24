@@ -15,12 +15,15 @@ const DEFAULT_PLAYER_VARS = {
   showinfo: 0
 }
 
+let count = 0
+
 export default class YouTube extends Base {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
+  playerId = PLAYER_ID + '-' + count++
   componentDidMount () {
     if (!this.props.url && this.props.youtubeConfig.preload) {
       this.preloading = true
@@ -33,7 +36,9 @@ export default class YouTube extends Base {
       return Promise.resolve(window[SDK_GLOBAL])
     }
     return new Promise((resolve, reject) => {
+      const previousOnReady = window.onYouTubeIframeAPIReady
       window.onYouTubeIframeAPIReady = function () {
+        if (previousOnReady) previousOnReady()
         resolve(window[SDK_GLOBAL])
       }
       loadScript(SDK_URL, err => {
@@ -53,7 +58,7 @@ export default class YouTube extends Base {
       return
     }
     this.getSDK().then(YT => {
-      this.player = new YT.Player(PLAYER_ID, {
+      this.player = new YT.Player(this.playerId, {
         width: '100%',
         height: '100%',
         videoId: id,
@@ -103,6 +108,6 @@ export default class YouTube extends Base {
   }
   render () {
     const style = { display: this.props.url ? 'block' : 'none' }
-    return <div id={PLAYER_ID} style={style} />
+    return <div id={this.playerId} style={style} />
   }
 }
