@@ -1,6 +1,6 @@
 import React from 'react'
 
-import propTypes from '../propTypes'
+import { propTypes, defaultProps } from '../props'
 import Base from './Base'
 
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm)$/
@@ -8,6 +8,7 @@ const AUDIO_EXTENSIONS = /\.(mp3|wav)$/
 
 export default class FilePlayer extends Base {
   static propTypes = propTypes
+  static defaultProps = defaultProps
   static canPlay (url) {
     return VIDEO_EXTENSIONS.test(url) || AUDIO_EXTENSIONS.test(url)
   }
@@ -18,19 +19,18 @@ export default class FilePlayer extends Base {
     this.player.onpause = this.props.onPause
     this.player.onended = this.props.onEnded
     this.player.onerror = this.props.onError
-    super.componentDidMount()
   }
-  shouldComponentUpdate (nextProps) {
-    return this.props.url !== nextProps
+  load (url) {
+    this.player.src = url
   }
-  play (url) {
+  play () {
     this.player.play()
   }
   pause () {
     this.player.pause()
   }
   stop () {
-    // No need to stop
+    this.player.src = ''
   }
   seekTo (fraction) {
     this.player.currentTime = this.player.duration * fraction
@@ -48,10 +48,11 @@ export default class FilePlayer extends Base {
   }
   render () {
     const Media = AUDIO_EXTENSIONS.test(this.props.url) ? 'audio' : 'video'
+    const style = { display: this.props.url ? 'block' : 'none' }
     return (
       <Media
         ref='player'
-        src={this.props.url}
+        style={style}
         width={this.props.width}
         height={this.props.height}
       />

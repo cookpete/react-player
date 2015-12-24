@@ -65,9 +65,13 @@ These props allow you to override the parameters for the various players
 
 Prop | Description
 ---- | -----------
-soundcloudConfig | An object containing configuration for the SoundCloud player. Includes `clientId`, which can be used to override the default `client_id`
-vimeoConfig | An object containing configuration for the Vimeo player. Includes `iframeParams`, which maps to the [parameters accepted by the Vimeo iframe player](https://developer.vimeo.com/player/embedding#universal-parameters)
-youtubeConfig | An object containing configuration for the YouTube player. Includes `playerVars`, which maps to the [parameters accepted by the YouTube iframe player](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)
+soundcloudConfig | Configuration object for the SoundCloud player. Set `clientId`, to your own SoundCloud app [client ID](https://soundcloud.com/you/apps)
+vimeoConfig | Configuration object for the Vimeo player. Set `iframeParams`, to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters). Set `preload` for [preloading](#preloading)
+youtubeConfig | Configuration object for the YouTube player. Set `playerVars`, to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5). Set `preload` for [preloading](#preloading)
+
+##### Preloading
+
+Both `youtubeConfig` and `vimeoConfig` props can take a `preload` value. Setting this to `true` will play a short, silent video in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
 
 ### Methods
 

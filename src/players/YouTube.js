@@ -1,13 +1,14 @@
 import React from 'react'
 import loadScript from 'load-script'
 
-import propTypes from '../propTypes'
+import { propTypes, defaultProps } from '../props'
 import Base from './Base'
 
 const SDK_URL = '//www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
 const PLAYER_ID = 'youtube-player'
+const BLANK_VIDEO_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
 const DEFAULT_PLAYER_VARS = {
   autoplay: 0,
   controls: 0,
@@ -16,14 +17,16 @@ const DEFAULT_PLAYER_VARS = {
 
 export default class YouTube extends Base {
   static propTypes = propTypes
-  static defaultProps = {
-    youtubeConfig: {}
-  }
+  static defaultProps = defaultProps
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  shouldComponentUpdate () {
-    return false
+  componentDidMount () {
+    if (!this.props.url && this.props.youtubeConfig.preload) {
+      this.preloading = true
+      this.load(BLANK_VIDEO_URL)
+    }
+    super.componentDidMount()
   }
   getSDK () {
     if (window[SDK_GLOBAL]) {
@@ -38,13 +41,14 @@ export default class YouTube extends Base {
       })
     })
   }
-  play (url) {
+  load (url, playing) {
     const id = url && url.match(MATCH_URL)[1]
     if (this.player) {
-      if (id) {
+      this.stop()
+      if (playing) {
         this.player.loadVideoById(id)
       } else {
-        this.player.playVideo()
+        this.player.cueVideoById(id)
       }
       return
     }
@@ -68,6 +72,10 @@ export default class YouTube extends Base {
     if (state.data === YT.PlayerState.PAUSED) this.props.onPause()
     if (state.data === YT.PlayerState.BUFFERING) this.props.onBuffer()
     if (state.data === YT.PlayerState.ENDED) this.props.onEnded()
+  }
+  play () {
+    if (!this.player) return
+    this.player.playVideo()
   }
   pause () {
     if (!this.player) return
@@ -94,6 +102,7 @@ export default class YouTube extends Base {
     return this.player.getVideoLoadedFraction()
   }
   render () {
-    return <div id={PLAYER_ID} />
+    const style = { display: this.props.url ? 'block' : 'none' }
+    return <div id={PLAYER_ID} style={style} />
   }
 }

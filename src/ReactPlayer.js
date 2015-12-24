@@ -1,35 +1,29 @@
 import React, { Component } from 'react'
 import 'array.prototype.find'
 
-import propTypes from './propTypes'
+import { propTypes, defaultProps } from './props'
 import players from './players'
+
+const PROGRESS_FREQUENCY = 500
 
 export default class ReactPlayer extends Component {
   static propTypes = propTypes
-  static defaultProps = {
-    volume: 0.8,
-    width: 640,
-    height: 360,
-    onPlay: function () {}, // TODO: Empty func var in react?
-    onPause: function () {},
-    onBuffer: function () {},
-    onEnded: function () {}
-  }
+  static defaultProps = defaultProps
   static canPlay (url) {
     return players.some(player => player.canPlay(url))
   }
-  state = {
-    Player: this.getPlayer(this.props.url)
+  componentDidMount () {
+    this.progress()
   }
-  componentWillReceiveProps (nextProps) {
-    if (this.props.url !== nextProps.url) {
-      this.setState({
-        Player: this.getPlayer(nextProps.url)
-      })
-    }
+  componentWillUnmount () {
+    clearTimeout(this.progressTimeout)
   }
-  getPlayer (url) {
-    return players.find(Player => Player.canPlay(url))
+  shouldComponentUpdate (nextProps) {
+    return (
+      this.props.url !== nextProps.url ||
+      this.props.playing !== nextProps.playing ||
+      this.props.volume !== nextProps.volume
+    )
   }
   seekTo = fraction => {
     const player = this.refs.player
@@ -37,15 +31,45 @@ export default class ReactPlayer extends Component {
       player.seekTo(fraction)
     }
   }
+  progress = () => {
+    if (this.props.url && this.refs.player) {
+      let progress = {}
+      const loaded = this.refs.player.getFractionLoaded()
+      const played = this.refs.player.getFractionPlayed()
+      if (!this.prevLoaded || loaded !== this.prevLoaded) {
+        progress.loaded = this.prevLoaded = loaded
+      }
+      if (!this.prevPlayed || played !== this.prevPlayed) {
+        progress.played = this.prevPlayed = played
+      }
+      if (progress.loaded || progress.played) {
+        this.props.onProgress(progress)
+      }
+    }
+    this.progressTimeout = setTimeout(this.progress, PROGRESS_FREQUENCY)
+  }
+  renderPlayer = Player => {
+    const active = Player.canPlay(this.props.url)
+    const { youtubeConfig, soundcloudConfig, vimeoConfig, ...activeProps } = this.props
+    const props = active ? { ...activeProps, ref: 'player' } : {}
+    return (
+      <Player
+        key={Player.name}
+        youtubeConfig={youtubeConfig}
+        soundcloudConfig={soundcloudConfig}
+        vimeoConfig={vimeoConfig}
+        {...props}
+      />
+    )
+  }
   render () {
-    const Player = this.state.Player
     const style = {
       width: this.props.width,
       height: this.props.height
     }
     return (
       <div style={style}>
-        { Player && <Player ref='player' {...this.props} /> }
+        { players.map(this.renderPlayer) }
       </div>
     )
   }

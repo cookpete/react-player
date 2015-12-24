@@ -1,12 +1,13 @@
 import React from 'react'
-import queryString from 'query-string'
+import { stringify } from 'query-string'
 
-import propTypes from '../propTypes'
+import { propTypes, defaultProps } from '../props'
 import Base from './Base'
 
 const IFRAME_SRC = 'https://player.vimeo.com/video/'
 const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
 const MATCH_MESSAGE_ORIGIN = /^https?:\/\/player.vimeo.com/
+const BLANK_VIDEO_URL = 'https://vimeo.com/127250231'
 const DEFAULT_IFRAME_PARAMS = {
   api: 1,
   autoplay: 0,
@@ -18,30 +19,37 @@ const DEFAULT_IFRAME_PARAMS = {
 
 export default class Vimeo extends Base {
   static propTypes = propTypes
-  static defaultProps = {
-    vimeoConfig: {}
-  }
+  static defaultProps = defaultProps
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
   componentDidMount () {
     window.addEventListener('message', this.onMessage, false)
     this.iframe = this.refs.iframe
+
+    if (!this.props.url && this.props.vimeoConfig.preload) {
+      this.preloading = true
+      this.load(BLANK_VIDEO_URL)
+    }
+
     super.componentDidMount()
   }
-  shouldComponentUpdate (nextProps) {
-    return this.props.url !== nextProps.url
-  }
-  play (url) {
-    if (!url) {
-      this.postMessage('play')
+  load (url) {
+    const id = url.match(MATCH_URL)[3]
+    const iframeParams = {
+      ...DEFAULT_IFRAME_PARAMS,
+      ...this.props.vimeoConfig.iframeParams
     }
+    this.iframe.src = IFRAME_SRC + id + '?' + stringify(iframeParams)
+  }
+  play () {
+    this.postMessage('play')
   }
   pause () {
     this.postMessage('pause')
   }
   stop () {
-    // No need
+    this.iframe.src = ''
   }
   seekTo (fraction) {
     this.postMessage('seekTo', this.duration * fraction)
@@ -81,19 +89,11 @@ export default class Vimeo extends Base {
     return this.iframe.contentWindow && this.iframe.contentWindow.postMessage(data, this.origin)
   }
   render () {
-    const id = this.props.url.match(MATCH_URL)[3]
     const style = {
+      display: this.props.url ? 'block' : 'none',
       width: '100%',
       height: '100%'
     }
-    const iframeParams = { ...DEFAULT_IFRAME_PARAMS, ...this.props.vimeoConfig.iframeParams }
-    return (
-      <iframe
-        ref='iframe'
-        src={IFRAME_SRC + id + '?' + queryString.stringify(iframeParams)}
-        style={style}
-        frameBorder='0'
-      />
-    )
+    return <iframe ref='iframe' frameBorder='0' style={style} />
   }
 }

@@ -1,10 +1,9 @@
 import React from 'react'
 import loadScript from 'load-script'
 
-import propTypes from '../propTypes'
+import { propTypes, defaultProps } from '../props'
 import Base from './Base'
 
-const DEFAULT_CLIENT_ID = 'e8b6f84fbcad14c301ca1355cae1dea2'
 const SDK_URL = '//connect.soundcloud.com/sdk-2.0.0.js'
 const SDK_GLOBAL = 'SC'
 const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
@@ -12,11 +11,7 @@ const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-]+\/[a-z0-9-]+)
 
 export default class SoundCloud extends Base {
   static propTypes = propTypes
-  static defaultProps = {
-    soundcloudConfig: {
-      clientId: DEFAULT_CLIENT_ID
-    }
-  }
+  static defaultProps = defaultProps
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
@@ -24,7 +19,10 @@ export default class SoundCloud extends Base {
     image: null
   }
   shouldComponentUpdate (nextProps, nextState) {
-    return this.state.image !== nextState.image
+    return (
+      super.shouldComponentUpdate(nextProps, nextState) ||
+      this.state.image !== nextState.image
+    )
   }
   getSDK () {
     if (window[SDK_GLOBAL]) {
@@ -45,11 +43,7 @@ export default class SoundCloud extends Base {
     return fetch(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
       .then(response => response.json())
   }
-  play (url) {
-    if (!url && this.player) {
-      this.player.play()
-      return
-    }
+  load (url) {
     this.stop()
     this.getSDK().then(SC => {
       this.getSongData(url).then(data => {
@@ -81,6 +75,10 @@ export default class SoundCloud extends Base {
     onfinish: this.props.onFinish,
     ondataerror: this.props.onError
   }
+  play () {
+    if (!this.player) return
+    this.player.play()
+  }
   pause () {
     if (!this.player) return
     this.player.pause()
@@ -107,6 +105,7 @@ export default class SoundCloud extends Base {
   }
   render () {
     const style = {
+      display: this.props.url ? 'block' : 'none',
       height: '100%',
       backgroundImage: this.state.image ? 'url(' + this.state.image + ')' : null,
       backgroundSize: 'cover',
