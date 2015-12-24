@@ -22,6 +22,9 @@ export default class YouTube extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
+  state = {
+    playerId: PLAYER_ID + Date.now()
+  }
   shouldComponentUpdate () {
     return false
   }
@@ -49,7 +52,7 @@ export default class YouTube extends Base {
       return
     }
     this.getSDK().then(YT => {
-      this.player = new YT.Player(PLAYER_ID, {
+      this.player = new YT.Player(this.state.playerId, {
         width: '100%',
         height: '100%',
         videoId: id,
@@ -94,6 +97,6 @@ export default class YouTube extends Base {
     return this.player.getVideoLoadedFraction()
   }
   render () {
-    return <div id={PLAYER_ID} />
+    return <div id={this.state.playerId} />
   }
 }
