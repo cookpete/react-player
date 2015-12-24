@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Unreleased
 
+* [Full commit list](https://github.com/CookPete/react-player/compare/v0.3.0...master)
+
+
+### 0.3.0
+
+* Released on **25 December 2015** 🎄
 * Enable [multiple YouTube players](https://github.com/CookPete/react-player/issues/15)
 * Fix [YouTube and Vimeo autoplay bug](https://github.com/CookPete/react-player/issues/7)
-* [Full commit list](https://github.com/CookPete/react-player/compare/v0.2.1...master)
+* [Full commit list](https://github.com/CookPete/react-player/compare/v0.2.1...0.3.0)
 
 
 ### 0.2.1
