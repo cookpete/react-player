@@ -52,7 +52,7 @@ export default class YouTube extends Base {
       return
     }
     this.getSDK().then(YT => {
-      this.player = new YT.Player(this.state.playerId, {
+      this.player = new YT.Player(PLAYER_ID, {
         width: '100%',
         height: '100%',
         videoId: id,
@@ -97,6 +97,6 @@ export default class YouTube extends Base {
     return this.player.getVideoLoadedFraction()
   }
   render () {
-    return <div id={this.state.playerId} />
+    return <div id={PLAYER_ID} />
   }
 }
