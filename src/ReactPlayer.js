@@ -7,6 +7,7 @@ import players from './players'
 const PROGRESS_FREQUENCY = 500
 
 export default class ReactPlayer extends Component {
+  static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay (url) {
@@ -54,7 +55,7 @@ export default class ReactPlayer extends Component {
     const props = active ? { ...activeProps, ref: 'player' } : {}
     return (
       <Player
-        key={Player.name}
+        key={Player.displayName}
         youtubeConfig={youtubeConfig}
         soundcloudConfig={soundcloudConfig}
         vimeoConfig={vimeoConfig}

@@ -18,6 +18,7 @@ const DEFAULT_IFRAME_PARAMS = {
 }
 
 export default class Vimeo extends Base {
+  static displayName = 'Vimeo'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay (url) {

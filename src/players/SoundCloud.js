@@ -10,6 +10,7 @@ const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
 const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-]+\/[a-z0-9-]+)$/
 
 export default class SoundCloud extends Base {
+  static displayName = 'SoundCloud'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay (url) {

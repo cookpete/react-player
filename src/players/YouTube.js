@@ -18,6 +18,7 @@ const DEFAULT_PLAYER_VARS = {
 let count = 0
 
 export default class YouTube extends Base {
+  static displayName = 'YouTube'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay (url) {
