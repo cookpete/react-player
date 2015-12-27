@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file. This projec
 
 ### Unreleased
 
-* [Full commit list](https://github.com/CookPete/react-player/compare/v0.3.0...master)
+* [Full commit list](https://github.com/CookPete/react-player/compare/v0.3.1...master)
+
+
+### 0.3.1
+
+* Fix [minification issue](https://github.com/CookPete/react-player/issues/17)
+* [Full commit list](https://github.com/CookPete/react-player/compare/v0.3.0...v0.3.1)
 
 
 ### 0.3.0
