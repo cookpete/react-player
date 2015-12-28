@@ -46,7 +46,7 @@ export default class YouTube extends Base {
   }
   load (url, playing) {
     const id = url && url.match(MATCH_URL)[1]
-    if (this.player) {
+    if (this.isReady) {
       this.stop()
       if (playing) {
         this.player.loadVideoById(id)
@@ -77,31 +77,31 @@ export default class YouTube extends Base {
     if (state.data === YT.PlayerState.ENDED) this.props.onEnded()
   }
   play () {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.playVideo()
   }
   pause () {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.pauseVideo()
   }
   stop () {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.stopVideo()
   }
   seekTo (fraction) {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.seekTo(this.player.getDuration() * fraction)
   }
   setVolume (fraction) {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.setVolume(fraction * 100)
   }
   getFractionPlayed () {
-    if (!this.player || !this.player.getCurrentTime) return 0
+    if (!this.isReady) return 0
     return this.player.getCurrentTime() / this.player.getDuration()
   }
   getFractionLoaded () {
-    if (!this.player || !this.player.getVideoLoadedFraction) return 0
+    if (!this.isReady) return 0
     return this.player.getVideoLoadedFraction()
   }
   render () {

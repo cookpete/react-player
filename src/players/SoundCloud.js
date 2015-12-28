@@ -74,31 +74,31 @@ export default class SoundCloud extends Base {
     ondataerror: this.props.onError
   }
   play () {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.play()
   }
   pause () {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.pause()
   }
   stop () {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.stop()
   }
   seekTo (fraction) {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.seek(this.player.getDuration() * fraction)
   }
   setVolume (fraction) {
-    if (!this.player) return
+    if (!this.isReady) return
     this.player.setVolume(fraction)
   }
   getFractionPlayed () {
-    if (!this.player) return 0
+    if (!this.isReady) return 0
     return this.player.getCurrentPosition() / this.player.getDuration()
   }
   getFractionLoaded () {
-    if (!this.player) return 0
+    if (!this.isReady) return 0
     return this.player.getLoadedPosition() / this.player.getDuration()
   }
   render () {
