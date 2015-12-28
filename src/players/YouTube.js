@@ -97,11 +97,11 @@ export default class YouTube extends Base {
     this.player.setVolume(fraction * 100)
   }
   getFractionPlayed () {
-    if (!this.isReady) return 0
+    if (!this.isReady) return null
     return this.player.getCurrentTime() / this.player.getDuration()
   }
   getFractionLoaded () {
-    if (!this.isReady) return 0
+    if (!this.isReady) return null
     return this.player.getVideoLoadedFraction()
   }
   render () {

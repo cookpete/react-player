@@ -56,10 +56,10 @@ export default class Vimeo extends Base {
     this.postMessage('setVolume', fraction)
   }
   getFractionPlayed () {
-    return this.fractionPlayed || 0
+    return this.fractionPlayed || null
   }
   getFractionLoaded () {
-    return this.fractionLoaded || 0
+    return this.fractionLoaded || null
   }
   onMessage = e => {
     if (!MATCH_MESSAGE_ORIGIN.test(e.origin)) return

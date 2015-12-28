@@ -94,11 +94,11 @@ export default class SoundCloud extends Base {
     this.player.setVolume(fraction)
   }
   getFractionPlayed () {
-    if (!this.isReady) return 0
+    if (!this.isReady) return null
     return this.player.getCurrentPosition() / this.player.getDuration()
   }
   getFractionLoaded () {
-    if (!this.isReady) return 0
+    if (!this.isReady) return null
     return this.player.getLoadedPosition() / this.player.getDuration()
   }
   render () {

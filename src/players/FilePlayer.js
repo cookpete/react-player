@@ -37,11 +37,11 @@ export default class FilePlayer extends Base {
     this.player.volume = fraction
   }
   getFractionPlayed () {
-    if (!this.isReady) return 0
+    if (!this.isReady) return null
     return this.player.currentTime / this.player.duration
   }
   getFractionLoaded () {
-    if (!this.isReady) return 0
+    if (!this.isReady) return null
     return this.player.buffered.end(0) / this.player.duration
   }
   render () {

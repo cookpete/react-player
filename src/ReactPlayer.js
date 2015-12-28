@@ -37,10 +37,10 @@ export default class ReactPlayer extends Component {
       let progress = {}
       const loaded = this.refs.player.getFractionLoaded()
       const played = this.refs.player.getFractionPlayed()
-      if (!this.prevLoaded || loaded !== this.prevLoaded) {
+      if (loaded !== null && loaded !== this.prevLoaded) {
         progress.loaded = this.prevLoaded = loaded
       }
-      if (!this.prevPlayed || played !== this.prevPlayed) {
+      if (played !== null && played !== this.prevPlayed) {
         progress.played = this.prevPlayed = played
       }
       if (progress.loaded || progress.played) {
