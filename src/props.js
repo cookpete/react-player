@@ -19,7 +19,8 @@ export const propTypes = {
   onPause: PropTypes.func,
   onBuffer: PropTypes.func,
   onEnded: PropTypes.func,
-  onError: PropTypes.func
+  onError: PropTypes.func,
+  onProgress: PropTypes.func
 }
 
 export const defaultProps = {
