@@ -1,7 +1,6 @@
 import React from 'react'
 import loadScript from 'load-script'
 
-import { propTypes, defaultProps } from '../props'
 import Base from './Base'
 
 const SDK_URL = '//www.youtube.com/iframe_api'
@@ -19,8 +18,6 @@ let count = 0
 
 export default class YouTube extends Base {
   static displayName = 'YouTube'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static canPlay (url) {
     return MATCH_URL.test(url)
   }

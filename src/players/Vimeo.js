@@ -1,7 +1,6 @@
 import React from 'react'
 import { stringify } from 'query-string'
 
-import { propTypes, defaultProps } from '../props'
 import Base from './Base'
 
 const IFRAME_SRC = 'https://player.vimeo.com/video/'
@@ -19,8 +18,6 @@ const DEFAULT_IFRAME_PARAMS = {
 
 export default class Vimeo extends Base {
   static displayName = 'Vimeo'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
