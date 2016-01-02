@@ -5,6 +5,7 @@ import Base from './Base'
 
 const SDK_URL = '//www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
+const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
 const PLAYER_ID = 'youtube-player'
 const BLANK_VIDEO_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
@@ -14,14 +15,14 @@ const DEFAULT_PLAYER_VARS = {
   showinfo: 0
 }
 
-let count = 0
+let playerIdCount = 0
 
 export default class YouTube extends Base {
   static displayName = 'YouTube'
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  playerId = PLAYER_ID + '-' + count++
+  playerId = PLAYER_ID + '-' + playerIdCount++
   componentDidMount () {
     if (!this.props.url && this.props.youtubeConfig.preload) {
       this.preloading = true
@@ -34,8 +35,8 @@ export default class YouTube extends Base {
       return Promise.resolve(window[SDK_GLOBAL])
     }
     return new Promise((resolve, reject) => {
-      const previousOnReady = window.onYouTubeIframeAPIReady
-      window.onYouTubeIframeAPIReady = function () {
+      const previousOnReady = window[SDK_GLOBAL_READY]
+      window[SDK_GLOBAL_READY] = function () {
         if (previousOnReady) previousOnReady()
         resolve(window[SDK_GLOBAL])
       }
@@ -60,7 +61,10 @@ export default class YouTube extends Base {
         width: '100%',
         height: '100%',
         videoId: id,
-        playerVars: { ...DEFAULT_PLAYER_VARS, ...this.props.youtubeConfig.playerVars },
+        playerVars: {
+          ...DEFAULT_PLAYER_VARS,
+          ...this.props.youtubeConfig.playerVars
+        },
         events: {
           onReady: this.onReady,
           onStateChange: this.onStateChange,
@@ -69,12 +73,12 @@ export default class YouTube extends Base {
       })
     })
   }
-  onStateChange = state => {
-    const YT = window[SDK_GLOBAL]
-    if (state.data === YT.PlayerState.PLAYING) this.props.onPlay()
-    if (state.data === YT.PlayerState.PAUSED) this.props.onPause()
-    if (state.data === YT.PlayerState.BUFFERING) this.props.onBuffer()
-    if (state.data === YT.PlayerState.ENDED) this.props.onEnded()
+  onStateChange = ({ data }) => {
+    const { PLAYING, PAUSED, BUFFERING, ENDED } = window[SDK_GLOBAL].PlayerState
+    if (data === PLAYING) this.props.onPlay()
+    if (data === PAUSED) this.props.onPause()
+    if (data === BUFFERING) this.props.onBuffer()
+    if (data === ENDED) this.props.onEnded()
   }
   play () {
     if (!this.isReady || !this.player.playVideo) return
