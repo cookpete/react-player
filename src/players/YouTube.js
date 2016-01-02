@@ -77,31 +77,31 @@ export default class YouTube extends Base {
     if (state.data === YT.PlayerState.ENDED) this.props.onEnded()
   }
   play () {
-    if (!this.isReady) return
+    if (!this.isReady || !this.player.playVideo) return
     this.player.playVideo()
   }
   pause () {
-    if (!this.isReady) return
+    if (!this.isReady || this.player.pauseVideo) return
     this.player.pauseVideo()
   }
   stop () {
-    if (!this.isReady) return
+    if (!this.isReady || !this.player.stopVideo) return
     this.player.stopVideo()
   }
   seekTo (fraction) {
-    if (!this.isReady) return
+    if (!this.isReady || !this.player.seekTo) return
     this.player.seekTo(this.player.getDuration() * fraction)
   }
   setVolume (fraction) {
-    if (!this.isReady) return
+    if (!this.isReady || !this.player.setVolume) return
     this.player.setVolume(fraction * 100)
   }
   getFractionPlayed () {
-    if (!this.isReady) return null
+    if (!this.isReady || !this.player.getCurrentTime) return null
     return this.player.getCurrentTime() / this.player.getDuration()
   }
   getFractionLoaded () {
-    if (!this.isReady) return null
+    if (!this.isReady || !this.player.getVideoLoadedFraction) return null
     return this.player.getVideoLoadedFraction()
   }
   render () {
