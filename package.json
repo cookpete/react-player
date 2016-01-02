@@ -10,7 +10,8 @@
     "build": "babel src -d lib",
     "clean": "rimraf lib",
     "prepublish": "npm run build",
-    "postpublish": "npm run clean"
+    "postpublish": "npm run clean",
+    "version": "auto-changelog --package --template compact; git add CHANGELOG.md"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "react": "^0.14.0"
   },
   "devDependencies": {
+    "auto-changelog": "^0.2.2",
     "babel": "^5.8.21",
     "babel-core": "^5.4.7",
     "babel-eslint": "^4.0.10",
