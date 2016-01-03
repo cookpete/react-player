@@ -56,6 +56,11 @@ export default class YouTube extends Base {
       }
       return
     }
+    if (this.loadingSDK) {
+      this.loadOnReady = url
+      return
+    }
+    this.loadingSDK = true
     this.getSDK().then(YT => {
       this.player = new YT.Player(this.playerId, {
         width: '100%',
@@ -66,7 +71,10 @@ export default class YouTube extends Base {
           ...this.props.youtubeConfig.playerVars
         },
         events: {
-          onReady: this.onReady,
+          onReady: () => {
+            this.loadingSDK = false
+            this.onReady()
+          },
           onStateChange: this.onStateChange,
           onError: this.props.onError
         }
