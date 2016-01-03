@@ -11,6 +11,7 @@
     "clean": "rimraf lib",
     "prepublish": "npm run build",
     "postpublish": "npm run clean",
+    "preversion": "npm run lint && npm run test",
     "version": "auto-changelog --package --template compact; git add CHANGELOG.md"
   },
   "repository": {
