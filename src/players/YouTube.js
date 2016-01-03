@@ -81,7 +81,7 @@ export default class YouTube extends Base {
     this.player.playVideo()
   }
   pause () {
-    if (!this.isReady || this.player.pauseVideo) return
+    if (!this.isReady || !this.player.pauseVideo) return
     this.player.pauseVideo()
   }
   stop () {
