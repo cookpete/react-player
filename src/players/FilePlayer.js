@@ -43,7 +43,7 @@ export default class FilePlayer extends Base {
     return this.player.currentTime / this.player.duration
   }
   getFractionLoaded () {
-    if (!this.isReady) return null
+    if (!this.isReady || this.player.buffered.length === 0) return null
     return this.player.buffered.end(0) / this.player.duration
   }
   render () {
