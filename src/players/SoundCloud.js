@@ -59,7 +59,7 @@ export default class SoundCloud extends Base {
     })
   }
   onStateChange = state => {
-    if (state === 'playing') this.props.onPlay()
+    if (state === 'playing') this.onPlay()
     if (state === 'paused') this.props.onPause()
     if (state === 'loading') this.props.onBuffer()
     if (state === 'ended') this.props.onEnded()
@@ -86,6 +86,7 @@ export default class SoundCloud extends Base {
     this.player.stop()
   }
   seekTo (fraction) {
+    super.seekTo(fraction)
     if (!this.isReady) return
     this.player.seek(this.player.getDuration() * fraction)
   }

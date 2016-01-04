@@ -54,7 +54,6 @@ export default class YouTube extends Base {
       } else {
         this.player.cueVideoById(id)
       }
-      this.setVolume(this.props.volume)
       return
     }
     if (this.loadingSDK) {
@@ -84,7 +83,7 @@ export default class YouTube extends Base {
   }
   onStateChange = ({ data }) => {
     const { PLAYING, PAUSED, BUFFERING, ENDED } = window[SDK_GLOBAL].PlayerState
-    if (data === PLAYING) this.props.onPlay()
+    if (data === PLAYING) this.onPlay()
     if (data === PAUSED) this.props.onPause()
     if (data === BUFFERING) this.props.onBuffer()
     if (data === ENDED) this.props.onEnded()
@@ -102,6 +101,7 @@ export default class YouTube extends Base {
     this.player.stopVideo()
   }
   seekTo (fraction) {
+    super.seekTo(fraction)
     if (!this.isReady || !this.player.seekTo) return
     this.player.seekTo(this.player.getDuration() * fraction)
   }

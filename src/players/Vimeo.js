@@ -50,6 +50,7 @@ export default class Vimeo extends Base {
     this.iframe.src = ''
   }
   seekTo (fraction) {
+    super.seekTo(fraction)
     this.postMessage('seekTo', this.duration * fraction)
   }
   setVolume (fraction) {
@@ -76,7 +77,7 @@ export default class Vimeo extends Base {
     if (data.event === 'ready') this.onReady()
     if (data.event === 'playProgress') this.fractionPlayed = data.data.percent
     if (data.event === 'loadProgress') this.fractionLoaded = data.data.percent
-    if (data.event === 'play') this.props.onPlay()
+    if (data.event === 'play') this.onPlay()
     if (data.event === 'pause') this.props.onPause()
     if (data.event === 'finish') this.props.onEnded()
     if (data.method === 'getDuration') this.duration = data.value // Store for use in seekTo()

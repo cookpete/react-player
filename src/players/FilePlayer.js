@@ -13,7 +13,7 @@ export default class FilePlayer extends Base {
   componentDidMount () {
     this.player = this.refs.player
     this.player.oncanplay = this.onReady
-    this.player.onplay = this.props.onPlay
+    this.player.onplay = this.onPlay
     this.player.onpause = this.props.onPause
     this.player.onended = this.props.onEnded
     this.player.onerror = this.props.onError
@@ -31,6 +31,7 @@ export default class FilePlayer extends Base {
     this.player.src = ''
   }
   seekTo (fraction) {
+    super.seekTo(fraction)
     this.player.currentTime = this.player.duration * fraction
   }
   setVolume (fraction) {
