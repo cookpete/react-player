@@ -50,7 +50,7 @@ export default class SoundCloud extends Base {
         if (image) {
           this.setState({ image: image.replace('-large', '-t500x500') })
         }
-        SC.stream(data.uri, this.options, player => {
+        SC.stream(data.uri, player => {
           this.player = player
           player._player.on('stateChange', this.onStateChange)
           this.onReady()
@@ -63,15 +63,6 @@ export default class SoundCloud extends Base {
     if (state === 'paused') this.props.onPause()
     if (state === 'loading') this.props.onBuffer()
     if (state === 'ended') this.props.onEnded()
-  }
-  options = {
-    onplay: this.props.onPlay,
-    onpause: this.props.onPause,
-    onbufferchange: function () {
-      if (this.player.isBuffering) this.props.onBuffer()
-    },
-    onfinish: this.props.onFinish,
-    ondataerror: this.props.onError
   }
   play () {
     if (!this.isReady) return
