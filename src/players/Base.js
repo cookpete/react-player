@@ -34,10 +34,10 @@ export default class Base extends Component {
   }
   isReady = false
   onReady = () => {
+    this.isReady = true
     this.setVolume(this.props.volume)
     if (this.props.playing || this.preloading) {
       this.preloading = false
-      this.isReady = true
       if (this.loadOnReady) {
         this.load(this.loadOnReady, this.props.playing)
       } else {
