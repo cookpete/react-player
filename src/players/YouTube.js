@@ -54,6 +54,7 @@ export default class YouTube extends Base {
       } else {
         this.player.cueVideoById(id)
       }
+      this.setVolume(this.props.volume)
       return
     }
     if (this.loadingSDK) {
