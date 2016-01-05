@@ -1,4 +1,7 @@
 language: node_js
+install:
+  - npm install -g npm@2
+  - npm install
 node_js:
   - "4.1"
   - "4.0"
