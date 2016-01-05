@@ -74,6 +74,7 @@ export default class SoundCloud extends Base {
   }
   stop () {
     if (!this.isReady) return
+    this.player._player.off('stateChange', this.onStateChange)
     this.player.stop()
   }
   seekTo (fraction) {
