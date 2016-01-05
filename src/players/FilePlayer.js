@@ -12,12 +12,12 @@ export default class FilePlayer extends Base {
   }
   componentDidMount () {
     this.player = this.refs.player
-    this.player.oncanplay = this.onReady
     this.player.onplay = this.onPlay
     this.player.onpause = this.props.onPause
     this.player.onended = this.props.onEnded
     this.player.onerror = this.props.onError
     super.componentDidMount()
+    this.onReady()
   }
   load (url) {
     this.player.src = url
