@@ -28,10 +28,7 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       loader: 'babel',
-      include: [
-        path.join(__dirname, 'src'),
-        path.join(__dirname, 'test', 'karma')
-      ]
+      include: path.join(__dirname, 'src')
     }, {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap'),
