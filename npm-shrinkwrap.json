@@ -1,0 +1,21 @@
+{
+  "name": "react-player",
+  "version": "0.3.7",
+  "dependencies": {
+    "babel-cli": {
+      "version": "6.3.17",
+      "from": "babel-cli@6.3.17",
+      "resolved": "https://registry.npmjs.org/babel-cli/-/babel-cli-6.3.17.tgz"
+    },
+    "babel-core": {
+      "version": "6.3.17",
+      "from": "babel-core@6.3.17",
+      "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-6.3.17.tgz"
+    },
+    "babylon": {
+      "version": "6.3.26",
+      "from": "babylon@6.3.26",
+      "resolved": "https://registry.npmjs.org/babylon/-/babylon-6.3.26.tgz"
+    }
+  }
+}
