@@ -53,6 +53,7 @@ playing | Set to `true` or `false` to pause or play the media
 volume | Sets the volume of the appropriate player
 width | Sets the width of the player
 height | Sets the height of the player
+className | Pass in a `className` to set on the top level element
 onProgress | Callback containing `played` and `loaded` progress as a fraction eg `{ played: 0.12, loaded: 0.34 }`
 onPlay | Called when media starts or resumes playing after pausing or buffering
 onPause | Called when media is paused

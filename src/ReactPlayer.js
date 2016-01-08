@@ -69,7 +69,7 @@ export default class ReactPlayer extends Component {
       height: this.props.height
     }
     return (
-      <div style={style}>
+      <div style={style} className={this.props.className}>
         { players.map(this.renderPlayer) }
       </div>
     )

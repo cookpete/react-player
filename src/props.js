@@ -6,6 +6,7 @@ export const propTypes = {
   volume: PropTypes.number,
   width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   height: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+  className: PropTypes.string,
   soundcloudConfig: PropTypes.shape({
     clientId: PropTypes.string
   }),
