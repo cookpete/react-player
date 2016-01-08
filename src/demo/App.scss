@@ -1,0 +1,32 @@
+$black: #000;
+$column-width: 480px;
+$gutter-width: 10px;
+// $break: $column-width * 2 + $gutter-width * 3;
+
+.app {
+  margin: auto;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  text-align: center;
+
+  @media screen and ($column-width * 2) {
+
+  }
+}
+
+.section {
+  display: inline-block;
+  max-width: $column-width;
+  margin: $gutter-width;
+  text-align: left;
+  vertical-align: top;
+}
+
+.react-player {
+  margin-bottom: 10px;
+  background: rgba($black, .1);
+}
+
+.faded {
+  color: rgba($black, .5);
+}

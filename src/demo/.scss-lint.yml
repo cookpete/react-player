@@ -1,0 +1,6 @@
+linters:
+  PropertySortOrder:
+    order: smacss
+  PropertySpelling:
+    extra_properties:
+      - composes
