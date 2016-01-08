@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
-import ReactPlayer from './ReactPlayer'
+import './Range.scss'
+import ReactPlayer from '../ReactPlayer'
 
 export default class App extends Component {
   state = {

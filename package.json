@@ -7,7 +7,7 @@
     "clean": "rimraf lib; rimraf demo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:demo": "npm run clean && npm run build:webpack && cp index.html demo",
-    "build:compile": "NODE_ENV=production babel src -d lib --ignore App.js,index.js",
+    "build:compile": "NODE_ENV=production babel src -d lib --ignore src/demo",
     "start": "node server.js",
     "lint": "standard --verbose | snazzy",
     "test:mocha": "NODE_ENV=production mocha --require ignore-styles test/mocha --compilers js:babel-core/register",
