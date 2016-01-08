@@ -53,8 +53,8 @@ export default class FilePlayer extends Base {
       <Media
         ref='player'
         style={style}
-        width={this.props.width}
-        height={this.props.height}
+        width='100%'
+        height='100%'
         preload='auto'
       />
     )
