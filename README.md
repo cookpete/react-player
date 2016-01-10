@@ -1,7 +1,7 @@
 ReactPlayer
 ===========
 
-[![Latest npm version](https://img.shields.io/npm/v/react-player.svg)](https://www.npmjs.com/package/auto-changelog)
+[![Latest npm version](https://img.shields.io/npm/v/react-player.svg)](https://www.npmjs.com/package/react-player)
 [![Build Status](https://img.shields.io/travis/CookPete/react-player/master.svg)](https://travis-ci.org/CookPete/react-player)
 [![Dependency Status](https://img.shields.io/david/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player)
 [![devDependency Status](https://img.shields.io/david/dev/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player#info=devDependencies)
