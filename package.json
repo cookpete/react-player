@@ -42,7 +42,7 @@
     "react": "^0.14.0"
   },
   "devDependencies": {
-    "auto-changelog": "^0.2.2",
+    "auto-changelog": "^0.3.0",
     "babel-cli": "^6.3.17",
     "babel-core": "^6.3.17",
     "babel-eslint": "^5.0.0-beta6",
