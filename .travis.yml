@@ -15,4 +15,4 @@ node_js:
   - "iojs"
 script:
   - npm run lint
-  - npm run test
+  - npm run test:mocha
