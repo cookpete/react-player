@@ -18,11 +18,11 @@ const DEFAULT_PLAYER_VARS = {
 let playerIdCount = 0
 
 export default class YouTube extends Base {
-  static displayName = 'YouTube'
+  static displayName = 'YouTube';
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  playerId = PLAYER_ID + '-' + playerIdCount++
+  playerId = PLAYER_ID + '-' + playerIdCount++;
   componentDidMount () {
     if (!this.props.url && this.props.youtubeConfig.preload) {
       this.preloading = true
@@ -87,7 +87,7 @@ export default class YouTube extends Base {
     if (data === PAUSED) this.props.onPause()
     if (data === BUFFERING) this.props.onBuffer()
     if (data === ENDED) this.props.onEnded()
-  }
+  };
   play () {
     if (!this.isReady || !this.player.playVideo) return
     this.player.playVideo()

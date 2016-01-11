@@ -7,9 +7,9 @@ import players from './players'
 const PROGRESS_FREQUENCY = 500
 
 export default class ReactPlayer extends Component {
-  static displayName = 'ReactPlayer'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static displayName = 'ReactPlayer';
+  static propTypes = propTypes;
+  static defaultProps = defaultProps;
   static canPlay (url) {
     return players.some(player => player.canPlay(url))
   }
@@ -31,7 +31,7 @@ export default class ReactPlayer extends Component {
     if (player) {
       player.seekTo(fraction)
     }
-  }
+  };
   progress = () => {
     if (this.props.url && this.refs.player) {
       let progress = {}
@@ -48,7 +48,7 @@ export default class ReactPlayer extends Component {
       }
     }
     this.progressTimeout = setTimeout(this.progress, PROGRESS_FREQUENCY)
-  }
+  };
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
     const { youtubeConfig, soundcloudConfig, vimeoConfig, ...activeProps } = this.props
@@ -62,7 +62,7 @@ export default class ReactPlayer extends Component {
         {...props}
       />
     )
-  }
+  };
   render () {
     const style = {
       width: this.props.width,

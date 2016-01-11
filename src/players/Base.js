@@ -5,8 +5,8 @@ import { propTypes, defaultProps } from '../props'
 const SEEK_ON_READY_EXPIRY = 5000
 
 export default class Base extends Component {
-  static propTypes = propTypes
-  static defaultProps = defaultProps
+  static propTypes = propTypes;
+  static defaultProps = defaultProps;
   componentDidMount () {
     if (this.props.url) {
       this.load(this.props.url)
@@ -34,7 +34,7 @@ export default class Base extends Component {
   shouldComponentUpdate (nextProps) {
     return this.props.url !== nextProps.url
   }
-  isReady = false
+  isReady = false;
   seekTo (fraction) {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && fraction !== 0) {
@@ -49,7 +49,7 @@ export default class Base extends Component {
       this.seekTo(this.seekOnReady)
       this.seekOnReady = null
     }
-  }
+  };
   onReady = () => {
     this.isReady = true
     if (this.props.playing || this.preloading) {
@@ -61,5 +61,5 @@ export default class Base extends Component {
         this.play()
       }
     }
-  }
+  };
 }
