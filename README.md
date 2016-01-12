@@ -34,10 +34,10 @@ See `App.js` for a full example
 
 ### Demo
 
-The quickest way to see it in action is to checkout the repo and run the demo:
+See a [live demo](http://cookpete.com/react-player), or run:
 
 ```bash
-git clone http://github.com/cookpete/react-player
+git clone https://github.com/CookPete/react-player.git
 cd react-player
 npm install
 npm start
