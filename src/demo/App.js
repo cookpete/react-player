@@ -10,7 +10,7 @@ import ReactPlayer from '../ReactPlayer'
 export default class App extends Component {
   state = {
     url: null,
-    playing: false,
+    playing: true,
     volume: 0.8,
     played: 0,
     loaded: 0
