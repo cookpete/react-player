@@ -77,13 +77,15 @@ export default class Vimeo extends Base {
       this.postMessage('addEventListener', 'pause')
       this.postMessage('addEventListener', 'finish')
     }
-    if (data.event === 'ready') this.onReady()
     if (data.event === 'playProgress') this.fractionPlayed = data.data.percent
     if (data.event === 'loadProgress') this.fractionLoaded = data.data.percent
     if (data.event === 'play') this.onPlay()
     if (data.event === 'pause') this.props.onPause()
     if (data.event === 'finish') this.props.onEnded()
-    if (data.method === 'getDuration') this.duration = data.value // Store for use in seekTo()
+    if (data.method === 'getDuration') {
+      this.duration = data.value // Store for use later
+      this.onReady()
+    }
   };
   postMessage = (method, value) => {
     if (!this.origin) return
