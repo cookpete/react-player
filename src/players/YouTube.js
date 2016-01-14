@@ -45,15 +45,10 @@ export default class YouTube extends Base {
       })
     })
   }
-  load (url, playing) {
+  load (url) {
     const id = url && url.match(MATCH_URL)[1]
     if (this.isReady) {
-      this.stop()
-      if (playing) {
-        this.player.loadVideoById(id)
-      } else {
-        this.player.cueVideoById(id)
-      }
+      this.player.cueVideoById(id)
       return
     }
     if (this.loadingSDK) {
@@ -82,11 +77,12 @@ export default class YouTube extends Base {
     })
   }
   onStateChange = ({ data }) => {
-    const { PLAYING, PAUSED, BUFFERING, ENDED } = window[SDK_GLOBAL].PlayerState
+    const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
     if (data === PLAYING) this.onPlay()
     if (data === PAUSED) this.props.onPause()
     if (data === BUFFERING) this.props.onBuffer()
     if (data === ENDED) this.props.onEnded()
+    if (data === CUED) this.onReady()
   };
   play () {
     if (!this.isReady || !this.player.playVideo) return

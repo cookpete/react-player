@@ -18,7 +18,7 @@ export default class Base extends Component {
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     if (this.props.url !== nextProps.url && nextProps.url) {
-      this.load(nextProps.url, nextProps.playing)
+      this.load(nextProps.url)
       this.seekOnReady = null
     } else if (this.props.url && !nextProps.url) {
       this.stop()
@@ -55,7 +55,7 @@ export default class Base extends Component {
     if (this.props.playing || this.preloading) {
       this.preloading = false
       if (this.loadOnReady) {
-        this.load(this.loadOnReady, this.props.playing)
+        this.load(this.loadOnReady)
         this.loadOnReady = null
       } else {
         this.play()
