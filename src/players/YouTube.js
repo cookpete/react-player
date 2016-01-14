@@ -103,15 +103,19 @@ export default class YouTube extends Base {
   seekTo (fraction) {
     super.seekTo(fraction)
     if (!this.isReady || !this.player.seekTo) return
-    this.player.seekTo(this.player.getDuration() * fraction)
+    this.player.seekTo(this.getDuration() * fraction)
   }
   setVolume (fraction) {
     if (!this.isReady || !this.player.setVolume) return
     this.player.setVolume(fraction * 100)
   }
+  getDuration () {
+    if (!this.isReady || !this.player.getDuration) return null
+    return this.player.getDuration()
+  }
   getFractionPlayed () {
     if (!this.isReady || !this.player.getCurrentTime) return null
-    return this.player.getCurrentTime() / this.player.getDuration()
+    return this.player.getCurrentTime() / this.getDuration()
   }
   getFractionLoaded () {
     if (!this.isReady || !this.player.getVideoLoadedFraction) return null

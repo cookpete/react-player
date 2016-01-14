@@ -85,6 +85,7 @@ export default class App extends Component {
             onBuffer={() => console.log('onBuffer')}
             onEnded={() => this.setState({ playing: false })}
             onProgress={this.onProgress}
+            onDuration={duration => this.setState({ duration })}
           />
 
           <table><tbody>
@@ -192,6 +193,10 @@ export default class App extends Component {
             <tr>
               <th>loaded</th>
               <td>{ this.state.loaded.toFixed(3) }</td>
+            </tr>
+            <tr>
+              <th>duration</th>
+              <td>{ this.state.duration }</td>
             </tr>
           </tbody></table>
         </section>

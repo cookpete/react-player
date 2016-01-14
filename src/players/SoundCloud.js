@@ -80,19 +80,24 @@ export default class SoundCloud extends Base {
   seekTo (fraction) {
     super.seekTo(fraction)
     if (!this.isReady) return
-    this.player.seek(this.player.getDuration() * fraction)
+    this.player.seek(this.getDuration(true) * fraction)
   }
   setVolume (fraction) {
     if (!this.isReady) return
     this.player.setVolume(fraction)
   }
+  getDuration (ms) {
+    if (!this.isReady) return null
+    if (ms) return this.player.getDuration()
+    return this.player.getDuration() / 1000
+  }
   getFractionPlayed () {
     if (!this.isReady) return null
-    return this.player.getCurrentPosition() / this.player.getDuration()
+    return this.player.getCurrentPosition() / this.getDuration(true)
   }
   getFractionLoaded () {
     if (!this.isReady) return null
-    return this.player.getLoadedPosition() / this.player.getDuration()
+    return this.player.getLoadedPosition() / this.getDuration(true)
   }
   render () {
     const style = {

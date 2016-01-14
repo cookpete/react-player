@@ -21,6 +21,7 @@ export const propTypes = {
   onBuffer: PropTypes.func,
   onEnded: PropTypes.func,
   onError: PropTypes.func,
+  onDuration: PropTypes.func,
   onProgress: PropTypes.func
 }
 
@@ -45,5 +46,6 @@ export const defaultProps = {
   onBuffer: function () {},
   onEnded: function () {},
   onError: function () {},
+  onDuration: function () {},
   onProgress: function () {}
 }

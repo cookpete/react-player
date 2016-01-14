@@ -56,6 +56,9 @@ export default class Vimeo extends Base {
   setVolume (fraction) {
     this.postMessage('setVolume', fraction)
   }
+  getDuration () {
+    return this.duration
+  }
   getFractionPlayed () {
     return this.fractionPlayed || null
   }

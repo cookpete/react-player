@@ -61,5 +61,6 @@ export default class Base extends Component {
         this.play()
       }
     }
+    this.props.onDuration(this.getDuration())
   };
 }

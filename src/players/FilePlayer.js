@@ -33,18 +33,22 @@ export default class FilePlayer extends Base {
   }
   seekTo (fraction) {
     super.seekTo(fraction)
-    this.player.currentTime = this.player.duration * fraction
+    this.player.currentTime = this.getDuration() * fraction
   }
   setVolume (fraction) {
     this.player.volume = fraction
   }
+  getDuration () {
+    if (!this.isReady) return null
+    return this.player.duration
+  }
   getFractionPlayed () {
     if (!this.isReady) return null
-    return this.player.currentTime / this.player.duration
+    return this.player.currentTime / this.getDuration()
   }
   getFractionLoaded () {
     if (!this.isReady || this.player.buffered.length === 0) return null
-    return this.player.buffered.end(0) / this.player.duration
+    return this.player.buffered.end(0) / this.getDuration()
   }
   render () {
     const Media = AUDIO_EXTENSIONS.test(this.props.url) ? 'audio' : 'video'

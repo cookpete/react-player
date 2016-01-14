@@ -35,6 +35,13 @@ describe('ReactPlayer', () => {
     testPlay(url, onPlay)
   }
 
+  const testDuration = (url, done) => {
+    const onDuration = duration => {
+      if (duration && duration > 0) done()
+    }
+    render(<ReactPlayer url={url} playing onDuration={onDuration} />, div)
+  }
+
   it('plays a YouTube video', done => testPlay(TEST_YOUTUBE_URL, done))
   it('plays a SoundCloud track', done => testPlay(TEST_SOUNDCLOUD_URL, done))
   it('plays a Vimeo video', done => testPlay(TEST_VIMEO_URL, done))
@@ -44,6 +51,11 @@ describe('ReactPlayer', () => {
   it('pauses a SoundCloud track', done => testPause(TEST_SOUNDCLOUD_URL, done))
   it('pauses a Vimeo video', done => testPause(TEST_VIMEO_URL, done))
   it('pauses a file', done => testPause(TEST_FILE_URL, done))
+
+  it('gets duration for YouTube video', done => testDuration(TEST_YOUTUBE_URL, done))
+  it('gets duration for SoundCloud track', done => testDuration(TEST_SOUNDCLOUD_URL, done))
+  it('gets duration for Vimeo video', done => testDuration(TEST_VIMEO_URL, done))
+  it('gets duration for file', done => testDuration(TEST_FILE_URL, done))
 
   it('switches between media', function (done) {
     const renderPlayer = (url, onPlay) => render(<ReactPlayer url={url} playing onPlay={onPlay} />, div)
