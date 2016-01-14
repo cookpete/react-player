@@ -54,7 +54,14 @@ Prop | Description
 `width` | Sets the width of the player
 `height` | Sets the height of the player
 `className` | Pass in a `className` to set on the top level element
-`onProgress` | Callback containing `played` and `loaded` progress as a fraction eg `{ played: 0.12, loaded: 0.34 }`
+
+#### Callback props
+
+Callback props take a function that gets fired on various player events
+
+Prop | Description
+---- | -----------
+`onProgress` | Callback containing `played` and `loaded` progress as a fraction<br/>eg `{ played: 0.12, loaded: 0.34 }`
 `onDuration` | Callback containing duration of the media, in seconds
 `onPlay` | Called when media starts or resumes playing after pausing or buffering
 `onPause` | Called when media is paused
@@ -107,6 +114,6 @@ npm run test
 
 ### Thanks
 
-* [gaearon](https://github.com/gaearon) for his [react-hot-boilerplate](https://github.com/gaearon/react-hot-boilerplate), which this repo is roughly based on.
+* [gaearon](https://github.com/gaearon) for his [react-transform-boilerplate](https://github.com/gaearon/react-transform-boilerplate), which this repo is roughly based on.
 * [Simon Smith](http://simonsmith.io) for his [intro to react testing with shallow rendering](http://simonsmith.io/unit-testing-react-components-without-a-dom/)
 * [Fauntleroy](https://github.com/Fauntleroy) for his contributions
