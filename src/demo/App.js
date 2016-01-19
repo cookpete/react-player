@@ -65,17 +65,17 @@ export default class App extends Component {
     )
   };
   addZero = number => {
-      return number > 9 ? "" + number: "0" + number;
+    return number > 9 ? '' + number : '0' + number
   };
   convertToSeconds = (percentage) => {
-    let amount = this.state.duration || 0;
-    return Math.floor(percentage/100 * amount);
+    let amount = this.state.duration || 0
+    return Math.floor(percentage / 100 * amount)
   };
   printTime = time => {
-    let minutes = Math.floor(this.convertToSeconds(time) / 60);
-    let seconds = Math.floor(this.convertToSeconds(time) - minutes * 60);
+    let minutes = Math.floor(this.convertToSeconds(time) / 60)
+    let seconds = Math.floor(this.convertToSeconds(time) - minutes * 60)
 
-    return `${ this.addZero(minutes.toFixed(0)) }:${ this.addZero(seconds.toFixed(0)) }`;
+    return `${ this.addZero(minutes.toFixed(0)) }:${ this.addZero(seconds.toFixed(0)) }`
   };
   render () {
     return (
@@ -213,11 +213,11 @@ export default class App extends Component {
             </tr>
             <tr>
               <th>time elapsed</th>
-              <td>{ this.printTime( this.state.played*100 ) }</td>
+              <td>{ this.printTime(this.state.played * 100) }</td>
             </tr>
             <tr>
               <th>time remaining</th>
-              <td>{ this.printTime( 100 - (this.state.played*100) ) }</td>
+              <td>{ this.printTime(100 - (this.state.played * 100)) }</td>
             </tr>
           </tbody></table>
         </section>
