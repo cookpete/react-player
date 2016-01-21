@@ -6,6 +6,7 @@ import './App.scss'
 import './Range.scss'
 
 import ReactPlayer from '../ReactPlayer'
+import Duration from './Duration'
 
 export default class App extends Component {
   state = {
@@ -13,7 +14,8 @@ export default class App extends Component {
     playing: true,
     volume: 0.8,
     played: 0,
-    loaded: 0
+    loaded: 0,
+    duration: 0
   };
   load = url => {
     this.setState({
@@ -204,7 +206,15 @@ export default class App extends Component {
             </tr>
             <tr>
               <th>duration</th>
-              <td>{ this.state.duration }</td>
+              <td><Duration seconds={duration} /></td>
+            </tr>
+            <tr>
+              <th>elapsed</th>
+              <td><Duration seconds={duration * played} /></td>
+            </tr>
+            <tr>
+              <th>remaining</th>
+              <td><Duration seconds={duration * (1 - played)} /></td>
             </tr>
           </tbody></table>
         </section>
