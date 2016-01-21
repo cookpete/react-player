@@ -4,7 +4,7 @@ import 'array.prototype.find'
 import { propTypes, defaultProps } from './props'
 import players from './players'
 
-const PROGRESS_FREQUENCY = 500
+const PROGRESS_FREQUENCY = 1000
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer';
