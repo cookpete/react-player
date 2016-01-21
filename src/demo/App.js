@@ -65,6 +65,14 @@ export default class App extends Component {
     )
   };
   render () {
+    const {
+      url, playing, volume,
+      played, loaded, duration,
+      soundcloudConfig,
+      vimeoConfig,
+      youtubeConfig
+    } = this.state
+
     return (
       <div className='app'>
         <section className='section'>
@@ -74,12 +82,12 @@ export default class App extends Component {
             className='react-player'
             width={480}
             height={270}
-            url={this.state.url}
-            playing={this.state.playing}
-            volume={this.state.volume}
-            soundcloudConfig={this.state.soundcloudConfig}
-            vimeoConfig={this.state.vimeoConfig}
-            youtubeConfig={this.state.youtubeConfig}
+            url={url}
+            playing={playing}
+            volume={volume}
+            soundcloudConfig={soundcloudConfig}
+            vimeoConfig={vimeoConfig}
+            youtubeConfig={youtubeConfig}
             onPlay={() => this.setState({ playing: true })}
             onPause={() => this.setState({ playing: false })}
             onBuffer={() => console.log('onBuffer')}
@@ -93,7 +101,7 @@ export default class App extends Component {
               <th>Controls</th>
               <td>
                 <button onClick={this.stop}>Stop</button>
-                <button onClick={this.playPause}>{this.state.playing ? 'Pause' : 'Play'}</button>
+                <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
               </td>
             </tr>
             <tr>
@@ -101,7 +109,7 @@ export default class App extends Component {
               <td>
                 <input
                   type='range' min={0} max={1} step='any'
-                  value={this.state.played}
+                  value={played}
                   onMouseDown={this.onSeekMouseDown}
                   onChange={this.onSeekChange}
                   onMouseUp={this.onSeekMouseUp}
@@ -111,16 +119,16 @@ export default class App extends Component {
             <tr>
               <th>Volume</th>
               <td>
-                <input type='range' min={0} max={1} step='any' value={this.state.volume} onChange={this.setVolume} />
+                <input type='range' min={0} max={1} step='any' value={volume} onChange={this.setVolume} />
               </td>
             </tr>
             <tr>
               <th>Played</th>
-              <td><progress max={1} value={this.state.played} /></td>
+              <td><progress max={1} value={played} /></td>
             </tr>
             <tr>
               <th>Loaded</th>
-              <td><progress max={1} value={this.state.loaded} /></td>
+              <td><progress max={1} value={loaded} /></td>
             </tr>
           </tbody></table>
         </section>
@@ -176,23 +184,23 @@ export default class App extends Component {
           <table><tbody>
             <tr>
               <th>url</th>
-              <td className={ !this.state.url ? 'faded' : '' }>{ this.state.url || 'null' }</td>
+              <td className={ !url ? 'faded' : '' }>{ url || 'null' }</td>
             </tr>
             <tr>
               <th>playing</th>
-              <td>{ this.state.playing ? 'true' : 'false' }</td>
+              <td>{ playing ? 'true' : 'false' }</td>
             </tr>
             <tr>
               <th>volume</th>
-              <td>{ this.state.volume.toFixed(3) }</td>
+              <td>{ volume.toFixed(3) }</td>
             </tr>
             <tr>
               <th>played</th>
-              <td>{ this.state.played.toFixed(3) }</td>
+              <td>{ played.toFixed(3) }</td>
             </tr>
             <tr>
               <th>loaded</th>
-              <td>{ this.state.loaded.toFixed(3) }</td>
+              <td>{ loaded.toFixed(3) }</td>
             </tr>
             <tr>
               <th>duration</th>
