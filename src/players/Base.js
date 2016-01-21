@@ -49,6 +49,7 @@ export default class Base extends Component {
       this.seekTo(this.seekOnReady)
       this.seekOnReady = null
     }
+    this.props.onDuration(this.getDuration())
   };
   onReady = () => {
     this.isReady = true
@@ -61,6 +62,5 @@ export default class Base extends Component {
         this.play()
       }
     }
-    this.props.onDuration(this.getDuration())
   };
 }
