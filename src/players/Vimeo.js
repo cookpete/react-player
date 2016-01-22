@@ -12,6 +12,7 @@ const DEFAULT_IFRAME_PARAMS = {
   autoplay: 0,
   badge: 0,
   byline: 0,
+  fullscreen: 1,
   portrait: 0,
   title: 0
 }
@@ -32,13 +33,12 @@ export default class Vimeo extends Base {
 
     super.componentDidMount()
   }
+  getIframeParams () {
+    return { ...DEFAULT_IFRAME_PARAMS, ...this.props.vimeoConfig.iframeParams }
+  }
   load (url) {
     const id = url.match(MATCH_URL)[3]
-    const iframeParams = {
-      ...DEFAULT_IFRAME_PARAMS,
-      ...this.props.vimeoConfig.iframeParams
-    }
-    this.iframe.src = IFRAME_SRC + id + '?' + stringify(iframeParams)
+    this.iframe.src = IFRAME_SRC + id + '?' + stringify(this.getIframeParams())
   }
   play () {
     this.postMessage('play')
@@ -93,11 +93,12 @@ export default class Vimeo extends Base {
     return this.iframe.contentWindow && this.iframe.contentWindow.postMessage(data, this.origin)
   };
   render () {
+    const { fullscreen } = this.getIframeParams()
     const style = {
       display: this.props.url ? 'block' : 'none',
       width: '100%',
       height: '100%'
     }
-    return <iframe ref='iframe' frameBorder='0' style={style} />
+    return <iframe ref='iframe' frameBorder='0' style={style} allowFullScreen={fullscreen} />
   }
 }
