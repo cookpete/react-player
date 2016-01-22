@@ -11,10 +11,12 @@ export const propTypes = {
     clientId: PropTypes.string
   }),
   youtubeConfig: PropTypes.shape({
-    playerVars: PropTypes.object
+    playerVars: PropTypes.object,
+    preload: PropTypes.bool
   }),
   vimeoConfig: PropTypes.shape({
-    iframeParams: PropTypes.object
+    iframeParams: PropTypes.object,
+    preload: PropTypes.bool
   }),
   onPlay: PropTypes.func,
   onPause: PropTypes.func,
