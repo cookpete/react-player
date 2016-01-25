@@ -72,10 +72,9 @@ describe('ReactPlayer', () => {
   it('fires onError for file', done => testError(TEST_FILE_ERROR, done))
 
   it('switches between media', function (done) {
-    const renderPlayer = (url, onPlay) => render(<ReactPlayer url={url} playing onPlay={onPlay} />, div)
-    const renderFilePlayer = () => renderPlayer(TEST_FILE_URL, done)
-    const renderVimeoPlayer = () => renderPlayer(TEST_VIMEO_URL, renderFilePlayer)
-    const renderSoundCloudPlayer = () => renderPlayer(TEST_SOUNDCLOUD_URL, renderVimeoPlayer)
-    renderPlayer(TEST_YOUTUBE_URL, renderSoundCloudPlayer)
+    const renderFilePlayer = () => testPlay(TEST_FILE_URL, done)
+    const renderVimeoPlayer = () => testPlay(TEST_VIMEO_URL, renderFilePlayer)
+    const renderSoundCloudPlayer = () => testPlay(TEST_SOUNDCLOUD_URL, renderVimeoPlayer)
+    testPlay(TEST_YOUTUBE_URL, renderSoundCloudPlayer)
   })
 })
