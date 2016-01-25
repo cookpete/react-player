@@ -9,6 +9,11 @@ const TEST_SOUNDCLOUD_URL = 'https://soundcloud.com/miami-nights-1984/accelerate
 const TEST_VIMEO_URL = 'https://vimeo.com/90509568'
 const TEST_FILE_URL = 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv'
 
+const TEST_YOUTUBE_ERROR = 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
+const TEST_SOUNDCLOUD_ERROR = 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
+const TEST_VIMEO_ERROR = 'https://vimeo.com/00000000'
+const TEST_FILE_ERROR = 'http://example.com/error.ogv'
+
 describe('ReactPlayer', () => {
   let div
 
@@ -42,6 +47,10 @@ describe('ReactPlayer', () => {
     render(<ReactPlayer url={url} playing onDuration={onDuration} />, div)
   }
 
+  const testError = (url, onError) => {
+    render(<ReactPlayer url={url} playing onError={onError} />, div)
+  }
+
   it('plays a YouTube video', done => testPlay(TEST_YOUTUBE_URL, done))
   it('plays a SoundCloud track', done => testPlay(TEST_SOUNDCLOUD_URL, done))
   it('plays a Vimeo video', done => testPlay(TEST_VIMEO_URL, done))
@@ -56,6 +65,11 @@ describe('ReactPlayer', () => {
   it('gets duration for SoundCloud track', done => testDuration(TEST_SOUNDCLOUD_URL, done))
   it('gets duration for Vimeo video', done => testDuration(TEST_VIMEO_URL, done))
   it('gets duration for file', done => testDuration(TEST_FILE_URL, done))
+
+  it('fires onError for YouTube video', done => testError(TEST_YOUTUBE_ERROR, done))
+  it('fires onError for SoundCloud track', done => testError(TEST_SOUNDCLOUD_ERROR, done))
+  it('fires onError for Vimeo video', done => testError(TEST_VIMEO_ERROR, done))
+  it('fires onError for file', done => testError(TEST_FILE_ERROR, done))
 
   it('switches between media', function (done) {
     const renderPlayer = (url, onPlay) => render(<ReactPlayer url={url} playing onPlay={onPlay} />, div)
