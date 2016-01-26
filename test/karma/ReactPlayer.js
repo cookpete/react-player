@@ -4,7 +4,7 @@ import { render, unmountComponentAtNode } from 'react-dom'
 import ReactPlayer from '../../src/ReactPlayer'
 
 const { describe, it, beforeEach, afterEach } = window
-const TEST_YOUTUBE_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
+const TEST_YOUTUBE_URL = 'https://www.youtube.com/watch?v=M7lc1UVf-VE'
 const TEST_SOUNDCLOUD_URL = 'https://soundcloud.com/miami-nights-1984/accelerated'
 const TEST_VIMEO_URL = 'https://vimeo.com/90509568'
 const TEST_FILE_URL = 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv'
@@ -70,6 +70,13 @@ describe('ReactPlayer', () => {
   it('fires onError for SoundCloud track', done => testError(TEST_SOUNDCLOUD_ERROR, done))
   it('fires onError for Vimeo video', done => testError(TEST_VIMEO_ERROR, done))
   it('fires onError for file', done => testError(TEST_FILE_ERROR, done))
+
+  it('plays YouTube video at a specified time', done => {
+    const onProgress = state => {
+      if (state.played > 0.9) done()
+    }
+    render(<ReactPlayer url={TEST_YOUTUBE_URL + '?start=22m10s'} playing onProgress={onProgress} />, div)
+  })
 
   it('switches between media', function (done) {
     const renderFilePlayer = () => testPlay(TEST_FILE_URL, done)

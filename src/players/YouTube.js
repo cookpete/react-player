@@ -2,6 +2,7 @@ import React from 'react'
 import loadScript from 'load-script'
 
 import Base from './Base'
+import { parseStartTime } from '../utils'
 
 const SDK_URL = '//www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
@@ -48,7 +49,10 @@ export default class YouTube extends Base {
   load (url) {
     const id = url && url.match(MATCH_URL)[1]
     if (this.isReady) {
-      this.player.cueVideoById(id)
+      this.player.cueVideoById({
+        videoId: id,
+        startSeconds: parseStartTime(url)
+      })
       return
     }
     if (this.loadingSDK) {
@@ -63,7 +67,8 @@ export default class YouTube extends Base {
         videoId: id,
         playerVars: {
           ...DEFAULT_PLAYER_VARS,
-          ...this.props.youtubeConfig.playerVars
+          ...this.props.youtubeConfig.playerVars,
+          start: parseStartTime(url)
         },
         events: {
           onReady: () => {
@@ -110,7 +115,7 @@ export default class YouTube extends Base {
     return this.player.getDuration()
   }
   getFractionPlayed () {
-    if (!this.isReady || !this.player.getCurrentTime) return null
+    if (!this.isReady || !this.getDuration()) return null
     return this.player.getCurrentTime() / this.getDuration()
   }
   getFractionLoaded () {
