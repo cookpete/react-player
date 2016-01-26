@@ -11,7 +11,6 @@ const TEST_FILE_URL = 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv'
 
 const TEST_YOUTUBE_ERROR = 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
 const TEST_SOUNDCLOUD_ERROR = 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
-const TEST_VIMEO_ERROR = 'https://vimeo.com/00000000'
 const TEST_FILE_ERROR = 'http://example.com/error.ogv'
 
 describe('ReactPlayer', () => {
@@ -48,7 +47,7 @@ describe('ReactPlayer', () => {
   }
 
   const testError = (url, onError) => {
-    render(<ReactPlayer url={url} playing onError={onError} />, div)
+    render(<ReactPlayer url={url} playing onError={() => onError()} />, div)
   }
 
   it('plays a YouTube video', done => testPlay(TEST_YOUTUBE_URL, done))
@@ -68,7 +67,6 @@ describe('ReactPlayer', () => {
 
   it('fires onError for YouTube video', done => testError(TEST_YOUTUBE_ERROR, done))
   it('fires onError for SoundCloud track', done => testError(TEST_SOUNDCLOUD_ERROR, done))
-  it('fires onError for Vimeo video', done => testError(TEST_VIMEO_ERROR, done))
   it('fires onError for file', done => testError(TEST_FILE_ERROR, done))
 
   it('plays YouTube video at a specified time', done => {
