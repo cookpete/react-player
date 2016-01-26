@@ -76,10 +76,10 @@ export default class YouTube extends Base {
             this.onReady()
           },
           onStateChange: this.onStateChange,
-          onError: this.props.onError
+          onError: event => this.props.onError(event.data)
         }
       })
-    })
+    }, this.props.onError)
   }
   onStateChange = ({ data }) => {
     const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
