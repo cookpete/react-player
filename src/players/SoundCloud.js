@@ -8,6 +8,8 @@ const SDK_GLOBAL = 'SC'
 const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
 const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]+)$/
 
+const songData = {} // Cache song data requests
+
 export default class SoundCloud extends Base {
   static displayName = 'SoundCloud';
   static canPlay (url) {
@@ -38,10 +40,14 @@ export default class SoundCloud extends Base {
     })
   }
   getSongData (url) {
+    if (songData[url]) {
+      return Promise.resolve(songData[url])
+    }
     return fetch(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
-          return response => response.json()
+          songData[url] = response.json()
+          return songData[url]
         } else {
           const error = new Error(response.statusText)
           error.response = response
