@@ -39,13 +39,27 @@ export default class SoundCloud extends Base {
   }
   getSongData (url) {
     return fetch(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
-      .then(response => response.json())
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+          return response => response.json()
+        } else {
+          const error = new Error(response.statusText)
+          error.response = response
+          throw error
+        }
+      })
   }
   load (url) {
     this.stop()
     this.getSDK().then(SC => {
       this.getSongData(url).then(data => {
-        if (url !== this.props.url) return // Abort if url changes during async requests
+        if (url !== this.props.url) {
+          return // Abort if url changes during async requests
+        }
+        if (!data.streamable) {
+          this.props.onError(new Error('SoundCloud track is not streamable'))
+          return
+        }
         const image = data.artwork_url || data.user.avatar_url
         if (image) {
           this.setState({ image: image.replace('-large', '-t500x500') })
@@ -55,8 +69,8 @@ export default class SoundCloud extends Base {
           player._player.on('stateChange', this.onStateChange)
           this.onReady()
         })
-      })
-    })
+      }, this.props.onError)
+    }, this.props.onError)
   }
   onStateChange = state => {
     if (state === 'playing') this.onPlay()
