@@ -6,7 +6,7 @@ import Base from './Base'
 const SDK_URL = '//connect.soundcloud.com/sdk-2.0.0.js'
 const SDK_GLOBAL = 'SC'
 const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
-const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-]+\/[a-z0-9-]+)$/
+const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]+)$/
 
 export default class SoundCloud extends Base {
   static displayName = 'SoundCloud';

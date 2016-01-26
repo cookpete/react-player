@@ -24,6 +24,7 @@ describe('YouTube', () => {
 describe('SoundCloud', () => {
   it('knows what it can play', () => {
     expect(SoundCloud.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.true
+    expect(SoundCloud.canPlay('http://soundcloud.com/artist_name/title_name')).to.be.true
     expect(SoundCloud.canPlay('http://snd.sc/artist-name/title-name')).to.be.true
   })
 
