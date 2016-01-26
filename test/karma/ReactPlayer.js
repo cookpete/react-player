@@ -4,6 +4,7 @@ import { render, unmountComponentAtNode } from 'react-dom'
 import ReactPlayer from '../../src/ReactPlayer'
 
 const { describe, it, beforeEach, afterEach } = window
+
 const TEST_YOUTUBE_URL = 'https://www.youtube.com/watch?v=M7lc1UVf-VE'
 const TEST_SOUNDCLOUD_URL = 'https://soundcloud.com/miami-nights-1984/accelerated'
 const TEST_VIMEO_URL = 'https://vimeo.com/90509568'
@@ -50,30 +51,38 @@ describe('ReactPlayer', () => {
     render(<ReactPlayer url={url} playing onError={() => onError()} />, div)
   }
 
-  it('plays a YouTube video', done => testPlay(TEST_YOUTUBE_URL, done))
-  it('plays a SoundCloud track', done => testPlay(TEST_SOUNDCLOUD_URL, done))
-  it('plays a Vimeo video', done => testPlay(TEST_VIMEO_URL, done))
-  it('plays a file', done => testPlay(TEST_FILE_URL, done))
+  describe('YouTube', () => {
+    it('fires onPlay', done => testPlay(TEST_YOUTUBE_URL, done))
+    it('fires onPause', done => testPause(TEST_YOUTUBE_URL, done))
+    it('fires onDuration', done => testDuration(TEST_YOUTUBE_URL, done))
+    it('fires onError', done => testError(TEST_YOUTUBE_ERROR, done))
 
-  it('pauses a YouTube video', done => testPause(TEST_YOUTUBE_URL, done))
-  it('pauses a SoundCloud track', done => testPause(TEST_SOUNDCLOUD_URL, done))
-  it('pauses a Vimeo video', done => testPause(TEST_VIMEO_URL, done))
-  it('pauses a file', done => testPause(TEST_FILE_URL, done))
+    it('starts at a specified time', done => {
+      const onProgress = state => {
+        if (state.played > 0.9) done()
+      }
+      render(<ReactPlayer url={TEST_YOUTUBE_URL + '?start=22m10s'} playing onProgress={onProgress} />, div)
+    })
+  })
 
-  it('gets duration for YouTube video', done => testDuration(TEST_YOUTUBE_URL, done))
-  it('gets duration for SoundCloud track', done => testDuration(TEST_SOUNDCLOUD_URL, done))
-  it('gets duration for Vimeo video', done => testDuration(TEST_VIMEO_URL, done))
-  it('gets duration for file', done => testDuration(TEST_FILE_URL, done))
+  describe('SoundCloud', () => {
+    it('fires onPlay', done => testPlay(TEST_SOUNDCLOUD_URL, done))
+    it('fires onPause', done => testPause(TEST_SOUNDCLOUD_URL, done))
+    it('fires onDuration', done => testDuration(TEST_SOUNDCLOUD_URL, done))
+    it('fires onError', done => testError(TEST_SOUNDCLOUD_ERROR, done))
+  })
 
-  it('fires onError for YouTube video', done => testError(TEST_YOUTUBE_ERROR, done))
-  it('fires onError for SoundCloud track', done => testError(TEST_SOUNDCLOUD_ERROR, done))
-  it('fires onError for file', done => testError(TEST_FILE_ERROR, done))
+  describe('Vimeo', () => {
+    it('fires onPlay a Vimeo video', done => testPlay(TEST_VIMEO_URL, done))
+    it('fires onPause a Vimeo video', done => testPause(TEST_VIMEO_URL, done))
+    it('fires onDuration for Vimeo video', done => testDuration(TEST_VIMEO_URL, done))
+  })
 
-  it('plays YouTube video at a specified time', done => {
-    const onProgress = state => {
-      if (state.played > 0.9) done()
-    }
-    render(<ReactPlayer url={TEST_YOUTUBE_URL + '?start=22m10s'} playing onProgress={onProgress} />, div)
+  describe('FilePlayer', () => {
+    it('fires onPlay a file', done => testPlay(TEST_FILE_URL, done))
+    it('fires onPause a file', done => testPause(TEST_FILE_URL, done))
+    it('fires onDuration for file', done => testDuration(TEST_FILE_URL, done))
+    it('fires onError for file', done => testError(TEST_FILE_ERROR, done))
   })
 
   it('switches between media', function (done) {
