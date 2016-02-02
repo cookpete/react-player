@@ -2,6 +2,7 @@ import React from 'react'
 import { describe, it, beforeEach } from 'mocha'
 import { expect } from 'chai'
 import { createRenderer } from 'react-addons-test-utils'
+import 'array.prototype.find'
 
 import ReactPlayer from '../../src/ReactPlayer'
 import YouTube from '../../src/players/YouTube'
