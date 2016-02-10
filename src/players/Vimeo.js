@@ -65,7 +65,7 @@ export default class Vimeo extends Base {
   getFractionLoaded () {
     return this.fractionLoaded || null
   }
-  onMessage = e => {
+  onMessage = (e) => {
     if (!MATCH_MESSAGE_ORIGIN.test(e.origin)) return
     this.origin = this.origin || e.origin
     const data = JSON.parse(e.data)

@@ -44,7 +44,7 @@ export default class YouTube extends Base {
         if (previousOnReady) previousOnReady()
         resolve(window[SDK_GLOBAL])
       }
-      loadScript(SDK_URL, err => {
+      loadScript(SDK_URL, (err) => {
         if (err) reject(err)
       })
     })
@@ -63,7 +63,7 @@ export default class YouTube extends Base {
       return
     }
     this.loadingSDK = true
-    this.getSDK().then(YT => {
+    this.getSDK().then((YT) => {
       this.player = new YT.Player(this.playerId, {
         width: '100%',
         height: '100%',
@@ -80,7 +80,7 @@ export default class YouTube extends Base {
             this.onReady()
           },
           onStateChange: this.onStateChange,
-          onError: event => this.props.onError(event.data)
+          onError: (event) => this.props.onError(event.data)
         }
       })
     }, this.props.onError)

@@ -39,7 +39,7 @@ export default class Base extends Component {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && fraction !== 0) {
       this.seekOnReady = fraction
-      setTimeout(() => this.seekOnReady = null, SEEK_ON_READY_EXPIRY)
+      setTimeout(() => { this.seekOnReady = null }, SEEK_ON_READY_EXPIRY)
     }
   }
   onPlay = () => {

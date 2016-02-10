@@ -17,7 +17,7 @@ export default class App extends Component {
     loaded: 0,
     duration: 0
   };
-  load = url => {
+  load = (url) => {
     this.setState({
       url,
       played: 0,
@@ -30,20 +30,20 @@ export default class App extends Component {
   stop = () => {
     this.setState({ url: null, playing: false })
   };
-  setVolume = e => {
+  setVolume = (e) => {
     this.setState({ volume: parseFloat(e.target.value) })
   };
-  onSeekMouseDown = e => {
+  onSeekMouseDown = (e) => {
     this.setState({ seeking: true })
   };
-  onSeekChange = e => {
+  onSeekChange = (e) => {
     this.setState({ played: parseFloat(e.target.value) })
   };
-  onSeekMouseUp = e => {
+  onSeekMouseUp = (e) => {
     this.setState({ seeking: false })
     this.refs.player.seekTo(parseFloat(e.target.value))
   };
-  onProgress = state => {
+  onProgress = (state) => {
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
@@ -62,7 +62,7 @@ export default class App extends Component {
   renderLoadButton = (url, label) => {
     return (
       <button onClick={() => this.load(url)}>
-        { label }
+        {label}
       </button>
     )
   };
@@ -94,9 +94,9 @@ export default class App extends Component {
             onPause={() => this.setState({ playing: false })}
             onBuffer={() => console.log('onBuffer')}
             onEnded={() => this.setState({ playing: false })}
-            onError={e => console.log('onError', e)}
+            onError={(e) => console.log('onError', e)}
             onProgress={this.onProgress}
-            onDuration={duration => this.setState({ duration })}
+            onDuration={(duration) => this.setState({ duration })}
           />
 
           <table><tbody>
@@ -140,30 +140,30 @@ export default class App extends Component {
             <tr>
               <th>YouTube</th>
               <td>
-                { this.renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A') }
-                { this.renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B') }
+                {this.renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A')}
+                {this.renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B')}
               </td>
             </tr>
             <tr>
               <th>SoundCloud</th>
               <td>
-                { this.renderLoadButton('https://soundcloud.com/miami-nights-1984/accelerated', 'Test A') }
-                { this.renderLoadButton('https://soundcloud.com/bonobo/flashlight', 'Test B') }
+                {this.renderLoadButton('https://soundcloud.com/miami-nights-1984/accelerated', 'Test A')}
+                {this.renderLoadButton('https://soundcloud.com/bonobo/flashlight', 'Test B')}
               </td>
             </tr>
             <tr>
               <th>Vimeo</th>
               <td>
-                { this.renderLoadButton('https://vimeo.com/90509568', 'Test A') }
-                { this.renderLoadButton('https://vimeo.com/94502406', 'Test B') }
+                {this.renderLoadButton('https://vimeo.com/90509568', 'Test A')}
+                {this.renderLoadButton('https://vimeo.com/94502406', 'Test B')}
               </td>
             </tr>
             <tr>
               <th>Files</th>
               <td>
-                { this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'MP4') }
-                { this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', 'OGV') }
-                { this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', 'WEBM') }
+                {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'MP4')}
+                {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', 'OGV')}
+                {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', 'WEBM')}
               </td>
             </tr>
             <tr>
@@ -187,23 +187,23 @@ export default class App extends Component {
           <table><tbody>
             <tr>
               <th>url</th>
-              <td className={ !url ? 'faded' : '' }>{ url || 'null' }</td>
+              <td className={!url ? 'faded' : ''}>{url || 'null'}</td>
             </tr>
             <tr>
               <th>playing</th>
-              <td>{ playing ? 'true' : 'false' }</td>
+              <td>{playing ? 'true' : 'false'}</td>
             </tr>
             <tr>
               <th>volume</th>
-              <td>{ volume.toFixed(3) }</td>
+              <td>{volume.toFixed(3)}</td>
             </tr>
             <tr>
               <th>played</th>
-              <td>{ played.toFixed(3) }</td>
+              <td>{played.toFixed(3)}</td>
             </tr>
             <tr>
               <th>loaded</th>
-              <td>{ loaded.toFixed(3) }</td>
+              <td>{loaded.toFixed(3)}</td>
             </tr>
             <tr>
               <th>duration</th>

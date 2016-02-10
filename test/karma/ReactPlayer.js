@@ -41,7 +41,7 @@ describe('ReactPlayer', () => {
   }
 
   const testDuration = (url, done) => {
-    const onDuration = duration => {
+    const onDuration = (duration) => {
       if (duration && duration > 0) done()
     }
     render(<ReactPlayer url={url} playing onDuration={onDuration} />, div)
@@ -52,13 +52,13 @@ describe('ReactPlayer', () => {
   }
 
   describe('YouTube', () => {
-    it('fires onPlay', done => testPlay(TEST_YOUTUBE_URL, done))
-    it('fires onPause', done => testPause(TEST_YOUTUBE_URL, done))
-    it('fires onDuration', done => testDuration(TEST_YOUTUBE_URL, done))
-    it('fires onError', done => testError(TEST_YOUTUBE_ERROR, done))
+    it('fires onPlay', (done) => testPlay(TEST_YOUTUBE_URL, done))
+    it('fires onPause', (done) => testPause(TEST_YOUTUBE_URL, done))
+    it('fires onDuration', (done) => testDuration(TEST_YOUTUBE_URL, done))
+    it('fires onError', (done) => testError(TEST_YOUTUBE_ERROR, done))
 
-    it('starts at a specified time', done => {
-      const onProgress = state => {
+    it('starts at a specified time', (done) => {
+      const onProgress = (state) => {
         if (state.played > 0.9) done()
       }
       render(<ReactPlayer url={TEST_YOUTUBE_URL + '?start=22m10s'} playing onProgress={onProgress} />, div)
@@ -66,23 +66,23 @@ describe('ReactPlayer', () => {
   })
 
   describe('SoundCloud', () => {
-    it('fires onPlay', done => testPlay(TEST_SOUNDCLOUD_URL, done))
-    it('fires onPause', done => testPause(TEST_SOUNDCLOUD_URL, done))
-    it('fires onDuration', done => testDuration(TEST_SOUNDCLOUD_URL, done))
-    it('fires onError', done => testError(TEST_SOUNDCLOUD_ERROR, done))
+    it('fires onPlay', (done) => testPlay(TEST_SOUNDCLOUD_URL, done))
+    it('fires onPause', (done) => testPause(TEST_SOUNDCLOUD_URL, done))
+    it('fires onDuration', (done) => testDuration(TEST_SOUNDCLOUD_URL, done))
+    it('fires onError', (done) => testError(TEST_SOUNDCLOUD_ERROR, done))
   })
 
   describe('Vimeo', () => {
-    it('fires onPlay a Vimeo video', done => testPlay(TEST_VIMEO_URL, done))
-    it('fires onPause a Vimeo video', done => testPause(TEST_VIMEO_URL, done))
-    it('fires onDuration for Vimeo video', done => testDuration(TEST_VIMEO_URL, done))
+    it('fires onPlay a Vimeo video', (done) => testPlay(TEST_VIMEO_URL, done))
+    it('fires onPause a Vimeo video', (done) => testPause(TEST_VIMEO_URL, done))
+    it('fires onDuration for Vimeo video', (done) => testDuration(TEST_VIMEO_URL, done))
   })
 
   describe('FilePlayer', () => {
-    it('fires onPlay a file', done => testPlay(TEST_FILE_URL, done))
-    it('fires onPause a file', done => testPause(TEST_FILE_URL, done))
-    it('fires onDuration for file', done => testDuration(TEST_FILE_URL, done))
-    it('fires onError for file', done => testError(TEST_FILE_ERROR, done))
+    it('fires onPlay a file', (done) => testPlay(TEST_FILE_URL, done))
+    it('fires onPause a file', (done) => testPause(TEST_FILE_URL, done))
+    it('fires onDuration for file', (done) => testDuration(TEST_FILE_URL, done))
+    it('fires onError for file', (done) => testError(TEST_FILE_ERROR, done))
   })
 
   it('switches between media', function (done) {
