@@ -34,6 +34,24 @@ See [the demo source](https://github.com/CookPete/react-player/blob/master/src/d
 
 For platforms like [Meteor](https://www.meteor.com) without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:browser`
 
+#### Bower
+
+```bash
+bower install react-player --save
+```
+
+```html
+  <script src='bower_components/react/react.js'></script>
+  <script src='bower_components/react/react-dom.js'></script>
+  <script src='bower_components/react-player/dist/ReactPlayer.js'></script>
+  <script>
+    ReactDOM.render(
+      <ReactPlayer url='https://www.youtube.com/watch?v=d46Azg3Pm4c' playing />,
+      document.getElementById('container')
+    )
+  </script>
+```
+
 ### Demo
 
 See a [live demo](http://cookpete.com/react-player), or run:

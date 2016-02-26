@@ -1,0 +1,37 @@
+{
+  "name": "react-player",
+  "description": "A react component for playing a variety of URLs, including file paths, YouTube, SoundCloud and Vimeo",
+  "main": "dist/ReactPlayer.js",
+  "authors": [
+    "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)"
+  ],
+  "license": "CC0-1.0",
+  "keywords": [
+    "react",
+    "media",
+    "player",
+    "video",
+    "audio",
+    "youtube",
+    "soundcloud",
+    "vimeo",
+    "react-component"
+  ],
+  "homepage": "https://github.com/CookPete/react-player",
+  "moduleType": [
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test",
+    "src",
+    "lib",
+    "server.js",
+    "index.html",
+    "webpack.config.*.js"
+  ],
+  "dependencies": {
+    "react": "^0.14.7"
+  }
+}
