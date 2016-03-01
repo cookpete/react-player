@@ -54,6 +54,10 @@ export default class ReactPlayer extends Component {
     const active = Player.canPlay(this.props.url)
     const { youtubeConfig, soundcloudConfig, vimeoConfig, ...activeProps } = this.props
     const props = active ? { ...activeProps, ref: 'player' } : {}
+
+    if (!active)
+      return null
+
     return (
       <Player
         key={Player.displayName}
