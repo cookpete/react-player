@@ -64,6 +64,12 @@ npm start
 open http://localhost:3000
 ```
 
+### Mobile considerations
+
+Due to various restrictions, `ReactPlayer` is not guaranteed to function properly on mobile devices. The [YouTube player documentation](https://developers.google.com/youtube/iframe_api_reference), for example, explains that [certain mobile browsers require user interaction](https://developers.google.com/youtube/iframe_api_reference#Mobile_considerations) before playing:
+
+> The HTML5 `<video>` element, in certain mobile browsers (such as Chrome and Safari), only allows playback to take place if it's initiated by a user interaction (such as tapping on the player).
+
 ### Props
 
 Prop | Description
@@ -109,7 +115,7 @@ There is a static method  `ReactPlayer.canPlay(url)` to determine if a URL can b
 
 To seek to a certain part of the media, there is a `seekTo(fraction)` instance method that will seek to the appropriate place in the media. See `App.js` for an example of this using `refs`.
 
-### Supported Media
+### Supported media
 
 * YouTube videos use the [YouTube iFrame Player API]()
 * Soundcloud tracks use the [Soundcloud JS SDK 2.0]()
