@@ -6,7 +6,8 @@ module.exports = {
   entry: './src/ReactPlayer',
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'ReactPlayer.js'
+    filename: 'ReactPlayer.js',
+    library: 'ReactPlayer'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
