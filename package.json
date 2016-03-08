@@ -67,7 +67,7 @@
     "karma-cli": "^0.1.2",
     "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.1",
-    "karma-mocha-reporter": "^1.1.5",
+    "karma-mocha-reporter": "^2.0.0",
     "karma-sourcemap-loader": "^0.3.6",
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
