@@ -15,7 +15,8 @@
     "test:karma": "karma start test/karma.config.js",
     "test": "npm run test:mocha && npm run test:karma",
     "preversion": "npm run lint && npm run test",
-    "version": "auto-changelog --package --template compact; git add CHANGELOG.md",
+    "version": "npm run update-changelog && npm run build:browser && git add CHANGELOG.md dist",
+    "update-changelog": "auto-changelog --package --template compact",
     "prepublish": "npm run build:compile; npm run build:browser",
     "postpublish": "npm run clean"
   },
