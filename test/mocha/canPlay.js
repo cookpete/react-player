@@ -54,6 +54,12 @@ describe('FilePlayer', () => {
     expect(FilePlayer.canPlay('http://example.com/file.webm')).to.be.true
     expect(FilePlayer.canPlay('http://example.com/file.mp3')).to.be.true
     expect(FilePlayer.canPlay('http://example.com/file.wav')).to.be.true
+    expect(FilePlayer.canPlay('http://example.com/file.mp4?foo=1&bar=2')).to.be.true
+    expect(FilePlayer.canPlay('http://example.com/file.ogg?foo=1&bar=2')).to.be.true
+    expect(FilePlayer.canPlay('http://example.com/file.ogv?foo=1&bar=2')).to.be.true
+    expect(FilePlayer.canPlay('http://example.com/file.webm?foo=1&bar=2')).to.be.true
+    expect(FilePlayer.canPlay('http://example.com/file.mp3?foo=1&bar=2')).to.be.true
+    expect(FilePlayer.canPlay('http://example.com/file.wav?foo=1&bar=2')).to.be.true
   })
 
   it('knows what it can\'t play', () => {
