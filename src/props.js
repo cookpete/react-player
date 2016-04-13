@@ -7,6 +7,7 @@ export const propTypes = {
   width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   height: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   className: PropTypes.string,
+  progressFrequency: PropTypes.number,
   soundcloudConfig: PropTypes.shape({
     clientId: PropTypes.string
   }),
@@ -32,6 +33,7 @@ export const defaultProps = {
   width: 640,
   height: 360,
   volume: 0.8,
+  progressFrequency: 1000,
   soundcloudConfig: {
     clientId: 'e8b6f84fbcad14c301ca1355cae1dea2'
   },

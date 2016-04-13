@@ -5,8 +5,6 @@ import React, { Component } from 'react'
 import { propTypes, defaultProps } from './props'
 import players from './players'
 
-const PROGRESS_FREQUENCY = 1000
-
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer';
   static propTypes = propTypes;
@@ -48,7 +46,7 @@ export default class ReactPlayer extends Component {
         this.props.onProgress(progress)
       }
     }
-    this.progressTimeout = setTimeout(this.progress, PROGRESS_FREQUENCY)
+    this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   };
   renderPlayer = (Player) => {
     const active = Player.canPlay(this.props.url)
