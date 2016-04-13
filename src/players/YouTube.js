@@ -4,7 +4,7 @@ import loadScript from 'load-script'
 import Base from './Base'
 import { parseStartTime } from '../utils'
 
-const SDK_URL = '//www.youtube.com/iframe_api'
+const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
