@@ -17,6 +17,7 @@ export default class FilePlayer extends Base {
     this.player.onpause = () => this.props.onPause()
     this.player.onended = () => this.props.onEnded()
     this.player.onerror = (e) => this.props.onError(e)
+    this.player.setAttribute('webkit-playsinline', '')
     super.componentDidMount()
   }
   load (url) {
