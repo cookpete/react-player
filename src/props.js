@@ -30,9 +30,9 @@ export const propTypes = {
 
 export const defaultProps = {
   playing: false,
+  volume: 0.8,
   width: 640,
   height: 360,
-  volume: 0.8,
   progressFrequency: 1000,
   soundcloudConfig: {
     clientId: 'e8b6f84fbcad14c301ca1355cae1dea2'

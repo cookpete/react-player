@@ -72,15 +72,15 @@ Due to various restrictions, `ReactPlayer` is not guaranteed to function properl
 
 ### Props
 
-Prop | Description
----- | -----------
+Prop | Description | Default
+---- | ----------- | -------
 `url` | The url of a video or song to play
-`playing` | Set to `true` or `false` to pause or play the media
-`volume` | Sets the volume of the appropriate player
-`width` | Sets the width of the player
-`height` | Sets the height of the player
+`playing` | Set to `true` or `false` to pause or play the media | `false`
+`volume` | Sets the volume of the appropriate player | `0.8`
+`width` | Sets the width of the player | `640`
+`height` | Sets the height of the player | `360`
 `className` | Pass in a `className` to set on the top level element
-`progressFrequency` | The time between `onProgress` callbacks, in milliseconds
+`progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
 
 #### Callback props
 
