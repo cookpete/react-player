@@ -35,7 +35,7 @@ describe('ReactPlayer', () => {
     const onPlay = () => {
       setTimeout(() => {
         render(<ReactPlayer url={url} playing={false} onPause={done} />, div)
-      }, 500)
+      }, 2000)
     }
     testPlay(url, onPlay)
   }
