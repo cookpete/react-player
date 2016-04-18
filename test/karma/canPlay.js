@@ -1,10 +1,9 @@
-import { describe, it } from 'mocha'
-import { expect } from 'chai'
-
 import SoundCloud from '../../src/players/SoundCloud'
 import YouTube from '../../src/players/YouTube'
 import Vimeo from '../../src/players/Vimeo'
 import FilePlayer from '../../src/players/FilePlayer'
+
+const { describe, it, expect } = window
 
 describe('YouTube', () => {
   it('knows what it can play', () => {

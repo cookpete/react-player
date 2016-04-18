@@ -1,7 +1,6 @@
-import { describe, it } from 'mocha'
-import { expect } from 'chai'
-
 import { parseStartTime } from '../../src/utils'
+
+const { describe, it, expect } = window
 
 const YOUTUBE_URL = 'http://youtu.be/12345678901'
 

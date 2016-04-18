@@ -3,7 +3,7 @@ webpackConfig.devtool = 'inline-source-map'
 
 module.exports = function (config) {
   config.set({
-    browsers: process.env.CONTINUOUS_INTEGRATION ? [ 'ChromeTravis' ] : [ 'Chrome', 'Firefox' ],
+    browsers: process.env.TRAVIS ? [ 'ChromeTravis' ] : [ 'Chrome', 'Firefox' ],
     singleRun: true,
     frameworks: [ 'mocha', 'chai' ],
     files: [
