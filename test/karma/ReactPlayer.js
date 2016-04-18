@@ -73,16 +73,16 @@ describe('ReactPlayer', () => {
   })
 
   describe('Vimeo', () => {
-    it('fires onPlay a Vimeo video', (done) => testPlay(TEST_VIMEO_URL, done))
-    it('fires onPause a Vimeo video', (done) => testPause(TEST_VIMEO_URL, done))
-    it('fires onDuration for Vimeo video', (done) => testDuration(TEST_VIMEO_URL, done))
+    it('fires onPlay', (done) => testPlay(TEST_VIMEO_URL, done))
+    it('fires onPause', (done) => testPause(TEST_VIMEO_URL, done))
+    it('fires onDuration', (done) => testDuration(TEST_VIMEO_URL, done))
   })
 
   describe('FilePlayer', () => {
-    it('fires onPlay a file', (done) => testPlay(TEST_FILE_URL, done))
-    it('fires onPause a file', (done) => testPause(TEST_FILE_URL, done))
-    it('fires onDuration for file', (done) => testDuration(TEST_FILE_URL, done))
-    it('fires onError for file', (done) => testError(TEST_FILE_ERROR, done))
+    it('fires onPlay', (done) => testPlay(TEST_FILE_URL, done))
+    it('fires onPause', (done) => testPause(TEST_FILE_URL, done))
+    it('fires onDuration', (done) => testDuration(TEST_FILE_URL, done))
+    it('fires onError', (done) => testError(TEST_FILE_ERROR, done))
   })
 
   it('switches between media', function (done) {
