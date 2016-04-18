@@ -127,7 +127,14 @@ export default class YouTube extends Base {
     return this.player.getVideoLoadedFraction()
   }
   render () {
-    const style = { display: this.props.url ? 'block' : 'none' }
-    return <div id={this.playerId} style={style} />
+    const style = {
+      height: '100%',
+      display: this.props.url ? 'block' : 'none'
+    }
+    return (
+      <div style={style}>
+        <div id={this.playerId} />
+      </div>
+    )
   }
 }
