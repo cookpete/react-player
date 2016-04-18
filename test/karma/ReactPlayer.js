@@ -46,9 +46,16 @@ describe('ReactPlayer', () => {
 
   const testDuration = (url, done) => {
     const onDuration = (duration) => {
-      if (duration && duration > 0) done()
+      const error = duration && duration > 0 ? null : new Error('Invalid duration: ' + error)
+      done(error)
     }
     render(<ReactPlayer url={url} playing onDuration={onDuration} />, div)
+  }
+
+  const testDurationDelayed = (url, done) => {
+    render(<ReactPlayer url={url} playing={false} />, div, () => {
+      testDuration(url, done)
+    })
   }
 
   const testError = (url, onError) => {
@@ -60,6 +67,7 @@ describe('ReactPlayer', () => {
     it('fires onPlay', (done) => testPlay(TEST_YOUTUBE_URL, done))
     it('fires onPause', (done) => testPause(TEST_YOUTUBE_URL, done))
     it('fires onDuration', (done) => testDuration(TEST_YOUTUBE_URL, done))
+    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_YOUTUBE_URL, done))
     it('fires onError', (done) => testError(TEST_YOUTUBE_ERROR, done))
 
     it('starts at a specified time', (done) => {
@@ -75,6 +83,7 @@ describe('ReactPlayer', () => {
     it('fires onPlay', (done) => testPlay(TEST_SOUNDCLOUD_URL, done))
     it('fires onPause', (done) => testPause(TEST_SOUNDCLOUD_URL, done))
     it('fires onDuration', (done) => testDuration(TEST_SOUNDCLOUD_URL, done))
+    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_SOUNDCLOUD_URL, done))
     it('fires onError', (done) => testError(TEST_SOUNDCLOUD_ERROR, done))
   })
 
@@ -83,6 +92,7 @@ describe('ReactPlayer', () => {
     it('fires onPlay', (done) => testPlay(TEST_VIMEO_URL, done))
     it('fires onPause', (done) => testPause(TEST_VIMEO_URL, done))
     it('fires onDuration', (done) => testDuration(TEST_VIMEO_URL, done))
+    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_VIMEO_URL, done))
   })
 
   describe('FilePlayer', () => {
@@ -90,6 +100,7 @@ describe('ReactPlayer', () => {
     it('fires onPlay', (done) => testPlay(TEST_FILE_URL, done))
     it('fires onPause', (done) => testPause(TEST_FILE_URL, done))
     it('fires onDuration', (done) => testDuration(TEST_FILE_URL, done))
+    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_FILE_URL, done))
     it.skip('fires onError', (done) => testError(TEST_FILE_ERROR, done))
   })
 
