@@ -62,6 +62,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "ignore-styles": "^1.1.0",
     "imports-loader": "^0.6.4",
+    "json-loader": "^0.5.4",
     "karma": "^0.13.16",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.2.2",

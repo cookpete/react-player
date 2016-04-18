@@ -31,6 +31,9 @@ module.exports = {
       loader: 'babel',
       include: path.join(__dirname, 'src')
     }, {
+      test: /\.json$/,
+      loader: 'json'
+    }, {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap'),
       include: path.join(__dirname, 'src')

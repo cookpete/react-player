@@ -5,6 +5,7 @@ import './defaults.scss'
 import './App.scss'
 import './Range.scss'
 
+import { version } from '../../package.json'
 import ReactPlayer from '../ReactPlayer'
 import Duration from './Duration'
 
@@ -74,6 +75,7 @@ export default class App extends Component {
       vimeoConfig,
       youtubeConfig
     } = this.state
+    const SEPARATOR = ' · '
 
     return (
       <div className='app'>
@@ -219,6 +221,13 @@ export default class App extends Component {
             </tr>
           </tbody></table>
         </section>
+        <footer className='footer'>
+          Version <strong>{version}</strong>
+          {SEPARATOR}
+          <a href='https://github.com/CookPete/react-player'>GitHub</a>
+          {SEPARATOR}
+          <a href='https://www.npmjs.com/package/react-player'>npm</a>
+        </footer>
       </div>
     )
   }

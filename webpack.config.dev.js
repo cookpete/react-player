@@ -25,6 +25,9 @@ module.exports = {
         path.join(__dirname, 'test', 'karma')
       ]
     }, {
+      test: /\.json$/,
+      loader: 'json'
+    }, {
       test: /\.scss$/,
       loader: 'style!css?sourceMap!sass?sourceMap',
       include: path.join(__dirname, 'src')

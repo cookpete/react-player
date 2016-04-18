@@ -30,3 +30,7 @@ $gutter-width: 10px;
 .faded {
   color: rgba($black, .5);
 }
+
+.footer {
+  margin: $gutter-width;
+}
