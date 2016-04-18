@@ -148,7 +148,7 @@ export default class App extends Component {
               <th>SoundCloud</th>
               <td>
                 {this.renderLoadButton('https://soundcloud.com/miami-nights-1984/accelerated', 'Test A')}
-                {this.renderLoadButton('https://soundcloud.com/bonobo/flashlight', 'Test B')}
+                {this.renderLoadButton('https://soundcloud.com/tycho/tycho-awake', 'Test B')}
               </td>
             </tr>
             <tr>
