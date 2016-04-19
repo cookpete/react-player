@@ -123,24 +123,11 @@ To seek to a certain part of the media, there is a `seekTo(fraction)` instance m
 * Vimeo videos use the [Vimeo Player API]()
 * MP4/WEBM/OGG/MP3/WAV files use the [HTML media object]()
 
-### Linting
+### Contributing
 
-This project uses [standard](https://github.com/feross/standard) code style.
-
-```bash
-npm run lint
-```
-
-### Testing
-
-This project uses [mocha](https://github.com/mochajs/mocha) with [chai](https://github.com/chaijs/chai) assertions for unit testing.
-
-```bash
-npm run test
-```
+See the [contribution guidelines](https://github.com/CookPete/react-player/blob/master/CONTRIBUTING.md) before creating a pull request.
 
 ### Thanks
 
+* Anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors)
 * [gaearon](https://github.com/gaearon) for his [react-transform-boilerplate](https://github.com/gaearon/react-transform-boilerplate), which this repo is roughly based on.
-* [Simon Smith](http://simonsmith.io) for his [intro to react testing with shallow rendering](http://simonsmith.io/unit-testing-react-components-without-a-dom/)
-* [Fauntleroy](https://github.com/Fauntleroy) for his contributions
