@@ -4,7 +4,7 @@
   "description": "A react component for playing a variety of URLs, including file paths, YouTube, SoundCloud and Vimeo",
   "main": "lib/ReactPlayer.js",
   "scripts": {
-    "clean": "rimraf lib demo dist",
+    "clean": "rimraf lib demo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:browser": "NODE_ENV=production webpack --config webpack.config.browser.js",
     "build:demo": "npm run clean && npm run build:webpack && cp index.html demo",
