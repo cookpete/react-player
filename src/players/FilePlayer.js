@@ -61,6 +61,7 @@ export default class FilePlayer extends Base {
         width='100%'
         height='100%'
         preload='auto'
+        controls={this.props.mediaConfig.controls}
       />
     )
   }
