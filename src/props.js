@@ -19,6 +19,9 @@ export const propTypes = {
     iframeParams: PropTypes.object,
     preload: PropTypes.bool
   }),
+  mediaConfig: PropTypes.shape({
+    controls: PropTypes.bool
+  }),
   onPlay: PropTypes.func,
   onPause: PropTypes.func,
   onBuffer: PropTypes.func,
@@ -34,6 +37,9 @@ export const defaultProps = {
   width: 640,
   height: 360,
   progressFrequency: 1000,
+  mediaConfig: {
+    controls: true
+  },
   soundcloudConfig: {
     clientId: 'e8b6f84fbcad14c301ca1355cae1dea2'
   },

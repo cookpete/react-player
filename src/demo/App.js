@@ -73,7 +73,8 @@ export default class App extends Component {
       played, loaded, duration,
       soundcloudConfig,
       vimeoConfig,
-      youtubeConfig
+      youtubeConfig,
+      mediaConfig
     } = this.state
     const SEPARATOR = ' · '
 
@@ -92,6 +93,7 @@ export default class App extends Component {
             soundcloudConfig={soundcloudConfig}
             vimeoConfig={vimeoConfig}
             youtubeConfig={youtubeConfig}
+            mediaConfig={mediaConfig}
             onPlay={() => this.setState({ playing: true })}
             onPause={() => this.setState({ playing: false })}
             onBuffer={() => console.log('onBuffer')}
