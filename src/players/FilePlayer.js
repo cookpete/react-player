@@ -3,7 +3,12 @@ import React from 'react'
 import Base from './Base'
 
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm)($|\?)/
-const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/
+// const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/
+
+// since the souncldou player did the url matching job
+// only a valid sc stream can be passed for now so
+// this should do it
+const AUDIO_EXTENSIONS = /(\.mp3|\.wav|soundcloud.*)($|\?)/
 
 export default class FilePlayer extends Base {
   static displayName = 'FilePlayer';
@@ -12,8 +17,6 @@ export default class FilePlayer extends Base {
   }
   componentDidMount () {
     this.player = this.refs.player
-    console.log(this.refs.player)
-    console.log(this.player)
     this.player.oncanplay = this.onReady
     this.player.onplay = this.onPlay
     this.player.onpause = () => this.props.onPause()
@@ -43,13 +46,10 @@ export default class FilePlayer extends Base {
   }
   getDuration () {
     if (!this.isReady) return null
-      console.log('getDuration', this.player.duration)
     return this.player.duration
   }
   getFractionPlayed () {
     if (!this.isReady) return null
-    console.log('this.getDuration() from getFractionPlayed', this.getDuration())
-    console.log('getFractionPlayed', this.player.currentTime / this.getDuration())
     return this.player.currentTime / this.getDuration()
   }
   getFractionLoaded () {
@@ -58,9 +58,13 @@ export default class FilePlayer extends Base {
   }
   render () {
     const Media = AUDIO_EXTENSIONS.test(this.props.url) ? 'audio' : 'video'
+    console.log(Media)
+    // get audio as default
+    // const Media = !(VIDEO_EXTENSIONS.test(this.props.url)) ? 'audio' : 'video';
     const style = { display: this.props.url ? 'block' : 'none' }
     return (
       <Media
+        className='filePlayer'
         ref='player'
         style={style}
         width='100%'
