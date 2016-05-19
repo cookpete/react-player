@@ -12,6 +12,8 @@ export default class FilePlayer extends Base {
   }
   componentDidMount () {
     this.player = this.refs.player
+    console.log(this.refs.player)
+    console.log(this.player)
     this.player.oncanplay = this.onReady
     this.player.onplay = this.onPlay
     this.player.onpause = () => this.props.onPause()
@@ -41,10 +43,13 @@ export default class FilePlayer extends Base {
   }
   getDuration () {
     if (!this.isReady) return null
+      console.log('getDuration', this.player.duration)
     return this.player.duration
   }
   getFractionPlayed () {
     if (!this.isReady) return null
+    console.log('this.getDuration() from getFractionPlayed', this.getDuration())
+    console.log('getFractionPlayed', this.player.currentTime / this.getDuration())
     return this.player.currentTime / this.getDuration()
   }
   getFractionLoaded () {
