@@ -17,39 +17,39 @@ export default class App extends Component {
     played: 0,
     loaded: 0,
     duration: 0
-  };
+  }
   load = (url) => {
     this.setState({
       url,
       played: 0,
       loaded: 0
     })
-  };
+  }
   playPause = () => {
     this.setState({ playing: !this.state.playing })
-  };
+  }
   stop = () => {
     this.setState({ url: null, playing: false })
-  };
+  }
   setVolume = (e) => {
     this.setState({ volume: parseFloat(e.target.value) })
-  };
+  }
   onSeekMouseDown = (e) => {
     this.setState({ seeking: true })
-  };
+  }
   onSeekChange = (e) => {
     this.setState({ played: parseFloat(e.target.value) })
-  };
+  }
   onSeekMouseUp = (e) => {
     this.setState({ seeking: false })
     this.refs.player.seekTo(parseFloat(e.target.value))
-  };
+  }
   onProgress = (state) => {
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
     }
-  };
+  }
   onConfigSubmit = () => {
     let config
     try {
@@ -59,14 +59,14 @@ export default class App extends Component {
       console.error('Error setting config:', error)
     }
     this.setState(config)
-  };
+  }
   renderLoadButton = (url, label) => {
     return (
       <button onClick={() => this.load(url)}>
         {label}
       </button>
     )
-  };
+  }
   render () {
     const {
       url, playing, volume,

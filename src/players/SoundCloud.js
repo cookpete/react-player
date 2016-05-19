@@ -11,13 +11,13 @@ const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]
 const songData = {} // Cache song data requests
 
 export default class SoundCloud extends Base {
-  static displayName = 'SoundCloud';
+  static displayName = 'SoundCloud'
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
   state = {
     image: null
-  };
+  }
   shouldComponentUpdate (nextProps, nextState) {
     return (
       super.shouldComponentUpdate(nextProps, nextState) ||
@@ -83,7 +83,7 @@ export default class SoundCloud extends Base {
     if (state === 'paused') this.props.onPause()
     if (state === 'loading') this.props.onBuffer()
     if (state === 'ended') this.props.onEnded()
-  };
+  }
   play () {
     if (!this.isReady) return
     this.player.play()

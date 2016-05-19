@@ -18,7 +18,7 @@ const DEFAULT_IFRAME_PARAMS = {
 }
 
 export default class Vimeo extends Base {
-  static displayName = 'Vimeo';
+  static displayName = 'Vimeo'
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
@@ -86,12 +86,12 @@ export default class Vimeo extends Base {
       this.duration = data.value // Store for use later
       this.onReady()
     }
-  };
+  }
   postMessage = (method, value) => {
     if (!this.origin) return
     const data = JSON.stringify({ method, value })
     return this.iframe.contentWindow && this.iframe.contentWindow.postMessage(data, this.origin)
-  };
+  }
   render () {
     const { fullscreen } = this.getIframeParams()
     const style = {

@@ -6,7 +6,7 @@ const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm)($|\?)/
 const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/
 
 export default class FilePlayer extends Base {
-  static displayName = 'FilePlayer';
+  static displayName = 'FilePlayer'
   static canPlay (url) {
     return VIDEO_EXTENSIONS.test(url) || AUDIO_EXTENSIONS.test(url)
   }
