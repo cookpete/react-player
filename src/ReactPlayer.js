@@ -10,7 +10,7 @@ export default class ReactPlayer extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay (url) {
-    return players.some((player) => player.canPlay(url))
+    return players.some(player => player.canPlay(url))
   }
   componentDidMount () {
     this.progress()
@@ -25,7 +25,7 @@ export default class ReactPlayer extends Component {
       this.props.volume !== nextProps.volume
     )
   }
-  seekTo = (fraction) => {
+  seekTo = fraction => {
     const player = this.refs.player
     if (player) {
       player.seekTo(fraction)
@@ -48,7 +48,7 @@ export default class ReactPlayer extends Component {
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }
-  renderPlayer = (Player) => {
+  renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
     const { youtubeConfig, soundcloudConfig, vimeoConfig, ...activeProps } = this.props
     const props = active ? { ...activeProps, ref: 'player' } : {}

@@ -29,7 +29,7 @@ export default class SoundCloud extends Base {
       return Promise.resolve(window[SDK_GLOBAL])
     }
     return new Promise((resolve, reject) => {
-      loadScript(SDK_URL, (err) => {
+      loadScript(SDK_URL, err => {
         if (err) {
           reject(err)
         } else {
@@ -44,7 +44,7 @@ export default class SoundCloud extends Base {
       return Promise.resolve(songData[url])
     }
     return fetch(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
-      .then((response) => {
+      .then(response => {
         if (response.status >= 200 && response.status < 300) {
           songData[url] = response.json()
           return songData[url]
@@ -57,8 +57,8 @@ export default class SoundCloud extends Base {
   }
   load (url) {
     this.stop()
-    this.getSDK().then((SC) => {
-      this.getSongData(url).then((data) => {
+    this.getSDK().then(SC => {
+      this.getSongData(url).then(data => {
         if (url !== this.props.url) {
           return // Abort if url changes during async requests
         }
@@ -70,7 +70,7 @@ export default class SoundCloud extends Base {
         if (image) {
           this.setState({ image: image.replace('-large', '-t500x500') })
         }
-        SC.stream(data.uri, (player) => {
+        SC.stream(data.uri, player => {
           this.player = player
           player._player.on('stateChange', this.onStateChange)
           this.onReady()
@@ -78,7 +78,7 @@ export default class SoundCloud extends Base {
       }, this.props.onError)
     }, this.props.onError)
   }
-  onStateChange = (state) => {
+  onStateChange = state => {
     if (state === 'playing') this.onPlay()
     if (state === 'paused') this.props.onPause()
     if (state === 'loading') this.props.onBuffer()

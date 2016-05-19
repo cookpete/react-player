@@ -18,7 +18,7 @@ export default class App extends Component {
     loaded: 0,
     duration: 0
   }
-  load = (url) => {
+  load = url => {
     this.setState({
       url,
       played: 0,
@@ -31,20 +31,20 @@ export default class App extends Component {
   stop = () => {
     this.setState({ url: null, playing: false })
   }
-  setVolume = (e) => {
+  setVolume = e => {
     this.setState({ volume: parseFloat(e.target.value) })
   }
-  onSeekMouseDown = (e) => {
+  onSeekMouseDown = e => {
     this.setState({ seeking: true })
   }
-  onSeekChange = (e) => {
+  onSeekChange = e => {
     this.setState({ played: parseFloat(e.target.value) })
   }
-  onSeekMouseUp = (e) => {
+  onSeekMouseUp = e => {
     this.setState({ seeking: false })
     this.refs.player.seekTo(parseFloat(e.target.value))
   }
-  onProgress = (state) => {
+  onProgress = state => {
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
@@ -96,9 +96,9 @@ export default class App extends Component {
             onPause={() => this.setState({ playing: false })}
             onBuffer={() => console.log('onBuffer')}
             onEnded={() => this.setState({ playing: false })}
-            onError={(e) => console.log('onError', e)}
+            onError={e => console.log('onError', e)}
             onProgress={this.onProgress}
-            onDuration={(duration) => this.setState({ duration })}
+            onDuration={duration => this.setState({ duration })}
           />
 
           <table><tbody>
