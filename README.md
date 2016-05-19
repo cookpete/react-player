@@ -76,6 +76,7 @@ Prop | Description | Default
 ---- | ----------- | -------
 `url` | The url of a video or song to play
 `playing` | Set to `true` or `false` to pause or play the media | `false`
+`loop` | Set to `true` or `false` to loop the media | `false`
 `volume` | Sets the volume of the appropriate player | `0.8`
 `width` | Sets the width of the player | `640`
 `height` | Sets the height of the player | `360`

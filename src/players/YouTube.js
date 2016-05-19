@@ -90,7 +90,7 @@ export default class YouTube extends Base {
     if (data === PLAYING) this.onPlay()
     if (data === PAUSED) this.props.onPause()
     if (data === BUFFERING) this.props.onBuffer()
-    if (data === ENDED) this.props.onEnded()
+    if (data === ENDED) this.onEnded()
     if (data === CUED) this.onReady()
   }
   play () {

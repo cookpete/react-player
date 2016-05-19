@@ -81,7 +81,7 @@ export default class SoundCloud extends Base {
     if (state === 'playing') this.onPlay()
     if (state === 'paused') this.props.onPause()
     if (state === 'loading') this.props.onBuffer()
-    if (state === 'ended') this.props.onEnded()
+    if (state === 'ended') this.onEnded()
   }
   play () {
     if (!this.isReady) return

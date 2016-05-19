@@ -69,4 +69,10 @@ export default class Base extends Component {
       }
     }
   }
+  onEnded = () => {
+    if (this.props.loop) {
+      this.seekTo(0)
+    }
+    this.props.onEnded()
+  }
 }

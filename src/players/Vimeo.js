@@ -81,7 +81,7 @@ export default class Vimeo extends Base {
     if (data.event === 'loadProgress') this.fractionLoaded = data.data.percent
     if (data.event === 'play') this.onPlay()
     if (data.event === 'pause') this.props.onPause()
-    if (data.event === 'finish') this.props.onEnded()
+    if (data.event === 'finish') this.onEnded()
     if (data.method === 'getDuration') {
       this.duration = data.value // Store for use later
       this.onReady()
