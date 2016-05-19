@@ -90,6 +90,7 @@ Prop | Description
 ---- | -----------
 `onProgress` | Callback containing `played` and `loaded` progress as a fraction<br/>eg `{ played: 0.12, loaded: 0.34 }`
 `onDuration` | Callback containing duration of the media, in seconds
+`onStart` | Called when media starts playing
 `onPlay` | Called when media starts or resumes playing after pausing or buffering
 `onPause` | Called when media is paused
 `onBuffer` | Called when media starts buffering

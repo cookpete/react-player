@@ -19,6 +19,7 @@ export const propTypes = {
     iframeParams: PropTypes.object,
     preload: PropTypes.bool
   }),
+  onStart: PropTypes.func,
   onPlay: PropTypes.func,
   onPause: PropTypes.func,
   onBuffer: PropTypes.func,
@@ -45,6 +46,7 @@ export const defaultProps = {
     iframeParams: {},
     preload: false
   },
+  onStart: function () {},
   onPlay: function () {},
   onPause: function () {},
   onBuffer: function () {},

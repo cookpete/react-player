@@ -27,8 +27,12 @@ describe('ReactPlayer', () => {
     document.body.removeChild(div)
   })
 
-  const testPlay = (url, onPlay) => {
-    render(<ReactPlayer url={url} playing onPlay={onPlay} />, div)
+  const testStart = (url, done) => {
+    render(<ReactPlayer url={url} playing onStart={done} />, div)
+  }
+
+  const testPlay = (url, done) => {
+    render(<ReactPlayer url={url} playing onPlay={done} />, div)
   }
 
   const testPause = (url, done) => {
@@ -52,6 +56,7 @@ describe('ReactPlayer', () => {
   }
 
   describe('YouTube', () => {
+    it('fires onStart', (done) => testStart(TEST_YOUTUBE_URL, done))
     it('fires onPlay', (done) => testPlay(TEST_YOUTUBE_URL, done))
     it('fires onPause', (done) => testPause(TEST_YOUTUBE_URL, done))
     it('fires onDuration', (done) => testDuration(TEST_YOUTUBE_URL, done))
@@ -66,6 +71,7 @@ describe('ReactPlayer', () => {
   })
 
   describe('SoundCloud', () => {
+    it('fires onStart', (done) => testStart(TEST_SOUNDCLOUD_URL, done))
     it('fires onPlay', (done) => testPlay(TEST_SOUNDCLOUD_URL, done))
     it('fires onPause', (done) => testPause(TEST_SOUNDCLOUD_URL, done))
     it('fires onDuration', (done) => testDuration(TEST_SOUNDCLOUD_URL, done))
@@ -73,12 +79,14 @@ describe('ReactPlayer', () => {
   })
 
   describe('Vimeo', () => {
+    it('fires onStart', (done) => testStart(TEST_VIMEO_URL, done))
     it('fires onPlay', (done) => testPlay(TEST_VIMEO_URL, done))
     it('fires onPause', (done) => testPause(TEST_VIMEO_URL, done))
     it('fires onDuration', (done) => testDuration(TEST_VIMEO_URL, done))
   })
 
   describe('FilePlayer', () => {
+    it('fires onStart', (done) => testStart(TEST_FILE_URL, done))
     it('fires onPlay', (done) => testPlay(TEST_FILE_URL, done))
     it('fires onPause', (done) => testPause(TEST_FILE_URL, done))
     it('fires onDuration', (done) => testDuration(TEST_FILE_URL, done))

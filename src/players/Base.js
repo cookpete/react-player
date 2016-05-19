@@ -7,6 +7,8 @@ const SEEK_ON_READY_EXPIRY = 5000
 export default class Base extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
+  isReady = false
+  startOnPlay = true
   componentDidMount () {
     if (this.props.url) {
       this.load(this.props.url)
@@ -18,8 +20,9 @@ export default class Base extends Component {
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     if (this.props.url !== nextProps.url && nextProps.url) {
-      this.load(nextProps.url)
       this.seekOnReady = null
+      this.startOnPlay = true
+      this.load(nextProps.url)
     } else if (this.props.url && !nextProps.url) {
       this.stop()
       clearTimeout(this.updateTimeout)
@@ -34,7 +37,6 @@ export default class Base extends Component {
   shouldComponentUpdate (nextProps) {
     return this.props.url !== nextProps.url
   }
-  isReady = false
   seekTo (fraction) {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && fraction !== 0) {
@@ -43,6 +45,10 @@ export default class Base extends Component {
     }
   }
   onPlay = () => {
+    if (this.startOnPlay) {
+      this.props.onStart()
+      this.startOnPlay = false
+    }
     this.props.onPlay()
     this.setVolume(this.props.volume)
     if (this.seekOnReady) {

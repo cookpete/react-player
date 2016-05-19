@@ -92,6 +92,7 @@ export default class App extends Component {
             soundcloudConfig={soundcloudConfig}
             vimeoConfig={vimeoConfig}
             youtubeConfig={youtubeConfig}
+            onStart={() => console.log('onStart')}
             onPlay={() => this.setState({ playing: true })}
             onPause={() => this.setState({ playing: false })}
             onBuffer={() => console.log('onBuffer')}
