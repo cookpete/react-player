@@ -85,15 +85,12 @@
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
+    "fetch-jsonp": "^1.0.0",
     "load-script": "^1.0.0",
-    "query-string": "^4.1.0",
-    "whatwg-fetch": "^1.0.0"
+    "query-string": "^4.1.0"
   },
   "standard": {
     "parser": "babel-eslint",
-    "global": [
-      "fetch"
-    ],
     "ignore": [
       "/dist/*"
     ]

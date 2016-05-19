@@ -1,5 +1,4 @@
 import 'es6-promise'
-import 'whatwg-fetch'
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps } from './props'

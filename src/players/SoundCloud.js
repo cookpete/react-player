@@ -1,5 +1,6 @@
 import React from 'react'
 import loadScript from 'load-script'
+import fetchJSONP from 'fetch-jsonp'
 
 import Base from './Base'
 
@@ -43,15 +44,13 @@ export default class SoundCloud extends Base {
     if (songData[url]) {
       return Promise.resolve(songData[url])
     }
-    return fetch(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
+    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
       .then(response => {
-        if (response.status >= 200 && response.status < 300) {
+        if (response.ok) {
           songData[url] = response.json()
           return songData[url]
         } else {
-          const error = new Error(response.statusText)
-          error.response = response
-          throw error
+          this.props.onError(new Error('SoundCloud track could not be resolved'))
         }
       })
   }
