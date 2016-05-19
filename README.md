@@ -104,9 +104,10 @@ These props allow you to override the parameters for the various players
 
 Prop | Description
 ---- | -----------
-`soundcloudConfig` | Configuration object for the SoundCloud player. Set `clientId`, to your own SoundCloud app [client ID](https://soundcloud.com/you/apps)
-`vimeoConfig` | Configuration object for the Vimeo player. Set `iframeParams`, to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters). Set `preload` for [preloading](#preloading)
-`youtubeConfig` | Configuration object for the YouTube player. Set `playerVars`, to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5). Set `preload` for [preloading](#preloading)
+`soundcloudConfig` | Configuration object for the SoundCloud player. Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps)
+`vimeoConfig` | Configuration object for the Vimeo player. Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters). Set `preload` for [preloading](#preloading)
+`youtubeConfig` | Configuration object for the YouTube player. Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5). Set `preload` for [preloading](#preloading)
+`fileConfig` | Configuration object for the file player. Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)
 
 ##### Preloading
 

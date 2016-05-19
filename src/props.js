@@ -20,6 +20,9 @@ export const propTypes = {
     iframeParams: PropTypes.object,
     preload: PropTypes.bool
   }),
+  fileConfig: PropTypes.shape({
+    attributes: PropTypes.object
+  }),
   onStart: PropTypes.func,
   onPlay: PropTypes.func,
   onPause: PropTypes.func,
@@ -47,6 +50,9 @@ export const defaultProps = {
   vimeoConfig: {
     iframeParams: {},
     preload: false
+  },
+  fileConfig: {
+    attributes: {}
   },
   onStart: function () {},
   onPlay: function () {},
