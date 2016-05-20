@@ -5,8 +5,6 @@ import Base from './Base'
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm)($|\?)/
 const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/
 
-// const AUDIO_EXTENSIONS = /(\.mp3|\.wav|soundcloud.*)($|\?)/
-
 export default class FilePlayer extends Base {
   static displayName = 'FilePlayer'
   static canPlay (url) {
