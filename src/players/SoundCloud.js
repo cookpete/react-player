@@ -3,7 +3,7 @@
 /* eslint semi: [0] */
 /* eslint max-len: 0 */
 
-import React from 'react'
+// import React from 'react'
 import fetchJSONP from 'fetch-jsonp'
 
 import FilePlayer from './FilePlayer'
@@ -17,12 +17,12 @@ const songData = {} // Cache song data requests
 export default class SoundCloud extends FilePlayer {
 
   static displayName = 'SoundCloud';
-  static canPlay(url) {
+  static canPlay (url) {
     return MATCH_URL.test(url)
   }
 
-  getSongData(url) {
-     if (songData[url]) {
+  getSongData (url) {
+    if (songData[url]) {
       return Promise.resolve(songData[url])
     }
     return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
@@ -36,7 +36,7 @@ export default class SoundCloud extends FilePlayer {
       })
   }
 
-  load(url) {
+  load (url) {
     const { clientId } = this.props.soundcloudConfig
     this.stop()
     this.getSongData(url)
