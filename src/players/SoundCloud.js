@@ -54,8 +54,9 @@ export default class SoundCloud extends FilePlayer {
     }, this.props.onError)
   }
   render () {
+    const { url, controls } = this.props
     const style = {
-      display: this.props.url ? 'block' : 'none',
+      display: url ? 'block' : 'none',
       height: '100%',
       backgroundImage: this.state.image ? 'url(' + this.state.image + ')' : null,
       backgroundSize: 'cover',
@@ -68,6 +69,7 @@ export default class SoundCloud extends FilePlayer {
           type='audio/mpeg'
           preload='auto'
           style={{ width: '100%', height: '100%' }}
+          controls={controls}
         />
       </div>
     )

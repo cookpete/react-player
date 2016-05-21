@@ -77,6 +77,7 @@ Prop | Description | Default
 `url` | The url of a video or song to play
 `playing` | Set to `true` or `false` to pause or play the media | `false`
 `loop` | Set to `true` or `false` to loop the media | `false`
+`controls` | Set to `true` or `false` to display native player controls<br />*Note: Vimeo player controls are not configurable and will always display* | `false`
 `volume` | Sets the volume of the appropriate player | `0.8`
 `width` | Sets the width of the player | `640`
 `height` | Sets the height of the player | `360`
@@ -85,11 +86,11 @@ Prop | Description | Default
 
 #### Callback props
 
-Callback props take a function that gets fired on various player events
+Callback props take a function that gets fired on various player events:
 
 Prop | Description
 ---- | -----------
-`onProgress` | Callback containing `played` and `loaded` progress as a fraction<br/>eg `{ played: 0.12, loaded: 0.34 }`
+`onProgress` | Callback containing `played` and `loaded` progress as a fraction<br />eg `{ played: 0.12, loaded: 0.34 }`
 `onDuration` | Callback containing duration of the media, in seconds
 `onStart` | Called when media starts playing
 `onPlay` | Called when media starts or resumes playing after pausing or buffering
@@ -100,14 +101,14 @@ Prop | Description
 
 #### Config props
 
-These props allow you to override the parameters for the various players
+These props allow you to override the parameters for the various players:
 
 Prop | Description
 ---- | -----------
-`soundcloudConfig` | Configuration object for the SoundCloud player. Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps)
-`vimeoConfig` | Configuration object for the Vimeo player. Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters). Set `preload` for [preloading](#preloading)
-`youtubeConfig` | Configuration object for the YouTube player. Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5). Set `preload` for [preloading](#preloading)
-`fileConfig` | Configuration object for the file player. Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)
+`soundcloudConfig` | Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).
+`vimeoConfig` | Configuration object for the Vimeo player.<br />Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />Set `preload` for [preloading](#preloading).
+`youtubeConfig` | Configuration object for the YouTube player.<br />Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />Set `preload` for [preloading](#preloading).
+`fileConfig` | Configuration object for the file player.<br />Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).
 
 ##### Preloading
 

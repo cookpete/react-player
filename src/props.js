@@ -4,6 +4,7 @@ export const propTypes = {
   url: PropTypes.string,
   playing: PropTypes.bool,
   loop: PropTypes.bool,
+  controls: PropTypes.bool,
   volume: PropTypes.number,
   width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   height: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -36,6 +37,7 @@ export const propTypes = {
 export const defaultProps = {
   playing: false,
   loop: false,
+  controls: false,
   volume: 0.8,
   width: 640,
   height: 360,

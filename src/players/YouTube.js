@@ -12,7 +12,6 @@ const PLAYER_ID = 'youtube-player'
 const BLANK_VIDEO_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
 const DEFAULT_PLAYER_VARS = {
   autoplay: 0,
-  controls: 0,
   playsinline: 1,
   showinfo: 0,
   rel: 0,
@@ -70,6 +69,7 @@ export default class YouTube extends Base {
         videoId: id,
         playerVars: {
           ...DEFAULT_PLAYER_VARS,
+          controls: this.props.controls ? 1 : 0,
           ...this.props.youtubeConfig.playerVars,
           start: parseStartTime(url),
           origin: window.location.origin
