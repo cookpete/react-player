@@ -35,7 +35,7 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  playing: false,
+  playing: true,
   loop: false,
   controls: false,
   volume: 0.8,
