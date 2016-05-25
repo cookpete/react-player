@@ -122,10 +122,10 @@ To seek to a certain part of the media, there is a `seekTo(fraction)` instance m
 
 ### Supported media
 
-* YouTube videos use the [YouTube iFrame Player API]()
-* Soundcloud tracks use the [Soundcloud JS SDK 2.0]()
-* Vimeo videos use the [Vimeo Player API]()
-* MP4/WEBM/OGG/MP3/WAV files use the [HTML media object]()
+* YouTube videos use the [YouTube iFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
+* Soundcloud tracks use the [Soundcloud JS SDK 2.0](https://developers.soundcloud.com/docs/api/javascript-sdk-2)
+* Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/js-api)
+* MP4/WEBM/OGG/MP3/WAV files use the [HTML media object](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement)
 
 ### Contributing
 
