@@ -123,9 +123,9 @@ To seek to a certain part of the media, there is a `seekTo(fraction)` instance m
 ### Supported media
 
 * YouTube videos use the [YouTube iFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
-* Soundcloud tracks use the [Soundcloud JS SDK 2.0](https://developers.soundcloud.com/docs/api/javascript-sdk-2)
+* Soundcloud tracks are [resolved](https://developers.soundcloud.com/docs/api/reference#resolve) and played in an [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) element using the track’s `stream_url`
 * Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/js-api)
-* MP4/WEBM/OGG/MP3/WAV files use the [HTML media object](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement)
+* [Supported file types](https://github.com/CookPete/react-player/blob/master/src/players/FilePlayer.js#L5-L6) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
 
 ### Contributing
 
