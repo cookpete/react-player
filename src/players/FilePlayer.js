@@ -52,7 +52,7 @@ export default class FilePlayer extends Base {
     return this.player.buffered.end(0) / this.getDuration()
   }
   render () {
-    const { controls, fileConfig } = this.props
+    const { controls, config } = this.props
     const Media = AUDIO_EXTENSIONS.test(this.props.url) ? 'audio' : 'video'
     const style = {
       width: '100%',
@@ -65,7 +65,7 @@ export default class FilePlayer extends Base {
         style={style}
         preload='auto'
         controls={controls}
-        {...fileConfig.attributes}
+        {...config.file.attributes}
       />
     )
   }
