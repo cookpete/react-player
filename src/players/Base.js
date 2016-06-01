@@ -2,7 +2,7 @@ import { Component } from 'react'
 
 import { propTypes, defaultProps } from '../props'
 
-const SEEK_ON_READY_EXPIRY = 5000
+const SEEK_ON_PLAY_EXPIRY = 5000
 
 export default class Base extends Component {
   static propTypes = propTypes
@@ -10,6 +10,7 @@ export default class Base extends Component {
   isReady = false
   startOnPlay = true
   durationOnPlay = false
+  seekOnPlay = null
   componentDidMount () {
     if (this.props.url) {
       this.load(this.props.url)
@@ -21,7 +22,7 @@ export default class Base extends Component {
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     if (this.props.url !== nextProps.url && nextProps.url) {
-      this.seekOnReady = null
+      this.seekOnPlay = null
       this.startOnPlay = true
       this.load(nextProps.url)
     } else if (this.props.url && !nextProps.url) {
@@ -41,8 +42,8 @@ export default class Base extends Component {
   seekTo (fraction) {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && fraction !== 0) {
-      this.seekOnReady = fraction
-      setTimeout(() => { this.seekOnReady = null }, SEEK_ON_READY_EXPIRY)
+      this.seekOnPlay = fraction
+      setTimeout(() => { this.seekOnPlay = null }, SEEK_ON_PLAY_EXPIRY)
     }
   }
   onPlay = () => {
@@ -52,9 +53,9 @@ export default class Base extends Component {
     }
     this.props.onPlay()
     this.setVolume(this.props.volume)
-    if (this.seekOnReady) {
-      this.seekTo(this.seekOnReady)
-      this.seekOnReady = null
+    if (this.seekOnPlay) {
+      this.seekTo(this.seekOnPlay)
+      this.seekOnPlay = null
     }
     if (this.durationOnPlay) {
       this.props.onDuration(this.getDuration())
