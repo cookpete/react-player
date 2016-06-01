@@ -58,7 +58,7 @@ export default class App extends Component {
       config = {}
       console.error('Error setting config:', error)
     }
-    this.setState(config)
+    this.setState({ config })
   }
   renderLoadButton = (url, label) => {
     return (
@@ -71,10 +71,7 @@ export default class App extends Component {
     const {
       url, playing, volume,
       played, loaded, duration,
-      soundcloudConfig,
-      vimeoConfig,
-      youtubeConfig,
-      fileConfig
+      config
     } = this.state
     const SEPARATOR = ' · '
 
@@ -90,10 +87,7 @@ export default class App extends Component {
             url={url}
             playing={playing}
             volume={volume}
-            soundcloudConfig={soundcloudConfig}
-            vimeoConfig={vimeoConfig}
-            youtubeConfig={youtubeConfig}
-            fileConfig={fileConfig}
+            config={config}
             onStart={() => console.log('onStart')}
             onPlay={() => this.setState({ playing: true })}
             onPause={() => this.setState({ playing: false })}

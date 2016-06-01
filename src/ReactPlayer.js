@@ -1,8 +1,9 @@
 import 'es6-promise'
 import React, { Component } from 'react'
 
-import { propTypes, defaultProps } from './props'
+import { propTypes, defaultProps, defaultConfig } from './props'
 import players from './players'
+import { mergeDeep } from './utils'
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
@@ -49,14 +50,12 @@ export default class ReactPlayer extends Component {
   }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
-    const { youtubeConfig, soundcloudConfig, vimeoConfig, ...activeProps } = this.props
-    const props = active ? { ...activeProps, ref: 'player' } : {}
+    const { config, ...activeProps } = this.props
+    const props = active ? { ref: 'player', ...activeProps } : {}
     return (
       <Player
         key={Player.displayName}
-        youtubeConfig={youtubeConfig}
-        soundcloudConfig={soundcloudConfig}
-        vimeoConfig={vimeoConfig}
+        config={mergeDeep(defaultConfig, config)}
         {...props}
       />
     )

@@ -10,13 +10,6 @@ const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
 const PLAYER_ID = 'youtube-player'
 const BLANK_VIDEO_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
-const DEFAULT_PLAYER_VARS = {
-  autoplay: 0,
-  playsinline: 1,
-  showinfo: 0,
-  rel: 0,
-  iv_load_policy: 3
-}
 
 let playerIdCount = 0
 
@@ -27,7 +20,7 @@ export default class YouTube extends Base {
   }
   playerId = PLAYER_ID + '-' + playerIdCount++
   componentDidMount () {
-    if (!this.props.url && this.props.youtubeConfig.preload) {
+    if (!this.props.url && this.props.config.youtube.preload) {
       this.preloading = true
       this.load(BLANK_VIDEO_URL)
     }
@@ -68,9 +61,8 @@ export default class YouTube extends Base {
         height: '100%',
         videoId: id,
         playerVars: {
-          ...DEFAULT_PLAYER_VARS,
           controls: this.props.controls ? 1 : 0,
-          ...this.props.youtubeConfig.playerVars,
+          ...this.props.config.youtube.params,
           start: parseStartTime(url),
           origin: window.location.origin
         },

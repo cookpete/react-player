@@ -26,7 +26,7 @@ export default class SoundCloud extends FilePlayer {
     if (songData[url]) {
       return Promise.resolve(songData[url])
     }
-    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
+    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.config.soundcloud.clientId)
       .then(response => {
         if (response.ok) {
           songData[url] = response.json()
@@ -50,11 +50,11 @@ export default class SoundCloud extends FilePlayer {
       if (image) {
         this.setState({ image: image.replace('-large', '-t500x500') })
       }
-      this.player.src = data.stream_url + '?client_id=' + this.props.soundcloudConfig.clientId
+      this.player.src = data.stream_url + '?client_id=' + this.props.config.soundcloud.clientId
     }, this.props.onError)
   }
   render () {
-    const { url, controls } = this.props
+    const { url, controls, config } = this.props
     const style = {
       display: url ? 'block' : 'none',
       height: '100%',
@@ -70,6 +70,7 @@ export default class SoundCloud extends FilePlayer {
           preload='auto'
           style={{ width: '100%', height: '100%' }}
           controls={controls}
+          {...config.soundcloud.attributes}
         />
       </div>
     )

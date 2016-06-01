@@ -80,6 +80,7 @@ Prop | Description | Default
 `height` | Sets the height of the player | `360`
 `className` | Pass in a `className` to set on the top level element
 `progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
+`config` | An object for individual player settings | See [Config prop](#config-prop)
 
 #### Callback props
 
@@ -96,20 +97,47 @@ Prop | Description
 `onEnded` | Called when media finishes playing
 `onError` | Called when an error occurs whilst attempting to play media
 
-#### Config props
+#### Config prop
 
-These props allow you to override the parameters for the various players:
+Use the `config` prop for individual player settings:
 
-Prop | Description
----- | -----------
-`soundcloudConfig` | Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).
-`vimeoConfig` | Configuration object for the Vimeo player.<br />Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />Set `preload` for [preloading](#preloading).
-`youtubeConfig` | Configuration object for the YouTube player.<br />Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />Set `preload` for [preloading](#preloading).
-`fileConfig` | Configuration object for the file player.<br />Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).
+```js
+const config = {
+  youtube: {
+    preload: false, // See preloading below
+    params: {
+      // YouTube player parameters
+      // https://developers.google.com/youtube/player_parameters?playerVersion=HTML5
+    }
+  },
+  soundcloud: {
+    clientId: YOUR_CLIENT_ID,
+    attributes: {
+      // Attributes for the <audio> element used to play tracks
+      // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio#Attributes
+    }
+  },
+  vimeo: {
+    preload: false, // See preloading below
+    params: {
+      // Vimeo embed parameters
+      // https://developer.vimeo.com/player/embedding#universal-parameters
+    }
+  },
+  file: {
+    attributes: {
+      // Attributes for the <audio> or <video> element used to play media
+      // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video#Attributes
+    }
+  }
+}
+```
+
+All settings are optional and merged with the [default config]() before being passed to the individual players.
 
 ##### Preloading
 
-Both `youtubeConfig` and `vimeoConfig` props can take a `preload` value. Setting this to `true` will play a short, silent video in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
+If `preload` is `true` for either `youtube` or `vimeo`, a short, silent video will play in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos will not play when loaded in a background browser tab.
 
 ### Methods
 
