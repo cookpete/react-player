@@ -9,6 +9,7 @@ export default class Base extends Component {
   static defaultProps = defaultProps
   isReady = false
   startOnPlay = true
+  durationOnPlay = false
   componentDidMount () {
     if (this.props.url) {
       this.load(this.props.url)
@@ -55,7 +56,10 @@ export default class Base extends Component {
       this.seekTo(this.seekOnReady)
       this.seekOnReady = null
     }
-    this.props.onDuration(this.getDuration())
+    if (this.durationOnPlay) {
+      this.props.onDuration(this.getDuration())
+      this.durationOnPlay = false
+    }
   }
   onReady = () => {
     this.isReady = true
@@ -67,6 +71,12 @@ export default class Base extends Component {
       } else {
         this.play()
       }
+    }
+    const duration = this.getDuration()
+    if (duration) {
+      this.props.onDuration(duration)
+    } else {
+      this.durationOnPlay = true
     }
   }
   onEnded = () => {
