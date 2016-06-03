@@ -2,8 +2,8 @@ import React from 'react'
 
 import Base from './Base'
 
-const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov)($|\?)/i
-const AUDIO_EXTENSIONS = /\.(mp3|wav)($|\?)/i
+const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
+const AUDIO_EXTENSIONS = /\.(mp3|wav|m4a)($|\?)/i
 
 export default class FilePlayer extends Base {
   static displayName = 'FilePlayer'
