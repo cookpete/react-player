@@ -2,13 +2,18 @@ import React from 'react'
 
 import Base from './Base'
 
+const MEDIA_PROTOCOLS = /^rtsp:\/\//i
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 const AUDIO_EXTENSIONS = /\.(mp3|wav|m4a)($|\?)/i
 
 export default class FilePlayer extends Base {
   static displayName = 'FilePlayer'
   static canPlay (url) {
-    return VIDEO_EXTENSIONS.test(url) || AUDIO_EXTENSIONS.test(url)
+    return (
+      MEDIA_PROTOCOLS.test(url) ||
+      VIDEO_EXTENSIONS.test(url) ||
+      AUDIO_EXTENSIONS.test(url)
+    )
   }
   componentDidMount () {
     this.player = this.refs.player
