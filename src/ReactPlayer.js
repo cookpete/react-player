@@ -34,10 +34,12 @@ export default class ReactPlayer extends Component {
   }
   progress = () => {
     if (this.props.url && this.refs.player) {
-      const loaded = this.refs.player.getFractionLoaded()
-      const played = this.refs.player.getFractionPlayed()
-      if (loaded || played) {
+      const loaded = this.refs.player.getFractionLoaded() || 0
+      const played = this.refs.player.getFractionPlayed() || 0
+      if (loaded !== this.prevLoaded || played !== this.prevPlayed) {
         this.props.onProgress({ loaded, played })
+        this.prevLoaded = loaded
+        this.prevPlayed = played
       }
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
