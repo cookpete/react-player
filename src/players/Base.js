@@ -48,11 +48,11 @@ export default class Base extends Component {
   }
   onPlay = () => {
     if (this.startOnPlay) {
+      this.setVolume(this.props.volume)
       this.props.onStart()
       this.startOnPlay = false
     }
     this.props.onPlay()
-    this.setVolume(this.props.volume)
     if (this.seekOnPlay) {
       this.seekTo(this.seekOnPlay)
       this.seekOnPlay = null
