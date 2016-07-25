@@ -21,7 +21,9 @@ export default class ReactPlayer extends Component {
     return (
       this.props.url !== nextProps.url ||
       this.props.playing !== nextProps.playing ||
-      this.props.volume !== nextProps.volume
+      this.props.volume !== nextProps.volume ||
+      this.props.height !== nextProps.height ||
+      this.props.width !== nextProps.width
     )
   }
   seekTo = fraction => {
@@ -32,17 +34,10 @@ export default class ReactPlayer extends Component {
   }
   progress = () => {
     if (this.props.url && this.refs.player) {
-      let progress = {}
       const loaded = this.refs.player.getFractionLoaded()
       const played = this.refs.player.getFractionPlayed()
-      if (loaded !== null && loaded !== this.prevLoaded) {
-        progress.loaded = this.prevLoaded = loaded
-      }
-      if (played !== null && played !== this.prevPlayed && this.props.playing) {
-        progress.played = this.prevPlayed = played
-      }
-      if (progress.loaded || progress.played) {
-        this.props.onProgress(progress)
+      if (loaded || played) {
+        this.props.onProgress({ loaded, played })
       }
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
