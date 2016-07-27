@@ -14,6 +14,14 @@ export default class ReactPlayer extends Component {
   componentDidMount () {
     this.progress()
   }
+  componentWillReceiveProps (nextProps) {
+    if (this.props.playing && !nextProps.playing) {
+      clearTimeout(this.progressTimeout)
+    }
+    if (!this.props.playing && nextProps.playing) {
+      this.progress()
+    }
+  }
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
   }
