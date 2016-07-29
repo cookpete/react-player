@@ -1,7 +1,6 @@
 import SoundCloud from '../../src/players/SoundCloud'
 import YouTube from '../../src/players/YouTube'
 import Vimeo from '../../src/players/Vimeo'
-import FilePlayer from '../../src/players/FilePlayer'
 
 const { describe, it, expect } = window
 
@@ -43,30 +42,6 @@ describe('canPlay', () => {
     it('knows what it can\'t play', () => {
       expect(Vimeo.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.false
       expect(Vimeo.canPlay('https://www.youtube.com/watch?v=1234')).to.be.false
-    })
-  })
-
-  describe('FilePlayer', () => {
-    it('knows what it can play', () => {
-      expect(FilePlayer.canPlay('http://example.com/file.mp4')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.ogg')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.ogv')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.webm')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.mp3')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.wav')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.mp4?foo=1&bar=2')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.ogg?foo=1&bar=2')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.ogv?foo=1&bar=2')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.webm?foo=1&bar=2')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.mp3?foo=1&bar=2')).to.be.true
-      expect(FilePlayer.canPlay('http://example.com/file.wav?foo=1&bar=2')).to.be.true
-    })
-
-    it('knows what it can\'t play', () => {
-      expect(FilePlayer.canPlay('http://example.com/file.mp5')).to.be.false
-      expect(FilePlayer.canPlay('http://example.com/file.ogh')).to.be.false
-      expect(FilePlayer.canPlay('http://example.com/file.web')).to.be.false
-      expect(FilePlayer.canPlay('http://example.com/file.txt')).to.be.false
     })
   })
 })

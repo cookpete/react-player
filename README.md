@@ -113,8 +113,6 @@ Both `youtubeConfig` and `vimeoConfig` props can take a `preload` value. Setting
 
 ### Methods
 
-There is a static method  `ReactPlayer.canPlay(url)` to determine if a URL can be played by the media player. Note that this does *not* detect media that is unplayable due to streaming permissions etc. In that case, `onError` will occur after attemping to play.
-
 To seek to a certain part of the media, there is a `seekTo(fraction)` instance method that will seek to the appropriate place in the media. See `App.js` for an example of this using `refs`.
 
 ### Supported media

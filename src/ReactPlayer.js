@@ -2,15 +2,15 @@ import 'es6-promise'
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps } from './props'
-import players from './players'
+import YouTube from './players/YouTube'
+import SoundCloud from './players/SoundCloud'
+import Vimeo from './players/Vimeo'
+import FilePlayer from './players/FilePlayer'
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
-  static canPlay (url) {
-    return players.some(player => player.canPlay(url))
-  }
   componentDidMount () {
     this.progress()
   }
@@ -52,6 +52,26 @@ export default class ReactPlayer extends Component {
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }
+  renderPlayers () {
+    const { url, youtubeConfig, vimeoConfig } = this.props
+    const players = []
+    if (YouTube.canPlay(url)) {
+      players.push(YouTube)
+    } else if (SoundCloud.canPlay(url)) {
+      players.push(SoundCloud)
+    } else if (Vimeo.canPlay(url)) {
+      players.push(Vimeo)
+    } else if (url) {
+      players.push(FilePlayer)
+    }
+    if (!YouTube.canPlay(url) && youtubeConfig.preload) {
+      players.push(YouTube)
+    }
+    if (!Vimeo.canPlay(url) && vimeoConfig.preload) {
+      players.push(Vimeo)
+    }
+    return players.map(this.renderPlayer)
+  }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
     const { youtubeConfig, soundcloudConfig, vimeoConfig, fileConfig, ...activeProps } = this.props
@@ -74,7 +94,7 @@ export default class ReactPlayer extends Component {
     }
     return (
       <div style={style} className={this.props.className}>
-        {players.map(this.renderPlayer)}
+        {this.renderPlayers()}
       </div>
     )
   }
