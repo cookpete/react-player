@@ -9,6 +9,7 @@ export const propTypes = {
   width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   height: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   className: PropTypes.string,
+  style: PropTypes.object,
   progressFrequency: PropTypes.number,
   soundcloudConfig: PropTypes.shape({
     clientId: PropTypes.string
