@@ -14,7 +14,7 @@ export default class FilePlayer extends Base {
     this.player.oncanplay = this.onReady
     this.player.onplay = this.onPlay
     this.player.onpause = () => this.props.onPause()
-    this.player.onended = () => this.onEnded()
+    this.player.onended = () => this.props.onEnded()
     this.player.onerror = e => this.props.onError(e)
     this.player.setAttribute('webkit-playsinline', '')
     super.componentDidMount()
@@ -52,7 +52,7 @@ export default class FilePlayer extends Base {
     return this.player.buffered.end(0) / this.getDuration()
   }
   render () {
-    const { controls, fileConfig } = this.props
+    const { loop, controls, fileConfig } = this.props
     const Media = AUDIO_EXTENSIONS.test(this.props.url) ? 'audio' : 'video'
     const style = {
       width: '100%',
@@ -65,6 +65,7 @@ export default class FilePlayer extends Base {
         style={style}
         preload='auto'
         controls={controls}
+        loop={loop}
         {...fileConfig.attributes}
       />
     )

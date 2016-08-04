@@ -93,6 +93,12 @@ export default class YouTube extends Base {
     if (data === ENDED) this.onEnded()
     if (data === CUED) this.onReady()
   }
+  onEnded = () => {
+    if (this.props.loop) {
+      this.seekTo(0)
+    }
+    this.props.onEnded()
+  }
   play () {
     if (!this.isReady || !this.player.playVideo) return
     this.player.playVideo()

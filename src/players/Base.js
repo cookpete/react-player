@@ -80,10 +80,4 @@ export default class Base extends Component {
       this.durationOnPlay = true
     }
   }
-  onEnded = () => {
-    if (this.props.loop) {
-      this.seekTo(0)
-    }
-    this.props.onEnded()
-  }
 }

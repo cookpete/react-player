@@ -54,7 +54,7 @@ export default class SoundCloud extends FilePlayer {
     }, this.props.onError)
   }
   render () {
-    const { url, controls } = this.props
+    const { url, loop, controls } = this.props
     const style = {
       display: url ? 'block' : 'none',
       height: '100%',
@@ -70,6 +70,7 @@ export default class SoundCloud extends FilePlayer {
           preload='auto'
           style={{ width: '100%', height: '100%' }}
           controls={controls}
+          loop={loop}
         />
       </div>
     )

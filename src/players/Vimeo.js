@@ -87,6 +87,12 @@ export default class Vimeo extends Base {
       this.onReady()
     }
   }
+  onEnded = () => {
+    if (this.props.loop) {
+      this.seekTo(0)
+    }
+    this.props.onEnded()
+  }
   postMessage = (method, value) => {
     if (!this.origin) return
     const data = JSON.stringify({ method, value })
