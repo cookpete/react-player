@@ -1,67 +1,112 @@
 import React from 'react'
-import { stringify } from 'query-string'
+import { findDOMNode } from 'react-dom'
+import loadScript from 'load-script'
 
 import Base from './Base'
 
-const IFRAME_SRC = 'https://player.vimeo.com/video/'
+const SDK_URL = 'https://player.vimeo.com/api/player.js'
+const SDK_GLOBAL = 'Vimeo'
+const PLAYER_ID = 'vimeo-player'
 const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
-const MATCH_MESSAGE_ORIGIN = /^https?:\/\/player.vimeo.com/
 const BLANK_VIDEO_URL = 'https://vimeo.com/127250231'
-const DEFAULT_IFRAME_PARAMS = {
-  api: 1,
-  autoplay: 0,
-  badge: 0,
-  byline: 0,
-  fullscreen: 1,
-  portrait: 0,
-  title: 0
+
+const DEFAULT_OPTIONS = {
+  autopause: false,
+  autoplay: false,
+  byline: false,
+  portrait: false,
+  title: false
 }
+
+let playerIdCount = 0
 
 export default class Vimeo extends Base {
   static displayName = 'Vimeo'
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
+  playerId = PLAYER_ID + '-' + playerIdCount++
   componentDidMount () {
     const { url, vimeoConfig } = this.props
-    window.addEventListener('message', this.onMessage, false)
-
     if (!url && vimeoConfig.preload) {
       this.preloading = true
       this.load(BLANK_VIDEO_URL)
     }
-
     super.componentDidMount()
   }
-  componentWillUnmount () {
-    window.removeEventListener('message', this.onMessage, false)
-    super.componentWillUnmount()
-  }
-  getIframeParams () {
-    return { ...DEFAULT_IFRAME_PARAMS, ...this.props.vimeoConfig.iframeParams }
+  getSDK () {
+    if (window[SDK_GLOBAL]) {
+      return Promise.resolve(window[SDK_GLOBAL])
+    }
+    return new Promise((resolve, reject) => {
+      loadScript(SDK_URL, err => {
+        if (err) reject(err)
+        else resolve(window[SDK_GLOBAL])
+      })
+    })
   }
   load (url) {
     const id = url.match(MATCH_URL)[3]
-    this.iframe.src = IFRAME_SRC + id + '?' + stringify(this.getIframeParams())
+    this.duration = null
+    if (this.isReady) {
+      this.player.loadVideo(id)
+      return
+    }
+    if (this.loadingSDK) {
+      this.loadOnReady = url
+      return
+    }
+    this.loadingSDK = true
+    this.getSDK().then(Vimeo => {
+      this.player = new Vimeo.Player(this.playerId, {
+        ...DEFAULT_OPTIONS,
+        ...this.props.vimeoConfig.playerOptions,
+        id,
+        loop: this.props.loop
+      })
+      this.player.on('loaded', () => {
+        this.onReady()
+        const iframe = findDOMNode(this).querySelector('iframe')
+        iframe.style.width = '100%'
+        iframe.style.height = '100%'
+      })
+      this.player.on('play', ({ duration }) => {
+        this.duration = duration
+        this.onPlay()
+      })
+      this.player.on('pause', this.props.onPause)
+      this.player.on('ended', this.props.onEnded)
+      this.player.on('error', this.props.onError)
+      this.player.on('timeupdate', ({ percent }) => {
+        this.fractionPlayed = percent
+      })
+      this.player.on('progress', ({ percent }) => {
+        this.fractionLoaded = percent
+      })
+    }, this.props.onError)
   }
   play () {
-    this.postMessage('play')
+    if (!this.isReady) return
+    this.player.play()
   }
   pause () {
-    this.postMessage('pause')
+    if (!this.isReady) return
+    this.player.pause()
   }
   stop () {
-    this.iframe.src = ''
+    if (!this.isReady) return
+    this.player.unload()
   }
   seekTo (fraction) {
     super.seekTo(fraction)
-    this.postMessage('seekTo', this.duration * fraction)
+    if (!this.isReady || !this.player.setCurrentTime) return
+    this.player.setCurrentTime(this.duration * fraction)
   }
   setVolume (fraction) {
-    this.postMessage('setVolume', fraction)
+    this.player.setVolume(fraction)
   }
   setPlaybackRate (rate) {
-    this.postMessage('setPlaybackRate', rate)
+    return null
   }
   getDuration () {
     return this.duration
@@ -72,57 +117,14 @@ export default class Vimeo extends Base {
   getFractionLoaded () {
     return this.fractionLoaded || null
   }
-  onMessage = e => {
-    if (!MATCH_MESSAGE_ORIGIN.test(e.origin)) return
-    this.origin = this.origin || e.origin
-    const data = JSON.parse(e.data)
-    if (data.event === 'ready') {
-      this.postMessage('getDuration')
-      this.postMessage('addEventListener', 'playProgress')
-      this.postMessage('addEventListener', 'loadProgress')
-      this.postMessage('addEventListener', 'play')
-      this.postMessage('addEventListener', 'pause')
-      this.postMessage('addEventListener', 'finish')
-    }
-    if (data.event === 'playProgress') this.fractionPlayed = data.data.percent
-    if (data.event === 'loadProgress') this.fractionLoaded = data.data.percent
-    if (data.event === 'play') this.onPlay()
-    if (data.event === 'pause') this.props.onPause()
-    if (data.event === 'finish') this.onEnded()
-    if (data.method === 'getDuration') {
-      this.duration = data.value // Store for use later
-      this.onReady()
-    }
-  }
-  onEnded = () => {
-    const { loop, onEnded } = this.props
-    if (loop) {
-      this.seekTo(0)
-    }
-    onEnded()
-  }
-  postMessage = (method, value) => {
-    if (!this.origin) return
-    const data = JSON.stringify({ method, value })
-    return this.iframe.contentWindow && this.iframe.contentWindow.postMessage(data, this.origin)
-  }
   ref = iframe => {
     this.iframe = iframe
   }
   render () {
-    const { fullscreen } = this.getIframeParams()
     const style = {
-      display: this.props.url ? 'block' : 'none',
-      width: '100%',
-      height: '100%'
+      height: '100%',
+      display: this.props.url ? 'block' : 'none'
     }
-    return (
-      <iframe
-        ref={this.ref}
-        frameBorder='0'
-        style={style}
-        allowFullScreen={fullscreen}
-      />
-    )
+    return <div style={style} id={this.playerId} />
   }
 }

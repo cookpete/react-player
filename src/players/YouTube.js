@@ -74,10 +74,7 @@ export default class YouTube extends Base {
           ...youtubeConfig.playerVars
         },
         events: {
-          onReady: () => {
-            this.loadingSDK = false
-            this.onReady()
-          },
+          onReady: this.onReady,
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
         }

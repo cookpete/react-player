@@ -20,7 +20,6 @@ export default class Wistia extends Base {
       window._wq.push({
         id: this.getID(this.props.url),
         onReady: player => {
-          this.loadingSDK = false
           this.player = player
           this.player.bind('start', onStart)
           this.player.bind('play', this.onPlay)
