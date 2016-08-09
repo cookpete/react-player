@@ -34,7 +34,7 @@ export default class YouTube extends Base {
     super.componentDidMount()
   }
   getSDK () {
-    if (window[SDK_GLOBAL]) {
+    if (window[SDK_GLOBAL] && window[SDK_GLOBAL].loaded) {
       return Promise.resolve(window[SDK_GLOBAL])
     }
     return new Promise((resolve, reject) => {
