@@ -12,7 +12,7 @@
     "start": "node server.js",
     "lint": "standard --verbose | snazzy",
     "test": "karma start test/karma.config.js",
-    "preversion": "npm run lint && npm run test",
+    "preversion": "npm run lint",
     "version": "npm run update-changelog && npm run build:browser && git add CHANGELOG.md dist",
     "update-changelog": "auto-changelog --package --template compact",
     "prepublish": "npm run build:compile; npm run build:browser",
