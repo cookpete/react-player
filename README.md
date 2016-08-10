@@ -81,6 +81,7 @@ Prop | Description | Default
 `className` | Pass in a `className` to set on the root element
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element
 `progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
+`startOffset` | The offset at which the player will start, in seconds. Works with FilePlayer only. | `0`
 
 #### Callback props
 
