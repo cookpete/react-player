@@ -16,7 +16,7 @@ export default class FilePlayer extends Base {
     super(props)
     this.state = {
       startOffset: 0,
-      ...this.state,
+      ...this.state
     }
   }
   componentWillReceiveProps ({ startOffset }) {
