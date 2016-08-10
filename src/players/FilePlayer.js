@@ -8,14 +8,16 @@ export default class FilePlayer extends Base {
   static canPlay (url) {
     return true
   }
-  static defaultProps = Object.assign({
-    startOffset: 0
-  }, Base.defaultProps)
+  static defaultProps = {
+    startOffset: 0,
+    ...Base.defaultProps
+  }
   constructor (props) {
     super(props)
-    this.state = Object.assign({
-      startOffset: 0
-    }, this.state)
+    this.state = {
+      startOffset: 0,
+      ...this.state,
+    }
   }
   componentWillReceiveProps ({ startOffset }) {
     super.componentWillReceiveProps(...arguments)
