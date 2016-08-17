@@ -71,7 +71,7 @@
     "karma-mocha-reporter": "^2.0.0",
     "karma-sourcemap-loader": "^0.3.6",
     "karma-webpack": "^1.7.0",
-    "mocha": "^2.4.5",
+    "mocha": "^3.0.2",
     "node-sass": "^3.4.2",
     "normalize.css": "^4.0.0",
     "react": "^15.0.1",
