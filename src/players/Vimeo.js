@@ -33,6 +33,10 @@ export default class Vimeo extends Base {
 
     super.componentDidMount()
   }
+  componentWillUnmount () {
+    window.removeEventListener('message', this.onMessage)
+    super.componentWillUnmount()
+  }
   getIframeParams () {
     return { ...DEFAULT_IFRAME_PARAMS, ...this.props.vimeoConfig.iframeParams }
   }
