@@ -78,6 +78,7 @@ Prop | Description | Default
 `volume` | Sets the volume of the appropriate player | `0.8`
 `width` | Sets the width of the player | `640`
 `height` | Sets the height of the player | `360`
+`hidden` | Set to `true` to hide the player | `false`
 `className` | Pass in a `className` to set on the root element
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element
 `progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
