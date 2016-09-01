@@ -8,6 +8,7 @@ export const propTypes = {
   volume: PropTypes.number,
   width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
   height: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+  hidden: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
   progressFrequency: PropTypes.number,
