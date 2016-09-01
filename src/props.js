@@ -43,6 +43,7 @@ export const defaultProps = {
   volume: 0.8,
   width: 640,
   height: 360,
+  hidden: false,
   progressFrequency: 1000,
   soundcloudConfig: {
     clientId: 'e8b6f84fbcad14c301ca1355cae1dea2'
