@@ -94,7 +94,7 @@ export default class ReactPlayer extends Component {
       height: this.props.height
     }
     return (
-      <div style={style} className={this.props.className}>
+      <div style={style} className={this.props.className} hidden={this.props.hidden}>
         {this.renderPlayers()}
       </div>
     )
