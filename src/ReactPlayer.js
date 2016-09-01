@@ -31,7 +31,8 @@ export default class ReactPlayer extends Component {
       this.props.playing !== nextProps.playing ||
       this.props.volume !== nextProps.volume ||
       this.props.height !== nextProps.height ||
-      this.props.width !== nextProps.width
+      this.props.width !== nextProps.width ||
+      this.props.startOffset !== nextProps.startOffset
     )
   }
   seekTo = fraction => {

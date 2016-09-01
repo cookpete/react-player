@@ -16,7 +16,8 @@ export default class App extends Component {
     volume: 0.8,
     played: 0,
     loaded: 0,
-    duration: 0
+    duration: 0,
+    startOffset: 0
   }
   load = url => {
     this.setState({
@@ -60,6 +61,11 @@ export default class App extends Component {
     }
     this.setState(config)
   }
+  onStartOffsetUpdate = (e) => {
+    this.setState({
+      startOffset: Number.parseFloat(e.target.value)
+    })
+  }
   renderLoadButton = (url, label) => {
     return (
       <button onClick={() => this.load(url)}>
@@ -74,7 +80,8 @@ export default class App extends Component {
       soundcloudConfig,
       vimeoConfig,
       youtubeConfig,
-      fileConfig
+      fileConfig,
+      startOffset
     } = this.state
     const SEPARATOR = ' · '
 
@@ -102,6 +109,7 @@ export default class App extends Component {
             onError={e => console.log('onError', e)}
             onProgress={this.onProgress}
             onDuration={duration => this.setState({ duration })}
+            startOffset={startOffset}
           />
 
           <table><tbody>
@@ -183,6 +191,12 @@ export default class App extends Component {
               <td>
                 <textarea ref='config' placeholder='Enter JSON'></textarea>
                 <button onClick={this.onConfigSubmit}>Update Config</button>
+              </td>
+            </tr>
+            <tr>
+              <th>Start offset in seconds<br />(works with Files only)</th>
+              <td>
+                <input type='number' onChange={this.onStartOffsetUpdate} />
               </td>
             </tr>
           </tbody></table>
