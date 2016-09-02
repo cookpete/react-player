@@ -31,7 +31,8 @@ export default class ReactPlayer extends Component {
       this.props.playing !== nextProps.playing ||
       this.props.volume !== nextProps.volume ||
       this.props.height !== nextProps.height ||
-      this.props.width !== nextProps.width
+      this.props.width !== nextProps.width ||
+      this.props.hidden !== nextProps.hidden
     )
   }
   seekTo = fraction => {
@@ -94,7 +95,7 @@ export default class ReactPlayer extends Component {
       height: this.props.height
     }
     return (
-      <div style={style} className={this.props.className}>
+      <div style={style} className={this.props.className} hidden={this.props.hidden}>
         {this.renderPlayers()}
       </div>
     )
