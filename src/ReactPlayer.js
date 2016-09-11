@@ -14,14 +14,6 @@ export default class ReactPlayer extends Component {
   componentDidMount () {
     this.progress()
   }
-  componentWillReceiveProps (nextProps) {
-    if (this.props.playing && !nextProps.playing) {
-      clearTimeout(this.progressTimeout)
-    }
-    if (!this.props.playing && nextProps.playing) {
-      this.progress()
-    }
-  }
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
   }
@@ -45,11 +37,18 @@ export default class ReactPlayer extends Component {
     if (this.props.url && this.refs.player) {
       const loaded = this.refs.player.getFractionLoaded() || 0
       const played = this.refs.player.getFractionPlayed() || 0
-      if (loaded !== this.prevLoaded || played !== this.prevPlayed) {
-        this.props.onProgress({ loaded, played })
-        this.prevLoaded = loaded
-        this.prevPlayed = played
+      const progress = {}
+      if (loaded !== this.prevLoaded) {
+        progress.loaded = loaded
       }
+      if (played !== this.prevPlayed && this.props.playing) {
+        progress.played = played
+      }
+      if (progress.loaded || progress.playing) {
+        this.props.onProgress(progress)
+      }
+      this.prevLoaded = loaded
+      this.prevPlayed = played
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }
