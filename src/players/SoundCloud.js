@@ -39,9 +39,7 @@ export default class SoundCloud extends FilePlayer {
   load (url) {
     this.stop()
     this.getSongData(url).then(data => {
-      if (url !== this.props.url) {
-        return // Abort if url changes during async requests
-      }
+      if (!this.mounted) return
       if (!data.streamable) {
         this.props.onError(new Error('SoundCloud track is not streamable'))
         return

@@ -12,12 +12,14 @@ export default class Base extends Component {
   durationOnPlay = false
   seekOnPlay = null
   componentDidMount () {
+    this.mounted = true
     if (this.props.url) {
       this.load(this.props.url)
     }
   }
   componentWillUnmount () {
     this.stop()
+    this.mounted = false
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
