@@ -19,6 +19,14 @@ export default class FilePlayer extends Base {
     this.player.setAttribute('webkit-playsinline', '')
     super.componentDidMount()
   }
+  componentWillUnmount () {
+    this.player.removeEventListener('canplay', this.onReady)
+    this.player.removeEventListener('play', this.onPlay)
+    this.player.removeEventListener('pause', this.props.onPause)
+    this.player.removeEventListener('ended', this.props.onEnded)
+    this.player.removeEventListener('error', this.props.onError)
+    super.componentWillUnmount()
+  }
   load (url) {
     this.player.src = url
   }
