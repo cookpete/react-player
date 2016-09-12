@@ -188,7 +188,7 @@ export default class App extends Component {
             <tr>
               <th>Custom config</th>
               <td>
-                <textarea ref='config' placeholder='Enter JSON'></textarea>
+                <textarea ref='config' placeholder='Enter JSON' />
                 <button onClick={this.onConfigSubmit}>Update Config</button>
               </td>
             </tr>
