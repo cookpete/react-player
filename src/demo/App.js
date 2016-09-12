@@ -164,6 +164,13 @@ export default class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Streamable</th>
+              <td>
+                {this.renderLoadButton('https://streamable.com/moo', 'Test A')}
+                {this.renderLoadButton('https://streamable.com/ifjh', 'Test B')}
+              </td>
+            </tr>
+            <tr>
               <th>Files</th>
               <td>
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'MP4')}

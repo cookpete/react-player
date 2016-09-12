@@ -1,6 +1,6 @@
 {
   "name": "react-player",
-  "description": "A react component for playing a variety of URLs, including file paths, YouTube, SoundCloud and Vimeo",
+  "description": "A react component for playing a variety of URLs, including file paths, YouTube, SoundCloud, Streamable and Vimeo",
   "main": "dist/ReactPlayer.js",
   "authors": [
     "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)"
@@ -14,6 +14,7 @@
     "audio",
     "youtube",
     "soundcloud",
+    "streamable",
     "vimeo",
     "react-component"
   ],
