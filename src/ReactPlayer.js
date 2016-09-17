@@ -1,4 +1,3 @@
-import 'es6-promise'
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps } from './props'
