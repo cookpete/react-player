@@ -36,7 +36,6 @@ export default class FilePlayer extends Base {
     this.player.pause()
   }
   stop () {
-    this.pause()
     this.player.removeAttribute('src')
   }
   seekTo (fraction) {
