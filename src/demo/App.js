@@ -42,7 +42,7 @@ export default class App extends Component {
   }
   onSeekMouseUp = e => {
     this.setState({ seeking: false })
-    this.refs.player.seekTo(parseFloat(e.target.value))
+    this.player.seekTo(parseFloat(e.target.value))
   }
   onProgress = state => {
     // We only want to update time slider if we are not currently seeking
@@ -53,7 +53,7 @@ export default class App extends Component {
   onConfigSubmit = () => {
     let config
     try {
-      config = JSON.parse(this.refs.config.value)
+      config = JSON.parse(this.configInput.value)
     } catch (error) {
       config = {}
       console.error('Error setting config:', error)
@@ -83,7 +83,7 @@ export default class App extends Component {
         <section className='section'>
           <h1>ReactPlayer Demo</h1>
           <ReactPlayer
-            ref='player'
+            ref={player => { this.player = player }}
             className='react-player'
             width={480}
             height={270}
@@ -181,14 +181,14 @@ export default class App extends Component {
             <tr>
               <th>Custom URL</th>
               <td>
-                <input ref='url' type='text' placeholder='Enter URL' />
-                <button onClick={() => this.setState({ url: this.refs.url.value })}>Load</button>
+                <input ref={input => { this.urlInput = input }} type='text' placeholder='Enter URL' />
+                <button onClick={() => this.setState({ url: this.urlInput.value })}>Load</button>
               </td>
             </tr>
             <tr>
               <th>Custom config</th>
               <td>
-                <textarea ref='config' placeholder='Enter JSON' />
+                <textarea ref={textarea => { this.configInput = textarea }} placeholder='Enter JSON' />
                 <button onClick={this.onConfigSubmit}>Update Config</button>
               </td>
             </tr>

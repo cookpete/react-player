@@ -63,7 +63,7 @@ export default class SoundCloud extends FilePlayer {
     return (
       <div style={style}>
         <audio
-          ref='player'
+          ref={player => { this.player = player }}
           type='audio/mpeg'
           preload='auto'
           style={{ width: '100%', height: '100%' }}

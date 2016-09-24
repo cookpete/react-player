@@ -10,7 +10,6 @@ export default class FilePlayer extends Base {
     return true
   }
   componentDidMount () {
-    this.player = this.refs.player
     this.player.addEventListener('canplay', this.onReady)
     this.player.addEventListener('play', this.onPlay)
     this.player.addEventListener('pause', this.props.onPause)
@@ -69,7 +68,7 @@ export default class FilePlayer extends Base {
     }
     return (
       <Media
-        ref='player'
+        ref={player => { this.player = player }}
         style={style}
         preload='auto'
         controls={controls}

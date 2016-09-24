@@ -28,15 +28,14 @@ export default class ReactPlayer extends Component {
     )
   }
   seekTo = fraction => {
-    const player = this.refs.player
-    if (player) {
-      player.seekTo(fraction)
+    if (this.player) {
+      this.player.seekTo(fraction)
     }
   }
   progress = () => {
-    if (this.props.url && this.refs.player) {
-      const loaded = this.refs.player.getFractionLoaded() || 0
-      const played = this.refs.player.getFractionPlayed() || 0
+    if (this.props.url && this.player) {
+      const loaded = this.player.getFractionLoaded() || 0
+      const played = this.player.getFractionPlayed() || 0
       const progress = {}
       if (loaded !== this.prevLoaded) {
         progress.loaded = loaded
@@ -80,7 +79,8 @@ export default class ReactPlayer extends Component {
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
     const { youtubeConfig, soundcloudConfig, vimeoConfig, fileConfig, ...activeProps } = this.props
-    const props = active ? { ...activeProps, ref: 'player' } : {}
+    const ref = player => { this.player = player }
+    const props = active ? { ...activeProps, ref } : {}
     return (
       <Player
         key={Player.displayName}

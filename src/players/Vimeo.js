@@ -24,7 +24,6 @@ export default class Vimeo extends Base {
   }
   componentDidMount () {
     window.addEventListener('message', this.onMessage, false)
-    this.iframe = this.refs.iframe
 
     if (!this.props.url && this.props.vimeoConfig.preload) {
       this.preloading = true
@@ -109,6 +108,13 @@ export default class Vimeo extends Base {
       width: '100%',
       height: '100%'
     }
-    return <iframe ref='iframe' frameBorder='0' style={style} allowFullScreen={fullscreen} />
+    return (
+      <iframe
+        ref={iframe => { this.iframe = iframe }}
+        frameBorder='0'
+        style={style}
+        allowFullScreen={fullscreen}
+      />
+    )
   }
 }
