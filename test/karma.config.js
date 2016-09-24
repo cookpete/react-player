@@ -19,9 +19,10 @@ module.exports = function (config) {
     },
     client: {
       mocha: {
-        timeout: 10000
+        timeout: 60000
       }
     },
+    browserNoActivityTimeout: 60000,
     customLaunchers: {
       ChromeTravis: {
         base: 'Chrome',
