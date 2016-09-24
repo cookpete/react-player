@@ -7,6 +7,7 @@ const { describe, it, beforeEach, afterEach } = window
 
 const TEST_YOUTUBE_URL = 'https://www.youtube.com/watch?v=M7lc1UVf-VE'
 const TEST_SOUNDCLOUD_URL = 'https://soundcloud.com/miami-nights-1984/accelerated'
+const TEST_STREAMABLE_URL = 'https://streamable.com/moo'
 const TEST_VIMEO_URL = 'https://vimeo.com/90509568'
 const TEST_FILE_URL = 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv'
 
@@ -85,6 +86,14 @@ describe('ReactPlayer', () => {
     it('fires onDuration', (done) => testDuration(TEST_SOUNDCLOUD_URL, done))
     it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_SOUNDCLOUD_URL, done))
     it('fires onError', (done) => testError(TEST_SOUNDCLOUD_ERROR, done))
+  })
+
+  describe('Streamable', () => {
+    it('fires onStart', (done) => testStart(TEST_STREAMABLE_URL, done))
+    it('fires onPlay', (done) => testPlay(TEST_STREAMABLE_URL, done))
+    it.skip('fires onPause', (done) => testPause(TEST_STREAMABLE_URL, done))
+    it('fires onDuration', (done) => testDuration(TEST_STREAMABLE_URL, done))
+    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_STREAMABLE_URL, done))
   })
 
   describe('Vimeo', () => {
