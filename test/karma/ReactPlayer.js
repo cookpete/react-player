@@ -64,15 +64,15 @@ describe('ReactPlayer', () => {
   }
 
   describe('YouTube', () => {
-    it('fires onStart', (done) => testStart(TEST_YOUTUBE_URL, done))
-    it('fires onPlay', (done) => testPlay(TEST_YOUTUBE_URL, done))
-    it('fires onPause', (done) => testPause(TEST_YOUTUBE_URL, done))
-    it('fires onDuration', (done) => testDuration(TEST_YOUTUBE_URL, done))
-    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_YOUTUBE_URL, done))
-    it('fires onError', (done) => testError(TEST_YOUTUBE_ERROR, done))
+    it('fires onStart', done => testStart(TEST_YOUTUBE_URL, done))
+    it('fires onPlay', done => testPlay(TEST_YOUTUBE_URL, done))
+    it('fires onPause', done => testPause(TEST_YOUTUBE_URL, done))
+    it('fires onDuration', done => testDuration(TEST_YOUTUBE_URL, done))
+    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_YOUTUBE_URL, done))
+    it('fires onError', done => testError(TEST_YOUTUBE_ERROR, done))
 
-    it('starts at a specified time', (done) => {
-      const onProgress = (state) => {
+    it('starts at a specified time', done => {
+      const onProgress = state => {
         if (state.played > 0.9) done()
       }
       render(<ReactPlayer url={TEST_YOUTUBE_URL + '?start=22m10s'} playing onProgress={onProgress} />, div)
@@ -80,37 +80,37 @@ describe('ReactPlayer', () => {
   })
 
   describe('SoundCloud', () => {
-    it('fires onStart', (done) => testStart(TEST_SOUNDCLOUD_URL, done))
-    it('fires onPlay', (done) => testPlay(TEST_SOUNDCLOUD_URL, done))
-    it.skip('fires onPause', (done) => testPause(TEST_SOUNDCLOUD_URL, done))
-    it('fires onDuration', (done) => testDuration(TEST_SOUNDCLOUD_URL, done))
-    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_SOUNDCLOUD_URL, done))
-    it('fires onError', (done) => testError(TEST_SOUNDCLOUD_ERROR, done))
+    it('fires onStart', done => testStart(TEST_SOUNDCLOUD_URL, done))
+    it('fires onPlay', done => testPlay(TEST_SOUNDCLOUD_URL, done))
+    it.skip('fires onPause', done => testPause(TEST_SOUNDCLOUD_URL, done))
+    it('fires onDuration', done => testDuration(TEST_SOUNDCLOUD_URL, done))
+    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_SOUNDCLOUD_URL, done))
+    it('fires onError', done => testError(TEST_SOUNDCLOUD_ERROR, done))
   })
 
   describe('Streamable', () => {
-    it('fires onStart', (done) => testStart(TEST_STREAMABLE_URL, done))
-    it('fires onPlay', (done) => testPlay(TEST_STREAMABLE_URL, done))
-    it.skip('fires onPause', (done) => testPause(TEST_STREAMABLE_URL, done))
-    it('fires onDuration', (done) => testDuration(TEST_STREAMABLE_URL, done))
-    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_STREAMABLE_URL, done))
+    it('fires onStart', done => testStart(TEST_STREAMABLE_URL, done))
+    it('fires onPlay', done => testPlay(TEST_STREAMABLE_URL, done))
+    it.skip('fires onPause', done => testPause(TEST_STREAMABLE_URL, done))
+    it('fires onDuration', done => testDuration(TEST_STREAMABLE_URL, done))
+    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_STREAMABLE_URL, done))
   })
 
   describe('Vimeo', () => {
-    it('fires onStart', (done) => testStart(TEST_VIMEO_URL, done))
-    it('fires onPlay', (done) => testPlay(TEST_VIMEO_URL, done))
-    it.skip('fires onPause', (done) => testPause(TEST_VIMEO_URL, done))
-    it('fires onDuration', (done) => testDuration(TEST_VIMEO_URL, done))
-    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_VIMEO_URL, done))
+    it('fires onStart', done => testStart(TEST_VIMEO_URL, done))
+    it('fires onPlay', done => testPlay(TEST_VIMEO_URL, done))
+    it.skip('fires onPause', done => testPause(TEST_VIMEO_URL, done))
+    it('fires onDuration', done => testDuration(TEST_VIMEO_URL, done))
+    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_VIMEO_URL, done))
   })
 
   describe('FilePlayer', () => {
-    it('fires onStart', (done) => testStart(TEST_FILE_URL, done))
-    it('fires onPlay', (done) => testPlay(TEST_FILE_URL, done))
-    it.skip('fires onPause', (done) => testPause(TEST_FILE_URL, done))
-    it('fires onDuration', (done) => testDuration(TEST_FILE_URL, done))
-    it('fires onDuration with delayed load', (done) => testDurationDelayed(TEST_FILE_URL, done))
-    it.skip('fires onError', (done) => testError(TEST_FILE_ERROR, done))
+    it('fires onStart', done => testStart(TEST_FILE_URL, done))
+    it('fires onPlay', done => testPlay(TEST_FILE_URL, done))
+    it.skip('fires onPause', done => testPause(TEST_FILE_URL, done))
+    it('fires onDuration', done => testDuration(TEST_FILE_URL, done))
+    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_FILE_URL, done))
+    it.skip('fires onError', done => testError(TEST_FILE_ERROR, done))
   })
 
   describe('Switching', () => {
