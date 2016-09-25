@@ -12,7 +12,11 @@ export default class FilePlayer extends Base {
   componentDidMount () {
     this.player.addEventListener('canplay', this.onReady)
     this.player.addEventListener('play', this.onPlay)
-    this.player.addEventListener('pause', this.props.onPause)
+    this.player.addEventListener('pause', () => {
+      if (this.mounted) {
+        this.props.onPause()
+      }
+    })
     this.player.addEventListener('ended', this.props.onEnded)
     this.player.addEventListener('error', this.props.onError)
     this.player.setAttribute('webkit-playsinline', '')
