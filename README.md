@@ -40,15 +40,15 @@ bower install react-player --save
 ```
 
 ```html
-  <script src='bower_components/react/react.js'></script>
-  <script src='bower_components/react/react-dom.js'></script>
-  <script src='bower_components/react-player/dist/ReactPlayer.js'></script>
-  <script>
-    ReactDOM.render(
-      <ReactPlayer url='https://www.youtube.com/watch?v=d46Azg3Pm4c' playing />,
-      document.getElementById('container')
-    )
-  </script>
+<script src='bower_components/react/react.js'></script>
+<script src='bower_components/react/react-dom.js'></script>
+<script src='bower_components/react-player/dist/ReactPlayer.js'></script>
+<script>
+  ReactDOM.render(
+    <ReactPlayer url='https://www.youtube.com/watch?v=d46Azg3Pm4c' playing />,
+    document.getElementById('container')
+  )
+</script>
 ```
 
 ### Demo
