@@ -26,6 +26,7 @@ export const propTypes = {
   fileConfig: PropTypes.shape({
     attributes: PropTypes.object
   }),
+  onReady: PropTypes.func,
   onStart: PropTypes.func,
   onPlay: PropTypes.func,
   onPause: PropTypes.func,
@@ -59,6 +60,7 @@ export const defaultProps = {
   fileConfig: {
     attributes: {}
   },
+  onReady: function () {},
   onStart: function () {},
   onPlay: function () {},
   onPause: function () {},

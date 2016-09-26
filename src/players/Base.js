@@ -66,6 +66,7 @@ export default class Base extends Component {
   }
   onReady = () => {
     this.isReady = true
+    this.props.onReady()
     if (this.props.playing || this.preloading) {
       this.preloading = false
       if (this.loadOnReady) {

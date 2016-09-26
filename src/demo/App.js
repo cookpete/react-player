@@ -94,6 +94,7 @@ export default class App extends Component {
             vimeoConfig={vimeoConfig}
             youtubeConfig={youtubeConfig}
             fileConfig={fileConfig}
+            onReady={() => console.log('onReady')}
             onStart={() => console.log('onStart')}
             onPlay={() => this.setState({ playing: true })}
             onPause={() => this.setState({ playing: false })}

@@ -91,10 +91,11 @@ Callback props take a function that gets fired on various player events:
 
 Prop | Description
 ---- | -----------
-`onProgress` | Callback containing `played` and `loaded` progress as a fraction<br />eg `{ played: 0.12, loaded: 0.34 }`
-`onDuration` | Callback containing duration of the media, in seconds
+`onReady` | Called when media is loaded and ready to play. If `playing` is set to `true`, media will play immediately
 `onStart` | Called when media starts playing
 `onPlay` | Called when media starts or resumes playing after pausing or buffering
+`onProgress` | Callback containing `played` and `loaded` progress as a fraction<br />eg `{ played: 0.12, loaded: 0.34 }`
+`onDuration` | Callback containing duration of the media, in seconds
 `onPause` | Called when media is paused
 `onBuffer` | Called when media starts buffering
 `onEnded` | Called when media finishes playing
