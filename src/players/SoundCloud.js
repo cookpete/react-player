@@ -2,6 +2,7 @@ import React from 'react'
 import fetchJSONP from 'fetch-jsonp'
 
 import FilePlayer from './FilePlayer'
+import { defaultProps } from '../props'
 
 const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
 const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]+)$/
@@ -16,6 +17,7 @@ export default class SoundCloud extends FilePlayer {
   state = {
     image: null
   }
+  clientId = this.props.soundcloudConfig.clientId || defaultProps.soundcloudConfig.clientId
   shouldComponentUpdate (nextProps, nextState) {
     return (
       super.shouldComponentUpdate(nextProps, nextState) ||
@@ -23,17 +25,16 @@ export default class SoundCloud extends FilePlayer {
     )
   }
   getSongData (url) {
-    const { soundcloudConfig, onError } = this.props
     if (songData[url]) {
       return Promise.resolve(songData[url])
     }
-    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + soundcloudConfig.clientId)
+    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + this.clientId)
       .then(response => {
         if (response.ok) {
           songData[url] = response.json()
           return songData[url]
         } else {
-          onError(new Error('SoundCloud track could not be resolved'))
+          this.props.onError(new Error('SoundCloud track could not be resolved'))
         }
       })
   }
@@ -50,7 +51,7 @@ export default class SoundCloud extends FilePlayer {
       if (image && soundcloudConfig.showArtwork) {
         this.setState({ image: image.replace('-large', '-t500x500') })
       }
-      this.player.src = data.stream_url + '?client_id=' + soundcloudConfig.clientId
+      this.player.src = data.stream_url + '?client_id=' + this.clientId
     }, onError)
   }
   render () {
