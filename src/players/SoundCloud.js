@@ -47,7 +47,7 @@ export default class SoundCloud extends FilePlayer {
         return
       }
       const image = data.artwork_url || data.user.avatar_url
-      if (image) {
+      if (image && soundcloudConfig.showArtwork) {
         this.setState({ image: image.replace('-large', '-t500x500') })
       }
       this.player.src = data.stream_url + '?client_id=' + soundcloudConfig.clientId

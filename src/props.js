@@ -15,7 +15,8 @@ export const propTypes = {
   style: object,
   progressFrequency: number,
   soundcloudConfig: shape({
-    clientId: string
+    clientId: string,
+    showArtwork: bool
   }),
   youtubeConfig: shape({
     playerVars: object,
@@ -49,7 +50,8 @@ export const defaultProps = {
   hidden: false,
   progressFrequency: 1000,
   soundcloudConfig: {
-    clientId: 'e8b6f84fbcad14c301ca1355cae1dea2'
+    clientId: 'e8b6f84fbcad14c301ca1355cae1dea2',
+    showArtwork: true
   },
   youtubeConfig: {
     playerVars: {},
