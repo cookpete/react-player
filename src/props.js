@@ -1,40 +1,42 @@
 import { PropTypes } from 'react'
 
+const { string, bool, number, oneOfType, shape, object, func } = PropTypes
+
 export const propTypes = {
-  url: PropTypes.string,
-  playing: PropTypes.bool,
-  loop: PropTypes.bool,
-  controls: PropTypes.bool,
-  volume: PropTypes.number,
-  width: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-  height: PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-  hidden: PropTypes.bool,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  progressFrequency: PropTypes.number,
-  soundcloudConfig: PropTypes.shape({
-    clientId: PropTypes.string
+  url: string,
+  playing: bool,
+  loop: bool,
+  controls: bool,
+  volume: number,
+  width: oneOfType([ string, number ]),
+  height: oneOfType([ string, number ]),
+  hidden: bool,
+  className: string,
+  style: object,
+  progressFrequency: number,
+  soundcloudConfig: shape({
+    clientId: string
   }),
-  youtubeConfig: PropTypes.shape({
-    playerVars: PropTypes.object,
-    preload: PropTypes.bool
+  youtubeConfig: shape({
+    playerVars: object,
+    preload: bool
   }),
-  vimeoConfig: PropTypes.shape({
-    iframeParams: PropTypes.object,
-    preload: PropTypes.bool
+  vimeoConfig: shape({
+    iframeParams: object,
+    preload: bool
   }),
-  fileConfig: PropTypes.shape({
-    attributes: PropTypes.object
+  fileConfig: shape({
+    attributes: object
   }),
-  onReady: PropTypes.func,
-  onStart: PropTypes.func,
-  onPlay: PropTypes.func,
-  onPause: PropTypes.func,
-  onBuffer: PropTypes.func,
-  onEnded: PropTypes.func,
-  onError: PropTypes.func,
-  onDuration: PropTypes.func,
-  onProgress: PropTypes.func
+  onReady: func,
+  onStart: func,
+  onPlay: func,
+  onPause: func,
+  onBuffer: func,
+  onEnded: func,
+  onError: func,
+  onDuration: func,
+  onProgress: func
 }
 
 export const defaultProps = {

@@ -93,14 +93,11 @@ export default class ReactPlayer extends Component {
     )
   }
   render () {
-    const style = {
-      ...this.props.style,
-      width: this.props.width,
-      height: this.props.height
-    }
+    const { style, width, height, className, hidden } = this.props
+    const players = this.renderPlayers()
     return (
-      <div style={style} className={this.props.className} hidden={this.props.hidden}>
-        {this.renderPlayers()}
+      <div style={{ ...style, width, height }} className={className} hidden={hidden}>
+        {players}
       </div>
     )
   }

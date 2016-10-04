@@ -11,6 +11,7 @@ export default class Streamable extends FilePlayer {
     return MATCH_URL.test(url)
   }
   getData (url) {
+    const { onError } = this.props
     const id = url.match(MATCH_URL)[1]
     if (cache[id]) {
       return Promise.resolve(cache[id])
@@ -21,15 +22,16 @@ export default class Streamable extends FilePlayer {
           cache[id] = response.json()
           return cache[id]
         } else {
-          this.props.onError(new Error('Streamable track could not be resolved'))
+          onError(new Error('Streamable track could not be resolved'))
         }
       })
   }
   load (url) {
+    const { onError } = this.props
     this.stop()
     this.getData(url).then(data => {
       if (!this.mounted) return
       this.player.src = data.files.mp4.url
-    }, this.props.onError)
+    }, onError)
   }
 }

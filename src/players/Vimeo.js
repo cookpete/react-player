@@ -23,9 +23,10 @@ export default class Vimeo extends Base {
     return MATCH_URL.test(url)
   }
   componentDidMount () {
+    const { url, vimeoConfig } = this.props
     window.addEventListener('message', this.onMessage, false)
 
-    if (!this.props.url && this.props.vimeoConfig.preload) {
+    if (!url && vimeoConfig.preload) {
       this.preloading = true
       this.load(BLANK_VIDEO_URL)
     }
@@ -91,10 +92,11 @@ export default class Vimeo extends Base {
     }
   }
   onEnded = () => {
-    if (this.props.loop) {
+    const { loop, onEnded } = this.props
+    if (loop) {
       this.seekTo(0)
     }
-    this.props.onEnded()
+    onEnded()
   }
   postMessage = (method, value) => {
     if (!this.origin) return

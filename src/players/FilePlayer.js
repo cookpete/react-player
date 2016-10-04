@@ -10,24 +10,26 @@ export default class FilePlayer extends Base {
     return true
   }
   componentDidMount () {
+    const { onPause, onEnded, onError } = this.props
     this.player.addEventListener('canplay', this.onReady)
     this.player.addEventListener('play', this.onPlay)
     this.player.addEventListener('pause', () => {
       if (this.mounted) {
-        this.props.onPause()
+        onPause()
       }
     })
-    this.player.addEventListener('ended', this.props.onEnded)
-    this.player.addEventListener('error', this.props.onError)
+    this.player.addEventListener('ended', onEnded)
+    this.player.addEventListener('error', onError)
     this.player.setAttribute('webkit-playsinline', '')
     super.componentDidMount()
   }
   componentWillUnmount () {
+    const { onPause, onEnded, onError } = this.props
     this.player.removeEventListener('canplay', this.onReady)
     this.player.removeEventListener('play', this.onPlay)
-    this.player.removeEventListener('pause', this.props.onPause)
-    this.player.removeEventListener('ended', this.props.onEnded)
-    this.player.removeEventListener('error', this.props.onError)
+    this.player.removeEventListener('pause', onPause)
+    this.player.removeEventListener('ended', onEnded)
+    this.player.removeEventListener('error', onError)
     super.componentWillUnmount()
   }
   load (url) {
@@ -62,12 +64,12 @@ export default class FilePlayer extends Base {
     return this.player.buffered.end(0) / this.getDuration()
   }
   render () {
-    const { loop, controls, fileConfig } = this.props
-    const Media = AUDIO_EXTENSIONS.test(this.props.url) ? 'audio' : 'video'
+    const { url, loop, controls, fileConfig } = this.props
+    const Media = AUDIO_EXTENSIONS.test(url) ? 'audio' : 'video'
     const style = {
       width: '100%',
       height: '100%',
-      display: this.props.url ? 'block' : 'none'
+      display: url ? 'block' : 'none'
     }
     return (
       <Media

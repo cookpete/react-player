@@ -27,7 +27,8 @@ export default class YouTube extends Base {
   }
   playerId = PLAYER_ID + '-' + playerIdCount++
   componentDidMount () {
-    if (!this.props.url && this.props.youtubeConfig.preload) {
+    const { url, youtubeConfig } = this.props
+    if (!url && youtubeConfig.preload) {
       this.preloading = true
       this.load(BLANK_VIDEO_URL)
     }
@@ -49,6 +50,7 @@ export default class YouTube extends Base {
     })
   }
   load (url) {
+    const { controls, youtubeConfig, onError } = this.props
     const id = url && url.match(MATCH_URL)[1]
     if (this.isReady) {
       this.player.cueVideoById({
@@ -69,8 +71,8 @@ export default class YouTube extends Base {
         videoId: id,
         playerVars: {
           ...DEFAULT_PLAYER_VARS,
-          controls: this.props.controls ? 1 : 0,
-          ...this.props.youtubeConfig.playerVars,
+          controls: controls ? 1 : 0,
+          ...youtubeConfig.playerVars,
           start: parseStartTime(url),
           origin: window.location.origin
         },
@@ -80,24 +82,26 @@ export default class YouTube extends Base {
             this.onReady()
           },
           onStateChange: this.onStateChange,
-          onError: event => this.props.onError(event.data)
+          onError: event => onError(event.data)
         }
       })
-    }, this.props.onError)
+    }, onError)
   }
   onStateChange = ({ data }) => {
+    const { onPause, onBuffer } = this.props
     const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
     if (data === PLAYING) this.onPlay()
-    if (data === PAUSED) this.props.onPause()
-    if (data === BUFFERING) this.props.onBuffer()
+    if (data === PAUSED) onPause()
+    if (data === BUFFERING) onBuffer()
     if (data === ENDED) this.onEnded()
     if (data === CUED) this.onReady()
   }
   onEnded = () => {
-    if (this.props.loop) {
+    const { loop, onEnded } = this.props
+    if (loop) {
       this.seekTo(0)
     }
-    this.props.onEnded()
+    onEnded()
   }
   play () {
     if (!this.isReady || !this.player.playVideo) return

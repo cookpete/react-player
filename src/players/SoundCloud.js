@@ -23,33 +23,35 @@ export default class SoundCloud extends FilePlayer {
     )
   }
   getSongData (url) {
+    const { soundcloudConfig, onError } = this.props
     if (songData[url]) {
       return Promise.resolve(songData[url])
     }
-    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + this.props.soundcloudConfig.clientId)
+    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + soundcloudConfig.clientId)
       .then(response => {
         if (response.ok) {
           songData[url] = response.json()
           return songData[url]
         } else {
-          this.props.onError(new Error('SoundCloud track could not be resolved'))
+          onError(new Error('SoundCloud track could not be resolved'))
         }
       })
   }
   load (url) {
+    const { soundcloudConfig, onError } = this.props
     this.stop()
     this.getSongData(url).then(data => {
       if (!this.mounted) return
       if (!data.streamable) {
-        this.props.onError(new Error('SoundCloud track is not streamable'))
+        onError(new Error('SoundCloud track is not streamable'))
         return
       }
       const image = data.artwork_url || data.user.avatar_url
       if (image) {
         this.setState({ image: image.replace('-large', '-t500x500') })
       }
-      this.player.src = data.stream_url + '?client_id=' + this.props.soundcloudConfig.clientId
-    }, this.props.onError)
+      this.player.src = data.stream_url + '?client_id=' + soundcloudConfig.clientId
+    }, onError)
   }
   render () {
     const { url, loop, controls } = this.props
@@ -63,10 +65,15 @@ export default class SoundCloud extends FilePlayer {
     return (
       <div style={style}>
         <audio
-          ref={player => { this.player = player }}
+          ref={player => {
+            this.player = player
+          }}
           type='audio/mpeg'
           preload='auto'
-          style={{ width: '100%', height: '100%' }}
+          style={{
+            width: '100%',
+            height: '100%'
+          }}
           controls={controls}
           loop={loop}
         />
