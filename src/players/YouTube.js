@@ -8,7 +8,6 @@ const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
-const PLAYER_ID = 'youtube-player'
 const BLANK_VIDEO_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
 const DEFAULT_PLAYER_VARS = {
   autoplay: 0,
@@ -18,14 +17,11 @@ const DEFAULT_PLAYER_VARS = {
   iv_load_policy: 3
 }
 
-let playerIdCount = 0
-
 export default class YouTube extends Base {
   static displayName = 'YouTube'
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  playerId = PLAYER_ID + '-' + playerIdCount++
   componentDidMount () {
     const { url, youtubeConfig } = this.props
     if (!url && youtubeConfig.preload) {
@@ -65,7 +61,7 @@ export default class YouTube extends Base {
     }
     this.loadingSDK = true
     this.getSDK().then(YT => {
-      this.player = new YT.Player(this.playerId, {
+      this.player = new YT.Player(this.refNode, {
         width: '100%',
         height: '100%',
         videoId: id,
@@ -136,6 +132,9 @@ export default class YouTube extends Base {
     if (!this.isReady || !this.player.getVideoLoadedFraction) return null
     return this.player.getVideoLoadedFraction()
   }
+  setRefNode = (node) => {
+    this.refNode = node
+  }
   render () {
     const style = {
       height: '100%',
@@ -143,7 +142,7 @@ export default class YouTube extends Base {
     }
     return (
       <div style={style}>
-        <div id={this.playerId} />
+        <div ref={this.setRefNode} />
       </div>
     )
   }
