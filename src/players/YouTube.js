@@ -61,7 +61,7 @@ export default class YouTube extends Base {
     }
     this.loadingSDK = true
     this.getSDK().then(YT => {
-      this.player = new YT.Player(this.refNode, {
+      this.player = new YT.Player(this.container, {
         width: '100%',
         height: '100%',
         videoId: id,
@@ -132,9 +132,6 @@ export default class YouTube extends Base {
     if (!this.isReady || !this.player.getVideoLoadedFraction) return null
     return this.player.getVideoLoadedFraction()
   }
-  setRefNode = (node) => {
-    this.refNode = node
-  }
   render () {
     const style = {
       height: '100%',
@@ -142,7 +139,7 @@ export default class YouTube extends Base {
     }
     return (
       <div style={style}>
-        <div ref={this.setRefNode} />
+        <div ref={container => { this.container = container }} />
       </div>
     )
   }
