@@ -6,13 +6,13 @@ ReactPlayer
 [![Dependency Status](https://img.shields.io/david/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player)
 [![devDependency Status](https://img.shields.io/david/dev/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player?type=dev)
 
-A react component for playing media from YouTube, SoundCloud, Streamable or Vimeo, as well as supported media files. Used by [rplayr](http://rplayr.com), an app to generate playlists from Reddit URLs.
+A react component for playing media from YouTube, SoundCloud, Streamable, Vidme or Vimeo, as well as supported media files. Used by [rplayr](http://rplayr.com), an app to generate playlists from Reddit URLs.
 
 The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending.
 
 ### Polyfills
 
-If you are using `npm` and need to support [browsers without `Promise`](http://caniuse.com/#feat=promises) you will need a [`Promise` polyfill](https://github.com/stefanpenner/es6-promise). To support `Streamable` videos you will also need a [`fetch` polyfill](https://github.com/github/fetch) for [browsers without `fetch`](http://caniuse.com/#feat=fetch)
+If you are using `npm` and need to support [browsers without `Promise`](http://caniuse.com/#feat=promises) you will need a [`Promise` polyfill](https://github.com/stefanpenner/es6-promise). To support `Streamable` or `Vidme` videos you will also need a [`fetch` polyfill](https://github.com/github/fetch) for [browsers without `fetch`](http://caniuse.com/#feat=fetch)
 
 ### Usage
 
@@ -127,6 +127,7 @@ To seek to a certain part of the media, there is a `seekTo(fraction)` instance m
 * YouTube videos use the [YouTube iFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
 * Soundcloud tracks are [resolved](https://developers.soundcloud.com/docs/api/reference#resolve) and played in an [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) element using the track’s `stream_url`
 * Streamable videos are [resolved](https://streamable.com/documentation#retrieve-video) and played in a [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element using the track’s `mp4` path
+* Vidme videos are [resolved](https://docs.vid.me/#api-Video-DetailByURL) and played in a [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element using the track’s `complete_url` path
 * Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/js-api)
 * [Supported file types](https://github.com/CookPete/react-player/blob/master/src/players/FilePlayer.js#L5-L6) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
 

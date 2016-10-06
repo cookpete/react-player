@@ -172,6 +172,13 @@ export default class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Vidme</th>
+              <td>
+                {this.renderLoadButton('https://vid.me/yvi', 'Test A')}
+                {this.renderLoadButton('https://vid.me/yvf', 'Test B')}
+              </td>
+            </tr>
+            <tr>
               <th>Files</th>
               <td>
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'MP4')}

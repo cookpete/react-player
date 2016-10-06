@@ -6,6 +6,7 @@ import SoundCloud from './players/SoundCloud'
 import Vimeo from './players/Vimeo'
 import FilePlayer from './players/FilePlayer'
 import Streamable from './players/Streamable'
+import Vidme from './players/Vidme'
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
@@ -63,6 +64,8 @@ export default class ReactPlayer extends Component {
       players.push(Vimeo)
     } else if (Streamable.canPlay(url)) {
       players.push(Streamable)
+    } else if (Vidme.canPlay(url)) {
+      players.push(Vidme)
     } else if (url) {
       // Fall back to FilePlayer if nothing else can play the URL
       players.push(FilePlayer)
