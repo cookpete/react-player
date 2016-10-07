@@ -103,6 +103,9 @@ export default class Vimeo extends Base {
     const data = JSON.stringify({ method, value })
     return this.iframe.contentWindow && this.iframe.contentWindow.postMessage(data, this.origin)
   }
+  ref = iframe => {
+    this.iframe = iframe
+  }
   render () {
     const { fullscreen } = this.getIframeParams()
     const style = {
@@ -112,7 +115,7 @@ export default class Vimeo extends Base {
     }
     return (
       <iframe
-        ref={iframe => { this.iframe = iframe }}
+        ref={this.ref}
         frameBorder='0'
         style={style}
         allowFullScreen={fullscreen}

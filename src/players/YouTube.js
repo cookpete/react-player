@@ -132,6 +132,9 @@ export default class YouTube extends Base {
     if (!this.isReady || !this.player.getVideoLoadedFraction) return null
     return this.player.getVideoLoadedFraction()
   }
+  ref = container => {
+    this.container = container
+  }
   render () {
     const style = {
       height: '100%',
@@ -139,7 +142,7 @@ export default class YouTube extends Base {
     }
     return (
       <div style={style}>
-        <div ref={container => { this.container = container }} />
+        <div ref={this.ref} />
       </div>
     )
   }

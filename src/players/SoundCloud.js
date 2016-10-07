@@ -54,6 +54,9 @@ export default class SoundCloud extends FilePlayer {
       this.player.src = data.stream_url + '?client_id=' + this.clientId
     }, onError)
   }
+  ref = player => {
+    this.player = player
+  }
   render () {
     const { url, loop, controls } = this.props
     const style = {
@@ -66,9 +69,7 @@ export default class SoundCloud extends FilePlayer {
     return (
       <div style={style}>
         <audio
-          ref={player => {
-            this.player = player
-          }}
+          ref={this.ref}
           type='audio/mpeg'
           preload='auto'
           style={{

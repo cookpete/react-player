@@ -63,6 +63,9 @@ export default class FilePlayer extends Base {
     if (!this.isReady || this.player.buffered.length === 0) return null
     return this.player.buffered.end(0) / this.getDuration()
   }
+  ref = player => {
+    this.player = player
+  }
   render () {
     const { url, loop, controls, fileConfig } = this.props
     const Media = AUDIO_EXTENSIONS.test(url) ? 'audio' : 'video'
@@ -73,7 +76,7 @@ export default class FilePlayer extends Base {
     }
     return (
       <Media
-        ref={player => { this.player = player }}
+        ref={this.ref}
         style={style}
         preload='auto'
         controls={controls}
