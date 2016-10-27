@@ -1,4 +1,4 @@
-require("babel-polyfill")
+require('babel-polyfill')
 var webpackConfig = require('../webpack.config.dev')
 webpackConfig.devtool = 'inline-source-map'
 
