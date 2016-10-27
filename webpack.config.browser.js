@@ -3,7 +3,7 @@ var webpack = require('webpack')
 
 module.exports = {
   devtool: 'source-map',
-  entry: './src/ReactPlayer',
+  entry: ['babel-polyfill', './src/ReactPlayer'],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'ReactPlayer.js',
