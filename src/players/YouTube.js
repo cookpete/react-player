@@ -120,6 +120,10 @@ export default class YouTube extends Base {
     if (!this.isReady || !this.player.setVolume) return
     this.player.setVolume(fraction * 100)
   }
+  setPlaybackRate (rate) {
+    if (!this.isReady || !this.player.setPlaybackRate) return
+    this.player.setPlaybackRate(rate)
+  }
   getDuration () {
     if (!this.isReady || !this.player.getDuration) return null
     return this.player.getDuration()
