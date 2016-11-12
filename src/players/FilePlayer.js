@@ -51,6 +51,9 @@ export default class FilePlayer extends Base {
   setVolume (fraction) {
     this.player.volume = fraction
   }
+  setPlaybackRate (rate) {
+    this.player.playbackRate = rate
+  }
   getDuration () {
     if (!this.isReady) return null
     return this.player.duration
