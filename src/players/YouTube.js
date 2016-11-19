@@ -137,6 +137,7 @@ export default class YouTube extends Base {
   }
   render () {
     const style = {
+      width: '100%',
       height: '100%',
       display: this.props.url ? 'block' : 'none'
     }
