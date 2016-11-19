@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { findDOMNode } from 'react-dom'
+import screenfull from 'screenfull'
 
 import 'normalize.css/normalize.css'
 import './defaults.scss'
@@ -49,6 +51,9 @@ export default class App extends Component {
     if (!this.state.seeking) {
       this.setState(state)
     }
+  }
+  onClickFullscreen = () => {
+    screenfull.request(findDOMNode(this.player))
   }
   onConfigSubmit = () => {
     let config
@@ -111,6 +116,7 @@ export default class App extends Component {
               <td>
                 <button onClick={this.stop}>Stop</button>
                 <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
+                <button onClick={this.onClickFullscreen}>Fullscreen</button>
               </td>
             </tr>
             <tr>

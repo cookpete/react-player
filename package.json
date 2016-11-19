@@ -79,6 +79,7 @@
     "react-dom": "^15.3.2",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.2",
+    "screenfull": "^3.0.2",
     "snazzy": "^5.0.0",
     "standard": "^8.3.0",
     "style-loader": "^0.13.1",
