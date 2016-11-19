@@ -57,7 +57,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.16.0",
     "chai": "^3.5.0",
-    "css-loader": "^0.25.0",
+    "css-loader": "^0.26.0",
     "es6-promise": "^4.0.3",
     "exports-loader": "^0.6.3",
     "express": "^4.14.0",
@@ -86,7 +86,7 @@
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-hot-middleware": "^2.12.2",
-    "whatwg-fetch": "^1.0.0"
+    "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
     "fetch-jsonp": "^1.0.2",
