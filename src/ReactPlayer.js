@@ -41,7 +41,7 @@ export default class ReactPlayer extends Component {
       if (loaded !== this.prevLoaded) {
         progress.loaded = loaded
       }
-      if (played !== this.prevPlayed && this.props.playing) {
+      if (played !== this.prevPlayed) {
         progress.played = played
       }
       if (progress.loaded || progress.played) {
