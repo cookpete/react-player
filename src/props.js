@@ -25,6 +25,10 @@ export const propTypes = {
   facebookConfig: shape({
     appId: string
   }),
+  dailymotionConfig: shape({
+    params: object,
+    preload: bool
+  }),
   vimeoConfig: shape({
     iframeParams: object,
     preload: bool
@@ -67,6 +71,10 @@ export const defaultProps = {
   },
   facebookConfig: {
     appId: '1309697205772819'
+  },
+  dailymotionConfig: {
+    params: {},
+    preload: false
   },
   vimeoConfig: {
     iframeParams: {},

@@ -10,6 +10,7 @@ import FilePlayer from './players/FilePlayer'
 import Streamable from './players/Streamable'
 import Vidme from './players/Vidme'
 import Wistia from './players/Wistia'
+import DailyMotion from './players/DailyMotion'
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
@@ -88,6 +89,8 @@ export default class ReactPlayer extends Component {
       players.push(Vimeo)
     } else if (Facebook.canPlay(url)) {
       players.push(Facebook)
+    } else if (DailyMotion.canPlay(url)) {
+      players.push(DailyMotion)
     } else if (Streamable.canPlay(url)) {
       players.push(Streamable)
     } else if (Vidme.canPlay(url)) {
