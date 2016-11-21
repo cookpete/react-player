@@ -22,6 +22,10 @@ export const propTypes = {
     playerVars: object,
     preload: bool
   }),
+  dailymotionConfig: shape({
+    params: object,
+    preload: bool
+  }),
   vimeoConfig: shape({
     iframeParams: object,
     preload: bool
@@ -55,6 +59,10 @@ export const defaultProps = {
   },
   youtubeConfig: {
     playerVars: {},
+    preload: false
+  },
+  dailymotionConfig: {
+    params: {},
     preload: false
   },
   vimeoConfig: {

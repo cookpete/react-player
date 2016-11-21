@@ -7,6 +7,7 @@ import Vimeo from './players/Vimeo'
 import FilePlayer from './players/FilePlayer'
 import Streamable from './players/Streamable'
 import Vidme from './players/Vidme'
+import DailyMotion from './players/DailyMotion'
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
@@ -60,6 +61,8 @@ export default class ReactPlayer extends Component {
     const players = []
     if (YouTube.canPlay(url)) {
       players.push(YouTube)
+    } else if (DailyMotion.canPlay(url)) {
+      players.push(DailyMotion)
     } else if (SoundCloud.canPlay(url)) {
       players.push(SoundCloud)
     } else if (Vimeo.canPlay(url)) {
@@ -86,12 +89,13 @@ export default class ReactPlayer extends Component {
   }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
-    const { youtubeConfig, soundcloudConfig, vimeoConfig, fileConfig, ...activeProps } = this.props
+    const { youtubeConfig, dailymotionConfig, soundcloudConfig, vimeoConfig, fileConfig, ...activeProps } = this.props
     const props = active ? { ...activeProps, ref: this.ref } : {}
     return (
       <Player
         key={Player.displayName}
         youtubeConfig={youtubeConfig}
+        dailymotionConfig={dailymotionConfig}
         soundcloudConfig={soundcloudConfig}
         vimeoConfig={vimeoConfig}
         fileConfig={fileConfig}
