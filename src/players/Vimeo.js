@@ -4,7 +4,7 @@ import { stringify } from 'query-string'
 import Base from './Base'
 
 const IFRAME_SRC = 'https://player.vimeo.com/video/'
-const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
+const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
 const MATCH_MESSAGE_ORIGIN = /^https?:\/\/player.vimeo.com/
 const BLANK_VIDEO_URL = 'https://vimeo.com/127250231'
 const DEFAULT_IFRAME_PARAMS = {
