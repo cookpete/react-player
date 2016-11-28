@@ -16,6 +16,7 @@
     "soundcloud",
     "streamable",
     "vimeo",
+    "wistia",
     "react-component"
   ],
   "homepage": "https://github.com/CookPete/react-player",
