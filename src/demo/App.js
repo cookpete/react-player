@@ -185,6 +185,13 @@ export default class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Wistia</th>
+              <td>
+                {this.renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}
+                {this.renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test B')}
+              </td>
+            </tr>
+            <tr>
               <th>Files</th>
               <td>
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'MP4')}
