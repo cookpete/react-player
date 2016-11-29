@@ -60,7 +60,7 @@ export default class Wistia extends Base {
       display: this.props.url ? 'block' : 'none'
     }
     return (
-      <div ref={this.ref} className={`wistia_embed wistia_async_${this.state.id}`} style={style}></div>
+      <div ref={this.ref} className={`wistia_embed wistia_async_${this.state.id}`} style={style} />
     )
   }
 }
