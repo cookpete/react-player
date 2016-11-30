@@ -169,13 +169,6 @@ export default class App extends Component {
               </td>
             </tr>
             <tr>
-              <th>DailyMotion</th>
-              <td>
-                {this.renderLoadButton('http://www.dailymotion.com/video/x522udb', 'Test A')}
-                {this.renderLoadButton('http://www.dailymotion.com/video/x2hzs96_feast-2015-oscar-winning-short-movie-full-length-hd_shortfilms', 'Test B')}
-              </td>
-            </tr>
-            <tr>
               <th>SoundCloud</th>
               <td>
                 {this.renderLoadButton('https://soundcloud.com/miami-nights-1984/accelerated', 'Test A')}
@@ -215,6 +208,13 @@ export default class App extends Component {
               <td>
                 {this.renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}
                 {this.renderLoadButton('https://home.wistia.com/medias/29b0fbf547', 'Test B')}
+              </td>
+            </tr>
+            <tr>
+              <th>DailyMotion</th>
+              <td>
+                {this.renderLoadButton('http://www.dailymotion.com/video/x26m1j4_wildlife_animals', 'Test A')}
+                {this.renderLoadButton('http://www.dailymotion.com/video/x26ezj5', 'Test B')}
               </td>
             </tr>
             <tr>

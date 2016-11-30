@@ -45,24 +45,14 @@ export default class DailyMotion extends Base {
       })
     })
   }
-
   parseId (url) {
-    if (url) {
-      const m = url.match(MATCH_URL)
-      if (m !== null) {
-        if (m[4] !== undefined) {
-          return m[4]
-        }
-        return m[2]
-      }
-    }
-    return null
+    const m = url.match(MATCH_URL)
+    return m[4] || m[2]
   }
-
   load (url) {
     const { controls, dailymotionConfig, onError, playing } = this.props
     const id = this.parseId(url)
-    if (this.isReady) {
+    if (this.player) {
       this.player.load(id, {
         start: parseStartTime(url),
         autoplay: playing
@@ -75,8 +65,8 @@ export default class DailyMotion extends Base {
     }
     this.loadingSDK = true
     this.getSDK().then(DM => {
-      // eslint-disable-next-line new-cap
-      this.player = new DM.player(this.container, {
+      const Player = DM.player
+      this.player = new Player(this.container, {
         width: '100%',
         height: '100%',
         video: id,
@@ -84,9 +74,9 @@ export default class DailyMotion extends Base {
           ...DEFAULT_PLAYER_VARS,
           controls: controls,
           autoplay: this.props.playing,
-          ...dailymotionConfig.params,
           start: parseStartTime(url),
-          origin: window.location.origin
+          origin: window.location.origin,
+          ...dailymotionConfig.params
         },
         events: {
           apiready: () => {
@@ -108,7 +98,6 @@ export default class DailyMotion extends Base {
     const duration = this.getDuration()
     onDuration(duration)
   }
-
   onEnded = () => {
     const { loop, onEnded } = this.props
     if (loop) {
@@ -125,9 +114,7 @@ export default class DailyMotion extends Base {
     this.player.pause()
   }
   stop () {
-    if (!this.isReady || !this.player.pause) return
-    this.player.pause()
-    this.onEnded()
+    // Nothing to do
   }
   seekTo (fraction) {
     super.seekTo(fraction)
@@ -138,6 +125,9 @@ export default class DailyMotion extends Base {
     if (!this.isReady || !this.player.setVolume) return
     this.player.setVolume(fraction)
   }
+  setPlaybackRate () {
+    return null
+  }
   getDuration () {
     if (!this.isReady || !this.player.duration) return null
     return this.player.duration
@@ -147,8 +137,8 @@ export default class DailyMotion extends Base {
     return this.player.currentTime / this.getDuration()
   }
   getFractionLoaded () {
-    if (!this.isReady || !this.player.bufferedTime) return null
-    return this.player.bufferedTime
+    if (!this.isReady || !this.getDuration() || !this.player.bufferedTime) return null
+    return this.player.bufferedTime / this.getDuration()
   }
   ref = container => {
     this.container = container
@@ -157,6 +147,7 @@ export default class DailyMotion extends Base {
     const style = {
       width: '100%',
       height: '100%',
+      backgroundColor: 'black',
       display: this.props.url ? 'block' : 'none'
     }
     return (

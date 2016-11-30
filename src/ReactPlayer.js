@@ -79,7 +79,7 @@ export default class ReactPlayer extends Component {
   }
   renderPlayers () {
     // Build array of players to render based on URL and preload config
-    const { url, youtubeConfig, vimeoConfig } = this.props
+    const { url, youtubeConfig, vimeoConfig, dailymotionConfig } = this.props
     const players = []
     if (YouTube.canPlay(url)) {
       players.push(YouTube)
@@ -108,6 +108,9 @@ export default class ReactPlayer extends Component {
     if (!Vimeo.canPlay(url) && vimeoConfig.preload) {
       players.push(Vimeo)
     }
+    if (!DailyMotion.canPlay(url) && dailymotionConfig.preload) {
+      players.push(DailyMotion)
+    }
     return players.map(this.renderPlayer)
   }
   ref = player => {
@@ -115,7 +118,7 @@ export default class ReactPlayer extends Component {
   }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
-    const { youtubeConfig, vimeoConfig, ...activeProps } = this.props
+    const { youtubeConfig, vimeoConfig, dailymotionConfig, ...activeProps } = this.props
     const props = active ? { ...activeProps, ref: this.ref } : {}
     // Only youtube and vimeo config passed to
     // inactive players due to preload behaviour
@@ -124,6 +127,7 @@ export default class ReactPlayer extends Component {
         key={Player.displayName}
         youtubeConfig={youtubeConfig}
         vimeoConfig={vimeoConfig}
+        dailymotionConfig={dailymotionConfig}
         {...props}
       />
     )
