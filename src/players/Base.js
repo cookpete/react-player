@@ -38,7 +38,7 @@ export default class Base extends Component {
       this.pause()
     } else if (volume !== nextProps.volume) {
       this.setVolume(nextProps.volume)
-    } else if (playbackRate != nextProps.playbackRate) {
+    } else if (playbackRate !== nextProps.playbackRate) {
       this.setPlaybackRate(nextProps.playbackRate)
     }
   }
