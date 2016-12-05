@@ -188,7 +188,7 @@ export default class App extends Component {
               <th>Wistia</th>
               <td>
                 {this.renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}
-                {this.renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test B')}
+                {this.renderLoadButton('https://home.wistia.com/medias/naf7b0qi4o', 'Test B')}
               </td>
             </tr>
             <tr>
