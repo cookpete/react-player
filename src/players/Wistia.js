@@ -13,35 +13,48 @@ export default class Wistia extends Base {
   }
   constructor(props) {
     super(props)
-    this.state = {
-      id: null
-    }
-    this.loadingSDK = true;
-    this.getSDK().then(() => {
-      this.loadingSDK = false;
-    })
+    this.loadingSDK = true
+    this.video = null
   }
-  shouldComponentUpdate (nextProps, nextState) {
-    return (
-      super.shouldComponentUpdate(nextProps, nextState) ||
-      this.state.id !== nextState.id
-    )
+  componentDidMount() {
+    this.getSDK().then((_script) => {
+      this.loadingSDK = false
+      window._wq = window._wq || []
+      _wq.push({ id: this.getVideoId(this.props.url), onReady: (video) => {
+        this.props.onReady();
+        console.log("Got a handle of: ", video._hashedId)
+        this.video = video
+        if (this.props.playing) this.video.play()
+
+      }})
+    })
   }
   getSDK () {
     return new Promise((resolve, reject) => {
-      loadScript(SDK_URL, err => {
+      loadScript(SDK_URL, (err, script) => {
         if (err) reject(err)
+        resolve(script)
       })
     })
   }
   load (url) {
-    const id = url && url.match(MATCH_URL)[4]
-    this.setState({
-      id: id
-    })
+    console.log(`Loading video id: ${this.getVideoId(this.props.url)}`)
+    _wq.push({ id: this.getVideoId(url), onReady: (video) => {
+      this.props.onReady()
+      this.video = video
+      this.video.play()
+    }})
   }
   stop () {
-
+    if (this.video) {
+      this.video.pause()
+    }
+  }
+  pause () {
+    this.video && this.video.pause()
+  }
+  play () {
+    this.video.play()
   }
   getFractionLoaded () {
     0
@@ -49,18 +62,23 @@ export default class Wistia extends Base {
   getFractionPlayed () {
     0
   }
+  getVideoId(url) {
+    return url && url.match(MATCH_URL)[4]
+  }
   ref = player => {
     this.player = player
   }
-
   render () {
     const style = {
       width: '100%',
       height: '100%',
       display: this.props.url ? 'block' : 'none'
     }
+
+    const id = this.getVideoId(this.props.url)
+    console.log(`Rendering ${id}`)
     return (
-      <div ref={this.ref} className={`wistia_embed wistia_async_${this.state.id}`} style={style} />
+      <div ref={this.ref} className={`wistia_embed wistia_async_${id}`} style={style} />
     )
   }
 }
