@@ -11,24 +11,29 @@ export default class Wistia extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.loadingSDK = true
     this.player = null
   }
-  componentDidMount() {
+  componentDidMount () {
     const { onStart, onPause, onEnded } = this.props
     this.getSDK().then((_script) => {
       window._wq = window._wq || []
-      _wq.push({ id: this.getVideoId(this.props.url), onReady: (video) => {
-        this.loadingSDK = false
-        this.player = video
-        this.player.bind('start', onStart)
-        this.player.bind('play', this.onPlay)
-        this.player.bind('pause', onPause)
-        this.player.bind('end', onEnded)
-        this.onReady()
-      }})
+      window._wq.push(
+        {
+          id: this.getVideoId(this.props.url),
+          onReady: (video) => {
+            this.loadingSDK = false
+            this.player = video
+            this.player.bind('start', onStart)
+            this.player.bind('play', this.onPlay)
+            this.player.bind('pause', onPause)
+            this.player.bind('end', onEnded)
+            this.onReady()
+          }
+        }
+      )
     })
   }
   getSDK () {
@@ -42,7 +47,7 @@ export default class Wistia extends Base {
   load (url) {
     const wistiaId = this.getVideoId(url)
     if (this.isReady) {
-      this.player.replaceWith(wistiaId);
+      this.player.replaceWith(wistiaId)
       this.props.onReady()
       this.onReady()
       return
@@ -62,7 +67,7 @@ export default class Wistia extends Base {
   }
   seekTo (fraction) {
     super.seekTo(fraction)
-    if (!this.isReady || !this.player ) return
+    if (!this.isReady || !this.player) return
     this.player.time(this.getDuration() * fraction)
   }
   setVolume (fraction) {
@@ -80,7 +85,7 @@ export default class Wistia extends Base {
   getFractionLoaded () {
     return null
   }
-  getVideoId(url) {
+  getVideoId (url) {
     return url && url.match(MATCH_URL)[4]
   }
   ref = container => {
