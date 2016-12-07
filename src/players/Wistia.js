@@ -14,18 +14,20 @@ export default class Wistia extends Base {
   constructor(props) {
     super(props)
     this.loadingSDK = true
-    this.video = null
+    this.player = null
   }
   componentDidMount() {
+    const { onStart, onPause, onEnded } = this.props
     this.getSDK().then((_script) => {
-      this.loadingSDK = false
       window._wq = window._wq || []
       _wq.push({ id: this.getVideoId(this.props.url), onReady: (video) => {
-        this.props.onReady();
-        console.log("Got a handle of: ", video._hashedId)
-        this.video = video
-        if (this.props.playing) this.video.play()
-
+        this.loadingSDK = false
+        this.player = video
+        this.player.bind('start', onStart)
+        this.player.bind('play', this.onPlay)
+        this.player.bind('pause', onPause)
+        this.player.bind('end', onEnded)
+        this.onReady()
       }})
     })
   }
@@ -38,35 +40,51 @@ export default class Wistia extends Base {
     })
   }
   load (url) {
-    console.log(`Loading video id: ${this.getVideoId(this.props.url)}`)
-    _wq.push({ id: this.getVideoId(url), onReady: (video) => {
+    const wistiaId = this.getVideoId(url)
+    if (this.isReady) {
+      this.player.replaceWith(wistiaId);
       this.props.onReady()
-      this.video = video
-      this.video.play()
-    }})
-  }
-  stop () {
-    if (this.video) {
-      this.video.pause()
+      this.onReady()
+      return
     }
   }
-  pause () {
-    this.video && this.video.pause()
-  }
   play () {
-    this.video.play()
+    if (!this.isReady || !this.player) return
+    this.player.play()
   }
-  getFractionLoaded () {
-    0
+  pause () {
+    if (!this.isReady || !this.player) return
+    this.player && this.player.pause()
+  }
+  stop () {
+    if (!this.isReady || !this.player) return
+    this.player.pause()
+  }
+  seekTo (fraction) {
+    super.seekTo(fraction)
+    if (!this.isReady || !this.player ) return
+    this.player.time(this.getDuration() * fraction)
+  }
+  setVolume (fraction) {
+    if (!this.isReady || !this.player || !this.player.volume) return
+    this.player.volume(fraction)
+  }
+  getDuration () {
+    if (!this.isReady || !this.player || !this.player.duration) return
+    return this.player.duration()
   }
   getFractionPlayed () {
-    0
+    if (!this.isReady || !this.player || !this.player.percentWatched) return null
+    return this.player.percentWatched()
+  }
+  getFractionLoaded () {
+    return null
   }
   getVideoId(url) {
     return url && url.match(MATCH_URL)[4]
   }
-  ref = player => {
-    this.player = player
+  ref = container => {
+    this.container = container
   }
   render () {
     const style = {
@@ -76,7 +94,6 @@ export default class Wistia extends Base {
     }
 
     const id = this.getVideoId(this.props.url)
-    console.log(`Rendering ${id}`)
     return (
       <div ref={this.ref} className={`wistia_embed wistia_async_${id}`} style={style} />
     )
