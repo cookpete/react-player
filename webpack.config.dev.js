@@ -40,6 +40,5 @@ module.exports = {
       loader: 'style?insertAt=top!css',
       include: path.join(__dirname, 'node_modules', 'normalize.css')
     }]
-  },
-  devtool: "source-map",
+  }
 }
