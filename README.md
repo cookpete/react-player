@@ -80,6 +80,7 @@ Prop | Description | Default
 `loop` | Set to `true` or `false` to loop the media | `false`
 `controls` | Set to `true` or `false` to display native player controls<br />*Note: Vimeo player controls are not configurable and will always display* | `false`
 `volume` | Sets the volume of the appropriate player | `0.8`
+`playbackRate` | Sets the playback rate of the appropriate player | `1`
 `width` | Sets the width of the player | `640`
 `height` | Sets the height of the player | `360`
 `hidden` | Set to `true` to hide the player | `false`
