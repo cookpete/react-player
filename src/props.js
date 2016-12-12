@@ -23,6 +23,10 @@ export const propTypes = {
     playerVars: object,
     preload: bool
   }),
+  dailymotionConfig: shape({
+    params: object,
+    preload: bool
+  }),
   vimeoConfig: shape({
     iframeParams: object,
     preload: bool
@@ -59,6 +63,10 @@ export const defaultProps = {
     playerVars: {},
     preload: false
   },
+  dailymotionConfig: {
+    params: {},
+    preload: false
+  },
   vimeoConfig: {
     iframeParams: {},
     preload: false
@@ -74,5 +82,5 @@ export const defaultProps = {
   onEnded: function () {},
   onError: function () {},
   onDuration: function () {},
-  onProgress: function () {}
+  onProgress: null
 }

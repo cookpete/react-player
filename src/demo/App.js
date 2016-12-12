@@ -167,6 +167,13 @@ export default class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>DailyMotion</th>
+              <td>
+                {this.renderLoadButton('http://www.dailymotion.com/video/x522udb', 'Test A')}
+                {this.renderLoadButton('http://www.dailymotion.com/video/x2hzs96_feast-2015-oscar-winning-short-movie-full-length-hd_shortfilms', 'Test B')}
+              </td>
+            </tr>
+            <tr>
               <th>SoundCloud</th>
               <td>
                 {this.renderLoadButton('https://soundcloud.com/miami-nights-1984/accelerated', 'Test A')}

@@ -6,7 +6,7 @@ ReactPlayer
 [![Dependency Status](https://img.shields.io/david/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player)
 [![devDependency Status](https://img.shields.io/david/dev/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player?type=dev)
 
-A react component for playing media from YouTube, SoundCloud, Streamable, Vidme or Vimeo, as well as supported media files. Used by [rplayr](http://rplayr.com), an app to generate playlists from Reddit URLs.
+A react component for playing media from YouTube, SoundCloud, Streamable, Vidme, Vimeo or DailyMotion, as well as supported media files. Used by [rplayr](http://rplayr.com), an app to generate playlists from Reddit URLs.
 
 The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending.
 
@@ -113,11 +113,12 @@ Prop | Description
 `soundcloudConfig` | Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.
 `vimeoConfig` | Configuration object for the Vimeo player.<br />Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />Set `preload` for [preloading](#preloading).
 `youtubeConfig` | Configuration object for the YouTube player.<br />Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />Set `preload` for [preloading](#preloading).
+`dailymotionConfig` | Configuration object for the DailyMotion player.<br />Set `params` to override the [default player vars](https://developer.dailymotion.com/player#player-parameters).<br />Set `preload` for [preloading](#preloading).
 `fileConfig` | Configuration object for the file player.<br />Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).
 
 ##### Preloading
 
-Both `youtubeConfig` and `vimeoConfig` props can take a `preload` value. Setting this to `true` will play a short, silent video in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
+Both `youtubeConfig`, `vimeoConfig`, `dailymotionConfig` props can take a `preload` value. Setting this to `true` will play a short, silent video in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
 
 ### Methods
 
@@ -130,6 +131,7 @@ To seek to a certain part of the media, there is a `seekTo(fraction)` instance m
 * Streamable videos are [resolved](https://streamable.com/documentation#retrieve-video) and played in a [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element using the track’s `mp4` path
 * Vidme videos are [resolved](https://docs.vid.me/#api-Video-DetailByURL) and played in a [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element using the track’s `complete_url` path
 * Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/js-api)
+* DailyMotion videos use the [DailyMotion Player API](https://developer.dailymotion.com/player)
 * [Supported file types](https://github.com/CookPete/react-player/blob/master/src/players/FilePlayer.js#L5-L6) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
 
 ### Contributing
