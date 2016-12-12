@@ -3,6 +3,7 @@
   "version": "0.12.1",
   "description": "A react component for playing a variety of URLs, including file paths, YouTube, SoundCloud, Streamable, Vidme and Vimeo",
   "main": "lib/ReactPlayer.js",
+  "typings": "index.d.ts",
   "scripts": {
     "clean": "rimraf lib demo",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
