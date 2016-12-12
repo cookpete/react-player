@@ -23,6 +23,7 @@ export default class ReactPlayer extends Component {
       this.props.url !== nextProps.url ||
       this.props.playing !== nextProps.playing ||
       this.props.volume !== nextProps.volume ||
+      this.props.playbackRate !== nextProps.playbackRate ||
       this.props.height !== nextProps.height ||
       this.props.width !== nextProps.width ||
       this.props.hidden !== nextProps.hidden
