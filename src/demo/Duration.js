@@ -10,9 +10,9 @@ export default function Duration ({ className, seconds }) {
 
 function format (seconds) {
   const date = new Date(seconds * 1000)
-  const hh = date.getHours()
-  const mm = date.getMinutes()
-  const ss = pad(date.getSeconds())
+  const hh = date.getUTCHours()
+  const mm = date.getUTCMinutes()
+  const ss = pad(date.getUTCSeconds())
   if (hh) {
     return `${hh}:${pad(mm)}:${ss}`
   }
