@@ -38,10 +38,14 @@ export default class Wistia extends Base {
   }
   getSDK () {
     return new Promise((resolve, reject) => {
-      loadScript(SDK_URL, (err, script) => {
-        if (err) reject(err)
-        resolve(script)
-      })
+      if (window.Wistia) {
+        resolve()
+      } else {
+        loadScript(SDK_URL, (err, script) => {
+          if (err) reject(err)
+          resolve(script)
+        })
+      }
     })
   }
   load (url) {
