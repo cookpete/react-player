@@ -24,6 +24,7 @@ export default class ReactPlayer extends Component {
       this.props.url !== nextProps.url ||
       this.props.playing !== nextProps.playing ||
       this.props.volume !== nextProps.volume ||
+      this.props.playbackRate !== nextProps.playbackRate ||
       this.props.height !== nextProps.height ||
       this.props.width !== nextProps.width ||
       this.props.hidden !== nextProps.hidden
@@ -42,7 +43,7 @@ export default class ReactPlayer extends Component {
       if (loaded !== this.prevLoaded) {
         progress.loaded = loaded
       }
-      if (played !== this.prevPlayed && this.props.playing) {
+      if (played !== this.prevPlayed) {
         progress.played = played
       }
       if (progress.loaded || progress.played) {

@@ -1,4 +1,4 @@
-const MATCH_START_QUERY = /[\?&#](?:start|t)=([0-9hms]+)/
+const MATCH_START_QUERY = /[?&#](?:start|t)=([0-9hms]+)/
 const MATCH_START_STAMP = /(\d+)(h|m|s)/g
 const MATCH_NUMERIC = /^\d+$/
 
