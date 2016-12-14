@@ -78,6 +78,10 @@ export default class Wistia extends Base {
     if (!this.isReady || !this.player || !this.player.volume) return
     this.player.volume(fraction)
   }
+  setPlaybackRate (rate) {
+    if (!this.isReady || !this.player || !this.player.playbackRate) return
+    this.player.playbackRate(rate)
+  }
   getDuration () {
     if (!this.isReady || !this.player || !this.player.duration) return
     return this.player.duration()
