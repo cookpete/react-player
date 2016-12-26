@@ -1,6 +1,7 @@
 import SoundCloud from '../../src/players/SoundCloud'
 import YouTube from '../../src/players/YouTube'
 import Vimeo from '../../src/players/Vimeo'
+import Wistia from '../../src/players/Wistia'
 
 const { describe, it, expect } = window
 
@@ -42,6 +43,25 @@ describe('canPlay', () => {
     it('knows what it can\'t play', () => {
       expect(Vimeo.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.false
       expect(Vimeo.canPlay('https://www.youtube.com/watch?v=1234')).to.be.false
+    })
+  })
+
+  describe('Wistia', () => {
+    it('knows what it can play', () => {
+      expect(Wistia.canPlay('https://fast.wistia.com/medias/e4a27b971d')).to.be.true
+      expect(Wistia.canPlay('http://fast.wistia.com/medias/e4a27b971d')).to.be.true
+      expect(Wistia.canPlay('https://fast.wi.st/medias/e4a27b971d')).to.be.true
+      expect(Wistia.canPlay('http://fast.wi.st/medias/e4a27b971d')).to.be.true
+      expect(Wistia.canPlay('https://fast.wistia.com/embed/e4a27b971d')).to.be.true
+      expect(Wistia.canPlay('http://fast.wistia.com/embed/e4a27b971d')).to.be.true
+      expect(Wistia.canPlay('https://fast.wi.st/embed/e4a27b971d')).to.be.true
+      expect(Wistia.canPlay('http://fast.wi.st/embed/e4a27b971d')).to.be.true
+    })
+
+    it('knows what it can\'t play', () => {
+      expect(Wistia.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.false
+      expect(Wistia.canPlay('http://vimeo.com/1234')).to.be.false
+      expect(Wistia.canPlay('https://www.youtube.com/watch?v=1234')).to.be.false
     })
   })
 })

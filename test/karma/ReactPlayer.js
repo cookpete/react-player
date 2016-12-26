@@ -9,6 +9,7 @@ const TEST_YOUTUBE_URL = 'https://www.youtube.com/watch?v=M7lc1UVf-VE'
 const TEST_SOUNDCLOUD_URL = 'https://soundcloud.com/miami-nights-1984/accelerated'
 const TEST_STREAMABLE_URL = 'https://streamable.com/moo'
 const TEST_VIMEO_URL = 'https://vimeo.com/90509568'
+const TEST_WISTIA_URL = 'https://home.wistia.com/medias/e4a27b971d'
 const TEST_FILE_URL = 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv'
 
 const TEST_YOUTUBE_ERROR = 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
@@ -104,6 +105,14 @@ describe('ReactPlayer', () => {
     it('fires onDuration with delayed load', done => testDurationDelayed(TEST_VIMEO_URL, done))
   })
 
+  describe('Wistia', () => {
+    it('fires onStart', done => testStart(TEST_WISTIA_URL, done))
+    it('fires onPlay', done => testPlay(TEST_WISTIA_URL, done))
+    it('fires onDuration', done => testDuration(TEST_WISTIA_URL, done))
+    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_WISTIA_URL, done))
+    it.skip('fires onPause', done => testPause(TEST_WISTIA_URL, done))
+  })
+
   describe('FilePlayer', () => {
     it('fires onStart', done => testStart(TEST_FILE_URL, done))
     it('fires onPlay', done => testPlay(TEST_FILE_URL, done))
@@ -118,7 +127,8 @@ describe('ReactPlayer', () => {
       const renderFilePlayer = () => testPlay(TEST_FILE_URL, done)
       const renderVimeoPlayer = () => testPlay(TEST_VIMEO_URL, renderFilePlayer)
       const renderSoundCloudPlayer = () => testPlay(TEST_SOUNDCLOUD_URL, renderVimeoPlayer)
-      testPlay(TEST_YOUTUBE_URL, renderSoundCloudPlayer)
+      const renderWistiaPlayer = () => testPlay(TEST_WISTIA_URL, renderSoundCloudPlayer)
+      testPlay(TEST_YOUTUBE_URL, renderWistiaPlayer)
     })
   })
 })
