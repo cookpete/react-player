@@ -93,6 +93,7 @@
   "dependencies": {
     "fetch-jsonp": "^1.0.2",
     "load-script": "^1.0.0",
+    "node-sass": "^4.0.0",
     "query-string": "^4.2.3"
   },
   "standard": {
