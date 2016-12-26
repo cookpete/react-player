@@ -6,7 +6,7 @@ ReactPlayer
 [![Dependency Status](https://img.shields.io/david/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player)
 [![devDependency Status](https://img.shields.io/david/dev/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player?type=dev)
 
-A react component for playing media from YouTube, SoundCloud, Streamable, Vidme, Vimeo, or Wistia as well as supported media files. Used by [rplayr](http://rplayr.com), an app to generate playlists from Reddit URLs.
+A react component for playing a variety of URLs, including file paths, YouTube, SoundCloud, Streamable, Vidme, Vimeo and Wistia. Used by [rplayr](http://rplayr.com), an app to generate playlists from Reddit URLs.
 
 The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending.
 

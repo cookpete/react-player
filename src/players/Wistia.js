@@ -4,6 +4,7 @@ import loadScript from 'load-script'
 import Base from './Base'
 
 const SDK_URL = '//fast.wistia.com/assets/external/E-v1.js'
+const SDK_GLOBAL = 'Wistia'
 const MATCH_URL = /^https?:\/\/(.+)?(wistia.com|wi.st)\/(medias|embed)\/(.*)$/
 
 export default class Wistia extends Base {
@@ -11,34 +12,28 @@ export default class Wistia extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  constructor (props) {
-    super(props)
-    this.loadingSDK = true
-    this.player = null
-  }
   componentDidMount () {
     const { onStart, onPause, onEnded } = this.props
-    this.getSDK().then((_script) => {
+    this.loadingSDK = true
+    this.getSDK().then(() => {
       window._wq = window._wq || []
-      window._wq.push(
-        {
-          id: this.getVideoId(this.props.url),
-          onReady: (video) => {
-            this.loadingSDK = false
-            this.player = video
-            this.player.bind('start', onStart)
-            this.player.bind('play', this.onPlay)
-            this.player.bind('pause', onPause)
-            this.player.bind('end', onEnded)
-            this.onReady()
-          }
+      window._wq.push({
+        id: this.getID(this.props.url),
+        onReady: player => {
+          this.loadingSDK = false
+          this.player = player
+          this.player.bind('start', onStart)
+          this.player.bind('play', this.onPlay)
+          this.player.bind('pause', onPause)
+          this.player.bind('end', onEnded)
+          this.onReady()
         }
-      )
+      })
     })
   }
   getSDK () {
     return new Promise((resolve, reject) => {
-      if (window.Wistia) {
+      if (window[SDK_GLOBAL]) {
         resolve()
       } else {
         loadScript(SDK_URL, (err, script) => {
@@ -48,13 +43,15 @@ export default class Wistia extends Base {
       }
     })
   }
+  getID (url) {
+    return url && url.match(MATCH_URL)[4]
+  }
   load (url) {
-    const wistiaId = this.getVideoId(url)
+    const id = this.getID(url)
     if (this.isReady) {
-      this.player.replaceWith(wistiaId)
+      this.player.replaceWith(id)
       this.props.onReady()
       this.onReady()
-      return
     }
   }
   play () {
@@ -93,22 +90,16 @@ export default class Wistia extends Base {
   getFractionLoaded () {
     return null
   }
-  getVideoId (url) {
-    return url && url.match(MATCH_URL)[4]
-  }
-  ref = container => {
-    this.container = container
-  }
   render () {
+    const id = this.getID(this.props.url)
+    const className = `wistia_embed wistia_async_${id}`
     const style = {
       width: '100%',
       height: '100%',
       display: this.props.url ? 'block' : 'none'
     }
-
-    const id = this.getVideoId(this.props.url)
     return (
-      <div ref={this.ref} className={`wistia_embed wistia_async_${id}`} style={style} />
+      <div className={className} style={style} />
     )
   }
 }
