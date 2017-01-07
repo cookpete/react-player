@@ -16,7 +16,7 @@
     "preversion": "npm run lint",
     "version": "npm run update-changelog && npm run build:browser && git add CHANGELOG.md dist",
     "update-changelog": "auto-changelog --package --template compact",
-    "prepublish": "npm run build:compile; npm run build:browser",
+    "prepublish": "npm run build:compile && npm run build:browser",
     "postpublish": "npm run clean"
   },
   "repository": {
