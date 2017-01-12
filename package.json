@@ -92,6 +92,7 @@
     "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
+    "@vimeo/player": "^2.0.1",
     "fetch-jsonp": "^1.0.2",
     "load-script": "^1.0.0",
     "query-string": "^4.2.3"
