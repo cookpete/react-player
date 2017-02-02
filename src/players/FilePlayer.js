@@ -45,8 +45,11 @@ export default class FilePlayer extends Base {
     this.player.removeAttribute('src')
   }
   seekTo (fraction) {
+    if (fraction === 1) {
+      this.pause();
+    }
     super.seekTo(fraction)
-    this.player.currentTime = this.getDuration() * fraction
+    this.player.currentTime = this.getDuration() * fraction;
   }
   setVolume (fraction) {
     this.player.volume = fraction
