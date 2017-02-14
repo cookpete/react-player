@@ -11,6 +11,12 @@ import { version } from '../../package.json'
 import ReactPlayer from '../ReactPlayer'
 import Duration from './Duration'
 
+const MULTIPLE_SOURCES = [
+  { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
+  { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', type: 'video/ogv' },
+  { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
+]
+
 export default class App extends Component {
   state = {
     url: null,
@@ -223,6 +229,7 @@ export default class App extends Component {
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'MP4')}
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', 'OGV')}
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', 'WEBM')}
+                {this.renderLoadButton(MULTIPLE_SOURCES, 'Multiple')}
               </td>
             </tr>
             <tr>
@@ -246,7 +253,9 @@ export default class App extends Component {
           <table><tbody>
             <tr>
               <th>url</th>
-              <td className={!url ? 'faded' : ''}>{url || 'null'}</td>
+              <td className={!url ? 'faded' : ''}>
+                {(url instanceof Array ? 'Multiple' : url) || 'null'}
+              </td>
             </tr>
             <tr>
               <th>playing</th>

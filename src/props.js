@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
 
-const { string, bool, number, oneOfType, shape, object, func } = PropTypes
+const { string, bool, number, array, oneOfType, shape, object, func } = PropTypes
 
 export const propTypes = {
-  url: string,
+  url: oneOfType([ string, array ]),
   playing: bool,
   loop: bool,
   controls: bool,

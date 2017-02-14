@@ -121,6 +121,26 @@ Prop | Description
 
 Both `youtubeConfig`, `vimeoConfig`, `dailymotionConfig` props can take a `preload` value. Setting this to `true` will play a short, silent video in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
 
+#### Multiple Sources
+
+When playing file paths, an array of sources can be passed to the `url` prop to render multiple `<source>` tags.
+
+```js
+<ReactPlayer playing url={['foo.webm', 'foo.ogg']} />
+```
+
+You can also specify a `type` for each source by using objects with `src` and `type` properties.
+
+```js
+<ReactPlayer
+  playing
+  url={[
+    {src: 'foo.webm', type: 'video/webm'},
+    {src: 'foo.ogg', type: 'video/ogg'}
+  ]}
+/>
+```
+
 ### Methods
 
 Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call methods on the player. See [the demo app](src/demo/App.js) for an example of this.

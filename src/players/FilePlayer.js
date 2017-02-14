@@ -35,11 +35,8 @@ export default class FilePlayer extends Base {
     this.player.removeEventListener('error', onError)
     super.componentWillUnmount()
   }
-  load (url) {
-    this.player.src = url
-    if (this.props.playing) {
-      this.player.load()
-    }
+  load () {
+    // Setting the src is handled by render
   }
   play () {
     this.player.play()
@@ -75,6 +72,19 @@ export default class FilePlayer extends Base {
     if (!this.isReady || this.player.buffered.length === 0) return null
     return this.player.buffered.end(0) / this.getDuration()
   }
+  renderSource = source => {
+    if (typeof source === 'string') {
+      return <source key={source} src={source} />
+    }
+    const { src, type } = source
+    return <source key={src} src={src} type={type} />
+  }
+  renderSources = url => {
+    if (url instanceof Array === false) {
+      return null
+    }
+    return url.map(this.renderSource)
+  }
   ref = player => {
     this.player = player
   }
@@ -89,12 +99,14 @@ export default class FilePlayer extends Base {
     return (
       <Media
         ref={this.ref}
+        src={url instanceof Array ? undefined : url}
         style={style}
         preload='auto'
         controls={controls}
         loop={loop}
-        {...fileConfig.attributes}
-      />
+        {...fileConfig.attributes}>
+        {this.renderSources(url)}
+      </Media>
     )
   }
 }
