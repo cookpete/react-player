@@ -68,9 +68,9 @@ export default class YouTube extends Base {
         playerVars: {
           ...DEFAULT_PLAYER_VARS,
           controls: controls ? 1 : 0,
-          ...youtubeConfig.playerVars,
           start: parseStartTime(url),
-          origin: window.location.origin
+          origin: window.location.origin,
+          ...youtubeConfig.playerVars
         },
         events: {
           onReady: () => {
