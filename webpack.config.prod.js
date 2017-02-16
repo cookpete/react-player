@@ -11,15 +11,14 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
     new webpack.ProvidePlugin({
-      'Promise': 'exports?global.Promise!es6-promise',
-      'window.fetch': 'exports?self.fetch!whatwg-fetch'
+      'Promise': 'exports-loader?global.Promise!es6-promise',
+      'window.fetch': 'exports-loader?self.fetch!whatwg-fetch'
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
@@ -32,18 +31,18 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loader: 'babel',
+      loader: 'babel-loader',
       include: path.join(__dirname, 'src')
     }, {
       test: /\.json$/,
-      loader: 'json'
+      loader: 'json-loader'
     }, {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap'),
+      loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader?sourceMap!sass-loader?sourceMap'}),
       include: path.join(__dirname, 'src')
     }, {
       test: /normalize.css$/,
-      loader: ExtractTextPlugin.extract('style', 'css'),
+      loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader'}),
       include: path.join(__dirname, 'node_modules', 'normalize.css')
     }]
   }
