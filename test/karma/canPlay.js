@@ -38,6 +38,7 @@ describe('canPlay', () => {
   describe('Vimeo', () => {
     it('knows what it can play', () => {
       expect(Vimeo.canPlay('http://vimeo.com/1234')).to.be.true
+      expect(Vimeo.canPlay('https://vimeo.com/1234')).to.be.true
     })
 
     it('knows what it can\'t play', () => {
