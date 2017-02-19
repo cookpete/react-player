@@ -93,12 +93,12 @@ export default class App extends Component {
       <div className='app'>
         <section className='section'>
           <h1>ReactPlayer Demo</h1>
-          <div className='video-player'>
+          <div className='player-wrapper'>
             <ReactPlayer
               ref={player => { this.player = player }}
               className='react-player'
-              width={'100%'}
-              height={'100%'}
+              width='100%'
+              height='100%'
               url={url}
               playing={playing}
               playbackRate={playbackRate}

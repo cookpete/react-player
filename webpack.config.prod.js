@@ -38,11 +38,11 @@ module.exports = {
       loader: 'json-loader'
     }, {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader?sourceMap!sass-loader?sourceMap'}),
+      loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap!sass-loader?sourceMap' }),
       include: path.join(__dirname, 'src')
     }, {
       test: /normalize.css$/,
-      loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader'}),
+      loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
       include: path.join(__dirname, 'node_modules', 'normalize.css')
     }]
   }
