@@ -10,15 +10,14 @@ module.exports = {
     library: 'ReactPlayer'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
     new webpack.ProvidePlugin({
-      'Promise': 'exports?global.Promise!es6-promise',
-      'window.fetch': 'exports?self.fetch!whatwg-fetch'
+      'Promise': 'exports-loader?global.Promise!es6-promise',
+      'window.fetch': 'exports-loader?self.fetch!whatwg-fetch'
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
@@ -30,7 +29,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loader: 'babel',
+      loader: 'babel-loader',
       include: path.join(__dirname, 'src')
     }]
   },

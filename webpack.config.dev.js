@@ -15,29 +15,28 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.ProvidePlugin({
-      'Promise': 'exports?global.Promise!es6-promise',
-      'window.fetch': 'exports?self.fetch!whatwg-fetch'
-    }),
-    new webpack.NoErrorsPlugin()
+      'Promise': 'exports-loader?global.Promise!es6-promise',
+      'window.fetch': 'exports-loader?self.fetch!whatwg-fetch'
+    })
   ],
   module: {
     loaders: [{
       test: /\.js$/,
-      loader: 'babel',
+      loader: 'babel-loader',
       include: [
         path.join(__dirname, 'src'),
         path.join(__dirname, 'test', 'karma')
       ]
     }, {
       test: /\.json$/,
-      loader: 'json'
+      loader: 'json-loader'
     }, {
       test: /\.scss$/,
-      loader: 'style!css?sourceMap!sass?sourceMap',
+      loader: 'style-loader!css-loader?sourceMap!sass-loader?sourceMap',
       include: path.join(__dirname, 'src')
     }, {
       test: /normalize.css$/,
-      loader: 'style?insertAt=top!css',
+      loader: 'style-loader?insertAt=top!css-loader',
       include: path.join(__dirname, 'node_modules', 'normalize.css')
     }]
   }
