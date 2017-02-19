@@ -93,29 +93,31 @@ export default class App extends Component {
       <div className='app'>
         <section className='section'>
           <h1>ReactPlayer Demo</h1>
-          <ReactPlayer
-            ref={player => { this.player = player }}
-            className='react-player'
-            width={480}
-            height={270}
-            url={url}
-            playing={playing}
-            playbackRate={playbackRate}
-            volume={volume}
-            soundcloudConfig={soundcloudConfig}
-            vimeoConfig={vimeoConfig}
-            youtubeConfig={youtubeConfig}
-            fileConfig={fileConfig}
-            onReady={() => console.log('onReady')}
-            onStart={() => console.log('onStart')}
-            onPlay={() => this.setState({ playing: true })}
-            onPause={() => this.setState({ playing: false })}
-            onBuffer={() => console.log('onBuffer')}
-            onEnded={() => this.setState({ playing: false })}
-            onError={e => console.log('onError', e)}
-            onProgress={this.onProgress}
-            onDuration={duration => this.setState({ duration })}
-          />
+          <div className='video-player'>
+            <ReactPlayer
+              ref={player => { this.player = player }}
+              className='react-player'
+              width={'100%'}
+              height={'100%'}
+              url={url}
+              playing={playing}
+              playbackRate={playbackRate}
+              volume={volume}
+              soundcloudConfig={soundcloudConfig}
+              vimeoConfig={vimeoConfig}
+              youtubeConfig={youtubeConfig}
+              fileConfig={fileConfig}
+              onReady={() => console.log('onReady')}
+              onStart={() => console.log('onStart')}
+              onPlay={() => this.setState({ playing: true })}
+              onPause={() => this.setState({ playing: false })}
+              onBuffer={() => console.log('onBuffer')}
+              onEnded={() => this.setState({ playing: false })}
+              onError={e => console.log('onError', e)}
+              onProgress={this.onProgress}
+              onDuration={duration => this.setState({ duration })}
+            />
+          </div>
 
           <table><tbody>
             <tr>

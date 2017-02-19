@@ -22,6 +22,11 @@ $gutter-width: 10px;
   vertical-align: top;
 }
 
+.video-player {
+  width: 480px;
+  height: 270px
+}
+
 .react-player {
   margin-bottom: 10px;
   background: rgba($black, .1);
