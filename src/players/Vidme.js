@@ -1,7 +1,7 @@
 import FilePlayer from './FilePlayer'
 
 const RESOLVE_URL = 'https://api.vid.me/videoByUrl/'
-const MATCH_URL = /^https?:\/\/vid.me\/([a-z0-9]+)$/
+const MATCH_URL = /^https?:\/\/vid.me\/([a-z0-9]+)$/i
 
 const cache = {} // Cache song data requests
 
