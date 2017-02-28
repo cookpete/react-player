@@ -46,7 +46,7 @@ export default class YouTube extends Base {
     })
   }
   load (url) {
-    const { controls, youtubeConfig, onError } = this.props
+    const { playsinline, controls, youtubeConfig, onError } = this.props
     const id = url && url.match(MATCH_URL)[1]
     if (this.isReady) {
       this.player.cueVideoById({
@@ -70,6 +70,7 @@ export default class YouTube extends Base {
           controls: controls ? 1 : 0,
           start: parseStartTime(url),
           origin: window.location.origin,
+          playsinline: playsinline,
           ...youtubeConfig.playerVars
         },
         events: {

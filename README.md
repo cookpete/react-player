@@ -87,6 +87,7 @@ Prop | Description | Default
 `className` | Pass in a `className` to set on the root element
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element
 `progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
+`playsinline` | Applies the `playsinline` attribute where supported | `false`
 
 #### Callback props
 

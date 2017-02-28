@@ -15,6 +15,7 @@ export const propTypes = {
   className: string,
   style: object,
   progressFrequency: number,
+  playsinline: bool,
   soundcloudConfig: shape({
     clientId: string,
     showArtwork: bool
@@ -51,6 +52,7 @@ export const defaultProps = {
   height: 360,
   hidden: false,
   progressFrequency: 1000,
+  playsinline: false,
   soundcloudConfig: {
     clientId: 'e8b6f84fbcad14c301ca1355cae1dea2',
     showArtwork: true
