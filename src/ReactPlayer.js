@@ -39,12 +39,19 @@ export default class ReactPlayer extends Component {
     if (this.props.url && this.player) {
       const loaded = this.player.getFractionLoaded() || 0
       const played = this.player.getFractionPlayed() || 0
+      const duration = this.player.getDuration()
       const progress = {}
       if (loaded !== this.prevLoaded) {
         progress.loaded = loaded
+        if (duration) {
+          progress.loadedSeconds = progress.loaded * duration
+        }
       }
       if (played !== this.prevPlayed) {
         progress.played = played
+        if (duration) {
+          progress.playedSeconds = progress.played * duration
+        }
       }
       if (progress.loaded || progress.played) {
         this.props.onProgress(progress)

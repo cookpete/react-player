@@ -98,7 +98,7 @@ Prop | Description
 `onReady` | Called when media is loaded and ready to play. If `playing` is set to `true`, media will play immediately
 `onStart` | Called when media starts playing
 `onPlay` | Called when media starts or resumes playing after pausing or buffering
-`onProgress` | Callback containing `played` and `loaded` progress as a fraction<br />eg `{ played: 0.12, loaded: 0.34 }`
+`onProgress` | Callback containing progress `played`, `loaded` (fraction), `playedSeconds` and `loadedSeconds` (seconds)<br />eg `{ played: 0.12, playedSeconds: 11.3, loaded: 0.34, loadedSeconds: 16.7 }`
 `onDuration` | Callback containing duration of the media, in seconds
 `onPause` | Called when media is paused
 `onBuffer` | Called when media starts buffering
