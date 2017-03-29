@@ -20,6 +20,7 @@ export default class FilePlayer extends Base {
     })
     this.player.addEventListener('ended', onEnded)
     this.player.addEventListener('error', onError)
+    this.player.setAttribute('playsinline', '')
     this.player.setAttribute('webkit-playsinline', '')
     super.componentDidMount()
   }
