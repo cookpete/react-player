@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import omit from 'lodash.omit'
 
 import { propTypes, defaultProps } from './props'
 import YouTube from './players/YouTube'
@@ -123,10 +124,11 @@ export default class ReactPlayer extends Component {
     )
   }
   render () {
-    const { style, width, height, className, hidden } = this.props
+    const { style, width, height } = this.props
+    const otherProps = omit(this.props, Object.keys(propTypes))
     const players = this.renderPlayers()
     return (
-      <div style={{ ...style, width, height }} className={className} hidden={hidden}>
+      <div style={{ ...style, width, height }} {...otherProps}>
         {players}
       </div>
     )

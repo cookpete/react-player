@@ -11,8 +11,6 @@ export const propTypes = {
   playbackRate: number,
   width: oneOfType([ string, number ]),
   height: oneOfType([ string, number ]),
-  hidden: bool,
-  className: string,
   style: object,
   progressFrequency: number,
   playsinline: bool,
