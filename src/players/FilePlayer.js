@@ -37,6 +37,9 @@ export default class FilePlayer extends Base {
   }
   load (url) {
     this.player.src = url
+    if (this.props.playing) {
+      this.player.load()
+    }
   }
   play () {
     this.player.play()
