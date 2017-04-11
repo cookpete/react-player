@@ -94,6 +94,7 @@
   "dependencies": {
     "fetch-jsonp": "^1.0.2",
     "load-script": "^1.0.0",
+    "prop-types": "^15.5.6",
     "query-string": "^4.2.3"
   },
   "standard": {
