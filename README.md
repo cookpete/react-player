@@ -122,7 +122,13 @@ Both `youtubeConfig` and `vimeoConfig` props can take a `preload` value. Setting
 
 ### Methods
 
-To seek to a certain part of the media, there is a `seekTo(fraction)` instance method that will seek to the appropriate place in the media. See `App.js` for an example of this using `refs`.
+Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call methods on the player. See [the demo app](src/demo/App.js) for an example of this.
+
+Prop | Description
+---- | -----------
+`seekTo(fraction)` | Seek to the specified fraction (from 0 to 1) of the currently playing media
+`getCurrentTime()` | Returns the number of seconds that has been played.<br >Returns `null` if duration is unavailable.
+`getDuration()` | Returns the duration (in seconds) of the currently playing media.<br >Returns `null` if duration is unavailable.
 
 ### Supported media
 

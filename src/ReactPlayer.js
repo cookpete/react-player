@@ -35,6 +35,19 @@ export default class ReactPlayer extends Component {
       this.player.seekTo(fraction)
     }
   }
+  getDuration = () => {
+    if (!this.player) return null
+    return this.player.getDuration()
+  }
+  getCurrentTime = () => {
+    if (!this.player) return null
+    const duration = this.player.getDuration()
+    const fractionPlayed = this.player.getFractionPlayed()
+    if (duration === null || fractionPlayed === null) {
+      return null
+    }
+    return fractionPlayed * duration
+  }
   progress = () => {
     if (this.props.url && this.player) {
       const loaded = this.player.getFractionLoaded() || 0
