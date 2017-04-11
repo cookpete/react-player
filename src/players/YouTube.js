@@ -108,7 +108,7 @@ export default class YouTube extends Base {
     this.player.pauseVideo()
   }
   stop () {
-    if (!this.isReady || !this.player.stopVideo) return
+    if (!this.isReady || !this.player.stopVideo || !this.player.getIframe()) return
     this.player.stopVideo()
   }
   seekTo (fraction) {
