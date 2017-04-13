@@ -114,6 +114,7 @@ Prop | Description
 `soundcloudConfig` | Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.
 `vimeoConfig` | Configuration object for the Vimeo player.<br />Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />Set `preload` for [preloading](#preloading).
 `youtubeConfig` | Configuration object for the YouTube player.<br />Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />Set `preload` for [preloading](#preloading).
+`vidmeConfig` | Configuration object for the Vidme player.<br />Set `format` to use a certain quality of video, when available.<br />Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
 `fileConfig` | Configuration object for the file player.<br />Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).
 
 ##### Preloading

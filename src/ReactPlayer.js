@@ -108,7 +108,7 @@ export default class ReactPlayer extends Component {
   }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
-    const { youtubeConfig, soundcloudConfig, vimeoConfig, fileConfig, ...activeProps } = this.props
+    const { youtubeConfig, soundcloudConfig, vimeoConfig, vidmeConfig, fileConfig, ...activeProps } = this.props
     const props = active ? { ...activeProps, ref: this.ref } : {}
     return (
       <Player
@@ -116,6 +116,7 @@ export default class ReactPlayer extends Component {
         youtubeConfig={youtubeConfig}
         soundcloudConfig={soundcloudConfig}
         vimeoConfig={vimeoConfig}
+        vidmeConfig={vidmeConfig}
         fileConfig={fileConfig}
         {...props}
       />

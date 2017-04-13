@@ -28,6 +28,9 @@ export const propTypes = {
     iframeParams: object,
     preload: bool
   }),
+  vidmeConfig: shape({
+    format: string
+  }),
   fileConfig: shape({
     attributes: object
   }),
@@ -64,6 +67,9 @@ export const defaultProps = {
   vimeoConfig: {
     iframeParams: {},
     preload: false
+  },
+  vidmeConfig: {
+    format: null
   },
   fileConfig: {
     attributes: {}

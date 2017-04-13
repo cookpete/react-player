@@ -26,12 +26,24 @@ export default class Vidme extends FilePlayer {
         }
       })
   }
+  getURL ({ video }) {
+    const { vidmeConfig } = this.props
+    if (vidmeConfig.format && video.formats && video.formats.length !== 0) {
+      const index = video.formats.findIndex(f => f.type === vidmeConfig.format)
+      if (index !== -1) {
+        return video.formats[index].uri
+      } else {
+        console.warn(`Vidme format "${vidmeConfig.format}" was not found for ${video.full_url}`)
+      }
+    }
+    return video.complete_url
+  }
   load (url) {
     const { onError } = this.props
     this.stop()
     this.getData(url).then(data => {
       if (!this.mounted) return
-      this.player.src = data.video.complete_url
+      this.player.src = this.getURL(data)
     }, onError)
   }
 }
