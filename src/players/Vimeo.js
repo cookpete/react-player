@@ -110,12 +110,12 @@ export default class Vimeo extends Base {
     this.iframe = iframe
   }
   render () {
-    const { fullscreen } = this.getIframeParams()
-    const style = {
+    const { fullscreen, iframeStyle = {} } = this.getIframeParams()
+    const style = Object.assign({
       display: this.props.url ? 'block' : 'none',
       width: '100%',
       height: '100%'
-    }
+    }, iframeStyle)
     return (
       <iframe
         ref={this.ref}
