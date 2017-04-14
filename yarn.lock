@@ -4775,15 +4775,14 @@ slice-ansi@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/slice-ansi/-/slice-ansi-0.0.4.tgz#edbf8903f66f7ce2f8eafd6ceed65e264c831b35"
 
-snazzy@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/snazzy/-/snazzy-6.0.0.tgz#6a17d4798cbbc8bc6e113153694907a8bac9494d"
+snazzy@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/snazzy/-/snazzy-7.0.0.tgz#95edaccc4a8d6f80f4ac5cc7b520e8f8f9ac2325"
   dependencies:
     chalk "^1.1.0"
     inherits "^2.0.1"
     minimist "^1.1.1"
     readable-stream "^2.0.6"
-    standard "*"
     standard-json "^1.0.0"
     text-table "^0.2.0"
 
@@ -4919,7 +4918,7 @@ standard-json@^1.0.0:
   dependencies:
     concat-stream "^1.5.0"
 
-standard@*, standard@^10.0.0:
+standard@^10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/standard/-/standard-10.0.0.tgz#913c77df56c294d9c4dff60dce6f307b2c779d0f"
   dependencies:

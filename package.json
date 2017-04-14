@@ -83,7 +83,7 @@
     "rimraf": "^2.5.4",
     "sass-loader": "^6.0.1",
     "screenfull": "^3.0.2",
-    "snazzy": "^6.0.0",
+    "snazzy": "^7.0.0",
     "standard": "^10.0.0",
     "style-loader": "^0.16.1",
     "webpack": "^2.2.1",
