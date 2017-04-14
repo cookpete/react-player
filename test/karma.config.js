@@ -7,7 +7,8 @@ module.exports = function (config) {
     singleRun: true,
     frameworks: [ 'mocha', 'chai' ],
     files: [
-      'karma.webpack.js'
+      'karma.webpack.js',
+      './node_modules/babel-polyfill/dist/polyfill.js'
     ],
     preprocessors: {
       'karma.webpack.js': [ 'webpack', 'sourcemap' ]
