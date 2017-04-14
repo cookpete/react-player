@@ -48,7 +48,7 @@ describe('ReactPlayer', () => {
 
   const testDuration = (url, done) => {
     const onDuration = (duration) => {
-      const error = duration && duration > 0 ? null : new Error('Invalid duration: ' + error)
+      const error = duration && duration > 0 ? null : new Error('Invalid duration: ' + duration)
       done(error)
     }
     render(<ReactPlayer url={url} playing onDuration={onDuration} />, div)
