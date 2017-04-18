@@ -108,13 +108,13 @@ export default class YouTube extends Base {
     this.player.pauseVideo()
   }
   stop () {
-    const playerNode = this.player && this.player.getIframe && this.player.getIframe();
+    const playerNode = this.player && this.player.getIframe && this.player.getIframe()
     // the iframe is cached, so we need to try and retrieve it from the
     // document to be sure of its existence in the DOM.
-    const isPlayerInDOM = !!document.getElementById(playerNode && playerNode.id);
+    const isPlayerInDOM = !!document.getElementById(playerNode && playerNode.id)
 
-    if (!this.isReady || !this.player.stopVideo || !isPlayerInDOM) return;
-    this.player.stopVideo();
+    if (!this.isReady || !this.player.stopVideo || !isPlayerInDOM) return
+    this.player.stopVideo()
   }
   seekTo (fraction) {
     super.seekTo(fraction)
