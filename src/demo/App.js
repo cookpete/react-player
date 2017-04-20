@@ -176,6 +176,13 @@ export default class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Facebook</th>
+              <td>
+                {this.renderLoadButton('https://www.facebook.com/facebook/videos/10153231379946729/', 'Test A')}
+                {this.renderLoadButton('https://www.facebook.com/FacebookDevelopers/videos/10152454700553553/', 'Test B')}
+              </td>
+            </tr>
+            <tr>
               <th>Vimeo</th>
               <td>
                 {this.renderLoadButton('https://vimeo.com/90509568', 'Test A')}

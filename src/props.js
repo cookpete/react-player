@@ -22,6 +22,9 @@ export const propTypes = {
     playerVars: object,
     preload: bool
   }),
+  facebookConfig: shape({
+    appId: string
+  }),
   vimeoConfig: shape({
     iframeParams: object,
     preload: bool
@@ -61,6 +64,9 @@ export const defaultProps = {
   youtubeConfig: {
     playerVars: {},
     preload: false
+  },
+  facebookConfig: {
+    appId: '1309697205772819'
   },
   vimeoConfig: {
     iframeParams: {},

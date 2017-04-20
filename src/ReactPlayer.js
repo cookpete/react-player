@@ -5,6 +5,7 @@ import { propTypes, defaultProps } from './props'
 import YouTube from './players/YouTube'
 import SoundCloud from './players/SoundCloud'
 import Vimeo from './players/Vimeo'
+import Facebook from './players/Facebook'
 import FilePlayer from './players/FilePlayer'
 import Streamable from './players/Streamable'
 import Vidme from './players/Vidme'
@@ -85,6 +86,8 @@ export default class ReactPlayer extends Component {
       players.push(SoundCloud)
     } else if (Vimeo.canPlay(url)) {
       players.push(Vimeo)
+    } else if (Facebook.canPlay(url)) {
+      players.push(Facebook)
     } else if (Streamable.canPlay(url)) {
       players.push(Streamable)
     } else if (Vidme.canPlay(url)) {
