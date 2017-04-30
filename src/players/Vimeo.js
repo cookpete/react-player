@@ -6,7 +6,6 @@ import Base from './Base'
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
-const PLAYER_ID = 'vimeo-player'
 const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
 const BLANK_VIDEO_URL = 'https://vimeo.com/127250231'
 
@@ -18,14 +17,11 @@ const DEFAULT_OPTIONS = {
   title: false
 }
 
-let playerIdCount = 0
-
 export default class Vimeo extends Base {
   static displayName = 'Vimeo'
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  playerId = PLAYER_ID + '-' + playerIdCount++
   componentDidMount () {
     const { url, vimeoConfig } = this.props
     if (!url && vimeoConfig.preload) {
@@ -58,7 +54,7 @@ export default class Vimeo extends Base {
     }
     this.loadingSDK = true
     this.getSDK().then(Vimeo => {
-      this.player = new Vimeo.Player(this.playerId, {
+      this.player = new Vimeo.Player(this.container, {
         ...DEFAULT_OPTIONS,
         ...this.props.vimeoConfig.playerOptions,
         id,
@@ -117,14 +113,14 @@ export default class Vimeo extends Base {
   getFractionLoaded () {
     return this.fractionLoaded || null
   }
-  ref = iframe => {
-    this.iframe = iframe
+  ref = container => {
+    this.container = container
   }
   render () {
     const style = {
       height: '100%',
       display: this.props.url ? 'block' : 'none'
     }
-    return <div style={style} id={this.playerId} />
+    return <div style={style} ref={this.ref} />
   }
 }
