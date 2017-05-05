@@ -57,7 +57,7 @@ export default class Vimeo extends Base {
       this.player = new Vimeo.Player(this.container, {
         ...DEFAULT_OPTIONS,
         ...this.props.vimeoConfig.playerOptions,
-        id,
+        url,
         loop: this.props.loop
       })
       this.player.on('loaded', () => {
