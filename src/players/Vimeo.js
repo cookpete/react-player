@@ -8,22 +8,14 @@ const SDK_GLOBAL = 'Vimeo'
 const MATCH_URL = /https?:\/\/(?:www\.|player\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
 const BLANK_VIDEO_URL = 'https://vimeo.com/127250231'
 
-const DEFAULT_OPTIONS = {
-  autopause: false,
-  autoplay: false,
-  byline: false,
-  portrait: false,
-  title: false
-}
-
 export default class Vimeo extends Base {
   static displayName = 'Vimeo'
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
   componentDidMount () {
-    const { url, vimeoConfig } = this.props
-    if (!url && vimeoConfig.preload) {
+    const { url, config } = this.props
+    if (!url && config.vimeo.preload) {
       this.preloading = true
       this.load(BLANK_VIDEO_URL)
     }
@@ -43,8 +35,7 @@ export default class Vimeo extends Base {
     this.loadingSDK = true
     getSDK(SDK_URL, SDK_GLOBAL).then(Vimeo => {
       this.player = new Vimeo.Player(this.container, {
-        ...DEFAULT_OPTIONS,
-        ...this.props.vimeoConfig.playerOptions,
+        ...this.props.config.vimeo.playerOptions,
         url,
         loop: this.props.loop
       })

@@ -88,6 +88,7 @@
     "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
+    "deepmerge": "^1.5.1",
     "load-script": "^1.0.0",
     "lodash.omit": "^4.5.0",
     "prop-types": "^15.5.6"

@@ -8,13 +8,6 @@ const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
 const BLANK_VIDEO_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
-const DEFAULT_PLAYER_VARS = {
-  autoplay: 0,
-  playsinline: 1,
-  showinfo: 0,
-  rel: 0,
-  iv_load_policy: 3
-}
 
 export default class YouTube extends Base {
   static displayName = 'YouTube'
@@ -22,15 +15,15 @@ export default class YouTube extends Base {
     return MATCH_URL.test(url)
   }
   componentDidMount () {
-    const { url, youtubeConfig } = this.props
-    if (!url && youtubeConfig.preload) {
+    const { url, config } = this.props
+    if (!url && config.youtube.preload) {
       this.preloading = true
       this.load(BLANK_VIDEO_URL)
     }
     super.componentDidMount()
   }
   load (url) {
-    const { playsinline, controls, youtubeConfig, onError } = this.props
+    const { playsinline, controls, config, onError } = this.props
     const id = url && url.match(MATCH_URL)[1]
     if (this.isReady) {
       this.player.cueVideoById({
@@ -50,12 +43,11 @@ export default class YouTube extends Base {
         height: '100%',
         videoId: id,
         playerVars: {
-          ...DEFAULT_PLAYER_VARS,
           controls: controls ? 1 : 0,
           start: parseStartTime(url),
           origin: window.location.origin,
           playsinline: playsinline,
-          ...youtubeConfig.playerVars
+          ...config.youtube.playerVars
         },
         events: {
           onReady: this.onReady,

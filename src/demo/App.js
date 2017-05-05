@@ -48,7 +48,6 @@ export default class App extends Component {
     this.setState({ muted: !this.state.muted })
   }
   setPlaybackRate = e => {
-    console.log(parseFloat(e.target.value))
     this.setState({ playbackRate: parseFloat(e.target.value) })
   }
   onSeekMouseDown = e => {

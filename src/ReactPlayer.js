@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import omit from 'lodash.omit'
 
-import { propTypes, defaultProps } from './props'
+import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
+import { getConfig } from './utils'
 import YouTube from './players/YouTube'
 import SoundCloud from './players/SoundCloud'
 import Vimeo from './players/Vimeo'
@@ -13,10 +14,24 @@ import Wistia from './players/Wistia'
 import DailyMotion from './players/DailyMotion'
 import Twitch from './players/Twitch'
 
+const SUPPORTED_PROPS = Object.keys(propTypes)
+const SUPPORTED_PLAYERS = [
+  YouTube,
+  SoundCloud,
+  Vimeo,
+  Facebook,
+  Streamable,
+  Vidme,
+  Wistia,
+  Twitch,
+  DailyMotion
+]
+
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  config = getConfig(this.props, defaultProps, true)
   componentDidMount () {
     this.progress()
   }
@@ -36,9 +51,8 @@ export default class ReactPlayer extends Component {
     )
   }
   seekTo = fraction => {
-    if (this.player) {
-      this.player.seekTo(fraction)
-    }
+    if (!this.player) return null
+    this.player.seekTo(fraction)
   }
   getDuration = () => {
     if (!this.player) return null
@@ -81,64 +95,49 @@ export default class ReactPlayer extends Component {
   }
   renderPlayers () {
     // Build array of players to render based on URL and preload config
-    const { url, youtubeConfig, vimeoConfig, dailymotionConfig } = this.props
-    const players = []
-    if (YouTube.canPlay(url)) {
-      players.push(YouTube)
-    } else if (SoundCloud.canPlay(url)) {
-      players.push(SoundCloud)
-    } else if (Vimeo.canPlay(url)) {
-      players.push(Vimeo)
-    } else if (Facebook.canPlay(url)) {
-      players.push(Facebook)
-    } else if (DailyMotion.canPlay(url)) {
-      players.push(DailyMotion)
-    } else if (Streamable.canPlay(url)) {
-      players.push(Streamable)
-    } else if (Vidme.canPlay(url)) {
-      players.push(Vidme)
-    } else if (Wistia.canPlay(url)) {
-      players.push(Wistia)
-    } else if (Twitch.canPlay(url)) {
-      players.push(Twitch)
-    } else if (url) {
-      // Fall back to FilePlayer if nothing else can play the URL
-      players.push(FilePlayer)
+    const { url } = this.props
+    if (!url) {
+      return []
+    }
+    const renderPlayers = []
+    for (let Player of SUPPORTED_PLAYERS) {
+      if (Player.canPlay(url)) {
+        renderPlayers.push(Player)
+      }
+    }
+    // Fall back to FilePlayer if nothing else can play the URL
+    if (renderPlayers.length === 0) {
+      renderPlayers.push(FilePlayer)
     }
     // Render additional players if preload config is set
-    if (!YouTube.canPlay(url) && youtubeConfig.preload) {
-      players.push(YouTube)
+    if (!YouTube.canPlay(url) && this.config.youtube.preload) {
+      renderPlayers.push(YouTube)
     }
-    if (!Vimeo.canPlay(url) && vimeoConfig.preload) {
-      players.push(Vimeo)
+    if (!Vimeo.canPlay(url) && this.config.vimeo.preload) {
+      renderPlayers.push(Vimeo)
     }
-    if (!DailyMotion.canPlay(url) && dailymotionConfig.preload) {
-      players.push(DailyMotion)
+    if (!DailyMotion.canPlay(url) && this.config.dailymotion.preload) {
+      renderPlayers.push(DailyMotion)
     }
-    return players.map(this.renderPlayer)
+    return renderPlayers.map(this.renderPlayer)
   }
   ref = player => {
     this.player = player
   }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
-    const { youtubeConfig, vimeoConfig, dailymotionConfig, ...activeProps } = this.props
-    const props = active ? { ...activeProps, ref: this.ref } : {}
-    // Only youtube and vimeo config passed to
-    // inactive players due to preload behaviour
+    const props = active ? { ...this.props, ref: this.ref } : {}
     return (
       <Player
-        key={Player.displayName}
-        youtubeConfig={youtubeConfig}
-        vimeoConfig={vimeoConfig}
-        dailymotionConfig={dailymotionConfig}
         {...props}
+        key={Player.displayName}
+        config={this.config}
       />
     )
   }
   render () {
     const { style, width, height } = this.props
-    const otherProps = omit(this.props, Object.keys(propTypes))
+    const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
     const players = this.renderPlayers()
     return (
       <div style={{ ...style, width, height }} {...otherProps}>

@@ -33,7 +33,7 @@ export default class SoundCloud extends Base {
       }
       this.player.load(url, {
         ...DEFAULT_OPTIONS,
-        ...this.props.soundcloudConfig.options,
+        ...this.props.config.soundcloud.options,
         callback: () => {
           this.player.getDuration(duration => {
             this.duration = duration / 1000

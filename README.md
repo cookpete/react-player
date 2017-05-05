@@ -87,6 +87,7 @@ Prop | Description | Default
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element
 `progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
+`config` | Override options for the various players, see [config prop](#config-prop)
 
 #### Callback props
 
@@ -97,7 +98,7 @@ Prop | Description
 `onReady` | Called when media is loaded and ready to play. If `playing` is set to `true`, media will play immediately
 `onStart` | Called when media starts playing
 `onPlay` | Called when media starts or resumes playing after pausing or buffering
-`onProgress` | Callback containing progress `played`, `loaded` (fraction), `playedSeconds` and `loadedSeconds` (seconds)<br />eg `{ played: 0.12, playedSeconds: 11.3, loaded: 0.34, loadedSeconds: 16.7 }`
+`onProgress` | Callback containing `played` and `loaded` progress as a fraction, and `playedSeconds` and `loadedSeconds` in seconds<br />&nbsp; ◦ &nbsp;eg `{ played: 0.12, playedSeconds: 11.3, loaded: 0.34, loadedSeconds: 16.7 }`
 `onDuration` | Callback containing duration of the media, in seconds
 `onPause` | Called when media is paused
 `onBuffer` | Called when media starts buffering
@@ -105,24 +106,50 @@ Prop | Description
 `onEnded` | Called when media finishes playing
 `onError` | Called when an error occurs whilst attempting to play media
 
-#### Config props
+#### Config prop
 
-These props allow you to override the parameters for the various players:
+As of version `0.24`, there is a single `config` prop to override the settings for the various players. If you are migrating from an earlier version, you must move all the old config props inside `config`:
 
-Prop | Description
----- | -----------
-`soundcloudConfig` | Configuration object for the SoundCloud player.<br />Set `options` to override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params).<br />Set `legacy` to `true` to use the legacy player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps) if using the legacy player.
-`vimeoConfig` | Configuration object for the Vimeo player.<br />Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />Set `preload` for [preloading](#preloading).
-`youtubeConfig` | Configuration object for the YouTube player.<br />Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />Set `preload` for [preloading](#preloading).
-`vidmeConfig` | Configuration object for the Vidme player.<br />Set `format` to use a certain quality of video, when available.<br />Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
-`wistiaConfig` | Configuration object for the Wistia player.<br />Set `options` to override the [default player options](https://wistia.com/doc/embed-options#options_list)
-`dailymotionConfig` | Configuration object for the DailyMotion player.<br />Set `params` to override the [default player vars](https://developer.dailymotion.com/player#player-parameters).<br />Set `preload` for [preloading](#preloading).
-`fileConfig` | Configuration object for the file player.<br />Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).<br />Set `forceAudio` to always render an `<audio>` element.<br />Set `forceHLS` to use [hls.js](https://github.com/video-dev/hls.js) for HLS streams.<br />Set `forceDASH` to always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams.
-`facebookConfig` | Configuration object for the Facebook player.<br />Set `appId` to your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id).
+```js
+<ReactPlayer
+  url={url}
+  config={{
+    youtube: {
+      playerVars: { showinfo: 1 }
+    },
+    facebook: {
+      appId: '12345'
+    }
+  }}
+/>
+```
+
+The old style [config props](https://github.com/CookPete/react-player/tree/v0.23.0#config-props) still work but will produce a console warning:
+
+```js
+<ReactPlayer
+  url={url}
+  youtubeConfig={{ playerVars: { showinfo: 1 } }}
+  facebookConfig={{ appId: '12345' }}
+/>
+```
+
+Settings for each player live under different keys:
+
+Key | Options
+--- | -------
+`youtube` | `playerVars` Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />`preload` Used for [preloading](#preloading).
+`facebook` | `appId` Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id).
+`soundcloud` | `options` Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params).
+`vimeo` | `iframeParams` Override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />`preload` Used for [preloading](#preloading).
+`vidme` | `format` Use a certain quality of video, when available.<br />&nbsp; ◦ &nbsp;Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
+`wistia` | `options` Override the [default player options](https://wistia.com/doc/embed-options#options_list)
+`dailymotion` | `params` Override the [default player vars](https://developer.dailymotion.com/player#player-parameters).<br />`preload` Used for [preloading](#preloading).
+`file` | `attributes` Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).<br />`forceAudio` Always render an `<audio>` element.<br />`forceHLS` Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams.<br />`forceDASH` Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams.
 
 ##### Preloading
 
-Both `youtubeConfig`, `vimeoConfig`, `dailymotionConfig` props can take a `preload` value. Setting this to `true` will play a short, silent video in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
+When `preload` is set to `true` for players that support it, a short, silent video is played in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
 
 #### Multiple Sources and Tracks
 
@@ -150,13 +177,13 @@ You can also specify a `type` for each source by using objects with `src` and `t
 <ReactPlayer
   playing
   url='foo.webm'
-  fileConfig={{
+  config={{ file: {
     tracks: [
       {kind: 'subtitles', src: 'subs/subtitles.en.vtt', srcLang: 'en', default: true},
       {kind: 'subtitles', src: 'subs/subtitles.ja.vtt', srcLang: 'ja'},
       {kind: 'subtitles', src: 'subs/subtitles.de.vtt', srcLang: 'de'}
     ]
-  }}
+  }}}
 />
 ```
 
@@ -182,7 +209,7 @@ Prop | Description
 * Wistia videos use the [Wistia Player API](https://wistia.com/doc/player-api)
 * Twitch videos use the [Twitch Interactive Frames API](https://dev.twitch.tv/docs/embed#interactive-frames-for-live-streams-and-vods)
 * DailyMotion videos use the [DailyMotion Player API](https://developer.dailymotion.com/player)
-* [Supported file types](https://github.com/CookPete/react-player/blob/master/src/players/FilePlayer.js#L5-L6) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
+* [Supported file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
   * HLS streams are played using [hls.js](https://github.com/video-dev/hls.js)
   * DASH streams are played using [dash.js](https://github.com/Dash-Industry-Forum/dash.js)
 
@@ -192,5 +219,4 @@ See the [contribution guidelines](https://github.com/CookPete/react-player/blob/
 
 ### Thanks
 
-* Anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors)
-* [gaearon](https://github.com/gaearon) for his [react-transform-boilerplate](https://github.com/gaearon/react-transform-boilerplate), which this repo is roughly based on.
+Huge thanks to anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors)
