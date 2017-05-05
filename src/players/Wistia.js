@@ -13,13 +13,13 @@ export default class Wistia extends Base {
     return MATCH_URL.test(url)
   }
   componentDidMount () {
-    const { onStart, onPause, onEnded, wistiaConfig } = this.props
+    const { onStart, onPause, onEnded, config } = this.props
     this.loadingSDK = true
     this.getSDK().then(() => {
       window._wq = window._wq || []
       window._wq.push({
         id: this.getID(this.props.url),
-        options: wistiaConfig.options,
+        options: config.wistia.options,
         onReady: player => {
           this.player = player
           this.player.bind('start', onStart)
