@@ -37,7 +37,8 @@ export const propTypes = {
     format: string
   }),
   fileConfig: shape({
-    attributes: object
+    attributes: object,
+    forceAudio: bool
   }),
   onReady: func,
   onStart: func,
@@ -84,7 +85,8 @@ export const defaultProps = {
     format: null
   },
   fileConfig: {
-    attributes: {}
+    attributes: {},
+    forceAudio: false
   },
   onReady: function () {},
   onStart: function () {},

@@ -90,7 +90,7 @@ export default class FilePlayer extends Base {
   }
   render () {
     const { url, loop, controls, fileConfig } = this.props
-    const Media = AUDIO_EXTENSIONS.test(url) ? 'audio' : 'video'
+    const Media = AUDIO_EXTENSIONS.test(url) || fileConfig.forceAudio ? 'audio' : 'video'
     const style = {
       width: '100%',
       height: '100%',
