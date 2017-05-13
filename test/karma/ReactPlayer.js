@@ -30,11 +30,11 @@ describe('ReactPlayer', () => {
   })
 
   const testStart = (url, done) => {
-    render(<ReactPlayer url={url} playing onStart={done} />, div)
+    render(<ReactPlayer url={url} onStart={done} />, div)
   }
 
   const testPlay = (url, done) => {
-    render(<ReactPlayer url={url} playing onPlay={done} />, div)
+    render(<ReactPlayer url={url} onPlay={done} />, div)
   }
 
   const testPause = (url, done) => {
@@ -51,7 +51,7 @@ describe('ReactPlayer', () => {
       const error = duration && duration > 0 ? null : new Error('Invalid duration: ' + duration)
       done(error)
     }
-    render(<ReactPlayer url={url} playing onDuration={onDuration} />, div)
+    render(<ReactPlayer url={url} onDuration={onDuration} />, div)
   }
 
   const testDurationDelayed = (url, done) => {
@@ -61,7 +61,7 @@ describe('ReactPlayer', () => {
   }
 
   const testError = (url, onError) => {
-    render(<ReactPlayer url={url} playing onError={() => onError()} />, div)
+    render(<ReactPlayer url={url} onError={() => onError()} />, div)
   }
 
   describe('YouTube', () => {
@@ -76,7 +76,7 @@ describe('ReactPlayer', () => {
       const onProgress = state => {
         if (state.played > 0.9) done()
       }
-      render(<ReactPlayer url={TEST_YOUTUBE_URL + '?start=22m10s'} playing onProgress={onProgress} />, div)
+      render(<ReactPlayer url={TEST_YOUTUBE_URL + '?start=22m10s'} onProgress={onProgress} />, div)
     })
   })
 

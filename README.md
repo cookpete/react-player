@@ -26,7 +26,7 @@ import ReactPlayer from 'react-player'
 
 class App extends Component {
   render () {
-    return <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
+    return <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
   }
 }
 ```
@@ -76,7 +76,7 @@ Due to various restrictions, `ReactPlayer` is not guaranteed to function properl
 Prop | Description | Default
 ---- | ----------- | -------
 `url` | The url of a video or song to play
-`playing` | Set to `true` or `false` to pause or play the media | `false`
+`playing` | Set to `true` or `false` to pause or play the media | `true`
 `loop` | Set to `true` or `false` to loop the media | `false`
 `controls` | Set to `true` or `false` to display native player controls<br />*Note: Vimeo player controls are not configurable and will always display* | `false`
 `volume` | Sets the volume of the appropriate player | `0.8`
