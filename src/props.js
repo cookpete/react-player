@@ -100,5 +100,5 @@ export const defaultProps = {
   onEnded: function () {},
   onError: function () {},
   onDuration: function () {},
-  onProgress: function () {}
+  onProgress: null
 }
