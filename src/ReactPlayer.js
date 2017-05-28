@@ -118,13 +118,14 @@ export default class ReactPlayer extends Component {
   }
   renderPlayer = Player => {
     const active = Player.canPlay(this.props.url)
-    const { youtubeConfig, vimeoConfig, dailymotionConfig, ...activeProps } = this.props
+    const { youtubeConfig, vimeoConfig, dailymotionConfig, wistiaConfig, ...activeProps } = this.props
     const props = active ? { ...activeProps, ref: this.ref } : {}
     // Only youtube and vimeo config passed to
     // inactive players due to preload behaviour
     return (
       <Player
         key={Player.displayName}
+        wistiaConfig={wistiaConfig}
         youtubeConfig={youtubeConfig}
         vimeoConfig={vimeoConfig}
         dailymotionConfig={dailymotionConfig}

@@ -2,6 +2,7 @@ import React from 'react'
 import loadScript from 'load-script'
 
 import Base from './Base'
+import { defaultProps } from '../props'
 
 const SDK_URL = '//fast.wistia.com/assets/external/E-v1.js'
 const SDK_GLOBAL = 'Wistia'
@@ -89,9 +90,29 @@ export default class Wistia extends Base {
   getFractionLoaded () {
     return null
   }
+  getWistiaConfig () {
+    const { wistiaConfig } = this.props
+    return Object.assign({}, defaultProps.wistiaConfig, wistiaConfig)
+  }
+  getPlayerColor () {
+    const wistiaConfig = this.getWistiaConfig()
+    return `playerColor=${wistiaConfig.playerColor}`
+  }
+  getPopover () {
+    const wistiaConfig = this.getWistiaConfig()
+    return `popover=${wistiaConfig.isPopover}`
+  }
+  getPopoverAnimate () {
+    const { wistiaConfig } = this.props
+    return `popoverAnimateThumbnail=${wistiaConfig.popoverAnimateThumbnail}`
+  }
   render () {
     const id = this.getID(this.props.url)
-    const className = `wistia_embed wistia_async_${id}`
+    const playerColor = this.getPlayerColor()
+    const popover = this.getPopover()
+    const popoverAnimateThumbnail = this.getPopoverAnimate()
+    const className = `wistia_embed wistia_async_${id} ${playerColor} ${popover} ${popoverAnimateThumbnail}`
+
     const style = {
       width: '100%',
       height: '100%',
