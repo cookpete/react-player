@@ -42,6 +42,11 @@ export const propTypes = {
     forceHLS: bool,
     forceDASH: bool
   }),
+  wistiaConfig: shape({
+    isPopover: bool,
+    popoverAnimateThumbnail: bool,
+    playerColor: string
+  }),
   onReady: func,
   onStart: func,
   onPlay: func,
@@ -91,6 +96,11 @@ export const defaultProps = {
     forceAudio: false,
     forceHLS: false,
     forceDASH: false
+  },
+  wistiaConfig: {
+    isPopover: false,
+    playerColor: '#cccccc',
+    popoverAnimateThumbnail: false
   },
   onReady: function () {},
   onStart: function () {},
