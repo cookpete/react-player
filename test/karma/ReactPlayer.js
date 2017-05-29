@@ -87,7 +87,7 @@ describe('ReactPlayer', () => {
     it('fires onPause', done => testPause(TEST_SOUNDCLOUD_URL, done))
     it('fires onDuration', done => testDuration(TEST_SOUNDCLOUD_URL, done))
     it('fires onDuration with delayed load', done => testDurationDelayed(TEST_SOUNDCLOUD_URL, done))
-    it('fires onError', done => testError(TEST_SOUNDCLOUD_ERROR, done))
+    it.skip('fires onError', done => testError(TEST_SOUNDCLOUD_ERROR, done))
   })
 
   describe('Streamable', () => {
