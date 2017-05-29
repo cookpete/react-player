@@ -81,13 +81,13 @@ describe('ReactPlayer', () => {
   })
 
   // Skipping SoundCloud tests until client ID problem is solved
-  describe.skip('SoundCloud', () => {
+  describe('SoundCloud', () => {
     it('fires onStart', done => testStart(TEST_SOUNDCLOUD_URL, done))
     it('fires onPlay', done => testPlay(TEST_SOUNDCLOUD_URL, done))
-    it.skip('fires onPause', done => testPause(TEST_SOUNDCLOUD_URL, done))
+    it('fires onPause', done => testPause(TEST_SOUNDCLOUD_URL, done))
     it('fires onDuration', done => testDuration(TEST_SOUNDCLOUD_URL, done))
     it('fires onDuration with delayed load', done => testDurationDelayed(TEST_SOUNDCLOUD_URL, done))
-    it('fires onError', done => testError(TEST_SOUNDCLOUD_ERROR, done))
+    it.skip('fires onError', done => testError(TEST_SOUNDCLOUD_ERROR, done))
   })
 
   describe('Streamable', () => {
