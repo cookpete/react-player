@@ -63,6 +63,13 @@ export default class SoundCloud extends Base {
       player.play()
     })
   }
+  getSongData () {
+    return new Promise(resolve => {
+      this.getPlayer().then(player => {
+        player.getCurrentSound(sound => resolve(sound))
+      })
+    })
+  }
   pause () {
     this.getPlayer().then(player => {
       player.pause()
