@@ -30,7 +30,12 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       loader: 'babel-loader',
-      include: path.join(__dirname, 'src')
+      include: path.join(__dirname, 'src'),
+      query: {
+        // Use add-module-exports to remove need
+        // for ReactPlayer.default in browsers
+        plugins: ['add-module-exports']
+      }
     }]
   },
   externals: {
