@@ -163,6 +163,8 @@ Prop | Description
 * Wistia videos use the [Wistia Player API](https://wistia.com/doc/player-api)
 * DailyMotion videos use the [DailyMotion Player API](https://developer.dailymotion.com/player)
 * [Supported file types](https://github.com/CookPete/react-player/blob/master/src/players/FilePlayer.js#L5-L6) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
+  * HLS streams are played using [hls.js](https://github.com/video-dev/hls.js)
+  * DASH streams are played using [dash.js](https://github.com/Dash-Industry-Forum/dash.js)
 
 ### Contributing
 
