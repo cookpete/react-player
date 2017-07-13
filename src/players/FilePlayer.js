@@ -108,15 +108,15 @@ export default class FilePlayer extends Base {
     this.player = player
   }
   render () {
-    const { url, loop, controls, fileConfig } = this.props
+    const { url, loop, controls, fileConfig, width, height } = this.props
     const useAudio = AUDIO_EXTENSIONS.test(url) || fileConfig.forceAudio
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
     const Element = useAudio ? 'audio' : 'video'
     const src = url instanceof Array || useHLS || useDASH ? undefined : url
     const style = {
-      width: '100%',
-      height: '100%',
+      width: !width || width === 'auto' ? width : '100%',
+      height: !height || height === 'auto' ? height : '100%',
       display: url ? 'block' : 'none'
     }
     return (
