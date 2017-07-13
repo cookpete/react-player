@@ -42,6 +42,9 @@ export const propTypes = {
     forceHLS: bool,
     forceDASH: bool
   }),
+  wistiaConfig: shape({
+    options: object
+  }),
   onReady: func,
   onStart: func,
   onPlay: func,
@@ -91,6 +94,9 @@ export const defaultProps = {
     forceAudio: false,
     forceHLS: false,
     forceDASH: false
+  },
+  wistiaConfig: {
+    options: {}
   },
   onReady: function () {},
   onStart: function () {},
