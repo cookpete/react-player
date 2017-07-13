@@ -1,5 +1,4 @@
 import React from 'react'
-import { findDOMNode } from 'react-dom'
 import loadScript from 'load-script'
 
 import Base from './Base'
@@ -62,7 +61,7 @@ export default class Vimeo extends Base {
       })
       this.player.on('loaded', () => {
         this.onReady()
-        const iframe = findDOMNode(this).querySelector('iframe')
+        const iframe = this.container.querySelector('iframe')
         iframe.style.width = '100%'
         iframe.style.height = '100%'
       })
