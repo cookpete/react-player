@@ -51,9 +51,9 @@ export default class FilePlayer extends Base {
   load (url) {
     if (this.shouldUseHLS(url)) {
       loadSDK(HLS_SDK_URL, HLS_GLOBAL).then(Hls => {
-        const hls = new Hls()
-        hls.loadSource(url)
-        hls.attachMedia(this.player)
+        this.hls = new Hls()
+        this.hls.loadSource(url)
+        this.hls.attachMedia(this.player)
       })
     }
     if (this.shouldUseDASH(url)) {
@@ -71,6 +71,9 @@ export default class FilePlayer extends Base {
   }
   stop () {
     this.player.removeAttribute('src')
+    if (this.hls) {
+      this.hls.detachMedia()
+    }
   }
   seekTo (fraction) {
     if (fraction === 1) {
