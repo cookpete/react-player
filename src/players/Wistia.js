@@ -85,7 +85,7 @@ export default class Wistia extends Base {
   }
   getFractionPlayed () {
     if (!this.isReady || !this.player || !this.player.percentWatched) return null
-    return this.player.percentWatched()
+    return this.player.time() / this.player.duration()
   }
   getFractionLoaded () {
     return null
