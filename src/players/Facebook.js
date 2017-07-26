@@ -79,6 +79,9 @@ export default class YouTube extends Base {
   }
   setVolume (fraction) {
     if (!this.isReady) return
+    if (fraction !== 0) {
+      this.player.unmute()
+    }
     this.player.setVolume(fraction)
   }
   setPlaybackRate () {
