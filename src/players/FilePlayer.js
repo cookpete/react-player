@@ -111,7 +111,7 @@ export default class FilePlayer extends Base {
     this.player = player
   }
   render () {
-    const { url, loop, controls, fileConfig, width, height } = this.props
+    const { url, loop, controls, fileConfig, width, height, preload } = this.props
     const useAudio = AUDIO_EXTENSIONS.test(url) || fileConfig.forceAudio
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
@@ -127,7 +127,7 @@ export default class FilePlayer extends Base {
         ref={this.ref}
         src={src}
         style={style}
-        preload='auto'
+        preload={preload || 'auto'}
         controls={controls}
         loop={loop}
         {...fileConfig.attributes}>
