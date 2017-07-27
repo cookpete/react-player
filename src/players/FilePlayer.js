@@ -64,7 +64,7 @@ export default class FilePlayer extends Base {
     }
   }
   play () {
-    this.player.play()
+    this.player.play().catch(this.props.onError)
   }
   pause () {
     this.player.pause()
