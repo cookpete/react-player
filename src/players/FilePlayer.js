@@ -107,6 +107,9 @@ export default class FilePlayer extends Base {
     const { src, type } = source
     return <source key={src} src={src} type={type} />
   }
+  renderTrack = (track, index) => {
+    return <track key={index} {...track} />
+  }
   ref = player => {
     this.player = player
   }
@@ -133,6 +136,9 @@ export default class FilePlayer extends Base {
         {...fileConfig.attributes}>
         {url instanceof Array &&
           url.map(this.renderSource)
+        }
+        {fileConfig.tracks instanceof Array &&
+          fileConfig.tracks.map(this.renderTrack)
         }
       </Element>
     )

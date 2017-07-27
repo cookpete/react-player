@@ -122,17 +122,17 @@ Prop | Description
 
 Both `youtubeConfig`, `vimeoConfig`, `dailymotionConfig` props can take a `preload` value. Setting this to `true` will play a short, silent video in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
 
-#### Multiple Sources
+#### Multiple Sources and Tracks
 
 When playing file paths, an array of sources can be passed to the `url` prop to render multiple `<source>` tags.
 
-```js
+```jsx
 <ReactPlayer playing url={['foo.webm', 'foo.ogg']} />
 ```
 
 You can also specify a `type` for each source by using objects with `src` and `type` properties.
 
-```js
+```jsx
 <ReactPlayer
   playing
   url={[
@@ -141,6 +141,23 @@ You can also specify a `type` for each source by using objects with `src` and `t
   ]}
 />
 ```
+
+[`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track) elements for subtitles can be added using `fileConfig`:
+
+```jsx
+<ReactPlayer
+  playing
+  url='foo.webm'
+  fileConfig={{
+    tracks: [
+      {kind: 'subtitles', src: 'subs/subtitles.en.vtt', srcLang: 'en', default: true},
+      {kind: 'subtitles', src: 'subs/subtitles.ja.vtt', srcLang: 'ja'},
+      {kind: 'subtitles', src: 'subs/subtitles.de.vtt', srcLang: 'de'}
+    ]
+  }}
+/>
+```
+
 
 ### Methods
 

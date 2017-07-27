@@ -38,6 +38,7 @@ export const propTypes = {
   }),
   fileConfig: shape({
     attributes: object,
+    tracks: array,
     forceAudio: bool,
     forceHLS: bool,
     forceDASH: bool
@@ -91,6 +92,7 @@ export const defaultProps = {
   },
   fileConfig: {
     attributes: {},
+    tracks: [],
     forceAudio: false,
     forceHLS: false,
     forceDASH: false
