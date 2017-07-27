@@ -66,10 +66,10 @@ export default class Wistia extends Base {
     if (!this.isReady || !this.player) return
     this.player.pause()
   }
-  seekTo (fraction) {
-    super.seekTo(fraction)
+  seekTo (amount) {
+    const seconds = super.seekTo(amount)
     if (!this.isReady || !this.player) return
-    this.player.time(this.getDuration() * fraction)
+    this.player.time(seconds)
   }
   setVolume (fraction) {
     if (!this.isReady || !this.player || !this.player.volume) return

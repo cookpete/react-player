@@ -92,10 +92,10 @@ export default class Vimeo extends Base {
     if (!this.isReady) return
     this.player.unload()
   }
-  seekTo (fraction) {
-    super.seekTo(fraction)
+  seekTo (amount) {
+    const seconds = super.seekTo(amount)
     if (!this.isReady || !this.player.setCurrentTime) return
-    this.player.setCurrentTime(this.duration * fraction)
+    this.player.setCurrentTime(seconds)
   }
   setVolume (fraction) {
     this.player.setVolume(fraction)

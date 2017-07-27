@@ -75,12 +75,9 @@ export default class FilePlayer extends Base {
       this.hls.detachMedia()
     }
   }
-  seekTo (fraction) {
-    if (fraction === 1) {
-      this.pause()
-    }
-    super.seekTo(fraction)
-    this.player.currentTime = this.getDuration() * fraction
+  seekTo (amount) {
+    const seconds = super.seekTo(amount)
+    this.player.currentTime = seconds
   }
   setVolume (fraction) {
     this.player.volume = fraction

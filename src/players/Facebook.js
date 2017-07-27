@@ -72,10 +72,10 @@ export default class YouTube extends Base {
   stop () {
     // No need to stop
   }
-  seekTo (fraction) {
-    super.seekTo(fraction)
+  seekTo (amount) {
+    const seconds = super.seekTo(amount)
     if (!this.isReady) return
-    this.player.seek(this.getDuration() * fraction)
+    this.player.seek(seconds)
   }
   setVolume (fraction) {
     if (!this.isReady) return

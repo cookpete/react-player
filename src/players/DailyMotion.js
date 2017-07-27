@@ -116,10 +116,10 @@ export default class DailyMotion extends Base {
   stop () {
     // Nothing to do
   }
-  seekTo (fraction) {
-    super.seekTo(fraction)
+  seekTo (amount) {
+    const seconds = super.seekTo(amount)
     if (!this.isReady || !this.player.seek) return
-    this.player.seek(this.getDuration() * fraction)
+    this.player.seek(seconds)
   }
   setVolume (fraction) {
     if (!this.isReady || !this.player.setVolume) return

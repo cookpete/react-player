@@ -165,7 +165,7 @@ Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call
 
 Prop | Description
 ---- | -----------
-`seekTo(fraction)` | Seek to the specified fraction (from 0 to 1) of the currently playing media
+`seekTo(amount)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`.
 `getCurrentTime()` | Returns the number of seconds that has been played.<br >Returns `null` if duration is unavailable.
 `getDuration()` | Returns the duration (in seconds) of the currently playing media.<br >Returns `null` if duration is unavailable.
 
