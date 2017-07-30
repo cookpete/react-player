@@ -1,3 +1,7 @@
+import merge from 'lodash.merge'
+
+import { DEPRECATED_CONFIG_PROPS } from './props'
+
 const MATCH_START_QUERY = /[?&#](?:start|t)=([0-9hms]+)/
 const MATCH_START_STAMP = /(\d+)(h|m|s)/g
 const MATCH_NUMERIC = /^\d+$/
@@ -29,4 +33,20 @@ function parseStartStamp (stamp) {
     array = MATCH_START_STAMP.exec(stamp)
   }
   return seconds
+}
+
+export function getConfig (props, defaultProps, showWarning) {
+  const config = merge({}, defaultProps.config, props.config)
+  for (let p of DEPRECATED_CONFIG_PROPS) {
+    if (props[p]) {
+      const key = p.replace(/Config$/, '')
+      merge(config, { [key]: props[p] })
+      if (showWarning) {
+        const link = 'https://github.com/CookPete/react-player#config-prop'
+        const message = `ReactPlayer: %c${p} %cis deprecated, please use the config prop instead – ${link}`
+        console.warn(message, 'font-weight: bold', '')
+      }
+    }
+  }
+  return config
 }

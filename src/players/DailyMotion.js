@@ -9,11 +9,6 @@ const SDK_GLOBAL = 'DM'
 const SDK_GLOBAL_READY = 'dmAsyncInit'
 const MATCH_URL = /^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/
 const BLANK_VIDEO_URL = 'http://www.dailymotion.com/video/x522udb'
-const DEFAULT_PLAYER_VARS = {
-  autoplay: 0,
-  api: 1,
-  'endscreen-enable': false
-}
 
 export default class DailyMotion extends Base {
   static displayName = 'DailyMotion'
@@ -21,8 +16,8 @@ export default class DailyMotion extends Base {
     return MATCH_URL.test(url)
   }
   componentDidMount () {
-    const { url, dailymotionConfig } = this.props
-    if (!url && dailymotionConfig.preload) {
+    const { url, config } = this.props
+    if (!url && config.dailymotion.preload) {
       this.preloading = true
       this.load(BLANK_VIDEO_URL)
     }
@@ -50,7 +45,7 @@ export default class DailyMotion extends Base {
     return m[4] || m[2]
   }
   load (url) {
-    const { controls, dailymotionConfig, onError, playing } = this.props
+    const { controls, config, onError, playing } = this.props
     const id = this.parseId(url)
     if (this.player) {
       this.player.load(id, {
@@ -71,12 +66,11 @@ export default class DailyMotion extends Base {
         height: '100%',
         video: id,
         params: {
-          ...DEFAULT_PLAYER_VARS,
           controls: controls,
           autoplay: this.props.playing,
           start: parseStartTime(url),
           origin: window.location.origin,
-          ...dailymotionConfig.params
+          ...config.dailymotion.params
         },
         events: {
           apiready: () => {

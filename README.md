@@ -86,6 +86,7 @@ Prop | Description | Default
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element
 `progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
+`config` | Override options for the various players, see [config prop](#config-prop)
 
 #### Callback props
 
@@ -103,24 +104,54 @@ Prop | Description
 `onEnded` | Called when media finishes playing
 `onError` | Called when an error occurs whilst attempting to play media
 
-#### Config props
+#### Config prop
 
-These props allow you to override the parameters for the various players:
+As of version `1.0`, there is a single `config` prop to override the settings for the various players. If you are migrating from `0.x`, you must move all the old config props to inside `config`:
 
-Prop | Description
----- | -----------
-`soundcloudConfig` | Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.
-`vimeoConfig` | Configuration object for the Vimeo player.<br />Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />Set `preload` for [preloading](#preloading).
-`youtubeConfig` | Configuration object for the YouTube player.<br />Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />Set `preload` for [preloading](#preloading).
-`vidmeConfig` | Configuration object for the Vidme player.<br />Set `format` to use a certain quality of video, when available.<br />Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
-`wistiaConfig` | Configuration object for the Wistia player.<br />Set `options` to override the [default player options](https://wistia.com/doc/embed-options#options_list)
-`dailymotionConfig` | Configuration object for the DailyMotion player.<br />Set `params` to override the [default player vars](https://developer.dailymotion.com/player#player-parameters).<br />Set `preload` for [preloading](#preloading).
-`fileConfig` | Configuration object for the file player.<br />Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).<br />Set `forceAudio` to always render an `<audio>` element.<br />Set `forceHLS` to use [hls.js](https://github.com/video-dev/hls.js) for HLS streams.<br />Set `forceDASH` to always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams.
-`facebookConfig` | Configuration object for the Facebook player.<br />Set `appId` to your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id).
+##### Version `0.x`
+
+```js
+<ReactPlayer
+  url={url}
+  youtubeConfig={{ playerVars: { showinfo: 1 } }}
+  facebookConfig={{ appId: '12345' }}
+/>
+```
+
+The old style config props still work but will produce a console warning.
+
+##### Version `1.x`
+
+```js
+<ReactPlayer
+  url={url}
+  config={{
+    youtube: {
+      playerVars: { showinfo: 1 }
+    },
+    facebook: {
+      appId: '12345'
+    }
+  }}
+/>
+```
+
+Settings for each player live under different object keys:
+
+Key | Options
+--- | -------
+`youtube` | Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />Set `preload` for [preloading](#preloading).
+`facebook` | Set `appId` to your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id).
+`soundcloud` | Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.
+`vimeo` | Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />Set `preload` for [preloading](#preloading).
+`vidme` | Set `format` to use a certain quality of video, when available.<br />Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
+`wistia` | Set `options` to override the [default player options](https://wistia.com/doc/embed-options#options_list)
+`dailymotion` | Set `params` to override the [default player vars](https://developer.dailymotion.com/player#player-parameters).<br />Set `preload` for [preloading](#preloading).
+`file` | Set `attributes` to apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).<br />Set `forceAudio` to always render an `<audio>` element.<br />Set `forceHLS` to use [hls.js](https://github.com/video-dev/hls.js) for HLS streams.<br />Set `forceDASH` to always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams.
 
 ##### Preloading
 
-Both `youtubeConfig`, `vimeoConfig`, `dailymotionConfig` props can take a `preload` value. Setting this to `true` will play a short, silent video in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
+When `preload` is set to `true` for players that support it, a short, silent video is played in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
 
 #### Multiple Sources and Tracks
 
@@ -148,13 +179,13 @@ You can also specify a `type` for each source by using objects with `src` and `t
 <ReactPlayer
   playing
   url='foo.webm'
-  fileConfig={{
+  config={{ file: {
     tracks: [
       {kind: 'subtitles', src: 'subs/subtitles.en.vtt', srcLang: 'en', default: true},
       {kind: 'subtitles', src: 'subs/subtitles.ja.vtt', srcLang: 'ja'},
       {kind: 'subtitles', src: 'subs/subtitles.de.vtt', srcLang: 'de'}
     ]
-  }}
+  }}}
 />
 ```
 

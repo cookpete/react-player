@@ -43,10 +43,10 @@ export default class FilePlayer extends Base {
     super.componentWillUnmount()
   }
   shouldUseHLS (url) {
-    return HLS_EXTENSIONS.test(url) || this.props.fileConfig.forceHLS
+    return HLS_EXTENSIONS.test(url) || this.props.config.file.forceHLS
   }
   shouldUseDASH (url) {
-    return DASH_EXTENSIONS.test(url) || this.props.fileConfig.forceDASH
+    return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
   }
   load (url) {
     if (this.shouldUseHLS(url)) {
@@ -111,8 +111,8 @@ export default class FilePlayer extends Base {
     this.player = player
   }
   render () {
-    const { url, loop, controls, fileConfig, width, height } = this.props
-    const useAudio = AUDIO_EXTENSIONS.test(url) || fileConfig.forceAudio
+    const { url, loop, controls, config, width, height } = this.props
+    const useAudio = AUDIO_EXTENSIONS.test(url) || config.file.forceAudio
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
     const Element = useAudio ? 'audio' : 'video'
@@ -130,13 +130,11 @@ export default class FilePlayer extends Base {
         preload='auto'
         controls={controls}
         loop={loop}
-        {...fileConfig.attributes}>
+        {...config.file.attributes}>
         {url instanceof Array &&
           url.map(this.renderSource)
         }
-        {fileConfig.tracks instanceof Array &&
-          fileConfig.tracks.map(this.renderTrack)
-        }
+        {config.file.tracks.map(this.renderTrack)}
       </Element>
     )
   }

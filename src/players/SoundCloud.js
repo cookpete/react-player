@@ -17,7 +17,6 @@ export default class SoundCloud extends FilePlayer {
   state = {
     image: null
   }
-  clientId = this.props.soundcloudConfig.clientId || defaultProps.soundcloudConfig.clientId
   shouldComponentUpdate (nextProps, nextState) {
     return (
       super.shouldComponentUpdate(nextProps, nextState) ||
@@ -25,10 +24,11 @@ export default class SoundCloud extends FilePlayer {
     )
   }
   getSongData (url) {
+    const { config } = this.props
     if (songData[url]) {
       return Promise.resolve(songData[url])
     }
-    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + this.clientId)
+    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + config.soundcloud.clientId)
       .then(response => {
         if (response.ok) {
           songData[url] = response.json()
@@ -39,7 +39,7 @@ export default class SoundCloud extends FilePlayer {
       })
   }
   load (url) {
-    const { soundcloudConfig, onError } = this.props
+    const { config, onError } = this.props
     this.stop()
     this.getSongData(url).then(data => {
       if (!this.mounted) return
@@ -48,10 +48,10 @@ export default class SoundCloud extends FilePlayer {
         return
       }
       const image = data.artwork_url || data.user.avatar_url
-      if (image && soundcloudConfig.showArtwork) {
+      if (image && config.soundcloud.showArtwork) {
         this.setState({ image: image.replace('-large', '-t500x500') })
       }
-      this.player.src = data.stream_url + '?client_id=' + this.clientId
+      this.player.src = data.stream_url + '?client_id=' + config.soundcloud.clientId
     }, onError)
   }
   ref = player => {

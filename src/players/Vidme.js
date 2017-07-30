@@ -27,13 +27,13 @@ export default class Vidme extends FilePlayer {
       })
   }
   getURL ({ video }) {
-    const { vidmeConfig } = this.props
-    if (vidmeConfig.format && video.formats && video.formats.length !== 0) {
-      const index = video.formats.findIndex(f => f.type === vidmeConfig.format)
+    const { config } = this.props
+    if (config.vidme.format && video.formats && video.formats.length !== 0) {
+      const index = video.formats.findIndex(f => f.type === config.vidme.format)
       if (index !== -1) {
         return video.formats[index].uri
       } else {
-        console.warn(`Vidme format "${vidmeConfig.format}" was not found for ${video.full_url}`)
+        console.warn(`Vidme format "${config.vidme.format}" was not found for ${video.full_url}`)
       }
     }
     return video.complete_url

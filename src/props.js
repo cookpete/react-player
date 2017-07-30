@@ -14,37 +14,39 @@ export const propTypes = {
   style: object,
   progressFrequency: number,
   playsinline: bool,
-  soundcloudConfig: shape({
-    clientId: string,
-    showArtwork: bool
-  }),
-  youtubeConfig: shape({
-    playerVars: object,
-    preload: bool
-  }),
-  facebookConfig: shape({
-    appId: string
-  }),
-  dailymotionConfig: shape({
-    params: object,
-    preload: bool
-  }),
-  vimeoConfig: shape({
-    iframeParams: object,
-    preload: bool
-  }),
-  vidmeConfig: shape({
-    format: string
-  }),
-  fileConfig: shape({
-    attributes: object,
-    tracks: array,
-    forceAudio: bool,
-    forceHLS: bool,
-    forceDASH: bool
-  }),
-  wistiaConfig: shape({
-    options: object
+  config: shape({
+    soundcloud: shape({
+      clientId: string,
+      showArtwork: bool
+    }),
+    youtube: shape({
+      playerVars: object,
+      preload: bool
+    }),
+    facebook: shape({
+      appId: string
+    }),
+    dailymotion: shape({
+      params: object,
+      preload: bool
+    }),
+    vimeo: shape({
+      iframeParams: object,
+      preload: bool
+    }),
+    vidme: shape({
+      format: string
+    }),
+    file: shape({
+      attributes: object,
+      tracks: array,
+      forceAudio: bool,
+      forceHLS: bool,
+      forceDASH: bool
+    }),
+    wistia: shape({
+      options: object
+    })
   }),
   onReady: func,
   onStart: func,
@@ -68,37 +70,55 @@ export const defaultProps = {
   hidden: false,
   progressFrequency: 1000,
   playsinline: false,
-  soundcloudConfig: {
-    clientId: 'e8b6f84fbcad14c301ca1355cae1dea2',
-    showArtwork: true
-  },
-  youtubeConfig: {
-    playerVars: {},
-    preload: false
-  },
-  facebookConfig: {
-    appId: '1309697205772819'
-  },
-  dailymotionConfig: {
-    params: {},
-    preload: false
-  },
-  vimeoConfig: {
-    iframeParams: {},
-    preload: false
-  },
-  vidmeConfig: {
-    format: null
-  },
-  fileConfig: {
-    attributes: {},
-    tracks: [],
-    forceAudio: false,
-    forceHLS: false,
-    forceDASH: false
-  },
-  wistiaConfig: {
-    options: {}
+  config: {
+    soundcloud: {
+      clientId: 'e8b6f84fbcad14c301ca1355cae1dea2',
+      showArtwork: true
+    },
+    youtube: {
+      playerVars: {
+        autoplay: 0,
+        playsinline: 1,
+        showinfo: 0,
+        rel: 0,
+        iv_load_policy: 3
+      },
+      preload: false
+    },
+    facebook: {
+      appId: '1309697205772819'
+    },
+    dailymotion: {
+      params: {
+        autoplay: 0,
+        api: 1,
+        'endscreen-enable': false
+      },
+      preload: false
+    },
+    vimeo: {
+      playerOptions: {
+        autopause: false,
+        autoplay: false,
+        byline: false,
+        portrait: false,
+        title: false
+      },
+      preload: false
+    },
+    vidme: {
+      format: null
+    },
+    file: {
+      attributes: {},
+      tracks: [],
+      forceAudio: false,
+      forceHLS: false,
+      forceDASH: false
+    },
+    wistia: {
+      options: {}
+    }
   },
   onReady: function () {},
   onStart: function () {},
@@ -110,3 +130,14 @@ export const defaultProps = {
   onDuration: function () {},
   onProgress: function () {}
 }
+
+export const DEPRECATED_CONFIG_PROPS = [
+  'soundcloudConfig',
+  'youtubeConfig',
+  'facebookConfig',
+  'dailymotionConfig',
+  'vimeoConfig',
+  'vidmeConfig',
+  'fileConfig',
+  'wistiaConfig'
+]

@@ -37,7 +37,7 @@ export default class YouTube extends Base {
     }
     this.getSDK().then(FB => {
       FB.init({
-        appId: this.props.facebookConfig.appId,
+        appId: this.props.config.facebook.appId,
         xfbml: true,
         version: 'v2.5'
       })
