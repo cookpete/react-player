@@ -12,26 +12,6 @@ export default class Wistia extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  componentDidMount () {
-    const { onStart, onPause, onSeek, onEnded, wistiaConfig } = this.props
-    this.loadingSDK = true
-    this.getSDK().then(() => {
-      window._wq = window._wq || []
-      window._wq.push({
-        id: this.getID(this.props.url),
-        options: wistiaConfig.options,
-        onReady: player => {
-          this.player = player
-          this.player.bind('start', onStart)
-          this.player.bind('play', this.onPlay)
-          this.player.bind('pause', onPause)
-          this.player.bind('seek', onSeek)
-          this.player.bind('end', onEnded)
-          this.onReady()
-        }
-      })
-    })
-  }
   getSDK () {
     return new Promise((resolve, reject) => {
       if (window[SDK_GLOBAL]) {
@@ -48,12 +28,23 @@ export default class Wistia extends Base {
     return url && url.match(MATCH_URL)[4]
   }
   load (url) {
-    const id = this.getID(url)
-    if (this.isReady) {
-      this.player.replaceWith(id)
-      this.props.onReady()
-      this.onReady()
-    }
+    const { onStart, onPause, onSeek, onEnded, wistiaConfig } = this.props
+    this.getSDK().then(() => {
+      window._wq = window._wq || []
+      window._wq.push({
+        id: this.getID(url),
+        options: wistiaConfig.options,
+        onReady: player => {
+          this.player = player
+          this.player.bind('start', onStart)
+          this.player.bind('play', this.onPlay)
+          this.player.bind('pause', onPause)
+          this.player.bind('seek', onSeek)
+          this.player.bind('end', onEnded)
+          this.onReady()
+        }
+      })
+    })
   }
   play () {
     if (!this.isReady || !this.player) return
@@ -100,7 +91,7 @@ export default class Wistia extends Base {
       display: this.props.url ? 'block' : 'none'
     }
     return (
-      <div className={className} style={style} />
+      <div key={id} className={className} style={style} />
     )
   }
 }
