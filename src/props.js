@@ -54,6 +54,7 @@ export const propTypes = {
   onEnded: func,
   onError: func,
   onDuration: func,
+  onSeek: func,
   onProgress: func
 }
 
@@ -108,5 +109,6 @@ export const defaultProps = {
   onEnded: function () {},
   onError: function () {},
   onDuration: function () {},
+  onSeek: function () {},
   onProgress: function () {}
 }

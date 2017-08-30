@@ -82,6 +82,7 @@ export default class DailyMotion extends Base {
           apiready: () => {
             this.loadingSDK = false
           },
+          seeked: () => this.props.onSeek(this.player.currentTime),
           video_end: this.onEnded,
           durationchange: this.onDurationChange,
           pause: this.props.onPause,

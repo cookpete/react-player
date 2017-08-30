@@ -25,6 +25,7 @@ export default class FilePlayer extends Base {
         onPause()
       }
     })
+    this.player.addEventListener('seeked', this.onSeek)
     this.player.addEventListener('ended', onEnded)
     this.player.addEventListener('error', onError)
     if (playsinline) {
@@ -38,9 +39,13 @@ export default class FilePlayer extends Base {
     this.player.removeEventListener('canplay', this.onReady)
     this.player.removeEventListener('play', this.onPlay)
     this.player.removeEventListener('pause', onPause)
+    this.player.removeEventListener('seeked', this.onSeek)
     this.player.removeEventListener('ended', onEnded)
     this.player.removeEventListener('error', onError)
     super.componentWillUnmount()
+  }
+  onSeek = e => {
+    this.props.onSeek(e.target.currentTime)
   }
   shouldUseHLS (url) {
     return HLS_EXTENSIONS.test(url) || this.props.fileConfig.forceHLS

@@ -100,6 +100,7 @@ Prop | Description
 `onDuration` | Callback containing duration of the media, in seconds
 `onPause` | Called when media is paused
 `onBuffer` | Called when media starts buffering
+`onSeek` | Called when media seeks with `seconds` parameter
 `onEnded` | Called when media finishes playing
 `onError` | Called when an error occurs whilst attempting to play media
 

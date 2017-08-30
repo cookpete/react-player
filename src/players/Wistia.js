@@ -13,7 +13,7 @@ export default class Wistia extends Base {
     return MATCH_URL.test(url)
   }
   componentDidMount () {
-    const { onStart, onPause, onEnded, wistiaConfig } = this.props
+    const { onStart, onPause, onSeek, onEnded, wistiaConfig } = this.props
     this.loadingSDK = true
     this.getSDK().then(() => {
       window._wq = window._wq || []
@@ -25,6 +25,7 @@ export default class Wistia extends Base {
           this.player.bind('start', onStart)
           this.player.bind('play', this.onPlay)
           this.player.bind('pause', onPause)
+          this.player.bind('seek', onSeek)
           this.player.bind('end', onEnded)
           this.onReady()
         }

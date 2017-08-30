@@ -70,6 +70,7 @@ export default class Vimeo extends Base {
         this.onPlay()
       })
       this.player.on('pause', this.props.onPause)
+      this.player.on('seeked', e => this.props.onSeek(e.seconds))
       this.player.on('ended', this.props.onEnded)
       this.player.on('error', this.props.onError)
       this.player.on('timeupdate', ({ percent }) => {

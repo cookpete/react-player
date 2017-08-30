@@ -118,6 +118,7 @@ export default class App extends Component {
               onPlay={() => this.setState({ playing: true })}
               onPause={() => this.setState({ playing: false })}
               onBuffer={() => console.log('onBuffer')}
+              onSeek={e => console.log('onSeek', e)}
               onEnded={() => this.setState({ playing: false })}
               onError={e => console.log('onError', e)}
               onProgress={this.onProgress}
