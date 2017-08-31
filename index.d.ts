@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface ReactPlayerProps {
-  url?: string;
+  url?: string|array;
   playing?: boolean;
   loop?: boolean;
   controls?: boolean;
@@ -10,10 +10,11 @@ export interface ReactPlayerProps {
   playbackRate?: number;
   width?: string|number;
   height?: string|number;
-  hidden?: boolean;
-  className?: string;
   style?: Object;
   progressFrequency?: number;
+  playsinline?: boolean;
+  hidden?: boolean;
+  className?: string;
   soundcloudConfig?: {
     clientId: string,
     showArtwork: boolean
@@ -22,13 +23,30 @@ export interface ReactPlayerProps {
     playerVars: Object,
     preload: boolean
   };
+  facebookConfig?: {
+    appId: string
+  };
+  dailymotionConfig?: {
+    params: Object,
+    preload: boolean
+  }),
   vimeoConfig?: {
     iframeParams: Object,
     preload: boolean
   };
+  vidmeConfig?: {
+    format: string
+  }),
   fileConfig?: {
-    attributes: Object
-  };
+    attributes: Object,
+    tracks: array,
+    forceAudio: boolean,
+    forceHLS: boolean,
+    forceDASH: boolean
+  }),
+  wistiaConfig?: {
+    options: Object
+  }),
   onReady?(): void;
   onStart?(): void;
   onPlay?(): void;
@@ -37,6 +55,7 @@ export interface ReactPlayerProps {
   onEnded?(): void;
   onError?(error: any): void;
   onDuration?(duration: number): void;
+  onSeek?(seconds: number): void;
   onProgress?(state: { played: number, loaded: number }): void;
 }
 
