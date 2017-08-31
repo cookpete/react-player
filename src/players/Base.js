@@ -23,7 +23,7 @@ export default class Base extends Component {
     this.mounted = false
   }
   componentWillReceiveProps (nextProps) {
-    const { url, playing, volume, playbackRate } = this.props
+    const { url, playing, volume, muted, playbackRate } = this.props
     // Invoke player methods based on incoming props
     if (url !== nextProps.url && nextProps.url) {
       this.seekOnPlay = null
@@ -36,8 +36,10 @@ export default class Base extends Component {
       this.play()
     } else if (playing && !nextProps.playing) {
       this.pause()
-    } else if (volume !== nextProps.volume) {
+    } else if (volume !== nextProps.volume && !nextProps.muted) {
       this.setVolume(nextProps.volume)
+    } else if (muted !== nextProps.muted) {
+      this.setVolume(nextProps.muted ? 0 : nextProps.volume)
     } else if (playbackRate !== nextProps.playbackRate) {
       this.setPlaybackRate(nextProps.playbackRate)
     }
@@ -61,10 +63,10 @@ export default class Base extends Component {
     return amount
   }
   onPlay = () => {
-    const { volume, onStart, onPlay, onDuration, playbackRate } = this.props
+    const { volume, muted, onStart, onPlay, onDuration, playbackRate } = this.props
     if (this.startOnPlay) {
       this.setPlaybackRate(playbackRate)
-      this.setVolume(volume)
+      this.setVolume(muted ? 0 : volume)
       onStart()
       this.startOnPlay = false
     }

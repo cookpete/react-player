@@ -22,6 +22,7 @@ export default class App extends Component {
     url: null,
     playing: true,
     volume: 0.8,
+    muted: false,
     played: 0,
     loaded: 0,
     duration: 0,
@@ -42,6 +43,9 @@ export default class App extends Component {
   }
   setVolume = e => {
     this.setState({ volume: parseFloat(e.target.value) })
+  }
+  toggleMuted = () => {
+    this.setState({ muted: !this.state.muted })
   }
   setPlaybackRate = e => {
     console.log(parseFloat(e.target.value))
@@ -85,7 +89,7 @@ export default class App extends Component {
   }
   render () {
     const {
-      url, playing, volume,
+      url, playing, volume, muted,
       played, loaded, duration,
       playbackRate,
       soundcloudConfig,
@@ -109,6 +113,7 @@ export default class App extends Component {
               playing={playing}
               playbackRate={playbackRate}
               volume={volume}
+              muted={muted}
               soundcloudConfig={soundcloudConfig}
               vimeoConfig={vimeoConfig}
               youtubeConfig={youtubeConfig}
@@ -154,6 +159,9 @@ export default class App extends Component {
               <th>Volume</th>
               <td>
                 <input type='range' min={0} max={1} step='any' value={volume} onChange={this.setVolume} />
+                <label>
+                  <input type='checkbox' checked={muted} onChange={this.toggleMuted} /> Muted
+                </label>
               </td>
             </tr>
             <tr>

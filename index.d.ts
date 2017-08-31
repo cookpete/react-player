@@ -6,6 +6,7 @@ export interface ReactPlayerProps {
   loop?: boolean;
   controls?: boolean;
   volume?: number;
+  muted?: boolean;
   playbackRate?: number;
   width?: string|number;
   height?: string|number;
