@@ -23,7 +23,8 @@ module.exports = {
       compressor: {
         warnings: false
       },
-      comments: false
+      comments: false,
+      sourceMap: true
     })
   ],
   module: {
