@@ -1,7 +1,7 @@
 import React from 'react'
-import loadScript from 'load-script'
 
 import Base from './Base'
+import { getSDK } from '../utils'
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
@@ -29,17 +29,6 @@ export default class Vimeo extends Base {
     }
     super.componentDidMount()
   }
-  getSDK () {
-    if (window[SDK_GLOBAL]) {
-      return Promise.resolve(window[SDK_GLOBAL])
-    }
-    return new Promise((resolve, reject) => {
-      loadScript(SDK_URL, err => {
-        if (err) reject(err)
-        else resolve(window[SDK_GLOBAL])
-      })
-    })
-  }
   load (url) {
     const id = url.match(MATCH_URL)[3]
     this.duration = null
@@ -52,7 +41,7 @@ export default class Vimeo extends Base {
       return
     }
     this.loadingSDK = true
-    this.getSDK().then(Vimeo => {
+    getSDK(SDK_URL, SDK_GLOBAL).then(Vimeo => {
       this.player = new Vimeo.Player(this.container, {
         ...DEFAULT_OPTIONS,
         ...this.props.vimeoConfig.playerOptions,

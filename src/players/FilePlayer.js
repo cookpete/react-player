@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Base from './Base'
-import loadScript from 'load-script'
+import { getSDK } from '../utils'
 
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
@@ -55,14 +55,14 @@ export default class FilePlayer extends Base {
   }
   load (url) {
     if (this.shouldUseHLS(url)) {
-      loadSDK(HLS_SDK_URL, HLS_GLOBAL).then(Hls => {
+      getSDK(HLS_SDK_URL, HLS_GLOBAL).then(Hls => {
         this.hls = new Hls()
         this.hls.loadSource(url)
         this.hls.attachMedia(this.player)
       })
     }
     if (this.shouldUseDASH(url)) {
-      loadSDK(DASH_SDK_URL, DASH_GLOBAL).then(dashjs => {
+      getSDK(DASH_SDK_URL, DASH_GLOBAL).then(dashjs => {
         const player = dashjs.MediaPlayer().create()
         player.initialize(this.player, url, true)
       })
@@ -145,16 +145,4 @@ export default class FilePlayer extends Base {
       </Element>
     )
   }
-}
-
-function loadSDK (url, globalVar) {
-  if (window[globalVar]) {
-    return Promise.resolve(window[globalVar])
-  }
-  return new Promise((resolve, reject) => {
-    loadScript(url, err => {
-      if (err) reject(err)
-      resolve(window[globalVar])
-    })
-  })
 }

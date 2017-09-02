@@ -1,8 +1,7 @@
 import React from 'react'
-import loadScript from 'load-script'
 
 import Base from './Base'
-import { parseStartTime } from '../utils'
+import { getSDK, parseStartTime } from '../utils'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
@@ -30,21 +29,6 @@ export default class YouTube extends Base {
     }
     super.componentDidMount()
   }
-  getSDK () {
-    if (window[SDK_GLOBAL] && window[SDK_GLOBAL].loaded) {
-      return Promise.resolve(window[SDK_GLOBAL])
-    }
-    return new Promise((resolve, reject) => {
-      const previousOnReady = window[SDK_GLOBAL_READY]
-      window[SDK_GLOBAL_READY] = function () {
-        if (previousOnReady) previousOnReady()
-        resolve(window[SDK_GLOBAL])
-      }
-      loadScript(SDK_URL, err => {
-        if (err) reject(err)
-      })
-    })
-  }
   load (url) {
     const { playsinline, controls, youtubeConfig, onError } = this.props
     const id = url && url.match(MATCH_URL)[1]
@@ -60,7 +44,7 @@ export default class YouTube extends Base {
       return
     }
     this.loadingSDK = true
-    this.getSDK().then(YT => {
+    getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, YT => YT.loaded).then(YT => {
       this.player = new YT.Player(this.container, {
         width: '100%',
         height: '100%',

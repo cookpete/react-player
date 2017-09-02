@@ -1,8 +1,7 @@
 import React from 'react'
-import loadScript from 'load-script'
 
 import Base from './Base'
-import { parseStartTime } from '../utils'
+import { getSDK, parseStartTime } from '../utils'
 
 const SDK_URL = 'https://api.dmcdn.net/all.js'
 const SDK_GLOBAL = 'DM'
@@ -28,23 +27,6 @@ export default class DailyMotion extends Base {
     }
     super.componentDidMount()
   }
-  getSDK () {
-    if (window[SDK_GLOBAL] && window[SDK_GLOBAL].player) {
-      return Promise.resolve(window[SDK_GLOBAL])
-    }
-    return new Promise((resolve, reject) => {
-      const previousOnReady = window[SDK_GLOBAL_READY]
-      window[SDK_GLOBAL_READY] = function () {
-        if (previousOnReady) previousOnReady()
-        resolve(window[SDK_GLOBAL])
-      }
-      loadScript(SDK_URL, err => {
-        if (err) {
-          reject(err)
-        }
-      })
-    })
-  }
   parseId (url) {
     const m = url.match(MATCH_URL)
     return m[4] || m[2]
@@ -64,7 +46,7 @@ export default class DailyMotion extends Base {
       return
     }
     this.loadingSDK = true
-    this.getSDK().then(DM => {
+    getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, DM => DM.player).then(DM => {
       const Player = DM.player
       this.player = new Player(this.container, {
         width: '100%',

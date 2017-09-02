@@ -1,7 +1,7 @@
 import React from 'react'
-import loadScript from 'load-script'
 
 import Base from './Base'
+import { getSDK } from '../utils'
 
 const SDK_URL = '//fast.wistia.com/assets/external/E-v1.js'
 const SDK_GLOBAL = 'Wistia'
@@ -12,24 +12,12 @@ export default class Wistia extends Base {
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  getSDK () {
-    return new Promise((resolve, reject) => {
-      if (window[SDK_GLOBAL]) {
-        resolve()
-      } else {
-        loadScript(SDK_URL, (err, script) => {
-          if (err) reject(err)
-          resolve(script)
-        })
-      }
-    })
-  }
   getID (url) {
     return url && url.match(MATCH_URL)[4]
   }
   load (url) {
     const { onStart, onPause, onSeek, onEnded, wistiaConfig } = this.props
-    this.getSDK().then(() => {
+    getSDK(SDK_URL, SDK_GLOBAL).then(() => {
       window._wq = window._wq || []
       window._wq.push({
         id: this.getID(url),

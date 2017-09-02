@@ -1,8 +1,7 @@
 import React from 'react'
-import loadScript from 'load-script'
 
 import Base from './Base'
-import { randomString } from '../utils'
+import { getSDK, randomString } from '../utils'
 
 const SDK_URL = '//connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
@@ -16,27 +15,12 @@ export default class YouTube extends Base {
     return MATCH_URL.test(url)
   }
   playerID = PLAYER_ID_PREFIX + randomString()
-  getSDK () {
-    if (window[SDK_GLOBAL]) {
-      return Promise.resolve(window[SDK_GLOBAL])
-    }
-    return new Promise((resolve, reject) => {
-      const previousOnReady = window[SDK_GLOBAL_READY]
-      window[SDK_GLOBAL_READY] = function () {
-        if (previousOnReady) previousOnReady()
-        resolve(window[SDK_GLOBAL])
-      }
-      loadScript(SDK_URL, err => {
-        if (err) reject(err)
-      })
-    })
-  }
   load (url) {
     if (this.isReady) {
-      this.getSDK().then(FB => FB.XFBML.parse())
+      getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY).then(FB => FB.XFBML.parse())
       return
     }
-    this.getSDK().then(FB => {
+    getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY).then(FB => {
       FB.init({
         appId: this.props.facebookConfig.appId,
         xfbml: true,

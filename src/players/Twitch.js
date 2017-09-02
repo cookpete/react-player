@@ -1,8 +1,7 @@
 import React from 'react'
-import loadScript from 'load-script'
 
 import Base from './Base'
-import { randomString } from '../utils'
+import { getSDK, randomString } from '../utils'
 
 const SDK_URL = '//player.twitch.tv/js/embed/v1.js'
 const SDK_GLOBAL = 'Twitch'
@@ -16,17 +15,6 @@ export default class YouTube extends Base {
     return MATCH_VIDEO_URL.test(url) || MATCH_CHANNEL_URL.test(url)
   }
   playerID = PLAYER_ID_PREFIX + randomString()
-  getSDK () {
-    if (window[SDK_GLOBAL]) {
-      return Promise.resolve(window[SDK_GLOBAL])
-    }
-    return new Promise((resolve, reject) => {
-      loadScript(SDK_URL, err => {
-        if (err) reject(err)
-        resolve(window[SDK_GLOBAL])
-      })
-    })
-  }
   load (url) {
     const { playsinline, onError } = this.props
     const isChannel = MATCH_CHANNEL_URL.test(url)
@@ -44,7 +32,7 @@ export default class YouTube extends Base {
       return
     }
     this.loadingSDK = true
-    this.getSDK().then(Twitch => {
+    getSDK(SDK_URL, SDK_GLOBAL).then(Twitch => {
       this.player = new Twitch.Player(this.playerID, {
         video: isChannel ? '' : id,
         channel: isChannel ? id : '',
