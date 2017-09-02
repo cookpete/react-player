@@ -201,7 +201,7 @@ export default class App extends Component {
               <th>Vimeo</th>
               <td>
                 {this.renderLoadButton('https://vimeo.com/90509568', 'Test A')}
-                {this.renderLoadButton('https://vimeo.com/94502406', 'Test B')}
+                {this.renderLoadButton('https://vimeo.com/169599296', 'Test B')}
               </td>
             </tr>
             <tr>
@@ -215,7 +215,7 @@ export default class App extends Component {
               <th>Vidme</th>
               <td>
                 {this.renderLoadButton('https://vid.me/yvi', 'Test A')}
-                {this.renderLoadButton('https://vid.me/yvf', 'Test B')}
+                {this.renderLoadButton('https://vid.me/14df', 'Test B')}
               </td>
             </tr>
             <tr>
