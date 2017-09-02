@@ -11,6 +11,7 @@ import Streamable from './players/Streamable'
 import Vidme from './players/Vidme'
 import Wistia from './players/Wistia'
 import DailyMotion from './players/DailyMotion'
+import Twitch from './players/Twitch'
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
@@ -98,6 +99,8 @@ export default class ReactPlayer extends Component {
       players.push(Vidme)
     } else if (Wistia.canPlay(url)) {
       players.push(Wistia)
+    } else if (Twitch.canPlay(url)) {
+      players.push(Twitch)
     } else if (url) {
       // Fall back to FilePlayer if nothing else can play the URL
       players.push(FilePlayer)

@@ -205,6 +205,14 @@ export default class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Twitch</th>
+              <td>
+                {this.renderLoadButton('https://www.twitch.tv/videos/28946623', 'Test A')}
+                {this.renderLoadButton('https://www.twitch.tv/videos/12783852', 'Test B')}
+                {this.renderLoadButton('https://www.twitch.tv/kronovi', 'Test C')}
+              </td>
+            </tr>
+            <tr>
               <th>Streamable</th>
               <td>
                 {this.renderLoadButton('https://streamable.com/moo', 'Test A')}

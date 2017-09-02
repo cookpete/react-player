@@ -2,6 +2,7 @@ import React from 'react'
 import loadScript from 'load-script'
 
 import Base from './Base'
+import { randomString } from '../utils'
 
 const SDK_URL = '//connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
@@ -115,9 +116,4 @@ export default class YouTube extends Base {
       />
     )
   }
-}
-
-// http://stackoverflow.com/a/38622545
-function randomString () {
-  return Math.random().toString(36).substr(2, 5)
 }

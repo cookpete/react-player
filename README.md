@@ -6,7 +6,7 @@ ReactPlayer
 [![Dependency Status](https://img.shields.io/david/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player)
 [![devDependency Status](https://img.shields.io/david/dev/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player?type=dev)
 
-A react component for playing a variety of URLs, including file paths, YouTube, Facebook, SoundCloud, Streamable, Vidme, Vimeo, Wistia and DailyMotion. Used by [rplayr](http://rplayr.com), an app to generate playlists from Reddit URLs.
+A react component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vidme, Vimeo, Wistia and DailyMotion.
 
 The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending.
 
@@ -180,6 +180,7 @@ Prop | Description
 * Vidme videos are [resolved](https://docs.vid.me/#api-Video-DetailByURL) and played in a [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element using the track’s `complete_url` path
 * Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/js-api)
 * Wistia videos use the [Wistia Player API](https://wistia.com/doc/player-api)
+* Twitch videos use the [Twitch Interactive Frames API](https://dev.twitch.tv/docs/embed#interactive-frames-for-live-streams-and-vods)
 * DailyMotion videos use the [DailyMotion Player API](https://developer.dailymotion.com/player)
 * [Supported file types](https://github.com/CookPete/react-player/blob/master/src/players/FilePlayer.js#L5-L6) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
   * HLS streams are played using [hls.js](https://github.com/video-dev/hls.js)
