@@ -223,7 +223,7 @@ export default class App extends Component {
               <th>Vidme</th>
               <td>
                 {this.renderLoadButton('https://vid.me/yvi', 'Test A')}
-                {this.renderLoadButton('https://vid.me/14df', 'Test B')}
+                {this.renderLoadButton('https://vid.me/GGho', 'Test B')}
               </td>
             </tr>
             <tr>
