@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-export interface SourceSpec {
+export interface SourceProps {
   src: string;
   type: string;
 }
 
-export interface TrackSpec {
+export interface TrackProps {
   kind: string;
   src: string;
   srcLang: string;
@@ -13,7 +13,7 @@ export interface TrackSpec {
 }
 
 export interface ReactPlayerProps {
-  url?: string|string[]|SourceSpec[];
+  url?: string|string[]|SourceProps[];
   playing?: boolean;
   loop?: boolean;
   controls?: boolean;
@@ -51,7 +51,7 @@ export interface ReactPlayerProps {
   };
   fileConfig?: {
     attributes: Object;
-    tracks: TrackSpec[];
+    tracks: TrackProps[];
     forceAudio: boolean;
     forceHLS: boolean;
     forceDASH: boolean;
