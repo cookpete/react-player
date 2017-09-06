@@ -1,10 +1,20 @@
 import React from 'react'
-import loadScript from 'load-script'
 
 import Base from './Base'
+import { getSDK } from '../utils'
 
 const SDK_URL = 'https://w.soundcloud.com/player/api.js'
+const SDK_GLOBAL = 'SC'
 const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]+)$/
+const DEFAULT_OPTIONS = {
+  visual: true, // Undocumented, but makes player fill container and look better
+  buying: false,
+  liking: false,
+  download: false,
+  sharing: false,
+  show_comments: false,
+  show_playcount: false
+}
 
 export default class SoundCloud extends Base {
   static displayName = 'SoundCloud'
@@ -15,82 +25,52 @@ export default class SoundCloud extends Base {
   duration = null
   fractionPlayed = null
   fractionLoaded = null
-  getPlayer () {
-    if (this.player) {
-      return Promise.resolve(this.player)
-    }
-    return new Promise((resolve, reject) => {
-      loadScript(SDK_URL, err => {
-        if (err) return reject(err)
-        this.player = window.SC.Widget(this.container)
-        resolve(this.player)
-      })
-    })
-  }
-  ref = container => {
-    this.container = container
-  }
-  componentWillUnmount () {
-    this.getPlayer().then(player => {
-      player.unbind(window.SC.Widget.Events.READY)
-      player.unbind(window.SC.Widget.Events.PLAY)
-      player.unbind(window.SC.Widget.Events.PLAY_PROGRESS)
-      player.unbind(window.SC.Widget.Events.PAUSE)
-      player.unbind(window.SC.Widget.Events.FINISH)
-    })
-  }
   load (url) {
-    this.getPlayer().then(player => {
-      player.load(url)
-      player.bind(window.SC.Widget.Events.READY, () => {
-        player.getDuration(duration => {
-          this.duration = duration / 1000
-          this.onReady()
-        })
+    getSDK(SDK_URL, SDK_GLOBAL).then(SC => {
+      const { PLAY, PLAY_PROGRESS, PAUSE, FINISH, ERROR } = SC.Widget.Events
+      if (!this.isReady) {
+        this.player = SC.Widget(this.iframe)
+      }
+      this.player.load(url, {
+        ...DEFAULT_OPTIONS,
+        ...this.props.soundcloudConfig.options,
+        callback: () => {
+          this.player.getDuration(duration => {
+            this.duration = duration / 1000
+            this.onReady()
+          })
+          this.player.bind(PLAY, this.onPlay)
+          this.player.bind(PLAY_PROGRESS, e => {
+            this.fractionPlayed = e.relativePosition
+            this.fractionLoaded = e.loadedProgress
+          })
+          this.player.bind(PAUSE, () => this.props.onPause())
+          this.player.bind(FINISH, () => this.props.onEnded())
+          this.player.bind(ERROR, e => this.props.onError(e))
+        }
       })
-      player.bind(window.SC.Widget.Events.PLAY, this.onPlay)
-      player.bind(window.SC.Widget.Events.PLAY_PROGRESS, e => {
-        this.fractionPlayed = e.relativePosition
-        this.fractionLoaded = e.loadedProgress
-      })
-      player.bind(window.SC.Widget.Events.ERROR, e => this.props.onError(e))
-      player.bind(window.SC.Widget.Events.PAUSE, () => this.props.onPause())
-      player.bind(window.SC.Widget.Events.FINISH, () => this.props.onEnded())
     })
+  }
+  call (method, ...args) {
+    if (!this.isReady || !this.player || !this.player[method]) return
+    return this.player[method](...args)
   }
   play () {
-    this.getPlayer().then(player => {
-      player.play()
-    })
-  }
-  getSongData () {
-    return new Promise(resolve => {
-      this.getPlayer().then(player => {
-        player.getCurrentSound(sound => resolve(sound))
-      })
-    })
+    this.call('play')
   }
   pause () {
-    this.getPlayer().then(player => {
-      player.pause()
-    })
+    this.call('pause')
   }
   stop () {
-    this.getPlayer().then(player => {
-      player.pause()
-      player.seekTo(0)
-    })
+    this.pause()
+    this.call('seekTo', 0)
   }
-  seekTo (fraction) {
-    super.seekTo(fraction)
-    this.getPlayer().then(player => {
-      this.player.seekTo(this.getDuration() * fraction * 1000)
-    })
+  seekTo (amount) {
+    const seconds = super.seekTo(amount)
+    this.call('seekTo', seconds * 1000)
   }
   setVolume (fraction) {
-    this.getPlayer().then(player => {
-      player.setVolume(fraction)
-    })
+    this.call('setVolume', fraction * 100)
   }
   setPlaybackRate () {
   }
@@ -103,20 +83,21 @@ export default class SoundCloud extends Base {
   getFractionPlayed () {
     return this.fractionPlayed
   }
+  ref = iframe => {
+    this.iframe = iframe
+  }
   render () {
     const style = {
       width: '100%',
       height: '100%'
     }
     return (
-      <div style={style}>
-        <iframe
-          src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/321006798'
-          ref={this.ref}
-          width='100%'
-          height='100%'
-        />
-      </div>
+      <iframe
+        ref={this.ref}
+        src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(this.props.url)}`}
+        style={style}
+        frameBorder={0}
+      />
     )
   }
 }

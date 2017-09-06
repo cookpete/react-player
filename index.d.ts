@@ -28,8 +28,7 @@ export interface ReactPlayerProps {
   hidden?: boolean;
   className?: string;
   soundcloudConfig?: {
-    clientId: string;
-    showArtwork: boolean;
+    options: Object;
   };
   youtubeConfig?: {
     playerVars: Object;
