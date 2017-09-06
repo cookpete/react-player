@@ -1,7 +1,19 @@
 import * as React from 'react';
 
+export interface SourceProps {
+  src: string;
+  type: string;
+}
+
+export interface TrackProps {
+  kind: string;
+  src: string;
+  srcLang: string;
+  default?: boolean;
+}
+
 export interface ReactPlayerProps {
-  url?: string|array;
+  url?: string|string[]|SourceProps[];
   playing?: boolean;
   loop?: boolean;
   controls?: boolean;
@@ -16,37 +28,37 @@ export interface ReactPlayerProps {
   hidden?: boolean;
   className?: string;
   soundcloudConfig?: {
-    clientId: string,
-    showArtwork: boolean
+    clientId: string;
+    showArtwork: boolean;
   };
   youtubeConfig?: {
-    playerVars: Object,
-    preload: boolean
+    playerVars: Object;
+    preload: boolean;
   };
   facebookConfig?: {
-    appId: string
+    appId: string;
   };
   dailymotionConfig?: {
-    params: Object,
-    preload: boolean
-  }),
+    params: Object;
+    preload: boolean;
+  };
   vimeoConfig?: {
-    iframeParams: Object,
-    preload: boolean
+    iframeParams: Object;
+    preload: boolean;
   };
   vidmeConfig?: {
-    format: string
-  }),
+    format: string;
+  };
   fileConfig?: {
-    attributes: Object,
-    tracks: array,
-    forceAudio: boolean,
-    forceHLS: boolean,
-    forceDASH: boolean
-  }),
+    attributes: Object;
+    tracks: TrackProps[];
+    forceAudio: boolean;
+    forceHLS: boolean;
+    forceDASH: boolean;
+  };
   wistiaConfig?: {
-    options: Object
-  }),
+    options: Object;
+  };
   onReady?(): void;
   onStart?(): void;
   onPlay?(): void;
@@ -59,6 +71,6 @@ export interface ReactPlayerProps {
   onProgress?(state: { played: number, loaded: number }): void;
 }
 
-export default class ReactPlayer extends React.Component<ReactPlayerProps, any>{
+export default class ReactPlayer extends React.Component<ReactPlayerProps, any> {
   seekTo(fraction: number): void;
 }
