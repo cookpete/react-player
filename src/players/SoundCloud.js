@@ -1,83 +1,120 @@
 import React from 'react'
-import fetchJSONP from 'fetch-jsonp'
+import loadScript from 'load-script'
 
-import FilePlayer from './FilePlayer'
-import { defaultProps } from '../props'
+import Base from './Base'
 
-const RESOLVE_URL = '//api.soundcloud.com/resolve.json'
+const SDK_URL = 'https://w.soundcloud.com/player/api.js'
 const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]+)$/
 
-const songData = {} // Cache song data requests
-
-export default class SoundCloud extends FilePlayer {
+export default class SoundCloud extends Base {
   static displayName = 'SoundCloud'
   static canPlay (url) {
     return MATCH_URL.test(url)
   }
-  state = {
-    image: null
-  }
-  clientId = this.props.soundcloudConfig.clientId || defaultProps.soundcloudConfig.clientId
-  shouldComponentUpdate (nextProps, nextState) {
-    return (
-      super.shouldComponentUpdate(nextProps, nextState) ||
-      this.state.image !== nextState.image
-    )
-  }
-  getSongData (url) {
-    if (songData[url]) {
-      return Promise.resolve(songData[url])
+  player = null
+  duration = null
+  fractionPlayed = null
+  fractionLoaded = null
+  getPlayer () {
+    if (this.player) {
+      return Promise.resolve(this.player)
     }
-    return fetchJSONP(RESOLVE_URL + '?url=' + url + '&client_id=' + this.clientId)
-      .then(response => {
-        if (response.ok) {
-          songData[url] = response.json()
-          return songData[url]
-        } else {
-          this.props.onError(new Error('SoundCloud track could not be resolved'))
-        }
+    return new Promise((resolve, reject) => {
+      loadScript(SDK_URL, err => {
+        if (err) return reject(err)
+        this.player = window.SC.Widget(this.container)
+        resolve(this.player)
       })
+    })
+  }
+  ref = container => {
+    this.container = container
+  }
+  componentWillUnmount () {
+    this.getPlayer().then(player => {
+      player.unbind(window.SC.Widget.Events.READY)
+      player.unbind(window.SC.Widget.Events.PLAY)
+      player.unbind(window.SC.Widget.Events.PLAY_PROGRESS)
+      player.unbind(window.SC.Widget.Events.PAUSE)
+      player.unbind(window.SC.Widget.Events.FINISH)
+    })
   }
   load (url) {
-    const { soundcloudConfig, onError } = this.props
-    this.stop()
-    this.getSongData(url).then(data => {
-      if (!this.mounted) return
-      if (!data.streamable) {
-        onError(new Error('SoundCloud track is not streamable'))
-        return
-      }
-      const image = data.artwork_url || data.user.avatar_url
-      if (image && soundcloudConfig.showArtwork) {
-        this.setState({ image: image.replace('-large', '-t500x500') })
-      }
-      this.player.src = data.stream_url + '?client_id=' + this.clientId
-    }, onError)
+    this.getPlayer().then(player => {
+      player.load(url)
+      player.bind(window.SC.Widget.Events.READY, () => {
+        player.getDuration(duration => {
+          this.duration = duration / 1000
+          this.onReady()
+        })
+      })
+      player.bind(window.SC.Widget.Events.PLAY, this.onPlay)
+      player.bind(window.SC.Widget.Events.PLAY_PROGRESS, e => {
+        this.fractionPlayed = e.relativePosition
+        this.fractionLoaded = e.loadedProgress
+      })
+      player.bind(window.SC.Widget.Events.ERROR, e => this.props.onError(e))
+      player.bind(window.SC.Widget.Events.PAUSE, () => this.props.onPause())
+      player.bind(window.SC.Widget.Events.FINISH, () => this.props.onEnded())
+    })
   }
-  ref = player => {
-    this.player = player
+  play () {
+    this.getPlayer().then(player => {
+      player.play()
+    })
+  }
+  getSongData () {
+    return new Promise(resolve => {
+      this.getPlayer().then(player => {
+        player.getCurrentSound(sound => resolve(sound))
+      })
+    })
+  }
+  pause () {
+    this.getPlayer().then(player => {
+      player.pause()
+    })
+  }
+  stop () {
+    this.getPlayer().then(player => {
+      player.pause()
+      player.seekTo(0)
+    })
+  }
+  seekTo (fraction) {
+    super.seekTo(fraction)
+    this.getPlayer().then(player => {
+      this.player.seekTo(this.getDuration() * fraction * 1000)
+    })
+  }
+  setVolume (fraction) {
+    this.getPlayer().then(player => {
+      player.setVolume(fraction)
+    })
+  }
+  setPlaybackRate () {
+  }
+  getDuration () {
+    return this.duration
+  }
+  getFractionLoaded () {
+    return this.fractionLoaded
+  }
+  getFractionPlayed () {
+    return this.fractionPlayed
   }
   render () {
-    const { url, loop, controls } = this.props
     const style = {
-      display: url ? 'block' : 'none',
-      height: '100%',
-      backgroundImage: this.state.image ? 'url(' + this.state.image + ')' : null,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center'
+      width: '100%',
+      height: '100%'
     }
     return (
       <div style={style}>
-        <audio
+        <iframe
+          src='https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/321006798'
           ref={this.ref}
-          type='audio/mpeg'
-          preload='auto'
-          style={{
-            width: '100%',
-            height: '100%'
-          }}
-          controls={controls}
-          loop={loop}
+          width='100%'
+          height='100%'
         />
       </div>
     )
