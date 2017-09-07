@@ -111,7 +111,7 @@ These props allow you to override the parameters for the various players:
 
 Prop | Description
 ---- | -----------
-`soundcloudConfig` | Configuration object for the SoundCloud player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps).<br />Set `showArtwork` to `false` to not load any artwork to display.
+`soundcloudConfig` | Configuration object for the SoundCloud player.<br />Set `options` to override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params).<br />Set `legacy` to `true` to use the legacy player.<br />Set `clientId` to your own SoundCloud app [client ID](https://soundcloud.com/you/apps) if using the legacy player.
 `vimeoConfig` | Configuration object for the Vimeo player.<br />Set `iframeParams` to override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />Set `preload` for [preloading](#preloading).
 `youtubeConfig` | Configuration object for the YouTube player.<br />Set `playerVars` to override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />Set `preload` for [preloading](#preloading).
 `vidmeConfig` | Configuration object for the Vidme player.<br />Set `format` to use a certain quality of video, when available.<br />Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
@@ -175,7 +175,7 @@ Prop | Description
 
 * YouTube videos use the [YouTube iFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
 * Facebook videos use the [Facebook Embedded Video Player API](https://developers.facebook.com/docs/plugins/embedded-video-player/api)
-* Soundcloud tracks are [resolved](https://developers.soundcloud.com/docs/api/reference#resolve) and played in an [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) element using the track’s `stream_url`
+* SoundCloud tracks use the [SoundCloud Widget API](https://developers.soundcloud.com/docs/api/html5-widget)
 * Streamable videos are [resolved](https://streamable.com/documentation#retrieve-video) and played in a [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element using the track’s `mp4` path
 * Vidme videos are [resolved](https://docs.vid.me/#api-Video-DetailByURL) and played in a [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element using the track’s `complete_url` path
 * Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/js-api)
