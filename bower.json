@@ -24,13 +24,12 @@
     "globals"
   ],
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "test",
-    "src",
-    "lib",
-    "index.html",
-    "webpack.*.js"
+    "*",
+    "!dist/*",
+    "!package.json",
+    "!CHANGELOG.md",
+    "!README.md",
+    "!LICENSE"
   ],
   "dependencies": {
     "react": "*"
