@@ -5,7 +5,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const PORT = 3000
 const PRODUCTION = process.env.NODE_ENV === 'production'
-const PUBLIC_PATH = PRODUCTION ? '/' : `http://localhost:${PORT}/`
+const PUBLIC_PATH = PRODUCTION ? '' : `http://localhost:${PORT}/`
 
 const PATH_DEMO = join(__dirname, 'demo')
 const PATH_SRC = join(__dirname, 'src')
