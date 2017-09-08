@@ -4,7 +4,6 @@ import omit from 'lodash.omit'
 import { propTypes, defaultProps } from './props'
 import YouTube from './players/YouTube'
 import SoundCloud from './players/SoundCloud'
-import SoundCloudLegacy from './players/SoundCloudLegacy'
 import Vimeo from './players/Vimeo'
 import Facebook from './players/Facebook'
 import FilePlayer from './players/FilePlayer'
@@ -82,16 +81,12 @@ export default class ReactPlayer extends Component {
   }
   renderPlayers () {
     // Build array of players to render based on URL and preload config
-    const { url, youtubeConfig, vimeoConfig, dailymotionConfig, soundcloudConfig } = this.props
+    const { url, youtubeConfig, vimeoConfig, dailymotionConfig } = this.props
     const players = []
     if (YouTube.canPlay(url)) {
       players.push(YouTube)
     } else if (SoundCloud.canPlay(url)) {
-      if (soundcloudConfig.legacy) {
-        players.push(SoundCloudLegacy)
-      } else {
-        players.push(SoundCloud)
-      }
+      players.push(SoundCloud)
     } else if (Vimeo.canPlay(url)) {
       players.push(Vimeo)
     } else if (Facebook.canPlay(url)) {
