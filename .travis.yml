@@ -1,5 +1,4 @@
 language: node_js
-dist: trusty
 addons:
   apt:
     packages:
@@ -8,9 +7,6 @@ before_install:
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-install:
-  - npm install -g npm@4
-  - npm install
 node_js:
   - 6
 script:

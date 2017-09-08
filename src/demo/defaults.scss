@@ -12,7 +12,11 @@ h1,
 h2,
 h3 {
   font-weight: 300;
+  margin-bottom: 1em;
 }
+
+h1 { font-size: 20px; }
+h2 { font-size: 16px; margin-top: 1em; }
 
 table,
 progress {

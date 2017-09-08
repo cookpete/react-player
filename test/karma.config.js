@@ -1,7 +1,6 @@
-var webpackConfig = require('../webpack.config.dev')
-webpackConfig.devtool = 'inline-source-map'
+import webpackConfig from '../webpack.config.babel'
 
-module.exports = function (config) {
+export default function (config) {
   config.set({
     browsers: process.env.TRAVIS ? [ 'ChromeTravis' ] : [ 'Chrome', 'Firefox' ],
     singleRun: true,
@@ -13,7 +12,10 @@ module.exports = function (config) {
       'karma.webpack.js': [ 'webpack', 'sourcemap' ]
     },
     reporters: [ 'mocha' ],
-    webpack: webpackConfig,
+    webpack: {
+      ...webpackConfig,
+      devtool: 'inline-source-map'
+    },
     webpackServer: {
       noInfo: true
     },

@@ -29,11 +29,10 @@
     "test",
     "src",
     "lib",
-    "server.js",
     "index.html",
-    "webpack.config.*.js"
+    "webpack.*.js"
   ],
   "dependencies": {
-    "react": "^0.14.7"
+    "react": "*"
   }
 }

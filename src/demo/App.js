@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import screenfull from 'screenfull'
 
-import 'normalize.css/normalize.css'
+import './reset.scss'
 import './defaults.scss'
 import './App.scss'
 import './Range.scss'
@@ -120,8 +120,8 @@ export default class App extends Component {
               fileConfig={fileConfig}
               onReady={() => console.log('onReady')}
               onStart={() => console.log('onStart')}
-              onPlay={() => this.setState({ playing: true })}
-              onPause={() => this.setState({ playing: false })}
+              // onPlay={() => this.setState({ playing: true })}
+              // onPause={() => this.setState({ playing: false })}
               onBuffer={() => console.log('onBuffer')}
               onSeek={e => console.log('onSeek', e)}
               onEnded={() => this.setState({ playing: false })}
