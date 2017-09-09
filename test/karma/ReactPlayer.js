@@ -8,11 +8,13 @@ const { describe, it, expect, beforeEach, afterEach } = window
 const TEST_URLS = [
   {
     name: 'YouTube',
-    url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE'
+    url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE',
+    error: 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
   },
   {
     name: 'SoundCloud',
-    url: 'https://soundcloud.com/miami-nights-1984/accelerated'
+    url: 'https://soundcloud.com/miami-nights-1984/accelerated',
+    error: 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
   },
   {
     name: 'Facebook',
@@ -46,7 +48,8 @@ const TEST_URLS = [
   },
   {
     name: 'FilePlayer',
-    url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv'
+    url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
+    error: 'http://example.com/error.ogv'
   },
   {
     name: 'FilePlayer (multiple sources)',
@@ -63,21 +66,6 @@ const TEST_URLS = [
   {
     name: 'FilePlayer (DASH)',
     url: 'http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd'
-  }
-]
-
-const TEST_ERROR_URLS = [
-  {
-    name: 'YouTube',
-    url: 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
-  },
-  {
-    name: 'SoundCloud',
-    url: 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
-  },
-  {
-    name: 'FilePlayer',
-    url: 'http://example.com/error.ogv'
   }
 ]
 
@@ -98,6 +86,7 @@ describe('ReactPlayer', () => {
     const desc = test.skip ? describe.skip : describe
     desc(test.name, () => {
       it('onReady, onStart, onPlay, onDuration, onProgress', done => {
+        // Use a count object to ensure everything is called at least once
         let count = {}
         const bump = key => {
           count[key] = count[key] || 0
@@ -125,20 +114,18 @@ describe('ReactPlayer', () => {
           />,
         div)
       })
-    })
-  }
 
-  for (let test of TEST_ERROR_URLS) {
-    describe(test.name, () => {
-      it('onError', done => {
-        render(
-          <ReactPlayer
-            url={test.url}
-            playing
-            onError={() => done()}
-          />,
-        div)
-      })
+      if (test.error) {
+        it('onError', done => {
+          render(
+            <ReactPlayer
+              url={test.error}
+              playing
+              onError={() => done()}
+            />,
+          div)
+        })
+      }
     })
   }
 })
