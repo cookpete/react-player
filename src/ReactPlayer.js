@@ -104,55 +104,61 @@ export default class ReactPlayer extends Component {
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }
-  renderPlayers () {
-    // Build array of players to render based on URL and preload config
-    const { url } = this.props
-    if (!url) {
-      return []
-    }
-    const renderPlayers = []
+  renderActivePlayer (url) {
+    if (!url) return null
     for (let Player of SUPPORTED_PLAYERS) {
       if (Player.canPlay(url)) {
-        renderPlayers.push(Player)
+        return this.renderPlayer(Player)
       }
     }
     // Fall back to FilePlayer if nothing else can play the URL
-    if (renderPlayers.length === 0) {
-      renderPlayers.push(FilePlayer)
-    }
-    // Render additional players if preload config is set
-    if (!YouTube.canPlay(url) && this.config.youtube.preload) {
-      renderPlayers.push(YouTube)
-    }
-    if (!Vimeo.canPlay(url) && this.config.vimeo.preload) {
-      renderPlayers.push(Vimeo)
-    }
-    if (!DailyMotion.canPlay(url) && this.config.dailymotion.preload) {
-      renderPlayers.push(DailyMotion)
-    }
-    return renderPlayers.map(this.renderPlayer)
+    return this.renderPlayer(FilePlayer)
+  }
+  renderPlayer = Player => {
+    return (
+      <Player
+        {...this.props}
+        ref={this.ref}
+        key={Player.displayName}
+        config={this.config}
+      />
+    )
   }
   ref = player => {
     this.player = player
   }
-  renderPlayer = Player => {
-    const active = Player.canPlay(this.props.url)
-    const props = active ? { ...this.props, ref: this.ref } : {}
+  renderPreloadPlayers (url) {
+    if (!url) return null
+    // Render additional players if preload config is set
+    const preloadPlayers = []
+    if (!YouTube.canPlay(url) && this.config.youtube.preload) {
+      preloadPlayers.push(YouTube)
+    }
+    if (!Vimeo.canPlay(url) && this.config.vimeo.preload) {
+      preloadPlayers.push(Vimeo)
+    }
+    if (!DailyMotion.canPlay(url) && this.config.dailymotion.preload) {
+      preloadPlayers.push(DailyMotion)
+    }
+    return preloadPlayers.map(this.renderPreloadPlayer)
+  }
+  renderPreloadPlayer = Player => {
     return (
       <Player
-        {...props}
         key={Player.displayName}
         config={this.config}
       />
     )
   }
   render () {
-    const { style, width, height } = this.props
+    const { url, style, width, height } = this.props
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
-    const players = this.renderPlayers()
+    const activePlayer = this.renderActivePlayer(url)
+    const preloadPlayers = this.renderPreloadPlayers(url)
     return (
       <div style={{ ...style, width, height }} {...otherProps}>
-        {players}
+        {activePlayer}
+        {preloadPlayers}
       </div>
     )
   }
