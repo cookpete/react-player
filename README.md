@@ -5,6 +5,7 @@ ReactPlayer
 [![Build Status](https://img.shields.io/travis/CookPete/react-player/master.svg)](https://travis-ci.org/CookPete/react-player)
 [![Dependency Status](https://img.shields.io/david/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player)
 [![devDependency Status](https://img.shields.io/david/dev/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player?type=dev)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/ckpt)
 
 A react component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vidme, Vimeo, Wistia and DailyMotion.
 
@@ -18,6 +19,8 @@ If you are using `npm` and need to support [browsers without `Promise`](http://c
 
 ```bash
 npm install react-player --save
+# or
+yarn add react-player
 ```
 
 ```js
@@ -60,7 +63,7 @@ See a [live demo](http://cookpete.com/react-player), or run:
 ```bash
 git clone https://github.com/CookPete/react-player.git
 cd react-player
-npm install
+npm install # or yarn
 npm start
 open http://localhost:3000
 ```
@@ -84,7 +87,7 @@ Prop | Description | Default
 `playbackRate` | Sets the playback rate of the appropriate player | `1`
 `width` | Sets the width of the player | `640`
 `height` | Sets the height of the player | `360`
-`style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element
+`style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element | `{}`
 `progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
 `config` | Override options for the various players, see [config prop](#config-prop)
@@ -138,14 +141,14 @@ Settings for each player live under different keys:
 
 Key | Options
 --- | -------
-`youtube` | `playerVars` Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5).<br />`preload` Used for [preloading](#preloading).
-`facebook` | `appId` Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id).
-`soundcloud` | `options` Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params).
-`vimeo` | `iframeParams` Override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters).<br />`preload` Used for [preloading](#preloading).
-`vidme` | `format` Use a certain quality of video, when available.<br />&nbsp; ◦ &nbsp;Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
-`wistia` | `options` Override the [default player options](https://wistia.com/doc/embed-options#options_list)
-`dailymotion` | `params` Override the [default player vars](https://developer.dailymotion.com/player#player-parameters).<br />`preload` Used for [preloading](#preloading).
-`file` | `attributes` Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes).<br />`forceAudio` Always render an `<audio>` element.<br />`forceHLS` Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams.<br />`forceDASH` Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams.
+`youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`preload`: Used for [preloading](#preloading)
+`facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)
+`soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)
+`vimeo` | `iframeParams`: Override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters)<br />`preload`: Used for [preloading](#preloading).
+`vidme` | `format`: Use a certain quality of video, when available<br />&nbsp; ◦ &nbsp;Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
+`wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)
+`dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)<br />`preload`: Used for [preloading](#preloading)
+`file` | `attributes`: Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)<br />`forceAudio`: Always render an `<audio>` element<br />`forceHLS`: Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams<br />`forceDASH`: Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams
 
 ##### Preloading
 
@@ -202,10 +205,10 @@ Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call
 
 Method | Description
 ---- | -----------
-`seekTo(amount)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`.
-`getCurrentTime()` | Returns the number of seconds that has been played.<br >Returns `null` if duration is unavailable.
-`getDuration()` | Returns the duration (in seconds) of the currently playing media.<br >Returns `null` if duration is unavailable.
-`getInternalPlayer()` | Returns the internal player of whatever is currently playing, eg the [YouTube player instance](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player) or the [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element when playing a video file.
+`seekTo(amount)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`
+`getCurrentTime()` | Returns the number of seconds that has been played<br />&nbsp; ◦ &nbsp;Returns `null` if duration is unavailable
+`getDuration()` | Returns the duration (in seconds) of the currently playing media<br />&nbsp; ◦ &nbsp;Returns `null` if duration is unavailable
+`getInternalPlayer()` | Returns the internal player of whatever is currently playing<br />&nbsp; ◦ &nbsp;eg the [YouTube player instance](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player), or the [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element when playing a video file
 
 ### Supported media
 
