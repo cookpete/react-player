@@ -79,3 +79,15 @@ export function getConfig (props, defaultProps, showWarning) {
   }
   return config
 }
+
+export function omit (object, ...arrays) {
+  const omitKeys = [].concat(...arrays)
+  const output = {}
+  const keys = Object.keys(object)
+  for (let key of keys) {
+    if (omitKeys.indexOf(key) === -1) {
+      output[key] = object[key]
+    }
+  }
+  return output
+}

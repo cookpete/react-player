@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import omit from 'lodash.omit'
 
 import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
-import { getConfig } from './utils'
+import { getConfig, omit } from './utils'
 import YouTube from './players/YouTube'
 import SoundCloud from './players/SoundCloud'
 import Vimeo from './players/Vimeo'
