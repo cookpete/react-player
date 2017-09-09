@@ -30,6 +30,15 @@ export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
+  static canPlay = url => {
+    const players = [...SUPPORTED_PLAYERS, FilePlayer]
+    for (let Player of players) {
+      if (Player.canPlay(url)) {
+        return true
+      }
+    }
+    return false
+  }
   config = getConfig(this.props, defaultProps, true)
   componentDidMount () {
     this.progress()

@@ -190,9 +190,17 @@ You can also specify a `type` for each source by using objects with `src` and `t
 
 ### Methods
 
-Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call methods on the player. See [the demo app](src/demo/App.js) for an example of this.
+#### Static Methods
 
-Prop | Description
+Method | Description
+---- | -----------
+`ReactPlayer.canPlay(url)` | Determine if a URL can be played. This does *not* detect media that is unplayable due to privacy settings, streaming permissions, etc. In that case, the `onError` prop will be invoked after attemping to play. Any URL that does not match any patterns will fall back to a native HTML5 media player.
+
+#### Instance Methods
+
+Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call instance methods on the player. See [the demo app](src/demo/App.js) for an example of this.
+
+Method | Description
 ---- | -----------
 `seekTo(amount)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`.
 `getCurrentTime()` | Returns the number of seconds that has been played.<br >Returns `null` if duration is unavailable.

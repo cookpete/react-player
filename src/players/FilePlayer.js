@@ -4,6 +4,7 @@ import Base from './Base'
 import { getSDK } from '../utils'
 
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
+const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
 const HLS_SDK_URL = 'https://cdn.jsdelivr.net/hls.js/latest/hls.min.js'
 const HLS_GLOBAL = 'Hls'
@@ -14,7 +15,12 @@ const DASH_GLOBAL = 'dashjs'
 export default class FilePlayer extends Base {
   static displayName = 'FilePlayer'
   static canPlay (url) {
-    return true
+    return (
+      AUDIO_EXTENSIONS.test(url) ||
+      VIDEO_EXTENSIONS.test(url) ||
+      HLS_EXTENSIONS.test(url) ||
+      DASH_EXTENSIONS.test(url)
+    )
   }
   componentDidMount () {
     const { playsinline, onPause, onEnded, onError } = this.props
