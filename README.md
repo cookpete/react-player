@@ -205,6 +205,7 @@ Method | Description
 `seekTo(amount)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`.
 `getCurrentTime()` | Returns the number of seconds that has been played.<br >Returns `null` if duration is unavailable.
 `getDuration()` | Returns the duration (in seconds) of the currently playing media.<br >Returns `null` if duration is unavailable.
+`getInternalPlayer()` | Returns the internal player of whatever is currently playing, eg the [YouTube player instance](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player) or the [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element when playing a video file.
 
 ### Supported media
 
