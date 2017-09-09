@@ -1,10 +1,10 @@
-import { parseStartTime } from '../../src/utils'
+import { parseStartTime, randomString, omit } from '../../src/utils'
 
 const { describe, it, expect } = window
 
-const YOUTUBE_URL = 'http://youtu.be/12345678901'
-
 describe('parseStartTime', () => {
+  const YOUTUBE_URL = 'http://youtu.be/12345678901'
+
   it('parses seconds', () => {
     expect(parseStartTime(YOUTUBE_URL + '?start=162')).to.equal(162)
   })
@@ -40,5 +40,45 @@ describe('parseStartTime', () => {
     expect(parseStartTime(YOUTUBE_URL + '?start=invalid')).to.equal(0)
     expect(parseStartTime(YOUTUBE_URL + '?strat=32')).to.equal(0)
     expect(parseStartTime(YOUTUBE_URL + '#s=32')).to.equal(0)
+  })
+})
+
+describe('randomString', () => {
+  it('returns a 5 character string', () => {
+    expect(randomString()).to.be.a('string')
+    expect(randomString()).to.have.lengthOf(5)
+  })
+
+  it('returns different strings', () => {
+    const a = randomString()
+    const b = randomString()
+    const c = randomString()
+    expect(a).to.not.equal(b)
+    expect(a).to.not.equal(c)
+    expect(b).to.not.equal(c)
+  })
+})
+
+describe('omit', () => {
+  const object = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: 4,
+    e: 5
+  }
+
+  it('omits properties from an object', () => {
+    expect(omit(object, ['a', 'b', 'c'])).to.deep.equal({
+      d: 4,
+      e: 5
+    })
+  })
+
+  it('handles multiple array parameters', () => {
+    expect(omit(object, ['a'], ['b'], ['c'])).to.deep.equal({
+      d: 4,
+      e: 5
+    })
   })
 })
