@@ -16,13 +16,16 @@ export default class Wistia extends Base {
     return url && url.match(MATCH_URL)[4]
   }
   load (url) {
-    const { onStart, onPause, onSeek, onEnded, config } = this.props
+    const { controls, onStart, onPause, onSeek, onEnded, config } = this.props
     this.loadingSDK = true
     getSDK(SDK_URL, SDK_GLOBAL).then(() => {
       window._wq = window._wq || []
       window._wq.push({
         id: this.getID(url),
-        options: config.wistia.options,
+        options: {
+          controlsVisibleOnLoad: controls,
+          ...config.wistia.options
+        },
         onReady: player => {
           this.player = player
           this.player.bind('start', onStart)

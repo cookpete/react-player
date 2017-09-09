@@ -78,7 +78,7 @@ Prop | Description | Default
 `url` | The url of a video or song to play
 `playing` | Set to `true` or `false` to pause or play the media | `false`
 `loop` | Set to `true` or `false` to loop the media | `false`
-`controls` | Set to `true` or `false` to display native player controls<br />*Note: Vimeo player controls are not configurable and will always display* | `false`
+`controls` | Set to `true` or `false` to display native player controls<br />*Note: Vimeo, Twitch and Wistia player controls are not configurable and will always display* | `false`
 `volume` | Sets the volume of the appropriate player | `0.8`
 `muted` | Mutes the player | `false`
 `playbackRate` | Sets the playback rate of the appropriate player | `1`
