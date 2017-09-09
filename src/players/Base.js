@@ -9,7 +9,6 @@ export default class Base extends Component {
   static defaultProps = defaultProps
   isReady = false
   startOnPlay = true
-  durationOnPlay = false
   seekOnPlay = null
   componentDidMount () {
     const { url } = this.props
@@ -63,7 +62,7 @@ export default class Base extends Component {
     return amount
   }
   onPlay = () => {
-    const { volume, muted, onStart, onPlay, onDuration, playbackRate } = this.props
+    const { volume, muted, onStart, onPlay, playbackRate } = this.props
     if (this.startOnPlay) {
       this.setPlaybackRate(playbackRate)
       this.setVolume(muted ? 0 : volume)
@@ -75,13 +74,10 @@ export default class Base extends Component {
       this.seekTo(this.seekOnPlay)
       this.seekOnPlay = null
     }
-    if (this.durationOnPlay) {
-      onDuration(this.getDuration())
-      this.durationOnPlay = false
-    }
+    this.onDurationCheck()
   }
   onReady = () => {
-    const { onReady, playing, onDuration } = this.props
+    const { onReady, playing } = this.props
     this.isReady = true
     this.loadingSDK = false
     onReady()
@@ -94,11 +90,15 @@ export default class Base extends Component {
         this.play()
       }
     }
+    this.onDurationCheck()
+  }
+  onDurationCheck = () => {
+    clearTimeout(this.durationCheckTimeout)
     const duration = this.getDuration()
     if (duration) {
-      onDuration(duration)
+      this.props.onDuration(duration)
     } else {
-      this.durationOnPlay = true
+      this.durationCheckTimeout = setTimeout(this.onDurationCheck, 100)
     }
   }
 }
