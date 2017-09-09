@@ -50,6 +50,12 @@ export default class App extends Component {
   setPlaybackRate = e => {
     this.setState({ playbackRate: parseFloat(e.target.value) })
   }
+  onPlay = () => {
+    this.setState({ playing: true })
+  }
+  onPause = () => {
+    this.setState({ playing: false })
+  }
   onSeekMouseDown = e => {
     this.setState({ seeking: true })
   }
@@ -98,6 +104,11 @@ export default class App extends Component {
     } = this.state
     const SEPARATOR = ' · '
 
+    // Prevent buggy onPlay/onPause behaviour in soundcloud player
+    const isSoundCloud = /soundcloud\.com/.test(url)
+    const onPlay = isSoundCloud ? undefined : this.onPlay
+    const onPause = isSoundCloud ? undefined : this.onPause
+
     return (
       <div className='app'>
         <section className='section'>
@@ -119,8 +130,8 @@ export default class App extends Component {
               fileConfig={fileConfig}
               onReady={() => console.log('onReady')}
               onStart={() => console.log('onStart')}
-              // onPlay={() => this.setState({ playing: true })}
-              // onPause={() => this.setState({ playing: false })}
+              onPlay={onPlay}
+              onPause={onPause}
               onBuffer={() => console.log('onBuffer')}
               onSeek={e => console.log('onSeek', e)}
               onEnded={() => this.setState({ playing: false })}
