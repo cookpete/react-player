@@ -3,18 +3,83 @@ import { render, unmountComponentAtNode } from 'react-dom'
 
 import ReactPlayer from '../../src/ReactPlayer'
 
-const { describe, it, beforeEach, afterEach } = window
+const { describe, it, expect, beforeEach, afterEach } = window
 
-const TEST_YOUTUBE_URL = 'https://www.youtube.com/watch?v=M7lc1UVf-VE'
-const TEST_SOUNDCLOUD_URL = 'https://soundcloud.com/miami-nights-1984/accelerated'
-const TEST_STREAMABLE_URL = 'https://streamable.com/moo'
-const TEST_VIMEO_URL = 'https://vimeo.com/90509568'
-const TEST_WISTIA_URL = 'https://home.wistia.com/medias/e4a27b971d'
-const TEST_FILE_URL = 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv'
+const TEST_URLS = [
+  {
+    name: 'YouTube',
+    url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE'
+  },
+  {
+    name: 'SoundCloud',
+    url: 'https://soundcloud.com/miami-nights-1984/accelerated'
+  },
+  {
+    name: 'Facebook',
+    url: 'https://www.facebook.com/facebook/videos/10153231379946729/'
+  },
+  {
+    name: 'Vimeo',
+    url: 'https://vimeo.com/90509568'
+  },
+  {
+    name: 'Twitch',
+    url: 'https://www.twitch.tv/videos/28946623',
+    skip: true
+  },
+  {
+    name: 'Streamable',
+    url: 'https://streamable.com/moo'
+  },
+  {
+    name: 'Vidme',
+    url: 'https://vid.me/yvi'
+  },
+  {
+    name: 'Wistia',
+    url: 'https://home.wistia.com/medias/e4a27b971d'
+  },
+  {
+    name: 'DailyMotion',
+    url: 'http://www.dailymotion.com/video/x26m1j4_wildlife_animals',
+    skip: true
+  },
+  {
+    name: 'FilePlayer',
+    url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv'
+  },
+  {
+    name: 'FilePlayer (multiple sources)',
+    url: [
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', type: 'video/ogv' },
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
+    ]
+  },
+  {
+    name: 'FilePlayer (HLS)',
+    url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
+  },
+  {
+    name: 'FilePlayer (DASH)',
+    url: 'http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd'
+  }
+]
 
-const TEST_YOUTUBE_ERROR = 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
-const TEST_SOUNDCLOUD_ERROR = 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
-const TEST_FILE_ERROR = 'http://example.com/error.ogv'
+const TEST_ERROR_URLS = [
+  {
+    name: 'YouTube',
+    url: 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
+  },
+  {
+    name: 'SoundCloud',
+    url: 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
+  },
+  {
+    name: 'FilePlayer',
+    url: 'http://example.com/error.ogv'
+  }
+]
 
 describe('ReactPlayer', () => {
   let div
@@ -29,107 +94,51 @@ describe('ReactPlayer', () => {
     document.body.removeChild(div)
   })
 
-  const testStart = (url, done) => {
-    render(<ReactPlayer url={url} playing onStart={done} />, div)
-  }
-
-  const testPlay = (url, done) => {
-    render(<ReactPlayer url={url} playing onPlay={done} />, div)
-  }
-
-  const testPause = (url, done) => {
-    const onPlay = () => {
-      setTimeout(() => {
-        render(<ReactPlayer url={url} playing={false} onPause={done} />, div)
-      }, 2000)
-    }
-    testPlay(url, onPlay)
-  }
-
-  const testDuration = (url, done) => {
-    const onDuration = (duration) => {
-      const error = duration && duration > 0 ? null : new Error('Invalid duration: ' + duration)
-      done(error)
-    }
-    render(<ReactPlayer url={url} playing onDuration={onDuration} />, div)
-  }
-
-  const testDurationDelayed = (url, done) => {
-    render(<ReactPlayer url={url} playing={false} />, div, () => {
-      testDuration(url, done)
+  for (let test of TEST_URLS) {
+    const desc = test.skip ? describe.skip : describe
+    desc(test.name, () => {
+      it('onReady, onStart, onPlay, onDuration, onProgress', done => {
+        let count = {}
+        const bump = key => {
+          count[key] = count[key] || 0
+          count[key]++
+          if (Object.keys(count).length === 5) {
+            done()
+          }
+        }
+        render(
+          <ReactPlayer
+            url={test.url}
+            playing
+            onReady={() => bump('onReady')}
+            onStart={() => bump('onStart')}
+            onPlay={() => bump('onPlay')}
+            onDuration={secs => {
+              expect(secs).to.be.a('number')
+              expect(secs).to.be.above(0)
+              bump('onDuration')
+            }}
+            onProgress={progress => {
+              expect(progress).to.be.an('object')
+              bump('onProgress')
+            }}
+          />,
+        div)
+      })
     })
   }
 
-  const testError = (url, onError) => {
-    render(<ReactPlayer url={url} playing onError={() => onError()} />, div)
+  for (let test of TEST_ERROR_URLS) {
+    describe(test.name, () => {
+      it('onError', done => {
+        render(
+          <ReactPlayer
+            url={test.url}
+            playing
+            onError={() => done()}
+          />,
+        div)
+      })
+    })
   }
-
-  describe('YouTube', () => {
-    it('fires onStart', done => testStart(TEST_YOUTUBE_URL, done))
-    it('fires onPlay', done => testPlay(TEST_YOUTUBE_URL, done))
-    it('fires onPause', done => testPause(TEST_YOUTUBE_URL, done))
-    it('fires onDuration', done => testDuration(TEST_YOUTUBE_URL, done))
-    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_YOUTUBE_URL, done))
-    it('fires onError', done => testError(TEST_YOUTUBE_ERROR, done))
-
-    it('starts at a specified time', done => {
-      const onProgress = state => {
-        if (state.played > 0.9) done()
-      }
-      render(<ReactPlayer url={TEST_YOUTUBE_URL + '?start=22m10s'} playing onProgress={onProgress} />, div)
-    })
-  })
-
-  // Skipping SoundCloud tests until widget test problems are solved
-  describe.skip('SoundCloud', () => {
-    it('fires onStart', done => testStart(TEST_SOUNDCLOUD_URL, done))
-    it('fires onPlay', done => testPlay(TEST_SOUNDCLOUD_URL, done))
-    it('fires onPause', done => testPause(TEST_SOUNDCLOUD_URL, done))
-    it('fires onDuration', done => testDuration(TEST_SOUNDCLOUD_URL, done))
-    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_SOUNDCLOUD_URL, done))
-    it.skip('fires onError', done => testError(TEST_SOUNDCLOUD_ERROR, done))
-  })
-
-  describe('Streamable', () => {
-    it('fires onStart', done => testStart(TEST_STREAMABLE_URL, done))
-    it('fires onPlay', done => testPlay(TEST_STREAMABLE_URL, done))
-    it.skip('fires onPause', done => testPause(TEST_STREAMABLE_URL, done))
-    it('fires onDuration', done => testDuration(TEST_STREAMABLE_URL, done))
-    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_STREAMABLE_URL, done))
-  })
-
-  describe('Vimeo', () => {
-    it('fires onStart', done => testStart(TEST_VIMEO_URL, done))
-    it('fires onPlay', done => testPlay(TEST_VIMEO_URL, done))
-    it.skip('fires onPause', done => testPause(TEST_VIMEO_URL, done))
-    it('fires onDuration', done => testDuration(TEST_VIMEO_URL, done))
-    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_VIMEO_URL, done))
-  })
-
-  describe('Wistia', () => {
-    it('fires onStart', done => testStart(TEST_WISTIA_URL, done))
-    it('fires onPlay', done => testPlay(TEST_WISTIA_URL, done))
-    it('fires onDuration', done => testDuration(TEST_WISTIA_URL, done))
-    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_WISTIA_URL, done))
-    it.skip('fires onPause', done => testPause(TEST_WISTIA_URL, done))
-  })
-
-  describe('FilePlayer', () => {
-    it('fires onStart', done => testStart(TEST_FILE_URL, done))
-    it('fires onPlay', done => testPlay(TEST_FILE_URL, done))
-    it.skip('fires onPause', done => testPause(TEST_FILE_URL, done))
-    it('fires onDuration', done => testDuration(TEST_FILE_URL, done))
-    it('fires onDuration with delayed load', done => testDurationDelayed(TEST_FILE_URL, done))
-    it.skip('fires onError', done => testError(TEST_FILE_ERROR, done))
-  })
-
-  describe('Switching', () => {
-    it('switches between media', function (done) {
-      const renderFilePlayer = () => testPlay(TEST_FILE_URL, done)
-      const renderVimeoPlayer = () => testPlay(TEST_VIMEO_URL, renderFilePlayer)
-      // const renderSoundCloudPlayer = () => testPlay(TEST_SOUNDCLOUD_URL, renderVimeoPlayer)
-      const renderWistiaPlayer = () => testPlay(TEST_WISTIA_URL, renderVimeoPlayer)
-      testPlay(TEST_YOUTUBE_URL, renderWistiaPlayer)
-    })
-  })
 })
