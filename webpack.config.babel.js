@@ -56,7 +56,8 @@ export default {
   plugins: [
     ...plugins,
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.NamedModulesPlugin()
   ],
   devServer: {
     port: PORT,
