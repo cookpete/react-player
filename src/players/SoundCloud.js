@@ -30,6 +30,14 @@ export default class SoundCloud extends Base {
       const { PLAY, PLAY_PROGRESS, PAUSE, FINISH, ERROR } = SC.Widget.Events
       if (!this.isReady) {
         this.player = SC.Widget(this.iframe)
+        this.player.bind(PLAY, this.onPlay)
+        this.player.bind(PLAY_PROGRESS, e => {
+          this.fractionPlayed = e.relativePosition
+          this.fractionLoaded = e.loadedProgress
+        })
+        this.player.bind(PAUSE, () => this.props.onPause())
+        this.player.bind(FINISH, () => this.props.onEnded())
+        this.player.bind(ERROR, e => this.props.onError(e))
       }
       this.player.load(url, {
         ...DEFAULT_OPTIONS,
@@ -39,14 +47,6 @@ export default class SoundCloud extends Base {
             this.duration = duration / 1000
             this.onReady()
           })
-          this.player.bind(PLAY, this.onPlay)
-          this.player.bind(PLAY_PROGRESS, e => {
-            this.fractionPlayed = e.relativePosition
-            this.fractionLoaded = e.loadedProgress
-          })
-          this.player.bind(PAUSE, () => this.props.onPause())
-          this.player.bind(FINISH, () => this.props.onEnded())
-          this.player.bind(ERROR, e => this.props.onError(e))
         }
       })
     })
