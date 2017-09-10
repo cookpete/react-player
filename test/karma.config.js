@@ -11,7 +11,7 @@ export default function (config) {
     preprocessors: {
       'karma.webpack.js': [ 'webpack', 'sourcemap' ]
     },
-    reporters: [ 'mocha' ],
+    reporters: [ 'mocha', 'coverage' ],
     webpack: {
       ...webpackConfig,
       devtool: 'inline-source-map'
@@ -30,6 +30,12 @@ export default function (config) {
         base: 'Chrome',
         flags: ['--no-sandbox']
       }
+    },
+    coverageReporter: {
+      dir: 'coverage',
+      reporters: [
+        { type: 'lcov', subdir: '.' }
+      ]
     }
   })
 }

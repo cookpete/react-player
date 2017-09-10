@@ -3,3 +3,4 @@ npm-debug.log
 .DS_Store
 /lib
 /demo
+/test/coverage

@@ -15,6 +15,7 @@ script:
   - npm run build:compile
   - npm run build:demo
 after_success:
+  - npm run coverage
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && sshpass -e scp -r -o stricthostkeychecking=no demo/* $DEPLOY_DEST
 env:
   global:

@@ -11,7 +11,8 @@
     "build:compile": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
     "start": "webpack-dev-server",
     "lint": "standard --verbose | snazzy",
-    "test": "babel-node ./node_modules/karma/bin/karma start test/karma.config.js",
+    "test": "cross-env NODE_ENV=test babel-node ./node_modules/karma/bin/karma start test/karma.config.js",
+    "coverage": "codecov",
     "preversion": "npm run lint",
     "version": "npm run update-changelog && npm run build:browser && git add CHANGELOG.md dist",
     "update-changelog": "auto-changelog --package --template compact",
@@ -51,12 +52,14 @@
     "babel-eslint": "^7.0.0",
     "babel-loader": "^7.0.0",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "chai": "^4.0.2",
+    "codecov": "^2.3.0",
     "cross-env": "^5.0.1",
     "css-loader": "^0.28.0",
     "es6-promise": "^4.0.3",
@@ -67,6 +70,7 @@
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-cli": "^1.0.1",
+    "karma-coverage": "^1.1.1",
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.2.0",
     "karma-mocha-reporter": "^2.2.0",
@@ -106,6 +110,11 @@
         "plugins": [
           "transform-es3-member-expression-literals",
           "transform-es3-property-literals"
+        ]
+      },
+      "test": {
+        "plugins": [
+          "istanbul"
         ]
       }
     }
