@@ -15,6 +15,17 @@ const DASH_GLOBAL = 'dashjs'
 export default class FilePlayer extends Base {
   static displayName = 'FilePlayer'
   static canPlay (url) {
+    if (url instanceof Array) {
+      for (let item of url) {
+        if (typeof item === 'string' && this.canPlay(item)) {
+          return true
+        }
+        if (this.canPlay(item.src)) {
+          return true
+        }
+      }
+      return false
+    }
     return (
       AUDIO_EXTENSIONS.test(url) ||
       VIDEO_EXTENSIONS.test(url) ||
