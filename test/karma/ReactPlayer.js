@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 
@@ -83,6 +85,10 @@ describe('ReactPlayer', () => {
   for (let test of TEST_URLS) {
     const desc = test.skip ? describe.skip : describe
     desc(test.name, () => {
+      it('canPlay', () => {
+        expect(ReactPlayer.canPlay(test.url)).to.be.true
+      })
+
       it('onReady, onStart, onPlay, onDuration, onProgress', done => {
         // Use a count object to ensure everything is called at least once
         let count = {}
@@ -93,21 +99,31 @@ describe('ReactPlayer', () => {
             done()
           }
         }
+        let player
         render(
           <ReactPlayer
+            ref={p => { player = p }}
             url={test.url}
             playing
-            onReady={() => bump('onReady')}
+            onReady={() => {
+              expect(player).to.exist
+              expect(player.getInternalPlayer()).to.exist
+              bump('onReady')
+            }}
             onStart={() => bump('onStart')}
             onPlay={() => bump('onPlay')}
             onDuration={secs => {
               expect(secs).to.be.a('number')
               expect(secs).to.be.above(0)
+              expect(player.getDuration()).to.be.a('number')
               bump('onDuration')
             }}
             onProgress={progress => {
               expect(progress).to.be.an('object')
-              bump('onProgress')
+              if (progress.played) {
+                expect(player.getCurrentTime()).to.be.a('number')
+                bump('onProgress')
+              }
             }}
           />,
         div)
