@@ -76,6 +76,7 @@ export default class ReactPlayer extends Component {
     return fractionPlayed * duration
   }
   getInternalPlayer = () => {
+    if (!this.player) return null
     return this.player.player
   }
   progress = () => {
