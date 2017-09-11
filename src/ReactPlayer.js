@@ -118,14 +118,17 @@ export default class ReactPlayer extends Component {
     return (
       <Player
         {...this.props}
-        ref={this.ref}
+        ref={this.activePlayerRef}
         key={Player.displayName}
         config={this.config}
       />
     )
   }
-  ref = player => {
+  activePlayerRef = player => {
     this.player = player
+  }
+  wrapperRef = wrapper => {
+    this.wrapper = wrapper
   }
   renderPreloadPlayers (url) {
     if (!url) return null
@@ -156,7 +159,7 @@ export default class ReactPlayer extends Component {
     const activePlayer = this.renderActivePlayer(url)
     const preloadPlayers = this.renderPreloadPlayers(url)
     return (
-      <div style={{ ...style, width, height }} {...otherProps}>
+      <div ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
         {activePlayer}
         {preloadPlayers}
       </div>
