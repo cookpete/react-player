@@ -83,7 +83,7 @@ describe('omit', () => {
   })
 })
 
-describe.only('getConfig', () => {
+describe('getConfig', () => {
   it('merges configs', () => {
     const defaultProps = {
       config: {
