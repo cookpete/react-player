@@ -26,8 +26,7 @@ const TEST_URLS = [
   },
   {
     name: 'Twitch',
-    url: 'https://www.twitch.tv/videos/28946623',
-    skip: true
+    url: 'https://www.twitch.tv/videos/106400740'
   },
   {
     name: 'Streamable',

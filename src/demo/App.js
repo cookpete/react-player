@@ -220,7 +220,7 @@ export default class App extends Component {
             <tr>
               <th>Twitch</th>
               <td>
-                {this.renderLoadButton('https://www.twitch.tv/videos/28946623', 'Test A')}
+                {this.renderLoadButton('https://www.twitch.tv/videos/106400740', 'Test A')}
                 {this.renderLoadButton('https://www.twitch.tv/videos/12783852', 'Test B')}
                 {this.renderLoadButton('https://www.twitch.tv/kronovi', 'Test C')}
               </td>
