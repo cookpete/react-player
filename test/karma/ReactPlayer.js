@@ -126,4 +126,27 @@ describe('ReactPlayer', () => {
       }
     })
   }
+
+  it('renders with preload config', done => {
+    const ref = p => {
+      if (!p) return
+      expect(p.wrapper).to.be.a('HTMLDivElement')
+      expect(p.wrapper.childNodes).to.have.length(3)
+      for (let div of p.wrapper.childNodes) {
+        expect(div.style.display).to.equal('none')
+      }
+      done()
+    }
+    render(
+      <ReactPlayer
+        ref={ref}
+        url={null}
+        config={{
+          youtube: { preload: true },
+          vimeo: { preload: true },
+          dailymotion: { preload: true }
+        }}
+      />,
+    div)
+  })
 })
