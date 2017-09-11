@@ -1,0 +1,9 @@
+comment: false
+coverage:
+  status:
+    project:
+      default:
+        enabled: false
+    patch:
+      default:
+        enabled: false
