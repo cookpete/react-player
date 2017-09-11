@@ -1,4 +1,4 @@
-import { parseStartTime, randomString, omit } from '../../src/utils'
+import { parseStartTime, randomString, omit, getConfig } from '../../src/utils'
 
 const { describe, it, expect } = window
 
@@ -79,6 +79,67 @@ describe('omit', () => {
     expect(omit(object, ['a'], ['b'], ['c'])).to.deep.equal({
       d: 4,
       e: 5
+    })
+  })
+})
+
+describe.only('getConfig', () => {
+  it('merges configs', () => {
+    const defaultProps = {
+      config: {
+        youtube: {
+          playerVars: {
+            autoplay: 0,
+            playsinline: 1
+          },
+          preload: false
+        }
+      }
+    }
+    const props = {
+      config: {
+        youtube: {
+          playerVars: {
+            playsinline: 0,
+            showinfo: 1
+          },
+          preload: true
+        }
+      }
+    }
+    const config = getConfig(props, defaultProps)
+    expect(config).to.deep.equal({
+      youtube: {
+        playerVars: {
+          autoplay: 0,
+          playsinline: 0,
+          showinfo: 1
+        },
+        preload: true
+      }
+    })
+  })
+
+  it('converts old style config', () => {
+    const props = {
+      config: {},
+      youtubeConfig: {
+        playerVars: {
+          playsinline: 0,
+          showinfo: 1
+        },
+        preload: true
+      }
+    }
+    const config = getConfig(props, { config: {} })
+    expect(config).to.deep.equal({
+      youtube: {
+        playerVars: {
+          playsinline: 0,
+          showinfo: 1
+        },
+        preload: true
+      }
     })
   })
 })
