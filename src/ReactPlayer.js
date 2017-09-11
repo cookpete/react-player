@@ -131,7 +131,6 @@ export default class ReactPlayer extends Component {
     this.wrapper = wrapper
   }
   renderPreloadPlayers (url) {
-    if (!url) return null
     // Render additional players if preload config is set
     const preloadPlayers = []
     if (!YouTube.canPlay(url) && this.config.youtube.preload) {
