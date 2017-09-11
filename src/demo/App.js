@@ -249,7 +249,7 @@ export default class App extends Component {
             <tr>
               <th>DailyMotion</th>
               <td>
-                {this.renderLoadButton('http://www.dailymotion.com/video/x26m1j4_wildlife_animals', 'Test A')}
+                {this.renderLoadButton('http://www.dailymotion.com/video/x2buxsr', 'Test A')}
                 {this.renderLoadButton('http://www.dailymotion.com/video/x26ezj5', 'Test B')}
               </td>
             </tr>

@@ -99,7 +99,6 @@ export const defaultProps = {
     },
     dailymotion: {
       params: {
-        autoplay: 0,
         api: 1,
         'endscreen-enable': false
       },

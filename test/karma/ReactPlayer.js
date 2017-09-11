@@ -42,8 +42,7 @@ const TEST_URLS = [
   },
   {
     name: 'DailyMotion',
-    url: 'http://www.dailymotion.com/video/x26m1j4_wildlife_animals',
-    skip: true
+    url: 'http://www.dailymotion.com/video/x2buxsr'
   },
   {
     name: 'FilePlayer',

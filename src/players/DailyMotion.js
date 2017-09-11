@@ -57,6 +57,7 @@ export default class DailyMotion extends Base {
         events: {
           apiready: () => {
             this.loadingSDK = false
+            this.onReady()
           },
           seeked: () => this.props.onSeek(this.player.currentTime),
           video_end: this.onEnded,
@@ -64,7 +65,6 @@ export default class DailyMotion extends Base {
           pause: this.props.onPause,
           playing: this.onPlay,
           waiting: this.props.onBuffer,
-          loadedmetadata: this.onReady,
           error: event => onError(event)
         }
       })
