@@ -28,18 +28,24 @@ export default class Base extends Component {
       this.seekOnPlay = null
       this.startOnPlay = true
       this.load(nextProps.url)
-    } else if (url && !nextProps.url) {
+    }
+    if (url && !nextProps.url) {
       this.stop()
       clearTimeout(this.updateTimeout)
-    } else if (!playing && nextProps.playing) {
+    }
+    if (!playing && nextProps.playing) {
       this.play()
-    } else if (playing && !nextProps.playing) {
+    }
+    if (playing && !nextProps.playing) {
       this.pause()
-    } else if (volume !== nextProps.volume && !nextProps.muted) {
+    }
+    if (volume !== nextProps.volume && !nextProps.muted) {
       this.setVolume(nextProps.volume)
-    } else if (muted !== nextProps.muted) {
+    }
+    if (muted !== nextProps.muted) {
       this.setVolume(nextProps.muted ? 0 : nextProps.volume)
-    } else if (playbackRate !== nextProps.playbackRate) {
+    }
+    if (playbackRate !== nextProps.playbackRate) {
       this.setPlaybackRate(nextProps.playbackRate)
     }
   }
