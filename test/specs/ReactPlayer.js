@@ -106,27 +106,37 @@ describe('ReactPlayer', () => {
         let player
         render(
           <ReactPlayer
-            ref={p => { player = p }}
+            ref={p => { player = p || player }}
             url={test.url}
             playing
-            onReady={() => {
-              expect(player).to.exist
-              expect(player.getInternalPlayer()).to.exist
-              bump('onReady')
-            }}
+            onReady={() => bump('onReady')}
             onStart={() => bump('onStart')}
             onPlay={() => bump('onPlay')}
-            onDuration={secs => {
-              expect(secs).to.be.a('number')
-              expect(secs).to.be.above(0)
-              expect(player.getDuration()).to.be.a('number')
-              bump('onDuration')
-            }}
-            onProgress={progress => {
-              expect(progress).to.be.an('object')
-              if (progress.played) {
-                expect(player.getCurrentTime()).to.be.a('number')
-                bump('onProgress')
+            onDuration={secs => bump('onDuration')}
+            onProgress={progress => bump('onProgress')}
+          />,
+        div)
+      })
+
+      it('onPause', done => {
+        const onPause = () => done()
+        const pausePlayer = () => {
+          render(
+            <ReactPlayer
+              url={test.url}
+              playing={false}
+              onPause={onPause}
+            />,
+          div)
+        }
+        render(
+          <ReactPlayer
+            url={test.url}
+            playing
+            onPause={onPause}
+            onProgress={p => {
+              if (p.playedSeconds >= 3) {
+                pausePlayer()
               }
             }}
           />,
@@ -150,17 +160,15 @@ describe('ReactPlayer', () => {
           let player
           render(
             <ReactPlayer
-              ref={p => { player = p }}
+              ref={p => { player = p || player }}
               url={test.url}
               playing
-              onPlay={() => {
-                player.seekTo(5)
+              onProgress={p => {
+                if (p.playedSeconds >= 3) {
+                  player.seekTo(10)
+                }
               }}
-              onSeek={seconds => {
-                expect(seconds).to.be.a('number')
-                expect(seconds).to.equal(5)
-                done()
-              }}
+              onSeek={() => done()}
             />,
           div)
         })
@@ -168,27 +176,53 @@ describe('ReactPlayer', () => {
     })
   }
 
-  it('renders with preload config', done => {
-    const ref = p => {
-      if (!p) return
-      expect(p.wrapper).to.be.a('HTMLDivElement')
-      expect(p.wrapper.childNodes).to.have.length(3)
-      for (let div of p.wrapper.childNodes) {
+  describe('instance methods', () => {
+    let player
+    beforeEach(done => {
+      render(
+        <ReactPlayer
+          ref={p => { player = p || player }}
+          url='http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
+          onReady={() => done()}
+        />,
+      div)
+    })
+
+    it('returns correctly', () => {
+      expect(player.getInternalPlayer()).to.exist
+      expect(player.getCurrentTime()).to.be.a('number')
+      expect(player.getDuration()).to.be.a('number')
+    })
+  })
+
+  describe('preloading', () => {
+    let player
+    beforeEach(done => {
+      render(
+        <ReactPlayer
+          ref={p => {
+            if (p) {
+              player = p
+              done()
+            }
+          }}
+          url={null}
+          config={{
+            youtube: { preload: true },
+            vimeo: { preload: true },
+            dailymotion: { preload: true }
+          }}
+        />,
+      div)
+    })
+
+    it('renders with preload config', () => {
+      expect(player.wrapper).to.be.a('HTMLDivElement')
+      expect(player.wrapper.childNodes).to.have.length(3)
+      for (let div of player.wrapper.childNodes) {
         expect(div.style.display).to.equal('none')
       }
-      done()
-    }
-    render(
-      <ReactPlayer
-        ref={ref}
-        url={null}
-        config={{
-          youtube: { preload: true },
-          vimeo: { preload: true },
-          dailymotion: { preload: true }
-        }}
-      />,
-    div)
+    })
   })
 
   it('canPlay returns false', () => {
