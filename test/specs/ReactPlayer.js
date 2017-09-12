@@ -24,7 +24,8 @@ const TEST_URLS = [
   },
   {
     name: 'Vimeo',
-    url: 'https://vimeo.com/90509568'
+    url: 'https://vimeo.com/90509568',
+    seek: true
   },
   {
     name: 'Twitch',
@@ -40,16 +41,19 @@ const TEST_URLS = [
   },
   {
     name: 'Wistia',
-    url: 'https://home.wistia.com/medias/e4a27b971d'
+    url: 'https://home.wistia.com/medias/e4a27b971d',
+    seek: true
   },
   {
     name: 'DailyMotion',
-    url: 'http://www.dailymotion.com/video/x2buxsr'
+    url: 'http://www.dailymotion.com/video/x2buxsr',
+    seek: true
   },
   {
     name: 'FilePlayer',
     url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
-    error: 'http://example.com/error.ogv'
+    error: 'http://example.com/error.ogv',
+    seek: true
   },
   {
     name: 'FilePlayer (multiple sources)',
@@ -140,6 +144,27 @@ describe('ReactPlayer', () => {
           div)
         })
       }
+
+      if (test.seek) {
+        it('seekTo, onSeek', done => {
+          let player
+          render(
+            <ReactPlayer
+              ref={p => { player = p }}
+              url={test.url}
+              playing
+              onPlay={() => {
+                player.seekTo(5)
+              }}
+              onSeek={seconds => {
+                expect(seconds).to.be.a('number')
+                expect(seconds).to.equal(5)
+                done()
+              }}
+            />,
+          div)
+        })
+      }
     })
   }
 
@@ -164,5 +189,10 @@ describe('ReactPlayer', () => {
         }}
       />,
     div)
+  })
+
+  it('canPlay returns false', () => {
+    expect(ReactPlayer.canPlay('http://example.com')).to.be.false
+    expect(ReactPlayer.canPlay('file.txt')).to.be.false
   })
 })
