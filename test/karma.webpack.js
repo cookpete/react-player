@@ -1,2 +1,2 @@
-const context = require.context('./karma', true, /\.js$/)
+const context = require.context('./specs', true, /\.js$/)
 context.keys().forEach(context)

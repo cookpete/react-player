@@ -10,7 +10,7 @@ const PUBLIC_PATH = PRODUCTION ? '' : `http://localhost:${PORT}/`
 const PATH_DEMO = join(__dirname, 'demo')
 const PATH_SRC = join(__dirname, 'src')
 const PATH_INDEX = join(__dirname, 'index.html')
-const PATH_TESTS = join(__dirname, 'test', 'karma')
+const PATH_TESTS = join(__dirname, 'test', 'specs')
 
 export const plugins = [
   new HtmlWebpackPlugin({
