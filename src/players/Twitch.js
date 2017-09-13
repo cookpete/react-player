@@ -9,7 +9,7 @@ const MATCH_VIDEO_URL = /^(?:https?:\/\/)?(?:www\.)twitch\.tv\/videos\/(\d+)($|\
 const MATCH_CHANNEL_URL = /^(?:https?:\/\/)?(?:www\.)twitch\.tv\/([a-z0-9_]+)($|\?)/
 const PLAYER_ID_PREFIX = 'twitch-player-'
 
-export default class YouTube extends Base {
+export default class Twitch extends Base {
   static displayName = 'Twitch'
   static canPlay (url) {
     return MATCH_VIDEO_URL.test(url) || MATCH_CHANNEL_URL.test(url)

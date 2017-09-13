@@ -9,7 +9,7 @@ const SDK_GLOBAL_READY = 'fbAsyncInit'
 const MATCH_URL = /^https:\/\/www\.facebook\.com\/([^/?].+\/)?video(s|\.php)[/?].*$/
 const PLAYER_ID_PREFIX = 'facebook-player-'
 
-export default class YouTube extends Base {
+export default class Facebook extends Base {
   static displayName = 'Facebook'
   static canPlay (url) {
     return MATCH_URL.test(url)
