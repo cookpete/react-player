@@ -62,24 +62,20 @@ export default class Vimeo extends Base {
     }, this.props.onError)
   }
   play () {
-    if (!this.isReady) return
-    this.player.play()
+    this.callPlayer('play')
   }
   pause () {
-    if (!this.isReady) return
-    this.player.pause()
+    this.callPlayer('pause')
   }
   stop () {
-    if (!this.isReady) return
-    this.player.unload()
+    this.callPlayer('unload')
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
-    if (!this.isReady || !this.player.setCurrentTime) return
-    this.player.setCurrentTime(seconds)
+    this.callPlayer('setCurrentTime', seconds)
   }
   setVolume (fraction) {
-    this.player.setVolume(fraction)
+    this.callPlayer('setVolume', fraction)
   }
   getDuration () {
     return this.duration

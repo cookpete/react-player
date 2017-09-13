@@ -39,37 +39,30 @@ export default class Wistia extends Base {
     })
   }
   play () {
-    if (!this.isReady || !this.player) return
-    this.player.play()
+    this.callPlayer('play')
   }
   pause () {
-    if (!this.isReady || !this.player) return
-    this.player && this.player.pause()
+    this.callPlayer('pause')
   }
   stop () {
-    if (!this.isReady || !this.player) return
-    this.player.pause()
+    this.callPlayer('remove')
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
-    if (!this.isReady || !this.player) return
-    this.player.time(seconds)
+    this.callPlayer('time', seconds)
   }
   setVolume (fraction) {
-    if (!this.isReady || !this.player || !this.player.volume) return
-    this.player.volume(fraction)
+    this.callPlayer('volume', fraction)
   }
   setPlaybackRate (rate) {
-    if (!this.isReady || !this.player || !this.player.playbackRate) return
-    this.player.playbackRate(rate)
+    this.callPlayer('playbackRate', rate)
   }
   getDuration () {
-    if (!this.isReady || !this.player || !this.player.duration) return
-    return this.player.duration()
+    return this.callPlayer('duration')
   }
   getFractionPlayed () {
-    if (!this.isReady || !this.player || !this.player.percentWatched) return null
-    return this.player.time() / this.player.duration()
+    if (!this.player.percentWatched) return null
+    return this.callPlayer('time') / this.callPlayer('duration')
   }
   getFractionLoaded () {
     return null

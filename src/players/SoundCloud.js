@@ -60,30 +60,26 @@ export default class SoundCloud extends Base {
       })
     })
   }
-  call (method, ...args) {
-    if (!this.isReady || !this.player || !this.player[method]) return
-    return this.player[method](...args)
-  }
   play () {
     if (!this.widgetIsPlaying) {
-      this.call('play')
+      this.callPlayer('play')
     }
   }
   pause () {
     if (this.widgetIsPlaying) {
-      this.call('pause')
+      this.callPlayer('pause')
     }
   }
   stop () {
     this.pause()
-    this.call('seekTo', 0)
+    this.callPlayer('seekTo', 0)
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
-    this.call('seekTo', seconds * 1000)
+    this.callPlayer('seekTo', seconds * 1000)
   }
   setVolume (fraction) {
-    this.call('setVolume', fraction * 100)
+    this.callPlayer('setVolume', fraction * 100)
   }
   getDuration () {
     return this.duration

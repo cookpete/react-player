@@ -52,6 +52,23 @@ export default class Base extends Component {
   shouldComponentUpdate (nextProps) {
     return this.props.url !== nextProps.url
   }
+  callPlayer (method, ...args) {
+    // Util method for calling a method on this.player
+    // but guard against errors and console.warn instead
+    if (!this.isReady || !this.player || !this.player[method]) {
+      let message = `ReactPlayer: ${this.constructor.displayName} player could not call %c${method}%c – `
+      if (!this.isReady) {
+        message += 'The player was not ready'
+      } else if (!this.player) {
+        message += 'The player was not available'
+      } else if (!this.player[method]) {
+        message += 'The method was not available'
+      }
+      console.warn(message, 'font-weight: bold', '')
+      return null
+    }
+    return this.player[method](...args)
+  }
   seekTo (amount) {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && amount !== 0) {

@@ -74,42 +74,34 @@ export default class YouTube extends Base {
     onEnded()
   }
   play () {
-    if (!this.isReady || !this.player.playVideo) return
-    this.player.playVideo()
+    this.callPlayer('playVideo')
   }
   pause () {
-    if (!this.isReady || !this.player.pauseVideo) return
-    this.player.pauseVideo()
+    this.callPlayer('pauseVideo')
   }
   stop () {
-    if (!this.isReady || !this.player.stopVideo) return
-    if (!document.body.contains(this.player.getIframe())) return
-    this.player.stopVideo()
+    if (!document.body.contains(this.callPlayer('getIframe'))) return
+    this.callPlayer('stopVideo')
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
-    if (!this.isReady || !this.player.seekTo) return
-    this.player.seekTo(seconds)
+    this.callPlayer('seekTo', seconds)
   }
   setVolume (fraction) {
-    if (!this.isReady || !this.player.setVolume) return
-    this.player.setVolume(fraction * 100)
+    this.callPlayer('setVolume', fraction * 100)
   }
   setPlaybackRate (rate) {
-    if (!this.isReady || !this.player.setPlaybackRate) return
-    this.player.setPlaybackRate(rate)
+    this.callPlayer('setPlaybackRate', rate)
   }
   getDuration () {
-    if (!this.isReady || !this.player.getDuration) return null
-    return this.player.getDuration()
+    return this.callPlayer('getDuration')
   }
   getFractionPlayed () {
-    if (!this.isReady || !this.getDuration()) return null
-    return this.player.getCurrentTime() / this.getDuration()
+    if (!this.getDuration()) return null
+    return this.callPlayer('getCurrentTime') / this.getDuration()
   }
   getFractionLoaded () {
-    if (!this.isReady || !this.player.getVideoLoadedFraction) return null
-    return this.player.getVideoLoadedFraction()
+    return this.callPlayer('getVideoLoadedFraction')
   }
   ref = container => {
     this.container = container

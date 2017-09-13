@@ -83,35 +83,31 @@ export default class DailyMotion extends Base {
     onEnded()
   }
   play () {
-    if (!this.isReady || !this.player.play) return
-    this.player.play()
+    this.callPlayer('play')
   }
   pause () {
-    if (!this.isReady || !this.player.pause) return
-    this.player.pause()
+    this.callPlayer('pause')
   }
   stop () {
     // Nothing to do
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
-    if (!this.isReady || !this.player.seek) return
-    this.player.seek(seconds)
+    this.callPlayer('seek', seconds)
   }
   setVolume (fraction) {
-    if (!this.isReady || !this.player.setVolume) return
-    this.player.setVolume(fraction)
+    this.callPlayer('setVolume', fraction)
   }
   getDuration () {
-    if (!this.isReady || !this.player.duration) return null
-    return this.player.duration
+    if (!this.isReady) return null
+    return this.player.duration || null
   }
   getFractionPlayed () {
-    if (!this.isReady || !this.getDuration()) return null
+    if (!this.getDuration()) return null
     return this.player.currentTime / this.getDuration()
   }
   getFractionLoaded () {
-    if (!this.isReady || !this.getDuration() || !this.player.bufferedTime) return null
+    if (!this.getDuration() || !this.player.bufferedTime) return null
     return this.player.bufferedTime / this.getDuration()
   }
   ref = container => {

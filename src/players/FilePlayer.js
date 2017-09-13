@@ -125,15 +125,13 @@ export default class FilePlayer extends Base {
     this.player.playbackRate = rate
   }
   getDuration () {
-    if (!this.isReady) return null
     return this.player.duration
   }
   getFractionPlayed () {
-    if (!this.isReady) return null
     return this.player.currentTime / this.getDuration()
   }
   getFractionLoaded () {
-    if (!this.isReady || this.player.buffered.length === 0) return null
+    if (this.player.buffered.length === 0) return null
     return this.player.buffered.end(0) / this.getDuration()
   }
   renderSource = source => {

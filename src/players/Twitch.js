@@ -54,31 +54,27 @@ export default class YouTube extends Base {
     }
     onEnded()
   }
-  call (method, ...args) {
-    if (!this.isReady || !this.player || !this.player[method]) return
-    return this.player[method](...args)
-  }
   play () {
-    this.call('play')
+    this.callPlayer('play')
   }
   pause () {
-    this.call('pause')
+    this.callPlayer('pause')
   }
   stop () {
-    this.call('pause')
+    this.callPlayer('pause')
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
-    this.call('seek', seconds)
+    this.callPlayer('seek', seconds)
   }
   setVolume (fraction) {
-    this.call('setVolume', fraction)
+    this.callPlayer('setVolume', fraction)
   }
   getDuration () {
-    return this.call('getDuration')
+    return this.callPlayer('getDuration')
   }
   getFractionPlayed () {
-    const time = this.call('getCurrentTime')
+    const time = this.callPlayer('getCurrentTime')
     const duration = this.getDuration()
     if (time && duration) {
       return time / duration
