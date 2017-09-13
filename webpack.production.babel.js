@@ -10,7 +10,10 @@ export const minifyPlugins = [
   }),
   new webpack.optimize.UglifyJsPlugin({
     sourceMap: true,
-    comments: false
+    comments: false,
+    mangle: {
+      except: [ 'ReactPlayer' ]
+    }
   }),
   new webpack.LoaderOptionsPlugin({ minimize: true })
 ]
