@@ -34,24 +34,51 @@ export default class FilePlayer extends Base {
     )
   }
   componentDidMount () {
-    this.addDOMListeners()
+    this.addListeners()
     super.componentDidMount()
   }
+  componentWillReceiveProps (nextProps) {
+    if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(nextProps)) {
+      this.removeListeners()
+    }
+    super.componentWillReceiveProps(nextProps)
+  }
   componentDidUpdate (prevProps) {
-    const { url, config } = this.props
-    const wasAudio = AUDIO_EXTENSIONS.test(prevProps.url) || prevProps.config.file.forceAudio
-    const isAudio = AUDIO_EXTENSIONS.test(url) || config.file.forceAudio
-    if (wasAudio !== isAudio) {
-      this.removeDOMListeners()
-      this.addDOMListeners()
+    if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(prevProps)) {
+      this.addListeners()
     }
   }
   componentWillUnmount () {
-    this.removeDOMListeners()
+    this.removeListeners()
     super.componentWillUnmount()
+  }
+  addListeners () {
+    const { playsinline, onPause, onEnded, onError } = this.props
+    this.player.addEventListener('canplay', this.onReady)
+    this.player.addEventListener('play', this.onPlay)
+    this.player.addEventListener('pause', onPause)
+    this.player.addEventListener('seeked', this.onSeek)
+    this.player.addEventListener('ended', onEnded)
+    this.player.addEventListener('error', onError)
+    if (playsinline) {
+      this.player.setAttribute('playsinline', '')
+      this.player.setAttribute('webkit-playsinline', '')
+    }
+  }
+  removeListeners () {
+    const { onPause, onEnded, onError } = this.props
+    this.player.removeEventListener('canplay', this.onReady)
+    this.player.removeEventListener('play', this.onPlay)
+    this.player.removeEventListener('pause', onPause)
+    this.player.removeEventListener('seeked', this.onSeek)
+    this.player.removeEventListener('ended', onEnded)
+    this.player.removeEventListener('error', onError)
   }
   onSeek = e => {
     this.props.onSeek(e.target.currentTime)
+  }
+  shouldUseAudio (props) {
+    return AUDIO_EXTENSIONS.test(props.url) || props.config.file.forceAudio
   }
   shouldUseHLS (url) {
     return HLS_EXTENSIONS.test(url) || this.props.config.file.forceHLS
@@ -122,35 +149,9 @@ export default class FilePlayer extends Base {
   ref = player => {
     this.player = player
   }
-  addDOMListeners () {
-    const { playsinline, onPause, onEnded, onError } = this.props
-    this.player.addEventListener('canplay', this.onReady)
-    this.player.addEventListener('play', this.onPlay)
-    this.player.addEventListener('pause', () => {
-      if (this.mounted) {
-        onPause()
-      }
-    })
-    this.player.addEventListener('seeked', this.onSeek)
-    this.player.addEventListener('ended', onEnded)
-    this.player.addEventListener('error', onError)
-    if (playsinline) {
-      this.player.setAttribute('playsinline', '')
-      this.player.setAttribute('webkit-playsinline', '')
-    }
-  }
-  removeDOMListeners () {
-    const { onPause, onEnded, onError } = this.props
-    this.player.removeEventListener('canplay', this.onReady)
-    this.player.removeEventListener('play', this.onPlay)
-    this.player.removeEventListener('pause', onPause)
-    this.player.removeEventListener('seeked', this.onSeek)
-    this.player.removeEventListener('ended', onEnded)
-    this.player.removeEventListener('error', onError)
-  }
   render () {
     const { url, loop, controls, config, width, height } = this.props
-    const useAudio = AUDIO_EXTENSIONS.test(url) || config.file.forceAudio
+    const useAudio = this.shouldUseAudio(this.props)
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
     const Element = useAudio ? 'audio' : 'video'
