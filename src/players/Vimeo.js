@@ -53,11 +53,11 @@ export default class Vimeo extends Base {
       this.player.on('seeked', e => this.props.onSeek(e.seconds))
       this.player.on('ended', this.props.onEnded)
       this.player.on('error', this.props.onError)
-      this.player.on('timeupdate', ({ percent }) => {
-        this.fractionPlayed = percent
+      this.player.on('timeupdate', ({ seconds }) => {
+        this.currentTime = seconds
       })
-      this.player.on('progress', ({ percent }) => {
-        this.fractionLoaded = percent
+      this.player.on('progress', ({ seconds }) => {
+        this.secondsLoaded = seconds
       })
     }, this.props.onError)
   }
@@ -80,11 +80,11 @@ export default class Vimeo extends Base {
   getDuration () {
     return this.duration
   }
-  getFractionPlayed () {
-    return this.fractionPlayed || null
+  getCurrentTime () {
+    return this.currentTime
   }
-  getFractionLoaded () {
-    return this.fractionLoaded || null
+  getSecondsLoaded () {
+    return this.secondsLoaded
   }
   ref = container => {
     this.container = container

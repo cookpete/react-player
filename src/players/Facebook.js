@@ -68,11 +68,10 @@ export default class Facebook extends Base {
   getDuration () {
     return this.callPlayer('getDuration')
   }
-  getFractionPlayed () {
-    if (!this.getDuration()) return null
-    return this.callPlayer('getCurrentPosition') / this.getDuration()
+  getCurrentTime () {
+    return this.callPlayer('getCurrentPosition')
   }
-  getFractionLoaded () {
+  getSecondsLoaded () {
     return null
   }
   render () {

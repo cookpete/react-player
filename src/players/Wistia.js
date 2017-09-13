@@ -60,11 +60,10 @@ export default class Wistia extends Base {
   getDuration () {
     return this.callPlayer('duration')
   }
-  getFractionPlayed () {
-    if (!this.player.percentWatched) return null
-    return this.callPlayer('time') / this.callPlayer('duration')
+  getCurrentTime () {
+    return this.callPlayer('time')
   }
-  getFractionLoaded () {
+  getSecondsLoaded () {
     return null
   }
   render () {

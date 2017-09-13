@@ -102,13 +102,11 @@ export default class DailyMotion extends Base {
     if (!this.isReady) return null
     return this.player.duration || null
   }
-  getFractionPlayed () {
-    if (!this.getDuration()) return null
-    return this.player.currentTime / this.getDuration()
+  getCurrentTime () {
+    return this.player.currentTime
   }
-  getFractionLoaded () {
-    if (!this.getDuration() || !this.player.bufferedTime) return null
-    return this.player.bufferedTime / this.getDuration()
+  getSecondsLoaded () {
+    return this.player.bufferedTime
   }
   ref = container => {
     this.container = container

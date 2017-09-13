@@ -73,15 +73,10 @@ export default class Twitch extends Base {
   getDuration () {
     return this.callPlayer('getDuration')
   }
-  getFractionPlayed () {
-    const time = this.callPlayer('getCurrentTime')
-    const duration = this.getDuration()
-    if (time && duration) {
-      return time / duration
-    }
-    return null
+  getCurrentTime () {
+    return this.callPlayer('getCurrentTime')
   }
-  getFractionLoaded () {
+  getSecondsLoaded () {
     return null
   }
   render () {

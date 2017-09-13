@@ -96,12 +96,11 @@ export default class YouTube extends Base {
   getDuration () {
     return this.callPlayer('getDuration')
   }
-  getFractionPlayed () {
-    if (!this.getDuration()) return null
-    return this.callPlayer('getCurrentTime') / this.getDuration()
+  getCurrentTime () {
+    return this.callPlayer('getCurrentTime')
   }
-  getFractionLoaded () {
-    return this.callPlayer('getVideoLoadedFraction')
+  getSecondsLoaded () {
+    return this.callPlayer('getVideoLoadedFraction') * this.getDuration()
   }
   ref = container => {
     this.container = container

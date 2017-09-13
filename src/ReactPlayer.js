@@ -68,12 +68,7 @@ export default class ReactPlayer extends Component {
   }
   getCurrentTime = () => {
     if (!this.player) return null
-    const duration = this.player.getDuration()
-    const fractionPlayed = this.player.getFractionPlayed()
-    if (duration === null || fractionPlayed === null) {
-      return null
-    }
-    return fractionPlayed * duration
+    return this.player.getCurrentTime()
   }
   getInternalPlayer = () => {
     if (!this.player) return null
@@ -81,27 +76,25 @@ export default class ReactPlayer extends Component {
   }
   progress = () => {
     if (this.props.url && this.player && this.player.isReady) {
-      const loaded = this.player.getFractionLoaded() || 0
-      const played = this.player.getFractionPlayed() || 0
+      const playedSeconds = this.player.getCurrentTime() || 0
+      const loadedSeconds = this.player.getSecondsLoaded()
       const duration = this.player.getDuration()
-      const progress = {}
-      if (loaded !== this.prevLoaded) {
-        progress.loaded = loaded
-        if (duration) {
-          progress.loadedSeconds = progress.loaded * duration
+      if (duration) {
+        const progress = {
+          playedSeconds,
+          played: playedSeconds / duration
         }
-      }
-      if (played !== this.prevPlayed) {
-        progress.played = played
-        if (duration) {
-          progress.playedSeconds = progress.played * duration
+        if (loadedSeconds !== null) {
+          progress.loadedSeconds = loadedSeconds
+          progress.loaded = loadedSeconds / duration
         }
+        // Only call onProgress if values have changed
+        if (progress.played !== this.prevPlayed || progress.loaded !== this.prevLoaded) {
+          this.props.onProgress(progress)
+        }
+        this.prevPlayed = progress.played
+        this.prevLoaded = progress.loaded
       }
-      if (progress.loaded || progress.played) {
-        this.props.onProgress(progress)
-      }
-      this.prevLoaded = loaded
-      this.prevPlayed = played
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }

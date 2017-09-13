@@ -127,12 +127,12 @@ export default class FilePlayer extends Base {
   getDuration () {
     return this.player.duration
   }
-  getFractionPlayed () {
-    return this.player.currentTime / this.getDuration()
+  getCurrentTime () {
+    return this.player.currentTime
   }
-  getFractionLoaded () {
-    if (this.player.buffered.length === 0) return null
-    return this.player.buffered.end(0) / this.getDuration()
+  getSecondsLoaded () {
+    if (this.player.buffered.length === 0) return 0
+    return this.player.buffered.end(0)
   }
   renderSource = source => {
     if (typeof source === 'string') {
