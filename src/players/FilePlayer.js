@@ -34,31 +34,20 @@ export default class FilePlayer extends Base {
     )
   }
   componentDidMount () {
-    const { playsinline, onPause, onEnded, onError } = this.props
-    this.player.addEventListener('canplay', this.onReady)
-    this.player.addEventListener('play', this.onPlay)
-    this.player.addEventListener('pause', () => {
-      if (this.mounted) {
-        onPause()
-      }
-    })
-    this.player.addEventListener('seeked', this.onSeek)
-    this.player.addEventListener('ended', onEnded)
-    this.player.addEventListener('error', onError)
-    if (playsinline) {
-      this.player.setAttribute('playsinline', '')
-      this.player.setAttribute('webkit-playsinline', '')
-    }
+    this.addDOMListeners()
     super.componentDidMount()
   }
+  componentDidUpdate (prevProps) {
+    const { url, config } = this.props
+    const wasAudio = AUDIO_EXTENSIONS.test(prevProps.url) || prevProps.config.file.forceAudio
+    const isAudio = AUDIO_EXTENSIONS.test(url) || config.file.forceAudio
+    if (wasAudio !== isAudio) {
+      this.removeDOMListeners()
+      this.addDOMListeners()
+    }
+  }
   componentWillUnmount () {
-    const { onPause, onEnded, onError } = this.props
-    this.player.removeEventListener('canplay', this.onReady)
-    this.player.removeEventListener('play', this.onPlay)
-    this.player.removeEventListener('pause', onPause)
-    this.player.removeEventListener('seeked', this.onSeek)
-    this.player.removeEventListener('ended', onEnded)
-    this.player.removeEventListener('error', onError)
+    this.removeDOMListeners()
     super.componentWillUnmount()
   }
   onSeek = e => {
@@ -132,6 +121,32 @@ export default class FilePlayer extends Base {
   }
   ref = player => {
     this.player = player
+  }
+  addDOMListeners () {
+    const { playsinline, onPause, onEnded, onError } = this.props
+    this.player.addEventListener('canplay', this.onReady)
+    this.player.addEventListener('play', this.onPlay)
+    this.player.addEventListener('pause', () => {
+      if (this.mounted) {
+        onPause()
+      }
+    })
+    this.player.addEventListener('seeked', this.onSeek)
+    this.player.addEventListener('ended', onEnded)
+    this.player.addEventListener('error', onError)
+    if (playsinline) {
+      this.player.setAttribute('playsinline', '')
+      this.player.setAttribute('webkit-playsinline', '')
+    }
+  }
+  removeDOMListeners () {
+    const { onPause, onEnded, onError } = this.props
+    this.player.removeEventListener('canplay', this.onReady)
+    this.player.removeEventListener('play', this.onPlay)
+    this.player.removeEventListener('pause', onPause)
+    this.player.removeEventListener('seeked', this.onSeek)
+    this.player.removeEventListener('ended', onEnded)
+    this.player.removeEventListener('error', onError)
   }
   render () {
     const { url, loop, controls, config, width, height } = this.props
