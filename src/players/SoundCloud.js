@@ -85,8 +85,6 @@ export default class SoundCloud extends Base {
   setVolume (fraction) {
     this.call('setVolume', fraction * 100)
   }
-  setPlaybackRate () {
-  }
   getDuration () {
     return this.duration
   }

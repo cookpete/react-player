@@ -102,9 +102,6 @@ export default class DailyMotion extends Base {
     if (!this.isReady || !this.player.setVolume) return
     this.player.setVolume(fraction)
   }
-  setPlaybackRate () {
-    return null
-  }
   getDuration () {
     if (!this.isReady || !this.player.duration) return null
     return this.player.duration

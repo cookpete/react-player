@@ -45,7 +45,7 @@ export default class Base extends Component {
     if (muted !== nextProps.muted) {
       this.setVolume(nextProps.muted ? 0 : nextProps.volume)
     }
-    if (playbackRate !== nextProps.playbackRate) {
+    if (playbackRate !== nextProps.playbackRate && this.setPlaybackRate) {
       this.setPlaybackRate(nextProps.playbackRate)
     }
   }
@@ -70,7 +70,9 @@ export default class Base extends Component {
   onPlay = () => {
     const { volume, muted, onStart, onPlay, playbackRate } = this.props
     if (this.startOnPlay) {
-      this.setPlaybackRate(playbackRate)
+      if (this.setPlaybackRate) {
+        this.setPlaybackRate(playbackRate)
+      }
       this.setVolume(muted ? 0 : volume)
       onStart()
       this.startOnPlay = false

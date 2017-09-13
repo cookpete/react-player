@@ -85,7 +85,7 @@ Prop | Description | Default
 `controls` | Set to `true` or `false` to display native player controls<br />*Note: Vimeo, Twitch and Wistia player controls are not configurable and will always display* | `false`
 `volume` | Sets the volume of the appropriate player | `0.8`
 `muted` | Mutes the player | `false`
-`playbackRate` | Sets the playback rate of the appropriate player | `1`
+`playbackRate` | Sets the playback rate of the appropriate player<br />*Note: Only supported by YouTube, Wistia, and file paths* | `1`
 `width` | Sets the width of the player | `640`
 `height` | Sets the height of the player | `360`
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element | `{}`

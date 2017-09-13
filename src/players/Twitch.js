@@ -74,9 +74,6 @@ export default class YouTube extends Base {
   setVolume (fraction) {
     this.call('setVolume', fraction)
   }
-  setPlaybackRate (rate) {
-    return null
-  }
   getDuration () {
     return this.call('getDuration')
   }
