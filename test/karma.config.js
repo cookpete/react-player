@@ -2,7 +2,7 @@ import webpackConfig from '../webpack.config.babel'
 
 export default function (config) {
   config.set({
-    browsers: process.env.TRAVIS ? [ 'ChromeTravis' ] : [ 'Chrome', 'Firefox' ],
+    browsers: process.env.TRAVIS ? [ 'ChromeTravis' ] : [ 'Chrome' ],
     singleRun: true,
     frameworks: [ 'mocha', 'chai' ],
     files: [
