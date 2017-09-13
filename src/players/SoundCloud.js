@@ -30,12 +30,20 @@ export default class SoundCloud extends Base {
       const { PLAY, PLAY_PROGRESS, PAUSE, FINISH, ERROR } = SC.Widget.Events
       if (!this.isReady) {
         this.player = SC.Widget(this.iframe)
-        this.player.bind(PLAY, this.onPlay)
+        this.player.bind(PLAY, () => {
+          // Use widgetIsPlaying to prevent calling play() when widget
+          // is playing, which causes bugs with the SC widget
+          this.widgetIsPlaying = true
+          this.onPlay()
+        })
+        this.player.bind(PAUSE, () => {
+          this.widgetIsPlaying = false
+          this.props.onPause()
+        })
         this.player.bind(PLAY_PROGRESS, e => {
           this.fractionPlayed = e.relativePosition
           this.fractionLoaded = e.loadedProgress
         })
-        this.player.bind(PAUSE, () => this.props.onPause())
         this.player.bind(FINISH, () => this.props.onEnded())
         this.player.bind(ERROR, e => this.props.onError(e))
       }
@@ -43,6 +51,7 @@ export default class SoundCloud extends Base {
         ...DEFAULT_OPTIONS,
         ...this.props.config.soundcloud.options,
         callback: () => {
+          this.widgetIsPlaying = false
           this.player.getDuration(duration => {
             this.duration = duration / 1000
             this.onReady()
@@ -56,10 +65,14 @@ export default class SoundCloud extends Base {
     return this.player[method](...args)
   }
   play () {
-    this.call('play')
+    if (!this.widgetIsPlaying) {
+      this.call('play')
+    }
   }
   pause () {
-    this.call('pause')
+    if (this.widgetIsPlaying) {
+      this.call('pause')
+    }
   }
   stop () {
     this.pause()
