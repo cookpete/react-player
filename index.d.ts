@@ -12,52 +12,80 @@ export interface TrackProps {
   default?: boolean;
 }
 
+export interface SoundCloudConfig {
+  options?: Object;
+}
+
+export interface YouTubeConfig {
+  playerVars?: Object;
+  preload?: boolean;
+}
+
+export interface FacebookConfig {
+  appId: string;
+}
+
+export interface DailyMotionConfig {
+  params?: Object;
+  preload?: boolean;
+}
+
+export interface VimeoConfig {
+  iframeParams?: Object;
+  preload?: boolean;
+}
+
+export interface VidmeConfig {
+  format?: string;
+}
+
+export interface WistiaConfig {
+  options?: Object;
+}
+
+export interface FileConfig {
+  attributes?: Object;
+  tracks?: TrackProps[];
+  forceAudio?: boolean;
+  forceHLS?: boolean;
+  forceDASH?: boolean;
+}
+
+export interface Config {
+  soundcloud?: SoundCloudConfig;
+  youtube?: YouTubeConfig;
+  facebook?: FacebookConfig;
+  dailymotion?: DailyMotionConfig;
+  vimeo?: VimeoConfig;
+  vidme?: VidmeConfig;
+  file?: FileConfig;
+  wistia?: WistiaConfig;
+}
+
 export interface ReactPlayerProps {
-  url?: string|string[]|SourceProps[];
+  url?: string | string[] | SourceProps[];
   playing?: boolean;
   loop?: boolean;
   controls?: boolean;
   volume?: number;
   muted?: boolean;
   playbackRate?: number;
-  width?: string|number;
-  height?: string|number;
+  width?: string | number;
+  height?: string | number;
   style?: Object;
   progressFrequency?: number;
   playsinline?: boolean;
   hidden?: boolean;
   className?: string;
-  soundcloudConfig?: {
-    options: Object;
-  };
-  youtubeConfig?: {
-    playerVars: Object;
-    preload: boolean;
-  };
-  facebookConfig?: {
-    appId: string;
-  };
-  dailymotionConfig?: {
-    params: Object;
-    preload: boolean;
-  };
-  vimeoConfig?: {
-    iframeParams: Object;
-    preload: boolean;
-  };
-  vidmeConfig?: {
-    format: string;
-  };
-  fileConfig?: {
-    attributes: Object;
-    tracks: TrackProps[];
-    forceAudio: boolean;
-    forceHLS: boolean;
-    forceDASH: boolean;
-  };
-  wistiaConfig?: {
-    options: Object;
-  };
+  config?: Config;
+  soundcloudConfig?: SoundCloudConfig;
+  youtubeConfig?: YouTubeConfig;
+  facebookConfig?: FacebookConfig;
+  dailymotionConfig?: DailyMotionConfig;
+  vimeoConfig?: VimeoConfig;
+  vidmeConfig?: VidmeConfig;
+  fileConfig?: FileConfig;
+  wistiaConfig?: WistiaConfig;
   onReady?(): void;
   onStart?(): void;
   onPlay?(): void;
