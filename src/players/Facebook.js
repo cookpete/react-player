@@ -53,7 +53,7 @@ export default class Facebook extends Base {
     this.callPlayer('pause')
   }
   stop () {
-    // No need to stop
+    // Nothing to do
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)

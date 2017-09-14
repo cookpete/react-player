@@ -70,8 +70,7 @@ export default class SoundCloud extends Base {
     }
   }
   stop () {
-    this.pause()
-    this.callPlayer('seekTo', 0)
+    // Nothing to do
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
