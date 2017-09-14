@@ -257,9 +257,9 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-auto-changelog@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/auto-changelog/-/auto-changelog-0.3.1.tgz#8543cfc1c85619a27423e0beec84e942431db231"
+auto-changelog@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/auto-changelog/-/auto-changelog-0.3.2.tgz#11d66047dbad4b108c172e3cf404e7c96d7af80c"
   dependencies:
     array.prototype.find "^2.0.0"
     commander "^2.9.0"
