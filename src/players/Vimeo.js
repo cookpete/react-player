@@ -68,6 +68,7 @@ export default class Vimeo extends Base {
     this.callPlayer('pause')
   }
   stop () {
+    if (this.preloading) return
     this.callPlayer('unload')
   }
   seekTo (amount) {

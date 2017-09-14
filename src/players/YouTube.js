@@ -80,6 +80,7 @@ export default class YouTube extends Base {
     this.callPlayer('pauseVideo')
   }
   stop () {
+    if (this.preloading) return
     if (!document.body.contains(this.callPlayer('getIframe'))) return
     this.callPlayer('stopVideo')
   }
