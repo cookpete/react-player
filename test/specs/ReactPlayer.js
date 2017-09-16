@@ -33,7 +33,8 @@ const TEST_URLS = [
   },
   {
     name: 'Streamable',
-    url: 'https://streamable.com/moo'
+    url: 'https://streamable.com/moo',
+    skip: true
   },
   {
     name: 'Vidme',
