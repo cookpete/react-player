@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Base from './Base'
+import createPlayer from '../createPlayer'
 import { getSDK, parseStartTime } from '../utils'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
@@ -9,36 +9,33 @@ const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
 const BLANK_VIDEO_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
 
-export default class YouTube extends Base {
-  static displayName = 'YouTube'
-  static canPlay (url) {
-    return MATCH_URL.test(url)
-  }
-  componentDidMount () {
-    const { url, config } = this.props
-    if (!url && config.youtube.preload) {
-      this.preloading = true
-      this.load(BLANK_VIDEO_URL)
-    }
-    super.componentDidMount()
-  }
-  load (url) {
-    const { playsinline, controls, config, onError } = this.props
+export default createPlayer({
+  displayName: 'YouTube',
+  matchURL: MATCH_URL,
+  shouldPreload: props => props.config.youtube.preload,
+  preloadURL: BLANK_VIDEO_URL,
+  loopOnEnded: true,
+  load: (url, callbacks, props, element, isReady, player) => new Promise(resolve => {
+    const { onReady, onPlay, onPause, onBuffer, onEnded, onError } = callbacks
+    const { playsinline, controls, config } = props
     const id = url && url.match(MATCH_URL)[1]
-    if (this.isReady) {
-      this.player.cueVideoById({
+    if (isReady) {
+      player.cueVideoById({
         videoId: id,
         startSeconds: parseStartTime(url)
       })
       return
     }
-    if (this.loadingSDK) {
-      this.loadOnReady = url
-      return
+    const onStateChange = ({ data }) => {
+      const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
+      if (data === PLAYING) onPlay()
+      if (data === PAUSED) onPause()
+      if (data === BUFFERING) onBuffer()
+      if (data === ENDED) onEnded()
+      if (data === CUED) onReady()
     }
-    this.loadingSDK = true
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, YT => YT.loaded).then(YT => {
-      this.player = new YT.Player(this.container, {
+      const player = new YT.Player(element, {
         width: '100%',
         height: '100%',
         videoId: id,
@@ -50,72 +47,36 @@ export default class YouTube extends Base {
           ...config.youtube.playerVars
         },
         events: {
-          onReady: this.onReady,
-          onStateChange: this.onStateChange,
+          onReady: onReady,
+          onStateChange: onStateChange,
           onError: event => onError(event.data)
         }
       })
+      resolve(player)
     }, onError)
-  }
-  onStateChange = ({ data }) => {
-    const { onPause, onBuffer } = this.props
-    const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
-    if (data === PLAYING) this.onPlay()
-    if (data === PAUSED) onPause()
-    if (data === BUFFERING) onBuffer()
-    if (data === ENDED) this.onEnded()
-    if (data === CUED) this.onReady()
-  }
-  onEnded = () => {
-    const { loop, onEnded } = this.props
-    if (loop) {
-      this.seekTo(0)
-    }
-    onEnded()
-  }
-  play () {
-    this.callPlayer('playVideo')
-  }
-  pause () {
-    this.callPlayer('pauseVideo')
-  }
-  stop () {
-    if (this.preloading) return
-    if (!document.body.contains(this.callPlayer('getIframe'))) return
-    this.callPlayer('stopVideo')
-  }
-  seekTo (amount) {
-    const seconds = super.seekTo(amount)
-    this.callPlayer('seekTo', seconds)
-  }
-  setVolume (fraction) {
-    this.callPlayer('setVolume', fraction * 100)
-  }
-  setPlaybackRate (rate) {
-    this.callPlayer('setPlaybackRate', rate)
-  }
-  getDuration () {
-    return this.callPlayer('getDuration')
-  }
-  getCurrentTime () {
-    return this.callPlayer('getCurrentTime')
-  }
-  getSecondsLoaded () {
-    return this.callPlayer('getVideoLoadedFraction') * this.getDuration()
-  }
-  ref = container => {
-    this.container = container
-  }
-  render () {
+  }),
+  play: 'playVideo',
+  pause: 'pauseVideo',
+  stop: player => {
+    if (!document.body.contains(player.getIframe())) return
+    player.stopVideo()
+  },
+  seekTo: 'seekTo',
+  setVolume: (player, fraction) => player.setVolume(fraction * 100),
+  setPlaybackRate: 'setPlaybackRate',
+  getDuration: 'getDuration',
+  getCurrentTime: 'getCurrentTime',
+  getSecondsLoaded: player => player.getVideoLoadedFraction() * player.getDuration(),
+  render: (props, ref) => {
     const style = {
       width: '100%',
       height: '100%',
-      display: this.props.url ? 'block' : 'none'
+      display: props.url ? 'block' : 'none'
     }
     return (
       <div style={style}>
-        <div ref={this.ref} />
+        <div ref={ref} />
       </div>
     )
   }
-}
+})
