@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import Base from './Base'
-import { getSDK, randomString } from '../utils'
+import { callPlayer, getSDK, randomString } from '../utils'
 
 const SDK_URL = '//connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
@@ -9,14 +8,15 @@ const SDK_GLOBAL_READY = 'fbAsyncInit'
 const MATCH_URL = /^https:\/\/www\.facebook\.com\/([^/?].+\/)?video(s|\.php)[/?].*$/
 const PLAYER_ID_PREFIX = 'facebook-player-'
 
-export default class Facebook extends Base {
+export default class Facebook extends Component {
   static displayName = 'Facebook'
-  static canPlay (url) {
-    return MATCH_URL.test(url)
-  }
+  static canPlay = url => MATCH_URL.test(url)
+  static loopOnEnded = true
+
+  callPlayer = callPlayer
   playerID = PLAYER_ID_PREFIX + randomString()
-  load (url) {
-    if (this.isReady) {
+  load (url, isReady) {
+    if (isReady) {
       getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY).then(FB => FB.XFBML.parse())
       return
     }
@@ -29,22 +29,15 @@ export default class Facebook extends Base {
       FB.Event.subscribe('xfbml.ready', msg => {
         if (msg.type === 'video' && msg.id === this.playerID) {
           this.player = msg.instance
-          this.player.subscribe('startedPlaying', this.onPlay)
+          this.player.subscribe('startedPlaying', this.props.onPlay)
           this.player.subscribe('paused', this.props.onPause)
-          this.player.subscribe('finishedPlaying', this.onEnded)
+          this.player.subscribe('finishedPlaying', this.props.onEnded)
           this.player.subscribe('startedBuffering', this.props.onBuffer)
           this.player.subscribe('error', this.props.onError)
-          this.onReady()
+          this.props.onReady()
         }
       })
     })
-  }
-  onEnded = () => {
-    const { loop, onEnded } = this.props
-    if (loop) {
-      this.seekTo(0)
-    }
-    onEnded()
   }
   play () {
     this.callPlayer('play')
@@ -55,15 +48,14 @@ export default class Facebook extends Base {
   stop () {
     // Nothing to do
   }
-  seekTo (amount) {
-    const seconds = super.seekTo(amount)
-    this.player.seek(seconds)
+  seekTo (seconds) {
+    this.callPlayer('seek', seconds)
   }
   setVolume (fraction) {
     if (fraction !== 0) {
       this.callPlayer('unmute')
     }
-    this.player.setVolume(fraction)
+    this.callPlayer('setVolume', fraction)
   }
   getDuration () {
     return this.callPlayer('getDuration')

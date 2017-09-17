@@ -1,30 +1,24 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import Base from './Base'
-import { getSDK } from '../utils'
+import { callPlayer, getSDK } from '../utils'
 
 const SDK_URL = '//cdn.embed.ly/player-0.0.12.min.js'
 const SDK_GLOBAL = 'playerjs'
 const MATCH_URL = /^https?:\/\/streamable.com\/([a-z0-9]+)$/
 
-export default class Streamable extends Base {
+export default class Streamable extends Component {
   static displayName = 'Streamable'
-  static canPlay (url) {
-    return MATCH_URL.test(url)
-  }
+  static canPlay = url => MATCH_URL.test(url)
+
+  callPlayer = callPlayer
   duration = null
   currentTime = null
   secondsLoaded = null
   load (url) {
-    if (this.loadingSDK) {
-      this.loadOnReady = url
-      return
-    }
-    this.loadingSDK = true
     getSDK(SDK_URL, SDK_GLOBAL).then(playerjs => {
       this.player = new playerjs.Player(this.iframe)
-      this.player.on('ready', this.onReady)
-      this.player.on('play', this.onPlay)
+      this.player.on('ready', this.props.onReady)
+      this.player.on('play', this.props.onPlay)
       this.player.on('pause', this.props.onPause)
       this.player.on('seeked', this.props.onSeek)
       this.player.on('ended', this.props.onEnded)
@@ -49,8 +43,7 @@ export default class Streamable extends Base {
   stop () {
     // Nothing to do
   }
-  seekTo (amount) {
-    const seconds = super.seekTo(amount)
+  seekTo (seconds) {
     this.callPlayer('setCurrentTime', seconds)
   }
   setVolume (fraction) {

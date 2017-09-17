@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import Base from './Base'
-import { getSDK, parseStartTime } from '../utils'
+import { callPlayer, getSDK, parseStartTime } from '../utils'
 
 const SDK_URL = 'https://api.dmcdn.net/all.js'
 const SDK_GLOBAL = 'DM'
@@ -9,19 +8,14 @@ const SDK_GLOBAL_READY = 'dmAsyncInit'
 const MATCH_URL = /^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/
 const BLANK_VIDEO_URL = 'http://www.dailymotion.com/video/x522udb'
 
-export default class DailyMotion extends Base {
+export default class DailyMotion extends Component {
   static displayName = 'DailyMotion'
-  static canPlay (url) {
-    return MATCH_URL.test(url)
-  }
-  componentDidMount () {
-    const { url, config } = this.props
-    if (!url && config.dailymotion.preload) {
-      this.preloading = true
-      this.load(BLANK_VIDEO_URL)
-    }
-    super.componentDidMount()
-  }
+  static canPlay = url => MATCH_URL.test(url)
+  static shouldPreload = props => props.config.dailymotion.preload
+  static preloadURL = BLANK_VIDEO_URL
+  static loopOnEnded = true
+
+  callPlayer = callPlayer
   parseId (url) {
     const m = url.match(MATCH_URL)
     return m[4] || m[2]
@@ -36,11 +30,6 @@ export default class DailyMotion extends Base {
       })
       return
     }
-    if (this.loadingSDK) {
-      this.loadOnReady = url
-      return
-    }
-    this.loadingSDK = true
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, DM => DM.player).then(DM => {
       const Player = DM.player
       this.player = new Player(this.container, {
@@ -55,32 +44,21 @@ export default class DailyMotion extends Base {
           ...config.dailymotion.params
         },
         events: {
-          apiready: () => {
-            this.loadingSDK = false
-            this.onReady()
-          },
+          apiready: this.props.onReady,
           seeked: () => this.props.onSeek(this.player.currentTime),
-          video_end: this.onEnded,
+          video_end: this.props.onEnded,
           durationchange: this.onDurationChange,
           pause: this.props.onPause,
-          playing: this.onPlay,
+          playing: this.props.onPlay,
           waiting: this.props.onBuffer,
           error: event => onError(event)
         }
       })
     }, onError)
   }
-  onDurationChange = (event) => {
-    const { onDuration } = this.props
+  onDurationChange = () => {
     const duration = this.getDuration()
-    onDuration(duration)
-  }
-  onEnded = () => {
-    const { loop, onEnded } = this.props
-    if (loop) {
-      this.seekTo(0)
-    }
-    onEnded()
+    this.props.onDuration(duration)
   }
   play () {
     this.callPlayer('play')
@@ -91,15 +69,13 @@ export default class DailyMotion extends Base {
   stop () {
     // Nothing to do
   }
-  seekTo (amount) {
-    const seconds = super.seekTo(amount)
+  seekTo (seconds) {
     this.callPlayer('seek', seconds)
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }
   getDuration () {
-    if (!this.isReady) return null
     return this.player.duration || null
   }
   getCurrentTime () {
