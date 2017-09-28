@@ -96,9 +96,9 @@ export default class FilePlayer extends Base {
     }
     if (this.shouldUseDASH(url)) {
       getSDK(DASH_SDK_URL, DASH_GLOBAL).then(dashjs => {
-        const player = dashjs.MediaPlayer().create()
-        player.initialize(this.player, url, true)
-        player.getDebug().setLogToBrowserConsole(false)
+        this.dash = dashjs.MediaPlayer().create()
+        this.dash.initialize(this.player, url, true)
+        this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
   }

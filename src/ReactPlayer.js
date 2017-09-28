@@ -70,9 +70,9 @@ export default class ReactPlayer extends Component {
     if (!this.player) return null
     return this.player.getCurrentTime()
   }
-  getInternalPlayer = () => {
+  getInternalPlayer = (key = 'player') => {
     if (!this.player) return null
-    return this.player.player
+    return this.player[key]
   }
   progress = () => {
     if (this.props.url && this.player && this.player.isReady) {
