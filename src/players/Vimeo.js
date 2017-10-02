@@ -25,7 +25,7 @@ export default class Vimeo extends Base {
     const id = url.match(MATCH_URL)[3]
     this.duration = null
     if (this.isReady) {
-      this.player.loadVideo(id)
+      this.player.loadVideo(id).catch(this.props.onError)
       return
     }
     if (this.loadingSDK) {
@@ -39,12 +39,12 @@ export default class Vimeo extends Base {
         url,
         loop: this.props.loop
       })
-      this.player.on('loaded', () => {
-        this.onReady()
+      this.player.ready().then(() => {
         const iframe = this.container.querySelector('iframe')
         iframe.style.width = '100%'
         iframe.style.height = '100%'
-      })
+      }).catch(this.props.onError)
+      this.player.on('loaded', this.onReady)
       this.player.on('play', ({ duration }) => {
         this.duration = duration
         this.onPlay()
@@ -92,7 +92,10 @@ export default class Vimeo extends Base {
   }
   render () {
     const style = {
+      width: '100%',
       height: '100%',
+      overflow: 'hidden',
+      backgroundColor: 'black',
       display: this.props.url ? 'block' : 'none'
     }
     return <div style={style} ref={this.ref} />
