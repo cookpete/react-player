@@ -39,27 +39,29 @@ export default class Vimeo extends Base {
         url,
         loop: this.props.loop
       })
-      this.player.on('loaded', () => {
-        this.onReady()
-        const iframe = this.container.querySelector('iframe')
-        iframe.style.width = '100%'
-        iframe.style.height = '100%'
-      })
-      this.player.on('play', ({ duration }) => {
-        this.duration = duration
-        this.onPlay()
-      })
-      this.player.on('pause', this.props.onPause)
-      this.player.on('seeked', e => this.props.onSeek(e.seconds))
-      this.player.on('ended', this.props.onEnded)
-      this.player.on('error', this.props.onError)
-      this.player.on('timeupdate', ({ seconds }) => {
-        this.currentTime = seconds
-      })
-      this.player.on('progress', ({ seconds }) => {
-        this.secondsLoaded = seconds
-      })
-    }, this.props.onError)
+      this.player.ready().then( () => {
+        this.player.on('loaded', () => {
+          this.onReady()
+          const iframe = this.container.querySelector('iframe')
+          iframe.style.width = '100%'
+          iframe.style.height = '100%'
+        })
+        this.player.on('play', ({ duration }) => {
+          this.duration = duration
+          this.onPlay()
+        })
+        this.player.on('pause', this.props.onPause)
+        this.player.on('seeked', e => this.props.onSeek(e.seconds))
+        this.player.on('ended', this.props.onEnded)
+        this.player.on('error', this.props.onError)
+        this.player.on('timeupdate', ({ seconds }) => {
+          this.currentTime = seconds
+        })
+        this.player.on('progress', ({ seconds }) => {
+          this.secondsLoaded = seconds
+        })
+      }).catch( this.props.onError )
+    })
   }
   play () {
     this.callPlayer('play')
