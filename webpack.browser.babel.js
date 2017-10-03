@@ -1,5 +1,4 @@
 import path from 'path'
-import webpack from 'webpack'
 import config, { minifyPlugins } from './webpack.production.babel'
 
 export default {
@@ -24,11 +23,5 @@ export default {
       }
     ]
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      'Promise': 'exports-loader?global.Promise!es6-promise',
-      'window.fetch': 'exports-loader?self.fetch!whatwg-fetch'
-    }),
-    ...minifyPlugins
-  ]
+  plugins: minifyPlugins
 }
