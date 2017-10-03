@@ -75,8 +75,6 @@ export interface ReactPlayerProps {
   style?: Object;
   progressFrequency?: number;
   playsinline?: boolean;
-  hidden?: boolean;
-  className?: string;
   config?: Config;
   soundcloudConfig?: SoundCloudConfig;
   youtubeConfig?: YouTubeConfig;
@@ -99,5 +97,9 @@ export interface ReactPlayerProps {
 }
 
 export default class ReactPlayer extends React.Component<ReactPlayerProps, any> {
+  static canPlay(url: string): boolean;
   seekTo(fraction: number): void;
+  getCurrentTime(): number;
+  getDuration(): number;
+  getInternalPlayer(key?: string): Object;
 }
