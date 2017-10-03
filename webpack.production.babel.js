@@ -21,7 +21,11 @@ export const minifyPlugins = [
 export default {
   ...config,
   devtool: 'source-map',
-  entry: './src/demo/index',
+  entry: [
+    'babel-polyfill',
+    'whatwg-fetch',
+    './src/demo/index'
+  ],
   plugins: [
     ...plugins,
     ...minifyPlugins,
