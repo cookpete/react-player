@@ -25,6 +25,7 @@ const TEST_URLS = [
   {
     name: 'Vimeo',
     url: 'https://vimeo.com/90509568',
+    error: 'http://vimeo.com/00000000',
     seek: true
   },
   {
@@ -33,8 +34,7 @@ const TEST_URLS = [
   },
   {
     name: 'Streamable',
-    url: 'https://streamable.com/moo',
-    skip: true
+    url: 'https://streamable.com/moo'
   },
   {
     name: 'Vidme',
@@ -170,6 +170,28 @@ describe('ReactPlayer', () => {
                 }
               }}
               onSeek={() => done()}
+            />,
+          div)
+        })
+      }
+
+      if (test.name === 'Vidme') {
+        it('plays a specific format', done => {
+          render(
+            <ReactPlayer
+              url='https://vid.me/GGho'
+              config={{ vidme: { format: '240p' } }}
+              onReady={() => done()}
+            />,
+          div)
+        })
+
+        it('ignores an unknown format', done => {
+          render(
+            <ReactPlayer
+              url='https://vid.me/GGho'
+              config={{ vidme: { format: 'test-unknown-format' } }}
+              onReady={() => done()}
             />,
           div)
         })

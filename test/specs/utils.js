@@ -131,7 +131,7 @@ describe('getConfig', () => {
         preload: true
       }
     }
-    const config = getConfig(props, { config: {} })
+    const config = getConfig(props, { config: {} }, true)
     expect(config).to.deep.equal({
       youtube: {
         playerVars: {
