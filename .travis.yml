@@ -12,8 +12,9 @@ node_js:
 script:
   - npm run lint
   - npm run test
-  - npm run build:compile
+  - npm run build:lib
   - npm run build:demo
+  - npm run build:dist
 after_success:
   - npm run coverage
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && sshpass -e scp -r -o stricthostkeychecking=no demo/* $DEPLOY_DEST

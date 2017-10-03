@@ -6,17 +6,17 @@
   "typings": "index.d.ts",
   "scripts": {
     "clean": "rimraf lib demo",
-    "build:demo": "cross-env NODE_ENV=production webpack --config webpack.production.babel.js",
-    "build:browser": "cross-env NODE_ENV=production webpack --config webpack.browser.babel.js",
-    "build:compile": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
     "start": "webpack-dev-server",
     "lint": "standard --verbose | snazzy",
     "test": "cross-env NODE_ENV=test babel-node ./node_modules/karma/bin/karma start test/karma.config.js",
     "coverage": "codecov",
+    "build:lib": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
+    "build:demo": "cross-env NODE_ENV=production webpack --config webpack.demo.babel.js",
+    "build:dist": "cross-env NODE_ENV=production webpack --config webpack.dist.babel.js",
     "preversion": "npm run lint",
-    "version": "npm run update-changelog && npm run build:browser && git add CHANGELOG.md dist",
+    "version": "npm run update-changelog && npm run build:dist && git add CHANGELOG.md dist",
     "update-changelog": "auto-changelog --package --template compact",
-    "prepublishOnly": "npm run build:compile && npm run build:browser",
+    "prepublishOnly": "npm run build:lib && npm run build:dist",
     "postpublish": "npm run clean"
   },
   "repository": {

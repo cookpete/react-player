@@ -1,5 +1,5 @@
 import path from 'path'
-import config, { minifyPlugins } from './webpack.production.babel'
+import config, { minifyPlugins } from './webpack.demo.babel'
 
 export default {
   ...config,
