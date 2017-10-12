@@ -15,6 +15,7 @@ export const propTypes = {
   style: object,
   progressFrequency: number,
   playsinline: bool,
+  crossOrigin: string,
   config: shape({
     soundcloud: shape({
       options: object
