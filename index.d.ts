@@ -93,7 +93,7 @@ export interface ReactPlayerProps {
   onError?(error: any): void;
   onDuration?(duration: number): void;
   onSeek?(seconds: number): void;
-  onProgress?(state: { played: number, loaded: number }): void;
+  onProgress?(state: { played: number, playedSeconds: number, loaded: number, loadedSeconds: number }): void;
 }
 
 export default class ReactPlayer extends React.Component<ReactPlayerProps, any> {
