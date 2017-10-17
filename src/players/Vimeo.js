@@ -46,11 +46,13 @@ export default class Vimeo extends Base {
         const iframe = this.container.querySelector('iframe')
         iframe.style.width = '100%'
         iframe.style.height = '100%'
+      }).catch(this.props.onError)
+      this.player.on('loaded', () => {
+        this.onReady()
         this.player.getDuration().then(duration => {
           this.duration = duration
         })
-      }).catch(this.props.onError)
-      this.player.on('loaded', this.onReady)
+      })
       this.player.on('play', this.onPlay)
       this.player.on('pause', this.props.onPause)
       this.player.on('seeked', e => this.props.onSeek(e.seconds))
