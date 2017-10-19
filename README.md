@@ -39,7 +39,7 @@ class App extends Component {
 
 See [the demo source](https://github.com/CookPete/react-player/blob/master/src/demo/App.js) for a full example.
 
-For platforms like [Meteor](https://www.meteor.com) without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:browser`
+For platforms like [Meteor](https://www.meteor.com) without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:dist`
 
 #### Bower
 
