@@ -119,7 +119,10 @@ export default class FilePlayer extends Base {
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
-    this.player.currentTime = seconds
+    if (seconds || seconds === 0) {
+      // it will looked better when ReactPlayer structure will migrated to composition
+      this.player.currentTime = seconds
+    }
   }
   setVolume (fraction) {
     this.player.volume = fraction

@@ -21,9 +21,12 @@ export default class Twitch extends Base {
     const id = isChannel ? url.match(MATCH_CHANNEL_URL)[1] : url.match(MATCH_VIDEO_URL)[1]
     if (this.isReady) {
       if (isChannel) {
+        this.props.onDuration(Infinity)
         this.player.setChannel(id)
       } else {
+        this.prevDuration = this.getDuration()
         this.player.setVideo('v' + id)
+        this.checkDurationChange()
       }
       return
     }
@@ -54,6 +57,14 @@ export default class Twitch extends Base {
     }
     onEnded()
   }
+  checkDurationChange = () => {
+    const duration = this.getDuration()
+    if (duration && duration !== this.prevDuration) {
+      this.props.onDuration(duration)
+    } else {
+      setTimeout(this.checkDurationChange, 100)
+    }
+  }
   play () {
     this.callPlayer('play')
   }
@@ -71,7 +82,9 @@ export default class Twitch extends Base {
     this.callPlayer('setVolume', fraction)
   }
   getDuration () {
-    return this.callPlayer('getDuration')
+    const duration = this.callPlayer('getDuration')
+    if (isFinite(duration)) return duration || null
+    return null
   }
   getCurrentTime () {
     return this.callPlayer('getCurrentTime')
