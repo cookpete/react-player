@@ -57,7 +57,7 @@ export default class Facebook extends Base {
   }
   seekTo (amount) {
     const seconds = super.seekTo(amount)
-    this.player.seek(seconds)
+    this.callPlayer('seek', seconds)
   }
   setVolume (fraction) {
     if (fraction !== 0) {

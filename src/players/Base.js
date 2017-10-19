@@ -2,14 +2,16 @@ import { Component } from 'react'
 
 import { propTypes, defaultProps } from '../props'
 
-const SEEK_ON_PLAY_EXPIRY = 5000
+const SEEK_ON_DURATION_EXPIRY = 5000
 
 export default class Base extends Component {
   static propTypes = propTypes
   static defaultProps = defaultProps
   isReady = false
   startOnPlay = true
-  seekOnPlay = null
+  seekOnDuration = null
+  seekOnDurationTimeout = null
+  durationCheckTimeout = null
   componentDidMount () {
     const { url } = this.props
     this.mounted = true
@@ -20,18 +22,20 @@ export default class Base extends Component {
   componentWillUnmount () {
     this.stop()
     this.mounted = false
+    clearTimeout(this.durationCheckTimeout)
+    clearTimeout(this.seekOnDurationTimeout)
   }
   componentWillReceiveProps (nextProps) {
     const { url, playing, volume, muted, playbackRate } = this.props
     // Invoke player methods based on incoming props
     if (url !== nextProps.url && nextProps.url) {
-      this.seekOnPlay = null
+      this.seekOnDuration = null
       this.startOnPlay = true
+      clearTimeout(this.seekOnDurationTimeout)
       this.load(nextProps.url)
     }
     if (url && !nextProps.url) {
       this.stop()
-      clearTimeout(this.updateTimeout)
     }
     if (!playing && nextProps.playing) {
       this.play()
@@ -72,10 +76,10 @@ export default class Base extends Component {
   seekTo (amount) {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && amount !== 0) {
-      this.seekOnPlay = amount
-      setTimeout(() => {
-        this.seekOnPlay = null
-      }, SEEK_ON_PLAY_EXPIRY)
+      this.seekOnDuration = amount
+      this.seekOnDurationTimeout = setTimeout(() => {
+        this.seekOnDuration = null
+      }, SEEK_ON_DURATION_EXPIRY)
     }
     // Return the seconds to seek to
     if (amount > 0 && amount < 1) {
@@ -95,11 +99,6 @@ export default class Base extends Component {
       this.startOnPlay = false
     }
     onPlay()
-    if (this.seekOnPlay) {
-      this.seekTo(this.seekOnPlay)
-      this.seekOnPlay = null
-    }
-    this.onDurationCheck()
   }
   onReady = () => {
     const { onReady, playing } = this.props
@@ -122,6 +121,11 @@ export default class Base extends Component {
     const duration = this.getDuration()
     if (duration) {
       this.props.onDuration(duration)
+      if (this.seekOnDuration) {
+        this.seekTo(this.seekOnDuration)
+        this.seekOnDuration = null
+        clearTimeout(this.seekOnDurationTimeout)
+      }
     } else {
       this.durationCheckTimeout = setTimeout(this.onDurationCheck, 100)
     }
