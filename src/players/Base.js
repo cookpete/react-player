@@ -2,7 +2,7 @@ import { Component } from 'react'
 
 import { propTypes, defaultProps } from '../props'
 
-const SEEK_ON_PLAY_EXPIRY = 5000
+const SEEK_ON_DURATION_EXPIRY = 5000
 
 export default class Base extends Component {
   static propTypes = propTypes
@@ -10,6 +10,8 @@ export default class Base extends Component {
   isReady = false
   startOnPlay = true
   seekOnDuration = null
+  seekOnDurationTimeout = null
+  durationCheckTimeout = null
   componentDidMount () {
     const { url } = this.props
     this.mounted = true
@@ -20,6 +22,8 @@ export default class Base extends Component {
   componentWillUnmount () {
     this.stop()
     this.mounted = false
+    clearTimeout(this.durationCheckTimeout)
+    clearTimeout(this.seekOnDurationTimeout)
   }
   componentWillReceiveProps (nextProps) {
     const { url, playing, volume, muted, playbackRate } = this.props
@@ -27,11 +31,11 @@ export default class Base extends Component {
     if (url !== nextProps.url && nextProps.url) {
       this.seekOnDuration = null
       this.startOnPlay = true
+      clearTimeout(this.seekOnDurationTimeout)
       this.load(nextProps.url)
     }
     if (url && !nextProps.url) {
       this.stop()
-      clearTimeout(this.updateTimeout)
     }
     if (!playing && nextProps.playing) {
       this.play()
@@ -73,9 +77,9 @@ export default class Base extends Component {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && amount !== 0) {
       this.seekOnDuration = amount
-      setTimeout(() => {
+      this.seekOnDurationTimeout = setTimeout(() => {
         this.seekOnDuration = null
-      }, SEEK_ON_PLAY_EXPIRY)
+      }, SEEK_ON_DURATION_EXPIRY)
     }
     // Return the seconds to seek to
     if (amount > 0 && amount < 1) {
@@ -120,6 +124,7 @@ export default class Base extends Component {
       if (this.seekOnDuration) {
         this.seekTo(this.seekOnDuration)
         this.seekOnDuration = null
+        clearTimeout(this.seekOnDurationTimeout)
       }
     } else {
       this.durationCheckTimeout = setTimeout(this.onDurationCheck, 100)

@@ -15,6 +15,10 @@ export default class Twitch extends Base {
     return MATCH_VIDEO_URL.test(url) || MATCH_CHANNEL_URL.test(url)
   }
   playerID = PLAYER_ID_PREFIX + randomString()
+  durationCheckChangeTimeout = null // it's bad naming, but durationCheckTimeout reserved by Base
+  componentWillUnmount() {
+    clearTimeout(this.durationCheckChangeTimeout)
+  }
   load (url) {
     const { playsinline, onError } = this.props
     const isChannel = MATCH_CHANNEL_URL.test(url)
@@ -62,7 +66,7 @@ export default class Twitch extends Base {
     if (duration && duration !== this.prevDuration) {
       this.props.onDuration(duration)
     } else {
-      setTimeout(this.checkDurationChange, 100)
+      this.durationCheckChangeTimeout = setTimeout(this.checkDurationChange, 100)
     }
   }
   play () {
