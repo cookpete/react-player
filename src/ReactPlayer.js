@@ -105,7 +105,6 @@ export default class ReactPlayer extends Component {
           <Player
             {...this.props}
             ref={this.activePlayerRef}
-            key={activePlayer.displayName}
             config={this.config}
             activePlayer={activePlayer}
           />
