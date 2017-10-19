@@ -15,12 +15,12 @@ export default class Player extends Component {
   seekOnPlay = null
   componentDidMount () {
     this.mounted = true
-    const { url, innerPlayer } = this.props
+    const { url, activePlayer } = this.props
     if (url) {
       this.player.load(url)
-    } else if (innerPlayer.shouldPreload && innerPlayer.shouldPreload(this.props)) {
+    } else if (activePlayer.shouldPreload && activePlayer.shouldPreload(this.props)) {
       this.preloading = true
-      this.player.load(innerPlayer.preloadURL)
+      this.player.load(activePlayer.preloadURL)
     }
   }
   componentWillUnmount () {
@@ -30,8 +30,8 @@ export default class Player extends Component {
     this.mounted = false
   }
   componentDidUpdate (prevProps) {
-    const { innerPlayer, url } = this.props
-    if (prevProps.innerPlayer !== innerPlayer) {
+    const { activePlayer, url } = this.props
+    if (prevProps.activePlayer !== activePlayer) {
       this.isReady = false
       this.seekOnPlay = null
       this.startOnPlay = true
@@ -40,8 +40,8 @@ export default class Player extends Component {
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
-    const { innerPlayer, url, playing, volume, muted, playbackRate } = this.props
-    if (innerPlayer !== nextProps.innerPlayer) {
+    const { activePlayer, url, playing, volume, muted, playbackRate } = this.props
+    if (activePlayer !== nextProps.activePlayer) {
       this.player.stop()
       return // A new player is coming, so don't invoke any other methods
     }
@@ -135,8 +135,8 @@ export default class Player extends Component {
     this.onDurationCheck()
   }
   onEnded = () => {
-    const { innerPlayer, loop, onEnded } = this.props
-    if (innerPlayer.loopOnEnded && loop) {
+    const { activePlayer, loop, onEnded } = this.props
+    if (activePlayer.loopOnEnded && loop) {
       this.seekTo(0)
     }
     onEnded()
@@ -156,7 +156,7 @@ export default class Player extends Component {
     }
   }
   render () {
-    const Player = this.props.innerPlayer
+    const Player = this.props.activePlayer
     return (
       <Player
         {...this.props}

@@ -98,16 +98,16 @@ export default class ReactPlayer extends Component {
   render () {
     const { url, style, width, height } = this.props
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
-    const innerPlayer = this.getActivePlayer(url)
+    const activePlayer = this.getActivePlayer(url)
     return (
       <div ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
-        {innerPlayer &&
+        {activePlayer &&
           <Player
             {...this.props}
             ref={this.activePlayerRef}
-            key={innerPlayer.displayName}
+            key={activePlayer.displayName}
             config={this.config}
-            innerPlayer={innerPlayer}
+            activePlayer={activePlayer}
           />
         }
         <PreloadPlayers
