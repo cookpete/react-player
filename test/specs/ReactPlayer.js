@@ -199,7 +199,7 @@ describe('ReactPlayer', () => {
     })
   }
 
-  describe.only('switching players', () => {
+  describe('switching players', () => {
     it('switches players', done => {
       const switchPlayer = () => {
         render(
