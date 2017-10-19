@@ -28,16 +28,15 @@ export default class ReactPlayer extends Component {
     clearTimeout(this.progressTimeout)
   }
   shouldComponentUpdate (nextProps) {
-    return (
-      this.props.url !== nextProps.url ||
-      this.props.playing !== nextProps.playing ||
-      this.props.volume !== nextProps.volume ||
-      this.props.muted !== nextProps.muted ||
-      this.props.playbackRate !== nextProps.playbackRate ||
-      this.props.height !== nextProps.height ||
-      this.props.width !== nextProps.width ||
-      this.props.hidden !== nextProps.hidden
-    )
+    for (let key of Object.keys(this.props)) {
+      const prop = this.props[key]
+      if (typeof prop !== 'function' && typeof prop !== 'object') {
+        if (prop !== nextProps[key]) {
+          return true
+        }
+      }
+    }
+    return false
   }
   seekTo = fraction => {
     if (!this.player) return null
