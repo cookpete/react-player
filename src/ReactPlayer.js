@@ -2,39 +2,17 @@ import React, { Component } from 'react'
 
 import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
 import { getConfig, omit } from './utils'
+import players from './players'
 import Player from './Player'
 import PreloadPlayers from './PreloadPlayers'
 
-import YouTube from './players/YouTube'
-import SoundCloud from './players/SoundCloud'
-import Vimeo from './players/Vimeo'
-import Facebook from './players/Facebook'
-import FilePlayer from './players/FilePlayer'
-import Streamable from './players/Streamable'
-import Vidme from './players/Vidme'
-import Wistia from './players/Wistia'
-import DailyMotion from './players/DailyMotion'
-import Twitch from './players/Twitch'
-
 const SUPPORTED_PROPS = Object.keys(propTypes)
-const SUPPORTED_PLAYERS = [
-  YouTube,
-  SoundCloud,
-  Vimeo,
-  Facebook,
-  Streamable,
-  Vidme,
-  Wistia,
-  Twitch,
-  DailyMotion
-]
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay = url => {
-    const players = [...SUPPORTED_PLAYERS, FilePlayer]
     for (let Player of players) {
       if (Player.canPlay(url)) {
         return true
@@ -103,7 +81,7 @@ export default class ReactPlayer extends Component {
   }
   getActivePlayer (url) {
     if (!url) return null
-    for (let Player of SUPPORTED_PLAYERS) {
+    for (let Player of players) {
       if (Player.canPlay(url)) {
         return Player
       }
