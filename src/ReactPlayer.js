@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
-import { getConfig, omit } from './utils'
+import { getConfig, omit, isObject } from './utils'
 import players from './players'
 import Player from './Player'
 import FilePlayer from './players/FilePlayer'
@@ -31,10 +31,8 @@ export default class ReactPlayer extends Component {
   shouldComponentUpdate (nextProps) {
     for (let key of Object.keys(this.props)) {
       const prop = this.props[key]
-      if (typeof prop !== 'function' && typeof prop !== 'object') {
-        if (prop !== nextProps[key]) {
-          return true
-        }
+      if (!isObject(prop) && prop !== nextProps[key]) {
+        return true
       }
     }
     return false
