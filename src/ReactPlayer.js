@@ -101,26 +101,15 @@ export default class ReactPlayer extends Component {
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }
-  renderActivePlayer (url) {
+  getActivePlayer (url) {
     if (!url) return null
     for (let Player of SUPPORTED_PLAYERS) {
       if (Player.canPlay(url)) {
-        return this.renderPlayer(Player)
+        return Player
       }
     }
     // Fall back to FilePlayer if nothing else can play the URL
-    return this.renderPlayer(FilePlayer)
-  }
-  renderPlayer = innerPlayer => {
-    return (
-      <Player
-        {...this.props}
-        ref={this.activePlayerRef}
-        key={innerPlayer.displayName}
-        config={this.config}
-        innerPlayer={innerPlayer}
-      />
-    )
+    return FilePlayer
   }
   activePlayerRef = player => {
     this.player = player
@@ -131,10 +120,18 @@ export default class ReactPlayer extends Component {
   render () {
     const { url, style, width, height } = this.props
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
-    const activePlayer = this.renderActivePlayer(url)
+    const innerPlayer = this.getActivePlayer(url)
     return (
       <div ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
-        {activePlayer}
+        {innerPlayer &&
+          <Player
+            {...this.props}
+            ref={this.activePlayerRef}
+            key={innerPlayer.displayName}
+            config={this.config}
+            innerPlayer={innerPlayer}
+          />
+        }
         <PreloadPlayers
           url={url}
           config={this.config}
