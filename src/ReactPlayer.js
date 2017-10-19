@@ -4,6 +4,7 @@ import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
 import { getConfig, omit } from './utils'
 import players from './players'
 import Player from './Player'
+import FilePlayer from './players/FilePlayer'
 import PreloadPlayers from './PreloadPlayers'
 
 const SUPPORTED_PROPS = Object.keys(propTypes)
