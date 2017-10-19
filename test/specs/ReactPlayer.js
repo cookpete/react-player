@@ -199,6 +199,31 @@ describe('ReactPlayer', () => {
     })
   }
 
+  describe.only('switching players', () => {
+    it('switches players', done => {
+      const switchPlayer = () => {
+        render(
+          <ReactPlayer
+            url='https://soundcloud.com/miami-nights-1984/accelerated'
+            playing
+            onPlay={() => done()}
+          />,
+        div)
+      }
+      render(
+        <ReactPlayer
+          url='https://www.youtube.com/watch?v=M7lc1UVf-VE'
+          playing
+          onProgress={p => {
+            if (p.playedSeconds >= 3) {
+              switchPlayer()
+            }
+          }}
+        />,
+      div)
+    })
+  })
+
   describe('instance methods', () => {
     let player
     beforeEach(done => {
