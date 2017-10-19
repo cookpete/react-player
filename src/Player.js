@@ -24,9 +24,7 @@ export default class Player extends Component {
     }
   }
   componentWillUnmount () {
-    if (!this.preloading) {
-      this.player.stop()
-    }
+    this.player.stop()
     this.mounted = false
   }
   componentDidUpdate (prevProps) {

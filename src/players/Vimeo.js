@@ -61,7 +61,6 @@ export default class Vimeo extends Component {
     this.callPlayer('pause')
   }
   stop () {
-    if (this.props.preloading) return
     this.callPlayer('unload')
   }
   seekTo (seconds) {

@@ -62,7 +62,6 @@ export default class YouTube extends Component {
     this.callPlayer('pauseVideo')
   }
   stop () {
-    if (this.props.preloading) return
     if (!document.body.contains(this.callPlayer('getIframe'))) return
     this.callPlayer('stopVideo')
   }
