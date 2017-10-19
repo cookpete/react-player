@@ -6,12 +6,12 @@ import Vimeo from './players/Vimeo'
 import DailyMotion from './players/DailyMotion'
 
 export default class PreloadPlayers extends Component {
-  renderPreloadPlayer = Player => {
+  renderPreloadPlayer = activePlayer => {
     return (
       <Player
-        key={Player.displayName}
+        key={activePlayer.displayName}
         config={this.props.config}
-        activePlayer={Player}
+        activePlayer={activePlayer}
       />
     )
   }
