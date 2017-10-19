@@ -68,8 +68,7 @@ export default class Wistia extends Component {
     const className = `wistia_embed wistia_async_${id}`
     const style = {
       width: '100%',
-      height: '100%',
-      display: this.props.url ? 'block' : 'none'
+      height: '100%'
     }
     return (
       <div key={id} className={className} style={style} />

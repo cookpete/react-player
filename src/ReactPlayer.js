@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
 import { getConfig, omit } from './utils'
 import Player from './Player'
+import PreloadPlayers from './PreloadPlayers'
 
 import YouTube from './players/YouTube'
 import SoundCloud from './players/SoundCloud'
@@ -127,38 +128,17 @@ export default class ReactPlayer extends Component {
   wrapperRef = wrapper => {
     this.wrapper = wrapper
   }
-  renderPreloadPlayers (url) {
-    // Render additional players if preload config is set
-    const preloadPlayers = []
-    if (!YouTube.canPlay(url) && this.config.youtube.preload) {
-      preloadPlayers.push(YouTube)
-    }
-    if (!Vimeo.canPlay(url) && this.config.vimeo.preload) {
-      preloadPlayers.push(Vimeo)
-    }
-    if (!DailyMotion.canPlay(url) && this.config.dailymotion.preload) {
-      preloadPlayers.push(DailyMotion)
-    }
-    return preloadPlayers.map(this.renderPreloadPlayer)
-  }
-  renderPreloadPlayer = innerPlayer => {
-    return (
-      <Player
-        key={innerPlayer.displayName}
-        config={this.config}
-        innerPlayer={innerPlayer}
-      />
-    )
-  }
   render () {
     const { url, style, width, height } = this.props
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
     const activePlayer = this.renderActivePlayer(url)
-    const preloadPlayers = this.renderPreloadPlayers(url)
     return (
       <div ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
         {activePlayer}
-        {preloadPlayers}
+        <PreloadPlayers
+          url={url}
+          config={this.config}
+        />
       </div>
     )
   }

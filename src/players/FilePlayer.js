@@ -157,8 +157,7 @@ export default class FilePlayer extends Component {
     const src = url instanceof Array || useHLS || useDASH ? undefined : url
     const style = {
       width: !width || width === 'auto' ? width : '100%',
-      height: !height || height === 'auto' ? height : '100%',
-      display: url ? 'block' : 'none'
+      height: !height || height === 'auto' ? height : '100%'
     }
     return (
       <Element

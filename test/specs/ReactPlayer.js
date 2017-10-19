@@ -241,10 +241,10 @@ describe('ReactPlayer', () => {
 
     it('renders with preload config', () => {
       expect(player.wrapper).to.be.a('HTMLDivElement')
-      expect(player.wrapper.childNodes).to.have.length(3)
-      for (let div of player.wrapper.childNodes) {
-        expect(div.style.display).to.equal('none')
-      }
+      expect(player.wrapper.childNodes).to.have.length(1)
+      expect(player.wrapper.firstChild).to.be.a('HTMLDivElement')
+      expect(player.wrapper.firstChild.style.display).to.equal('none')
+      expect(player.wrapper.firstChild.childNodes).to.have.length(3)
     })
   })
 

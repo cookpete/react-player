@@ -91,8 +91,7 @@ export default class DailyMotion extends Component {
     const style = {
       width: '100%',
       height: '100%',
-      backgroundColor: 'black',
-      display: this.props.url ? 'block' : 'none'
+      backgroundColor: 'black'
     }
     return (
       <div style={style}>
