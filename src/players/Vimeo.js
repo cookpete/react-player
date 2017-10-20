@@ -12,6 +12,7 @@ export default class Vimeo extends Component {
   static canPlay = url => MATCH_URL.test(url)
   static shouldPreload = props => props.config.vimeo.preload
   static preloadURL = BLANK_VIDEO_URL
+  static configName = 'vimeo'
 
   callPlayer = callPlayer
   duration = null

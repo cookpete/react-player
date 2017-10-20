@@ -21,3 +21,9 @@ export default [
   DailyMotion,
   FilePlayer
 ]
+
+export const preloadPlayers = [
+  YouTube,
+  Vimeo,
+  DailyMotion
+]

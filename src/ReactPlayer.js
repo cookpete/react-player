@@ -24,9 +24,11 @@ export default class ReactPlayer extends Component {
   config = getConfig(this.props, defaultProps, true)
   componentDidMount () {
     this.progress()
+    this.mounted = true
   }
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
+    this.mounted = false
   }
   shouldComponentUpdate (nextProps) {
     for (let key of Object.keys(this.props)) {
@@ -107,10 +109,12 @@ export default class ReactPlayer extends Component {
             activePlayer={activePlayer}
           />
         }
-        <PreloadPlayers
-          url={url}
-          config={this.config}
-        />
+        {!this.mounted && // render PreloadPlayers only once
+          <PreloadPlayers
+            url={url}
+            config={this.config}
+          />
+        }
       </div>
     )
   }
