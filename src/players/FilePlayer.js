@@ -114,7 +114,10 @@ export default class FilePlayer extends Base {
   stop () {
     this.player.removeAttribute('src')
     if (this.hls) {
-      this.hls.detachMedia()
+      this.hls.destroy()
+    }
+    if (this.dash) {
+      this.dash.reset()
     }
   }
   seekTo (amount) {
