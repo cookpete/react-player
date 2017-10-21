@@ -4,7 +4,7 @@ import { preloadPlayers } from './players'
 
 export default class PreloadPlayers extends Component {
   players = {}
-  componentDidMount() {
+  componentDidMount () {
     // extract preload logic from Player.js
     Object.values(this.players).forEach(player => {
       player.load(player.constructor.preloadURL)
@@ -26,7 +26,7 @@ export default class PreloadPlayers extends Component {
           onReady={this.emptyFunction}
           onEnded={this.emptyFunction}
           onError={this.emptyFunction}
-          config = {config}
+          config={config}
           key={displayName}
           ref={this.ref}
           preloading
