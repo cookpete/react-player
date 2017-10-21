@@ -14,6 +14,7 @@ export default class YouTube extends Component {
   static shouldPreload = props => props.config.youtube.preload
   static preloadURL = BLANK_VIDEO_URL
   static loopOnEnded = true
+  static configName = 'youtube'
 
   callPlayer = callPlayer
   load (url, isReady) {

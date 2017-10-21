@@ -14,6 +14,7 @@ export default class DailyMotion extends Component {
   static shouldPreload = props => props.config.dailymotion.preload
   static preloadURL = BLANK_VIDEO_URL
   static loopOnEnded = true
+  static configName = 'dailymotion'
 
   callPlayer = callPlayer
   parseId (url) {

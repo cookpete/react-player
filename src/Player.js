@@ -4,24 +4,21 @@ import { propTypes, defaultProps } from './props'
 
 const SEEK_ON_PLAY_EXPIRY = 5000
 
-export default class Player extends Component {
-  static displayName = 'Player'
+// I think that word "Player" better looks like abstraction for "one of players"
+// and better rename Player to something else
+// but not call that component as PlayerContainer - it's really bad, it's not Container
+// maybe something like PlayerNormalizer?
+export default class PlayerNormalizer extends Component {
+  static displayName = 'PlayerNormalizer'
   static propTypes = propTypes
   static defaultProps = defaultProps
   mounted = false
   isReady = false
-  preloading = false
   startOnPlay = true
   seekOnPlay = null
   componentDidMount () {
     this.mounted = true
-    const { url, activePlayer } = this.props
-    if (url) {
-      this.player.load(url)
-    } else if (activePlayer.shouldPreload && activePlayer.shouldPreload(this.props)) {
-      this.preloading = true
-      this.player.load(activePlayer.preloadURL)
-    }
+    this.player.load(this.props.url)
   }
   componentWillUnmount () {
     this.player.stop()
@@ -119,16 +116,12 @@ export default class Player extends Component {
     if (!this.mounted) return
     const { onReady, playing } = this.props
     this.isReady = true
-    this.loadingSDK = false
     onReady()
-    if (playing || this.preloading) {
-      this.preloading = false
-      if (this.loadOnReady) {
-        this.player.load(this.loadOnReady)
-        this.loadOnReady = null
-      } else {
-        this.player.play()
-      }
+    if (this.loadOnReady) {
+      this.player.load(this.loadOnReady)
+      this.loadOnReady = null
+    } else if (playing) {
+      this.player.play()
     }
     this.onDurationCheck()
   }
@@ -154,6 +147,7 @@ export default class Player extends Component {
     }
   }
   render () {
+    // at my opinion `{ Player } = this.props` seems better
     const Player = this.props.activePlayer
     return (
       <Player
