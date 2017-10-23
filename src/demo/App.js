@@ -27,7 +27,7 @@ export default class App extends Component {
     loaded: 0,
     duration: 0,
     playbackRate: 1.0,
-    loop: false,
+    loop: false
   }
   load = url => {
     this.setState({
@@ -43,7 +43,7 @@ export default class App extends Component {
     this.setState({ url: null, playing: false })
   }
   toggleLoop = () => {
-    this.setState({ loop : !this.state.loop });
+    this.setState({ loop: !this.state.loop })
   }
   setVolume = e => {
     this.setState({ volume: parseFloat(e.target.value) })
@@ -137,7 +137,7 @@ export default class App extends Component {
               onPause={this.onPause}
               onBuffer={() => console.log('onBuffer')}
               onSeek={e => console.log('onSeek', e)}
-              onEnded={() => this.setState({ playing: loop ? true : false })}
+              onEnded={() => this.setState({ playing: loop })}
               onError={e => console.log('onError', e)}
               onProgress={this.onProgress}
               onDuration={duration => this.setState({ duration })}

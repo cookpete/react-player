@@ -22,7 +22,7 @@ export default class Base extends Component {
     this.mounted = false
   }
   componentWillReceiveProps (nextProps) {
-    const { url, playing, volume, muted, playbackRate, loop } = this.props
+    const { url, playing, volume, muted, playbackRate } = this.props
     // Invoke player methods based on incoming props
     if (url !== nextProps.url && nextProps.url) {
       this.seekOnPlay = null
@@ -51,7 +51,7 @@ export default class Base extends Component {
   }
   shouldComponentUpdate (nextProps) {
     return this.props.url !== nextProps.url ||
-           this.props.loop !== nextProps.loop;
+           this.props.loop !== nextProps.loop
   }
   callPlayer (method, ...args) {
     // Util method for calling a method on this.player
