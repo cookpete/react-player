@@ -154,8 +154,7 @@ export default class ReactPlayer extends Component {
     const preloadPlayers = this.renderPreloadPlayers(url)
     return (
       <div ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
-        {activePlayer}
-        {preloadPlayers}
+        {[ activePlayer, ...preloadPlayers ]}
       </div>
     )
   }
