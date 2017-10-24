@@ -91,3 +91,24 @@ export function omit (object, ...arrays) {
   }
   return output
 }
+
+export function callPlayer (method, ...args) {
+  // Util method for calling a method on this.player
+  // but guard against errors and console.warn instead
+  if (!this.player || !this.player[method]) {
+    let message = `ReactPlayer: ${this.constructor.displayName} player could not call %c${method}%c – `
+    if (!this.player) {
+      message += 'The player was not available'
+    } else if (!this.player[method]) {
+      message += 'The method was not available'
+    }
+    console.warn(message, 'font-weight: bold', '')
+    return null
+  }
+  return this.player[method](...args)
+}
+
+export function isObject (val) {
+  if (val === null) return false
+  return typeof val === 'function' || typeof val === 'object'
+}

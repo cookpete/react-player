@@ -7,9 +7,8 @@ const cache = {} // Cache song data requests
 
 export default class Vidme extends FilePlayer {
   static displayName = 'Vidme'
-  static canPlay (url) {
-    return MATCH_URL.test(url)
-  }
+  static canPlay = url => MATCH_URL.test(url)
+
   getData (url) {
     const { onError } = this.props
     const id = url.match(MATCH_URL)[1]
@@ -42,7 +41,6 @@ export default class Vidme extends FilePlayer {
     const { onError } = this.props
     this.stop()
     this.getData(url).then(data => {
-      if (!this.mounted) return
       this.player.src = this.getURL(data)
     }, onError)
   }

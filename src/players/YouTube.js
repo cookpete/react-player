@@ -1,42 +1,28 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import Base from './Base'
-import { getSDK, parseStartTime } from '../utils'
+import { callPlayer, getSDK, parseStartTime } from '../utils'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_URL = /^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
-const BLANK_VIDEO_URL = 'https://www.youtube.com/watch?v=GlCmAC4MHek'
 
-export default class YouTube extends Base {
+export default class YouTube extends Component {
   static displayName = 'YouTube'
-  static canPlay (url) {
-    return MATCH_URL.test(url)
-  }
-  componentDidMount () {
-    const { url, config } = this.props
-    if (!url && config.youtube.preload) {
-      this.preloading = true
-      this.load(BLANK_VIDEO_URL)
-    }
-    super.componentDidMount()
-  }
-  load (url) {
+  static canPlay = url => MATCH_URL.test(url)
+  static loopOnEnded = true
+
+  callPlayer = callPlayer
+  load (url, isReady) {
     const { playsinline, controls, config, onError } = this.props
     const id = url && url.match(MATCH_URL)[1]
-    if (this.isReady) {
+    if (isReady) {
       this.player.cueVideoById({
         videoId: id,
         startSeconds: parseStartTime(url)
       })
       return
     }
-    if (this.loadingSDK) {
-      this.loadOnReady = url
-      return
-    }
-    this.loadingSDK = true
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, YT => YT.loaded).then(YT => {
       this.player = new YT.Player(this.container, {
         width: '100%',
@@ -50,7 +36,7 @@ export default class YouTube extends Base {
           ...config.youtube.playerVars
         },
         events: {
-          onReady: this.onReady,
+          onReady: this.props.onReady,
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
         }
@@ -58,20 +44,13 @@ export default class YouTube extends Base {
     }, onError)
   }
   onStateChange = ({ data }) => {
-    const { onPause, onBuffer } = this.props
+    const { onPlay, onPause, onBuffer, onEnded, onReady } = this.props
     const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
-    if (data === PLAYING) this.onPlay()
+    if (data === PLAYING) onPlay()
     if (data === PAUSED) onPause()
     if (data === BUFFERING) onBuffer()
-    if (data === ENDED) this.onEnded()
-    if (data === CUED) this.onReady()
-  }
-  onEnded = () => {
-    const { loop, onEnded } = this.props
-    if (loop) {
-      this.seekTo(0)
-    }
-    onEnded()
+    if (data === ENDED) onEnded()
+    if (data === CUED) onReady()
   }
   play () {
     this.callPlayer('playVideo')
@@ -80,13 +59,11 @@ export default class YouTube extends Base {
     this.callPlayer('pauseVideo')
   }
   stop () {
-    if (this.preloading) return
     if (!document.body.contains(this.callPlayer('getIframe'))) return
     this.callPlayer('stopVideo')
   }
   seekTo (amount) {
-    const seconds = super.seekTo(amount)
-    this.callPlayer('seekTo', seconds)
+    this.callPlayer('seekTo', amount)
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
@@ -110,7 +87,7 @@ export default class YouTube extends Base {
     const style = {
       width: '100%',
       height: '100%',
-      display: this.props.url ? 'block' : 'none'
+      ...this.props.style
     }
     return (
       <div style={style}>

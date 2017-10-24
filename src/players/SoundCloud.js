@@ -1,44 +1,27 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import Base from './Base'
-import { getSDK } from '../utils'
+import { callPlayer, getSDK } from '../utils'
 
 const SDK_URL = 'https://w.soundcloud.com/player/api.js'
 const SDK_GLOBAL = 'SC'
 const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]+)$/
-const DEFAULT_OPTIONS = {
-  visual: true, // Undocumented, but makes player fill container and look better
-  buying: false,
-  liking: false,
-  download: false,
-  sharing: false,
-  show_comments: false,
-  show_playcount: false
-}
 
-export default class SoundCloud extends Base {
+export default class SoundCloud extends Component {
   static displayName = 'SoundCloud'
-  static canPlay (url) {
-    return MATCH_URL.test(url)
-  }
+  static canPlay = url => MATCH_URL.test(url)
+  static loopOnEnded = true
+
+  callPlayer = callPlayer
   duration = null
   currentTime = null
   fractionLoaded = null
-  load (url) {
+  load (url, isReady) {
     getSDK(SDK_URL, SDK_GLOBAL).then(SC => {
       const { PLAY, PLAY_PROGRESS, PAUSE, FINISH, ERROR } = SC.Widget.Events
-      if (!this.isReady) {
+      if (!isReady) {
         this.player = SC.Widget(this.iframe)
-        this.player.bind(PLAY, () => {
-          // Use widgetIsPlaying to prevent calling play() when widget
-          // is playing, which causes bugs with the SC widget
-          this.widgetIsPlaying = true
-          this.onPlay()
-        })
-        this.player.bind(PAUSE, () => {
-          this.widgetIsPlaying = false
-          this.props.onPause()
-        })
+        this.player.bind(PLAY, this.props.onPlay)
+        this.player.bind(PAUSE, this.props.onPause)
         this.player.bind(PLAY_PROGRESS, e => {
           this.currentTime = e.currentPosition / 1000
           this.fractionLoaded = e.loadedProgress
@@ -47,33 +30,26 @@ export default class SoundCloud extends Base {
         this.player.bind(ERROR, e => this.props.onError(e))
       }
       this.player.load(url, {
-        ...DEFAULT_OPTIONS,
         ...this.props.config.soundcloud.options,
         callback: () => {
-          this.widgetIsPlaying = false
           this.player.getDuration(duration => {
             this.duration = duration / 1000
-            this.onReady()
+            this.props.onReady()
           })
         }
       })
     })
   }
   play () {
-    if (!this.widgetIsPlaying) {
-      this.callPlayer('play')
-    }
+    this.callPlayer('play')
   }
   pause () {
-    if (this.widgetIsPlaying) {
-      this.callPlayer('pause')
-    }
+    this.callPlayer('pause')
   }
   stop () {
     // Nothing to do
   }
-  seekTo (amount) {
-    const seconds = super.seekTo(amount)
+  seekTo (seconds) {
     this.callPlayer('seekTo', seconds * 1000)
   }
   setVolume (fraction) {

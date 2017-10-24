@@ -1,37 +1,19 @@
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
-import { getConfig, omit } from './utils'
-import YouTube from './players/YouTube'
-import SoundCloud from './players/SoundCloud'
-import Vimeo from './players/Vimeo'
-import Facebook from './players/Facebook'
+import { getConfig, omit, isObject } from './utils'
+import players from './players'
+import Player from './Player'
 import FilePlayer from './players/FilePlayer'
-import Streamable from './players/Streamable'
-import Vidme from './players/Vidme'
-import Wistia from './players/Wistia'
-import DailyMotion from './players/DailyMotion'
-import Twitch from './players/Twitch'
+import renderPreloadPlayers from './preload'
 
 const SUPPORTED_PROPS = Object.keys(propTypes)
-const SUPPORTED_PLAYERS = [
-  YouTube,
-  SoundCloud,
-  Vimeo,
-  Facebook,
-  Streamable,
-  Vidme,
-  Wistia,
-  Twitch,
-  DailyMotion
-]
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay = url => {
-    const players = [...SUPPORTED_PLAYERS, FilePlayer]
     for (let Player of players) {
       if (Player.canPlay(url)) {
         return true
@@ -47,17 +29,13 @@ export default class ReactPlayer extends Component {
     clearTimeout(this.progressTimeout)
   }
   shouldComponentUpdate (nextProps) {
-    return (
-      this.props.url !== nextProps.url ||
-      this.props.playing !== nextProps.playing ||
-      this.props.loop !== nextProps.loop ||
-      this.props.volume !== nextProps.volume ||
-      this.props.muted !== nextProps.muted ||
-      this.props.playbackRate !== nextProps.playbackRate ||
-      this.props.height !== nextProps.height ||
-      this.props.width !== nextProps.width ||
-      this.props.hidden !== nextProps.hidden
-    )
+    for (let key of Object.keys(this.props)) {
+      const prop = this.props[key]
+      if (!isObject(prop) && prop !== nextProps[key]) {
+        return true
+      }
+    }
+    return false
   }
   seekTo = fraction => {
     if (!this.player) return null
@@ -99,51 +77,31 @@ export default class ReactPlayer extends Component {
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }
-  renderActivePlayer (url) {
-    if (!url) return null
-    for (let Player of SUPPORTED_PLAYERS) {
+  getActivePlayer (url) {
+    for (let Player of players) {
       if (Player.canPlay(url)) {
-        return this.renderPlayer(Player)
+        return Player
       }
     }
     // Fall back to FilePlayer if nothing else can play the URL
-    return this.renderPlayer(FilePlayer)
-  }
-  renderPlayer = Player => {
-    return (
-      <Player
-        {...this.props}
-        ref={this.activePlayerRef}
-        key={Player.displayName}
-        config={this.config}
-      />
-    )
-  }
-  activePlayerRef = player => {
-    this.player = player
+    return FilePlayer
   }
   wrapperRef = wrapper => {
     this.wrapper = wrapper
   }
-  renderPreloadPlayers (url) {
-    // Render additional players if preload config is set
-    const preloadPlayers = []
-    if (!YouTube.canPlay(url) && this.config.youtube.preload) {
-      preloadPlayers.push(YouTube)
-    }
-    if (!Vimeo.canPlay(url) && this.config.vimeo.preload) {
-      preloadPlayers.push(Vimeo)
-    }
-    if (!DailyMotion.canPlay(url) && this.config.dailymotion.preload) {
-      preloadPlayers.push(DailyMotion)
-    }
-    return preloadPlayers.map(this.renderPreloadPlayer)
+  activePlayerRef = player => {
+    this.player = player
   }
-  renderPreloadPlayer = Player => {
+  renderActivePlayer (url) {
+    if (!url) return null
+    const activePlayer = this.getActivePlayer(url)
     return (
       <Player
-        key={Player.displayName}
+        {...this.props}
+        key={activePlayer.displayName}
+        ref={this.activePlayerRef}
         config={this.config}
+        activePlayer={activePlayer}
       />
     )
   }
@@ -151,7 +109,7 @@ export default class ReactPlayer extends Component {
     const { url, style, width, height } = this.props
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
     const activePlayer = this.renderActivePlayer(url)
-    const preloadPlayers = this.renderPreloadPlayers(url)
+    const preloadPlayers = renderPreloadPlayers(url, this.config)
     return (
       <div ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
         {[ activePlayer, ...preloadPlayers ]}

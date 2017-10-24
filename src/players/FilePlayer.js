@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-import Base from './Base'
 import { getSDK } from '../utils'
 
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
@@ -12,36 +11,37 @@ const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.5.0/dash.all.min.js'
 const DASH_GLOBAL = 'dashjs'
 
-export default class FilePlayer extends Base {
-  static displayName = 'FilePlayer'
-  static canPlay (url) {
-    if (url instanceof Array) {
-      for (let item of url) {
-        if (typeof item === 'string' && this.canPlay(item)) {
-          return true
-        }
-        if (this.canPlay(item.src)) {
-          return true
-        }
+function canPlay (url) {
+  if (url instanceof Array) {
+    for (let item of url) {
+      if (typeof item === 'string' && canPlay(item)) {
+        return true
       }
-      return false
+      if (canPlay(item.src)) {
+        return true
+      }
     }
-    return (
-      AUDIO_EXTENSIONS.test(url) ||
-      VIDEO_EXTENSIONS.test(url) ||
-      HLS_EXTENSIONS.test(url) ||
-      DASH_EXTENSIONS.test(url)
-    )
+    return false
   }
+  return (
+    AUDIO_EXTENSIONS.test(url) ||
+    VIDEO_EXTENSIONS.test(url) ||
+    HLS_EXTENSIONS.test(url) ||
+    DASH_EXTENSIONS.test(url)
+  )
+}
+
+export default class FilePlayer extends Component {
+  static displayName = 'FilePlayer'
+  static canPlay = canPlay
+
   componentDidMount () {
     this.addListeners()
-    super.componentDidMount()
   }
   componentWillReceiveProps (nextProps) {
     if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(nextProps)) {
       this.removeListeners()
     }
-    super.componentWillReceiveProps(nextProps)
   }
   componentDidUpdate (prevProps) {
     if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(prevProps)) {
@@ -50,12 +50,11 @@ export default class FilePlayer extends Base {
   }
   componentWillUnmount () {
     this.removeListeners()
-    super.componentWillUnmount()
   }
   addListeners () {
-    const { playsinline, onPause, onEnded, onError } = this.props
-    this.player.addEventListener('canplay', this.onReady)
-    this.player.addEventListener('play', this.onPlay)
+    const { onReady, onPlay, onPause, onEnded, onError, playsinline } = this.props
+    this.player.addEventListener('canplay', onReady)
+    this.player.addEventListener('play', onPlay)
     this.player.addEventListener('pause', onPause)
     this.player.addEventListener('seeked', this.onSeek)
     this.player.addEventListener('ended', onEnded)
@@ -66,9 +65,9 @@ export default class FilePlayer extends Base {
     }
   }
   removeListeners () {
-    const { onPause, onEnded, onError } = this.props
-    this.player.removeEventListener('canplay', this.onReady)
-    this.player.removeEventListener('play', this.onPlay)
+    const { onReady, onPlay, onPause, onEnded, onError } = this.props
+    this.player.removeEventListener('canplay', onReady)
+    this.player.removeEventListener('play', onPlay)
     this.player.removeEventListener('pause', onPause)
     this.player.removeEventListener('seeked', this.onSeek)
     this.player.removeEventListener('ended', onEnded)
@@ -120,8 +119,7 @@ export default class FilePlayer extends Base {
       this.dash.reset()
     }
   }
-  seekTo (amount) {
-    const seconds = super.seekTo(amount)
+  seekTo (seconds) {
     this.player.currentTime = seconds
   }
   setVolume (fraction) {
@@ -162,8 +160,7 @@ export default class FilePlayer extends Base {
     const src = url instanceof Array || useHLS || useDASH ? undefined : url
     const style = {
       width: !width || width === 'auto' ? width : '100%',
-      height: !height || height === 'auto' ? height : '100%',
-      display: url ? 'block' : 'none'
+      height: !height || height === 'auto' ? height : '100%'
     }
     return (
       <Element
