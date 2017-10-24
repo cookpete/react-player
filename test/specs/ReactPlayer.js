@@ -25,6 +25,7 @@ const TEST_URLS = [
   {
     name: 'Vimeo',
     url: 'https://vimeo.com/90509568',
+    error: 'http://vimeo.com/00000000',
     seek: true
   },
   {
@@ -33,8 +34,7 @@ const TEST_URLS = [
   },
   {
     name: 'Streamable',
-    url: 'https://streamable.com/moo',
-    skip: true
+    url: 'https://streamable.com/moo'
   },
   {
     name: 'Vidme',
@@ -174,8 +174,55 @@ describe('ReactPlayer', () => {
           div)
         })
       }
+
+      if (test.name === 'Vidme') {
+        it('plays a specific format', done => {
+          render(
+            <ReactPlayer
+              url='https://vid.me/GGho'
+              config={{ vidme: { format: '240p' } }}
+              onReady={() => done()}
+            />,
+          div)
+        })
+
+        it('ignores an unknown format', done => {
+          render(
+            <ReactPlayer
+              url='https://vid.me/GGho'
+              config={{ vidme: { format: 'test-unknown-format' } }}
+              onReady={() => done()}
+            />,
+          div)
+        })
+      }
     })
   }
+
+  describe('switching players', () => {
+    it('switches players', done => {
+      const switchPlayer = () => {
+        render(
+          <ReactPlayer
+            url='https://soundcloud.com/miami-nights-1984/accelerated'
+            playing
+            onPlay={() => done()}
+          />,
+        div)
+      }
+      render(
+        <ReactPlayer
+          url='https://www.youtube.com/watch?v=M7lc1UVf-VE'
+          playing
+          onProgress={p => {
+            if (p.playedSeconds >= 3) {
+              switchPlayer()
+            }
+          }}
+        />,
+      div)
+    })
+  })
 
   describe('instance methods', () => {
     let player
@@ -220,8 +267,9 @@ describe('ReactPlayer', () => {
     it('renders with preload config', () => {
       expect(player.wrapper).to.be.a('HTMLDivElement')
       expect(player.wrapper.childNodes).to.have.length(3)
-      for (let div of player.wrapper.childNodes) {
-        expect(div.style.display).to.equal('none')
+      for (let node of player.wrapper.childNodes) {
+        expect(node).to.be.a('HTMLDivElement')
+        expect(node.style.display).to.equal('none')
       }
     })
   })
