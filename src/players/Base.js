@@ -50,7 +50,8 @@ export default class Base extends Component {
     }
   }
   shouldComponentUpdate (nextProps) {
-    return this.props.url !== nextProps.url
+    return this.props.url !== nextProps.url ||
+           this.props.loop !== nextProps.loop
   }
   callPlayer (method, ...args) {
     // Util method for calling a method on this.player

@@ -26,7 +26,8 @@ export default class App extends Component {
     played: 0,
     loaded: 0,
     duration: 0,
-    playbackRate: 1.0
+    playbackRate: 1.0,
+    loop: false
   }
   load = url => {
     this.setState({
@@ -40,6 +41,9 @@ export default class App extends Component {
   }
   stop = () => {
     this.setState({ url: null, playing: false })
+  }
+  toggleLoop = () => {
+    this.setState({ loop: !this.state.loop })
   }
   setVolume = e => {
     this.setState({ volume: parseFloat(e.target.value) })
@@ -97,7 +101,7 @@ export default class App extends Component {
   }
   render () {
     const {
-      url, playing, volume, muted,
+      url, playing, volume, muted, loop,
       played, loaded, duration,
       playbackRate,
       soundcloudConfig,
@@ -119,6 +123,7 @@ export default class App extends Component {
               height='100%'
               url={url}
               playing={playing}
+              loop={loop}
               playbackRate={playbackRate}
               volume={volume}
               muted={muted}
@@ -132,7 +137,7 @@ export default class App extends Component {
               onPause={this.onPause}
               onBuffer={() => console.log('onBuffer')}
               onSeek={e => console.log('onSeek', e)}
-              onEnded={() => this.setState({ playing: false })}
+              onEnded={() => this.setState({ playing: loop })}
               onError={e => console.log('onError', e)}
               onProgress={this.onProgress}
               onDuration={duration => this.setState({ duration })}
@@ -169,6 +174,13 @@ export default class App extends Component {
                 <input type='range' min={0} max={1} step='any' value={volume} onChange={this.setVolume} />
                 <label>
                   <input type='checkbox' checked={muted} onChange={this.toggleMuted} /> Muted
+                </label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>
+                  <input type='checkbox' checked={loop} onChange={this.toggleLoop} /> Loop
                 </label>
               </td>
             </tr>

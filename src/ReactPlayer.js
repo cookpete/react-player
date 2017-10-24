@@ -50,6 +50,7 @@ export default class ReactPlayer extends Component {
     return (
       this.props.url !== nextProps.url ||
       this.props.playing !== nextProps.playing ||
+      this.props.loop !== nextProps.loop ||
       this.props.volume !== nextProps.volume ||
       this.props.muted !== nextProps.muted ||
       this.props.playbackRate !== nextProps.playbackRate ||
