@@ -1,6 +1,6 @@
 {
   "name": "react-player",
-  "version": "0.25.2",
+  "version": "0.25.3",
   "description": "A react component for playing a variety of URLs, including file paths, YouTube, Facebook, SoundCloud, Streamable, Vidme, Vimeo and Wistia",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
