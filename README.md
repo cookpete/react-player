@@ -2,11 +2,12 @@ ReactPlayer
 ===========
 
 [![Latest npm version](https://img.shields.io/npm/v/react-player.svg)](https://www.npmjs.com/package/react-player)
+[![Next npm version](https://img.shields.io/npm/v/react-player/next.svg)](https://www.npmjs.com/package/react-player)
 [![Build Status](https://img.shields.io/travis/CookPete/react-player/master.svg)](https://travis-ci.org/CookPete/react-player)
 [![Dependency Status](https://img.shields.io/david/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player)
 [![devDependency Status](https://img.shields.io/david/dev/CookPete/react-player.svg)](https://david-dm.org/CookPete/react-player?type=dev)
 [![Test Coverage](https://img.shields.io/codecov/c/github/cookpete/react-player.svg)](https://codecov.io/gh/CookPete/react-player)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/ckpt)
+[![Donate](https://img.shields.io/badge/donate-PayPal-blue.svg)](https://paypal.me/ckpt)
 
 A react component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vidme, Vimeo, Wistia and DailyMotion.
 
