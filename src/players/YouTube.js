@@ -24,6 +24,7 @@ export default class YouTube extends Component {
       return
     }
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, YT => YT.loaded).then(YT => {
+      if (!this.container) return
       this.player = new YT.Player(this.container, {
         width: '100%',
         height: '100%',

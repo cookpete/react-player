@@ -41,6 +41,7 @@ export default class Vidme extends FilePlayer {
     const { onError } = this.props
     this.stop()
     this.getData(url).then(data => {
+      if (!this.player) return
       this.player.src = this.getURL(data)
     }, onError)
   }

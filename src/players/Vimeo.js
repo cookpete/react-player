@@ -22,6 +22,7 @@ export default class Vimeo extends Component {
       return
     }
     getSDK(SDK_URL, SDK_GLOBAL).then(Vimeo => {
+      if (!this.container) return
       this.player = new Vimeo.Player(this.container, {
         ...this.props.config.vimeo.playerOptions,
         url,

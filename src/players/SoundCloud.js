@@ -17,6 +17,7 @@ export default class SoundCloud extends Component {
   fractionLoaded = null
   load (url, isReady) {
     getSDK(SDK_URL, SDK_GLOBAL).then(SC => {
+      if (!this.iframe) return
       const { PLAY, PLAY_PROGRESS, PAUSE, FINISH, ERROR } = SC.Widget.Events
       if (!isReady) {
         this.player = SC.Widget(this.iframe)

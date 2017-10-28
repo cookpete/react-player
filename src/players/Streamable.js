@@ -16,6 +16,7 @@ export default class Streamable extends Component {
   secondsLoaded = null
   load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(playerjs => {
+      if (!this.iframe) return
       this.player = new playerjs.Player(this.iframe)
       this.player.on('ready', this.props.onReady)
       this.player.on('play', this.props.onPlay)

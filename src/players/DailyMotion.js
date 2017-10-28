@@ -28,6 +28,7 @@ export default class DailyMotion extends Component {
       return
     }
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, DM => DM.player).then(DM => {
+      if (!this.container) return
       const Player = DM.player
       this.player = new Player(this.container, {
         width: '100%',
