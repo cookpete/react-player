@@ -147,8 +147,8 @@ Key | Options
 --- | -------
 `youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`preload`: Used for [preloading](#preloading)
 `facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)
-`soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)
-`vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters)<br />`preload`: Used for [preloading](#preloading).
+`soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)<br />`preload`: Used for [preloading](#preloading)
+`vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters)<br />`preload`: Used for [preloading](#preloading)
 `vidme` | `format`: Use a certain quality of video, when available<br />&nbsp; ◦ &nbsp;Possible values: `240p`, `480p`, `720p`, `1080p`, `dash`, `hls`
 `wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)
 `dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)<br />`preload`: Used for [preloading](#preloading)

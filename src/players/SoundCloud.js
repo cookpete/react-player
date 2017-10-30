@@ -71,7 +71,8 @@ export default class SoundCloud extends Component {
   render () {
     const style = {
       width: '100%',
-      height: '100%'
+      height: '100%',
+      ...this.props.style
     }
     return (
       <iframe

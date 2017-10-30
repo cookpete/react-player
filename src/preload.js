@@ -2,6 +2,7 @@ import React from 'react'
 
 import Player from './Player'
 import YouTube from './players/YouTube'
+import SoundCloud from './players/SoundCloud'
 import Vimeo from './players/Vimeo'
 import DailyMotion from './players/DailyMotion'
 
@@ -10,6 +11,11 @@ const PRELOAD_PLAYERS = [
     Player: YouTube,
     configKey: 'youtube',
     url: 'https://www.youtube.com/watch?v=GlCmAC4MHek'
+  },
+  {
+    Player: SoundCloud,
+    configKey: 'soundcloud',
+    url: 'https://soundcloud.com/seucheu/john-cage-433-8-bit-version'
   },
   {
     Player: Vimeo,
