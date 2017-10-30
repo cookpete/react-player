@@ -35,6 +35,7 @@ export default class Player extends Component {
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     const { activePlayer, url, playing, volume, muted, playbackRate } = this.props
+
     if (activePlayer !== nextProps.activePlayer) {
       this.player.stop()
       return // A new player is coming, so don't invoke any other methods
@@ -155,12 +156,14 @@ export default class Player extends Component {
   }
   render () {
     const Player = this.props.activePlayer
+
     return (
       <Player
         {...this.props}
         ref={this.ref}
         onReady={this.onReady}
         onPlay={this.onPlay}
+        onPause={this.onPause}
         onEnded={this.onEnded}
       />
     )
