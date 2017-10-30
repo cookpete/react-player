@@ -64,7 +64,7 @@ export default class SoundCloud extends Component {
 
             this.props.onReady()
           })
-          .catch(console.error)
+          .catch(this.props.onError)
       }
     })
   }
