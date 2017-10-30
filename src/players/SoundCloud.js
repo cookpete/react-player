@@ -2,43 +2,70 @@ import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
 
-const SDK_URL = 'https://w.soundcloud.com/player/api.js'
+const SDK_URL = 'https://connect.soundcloud.com/sdk/sdk-3.0.0.js'
 const SDK_GLOBAL = 'SC'
 const MATCH_URL = /^https?:\/\/(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]+)$/
+
+const ERRORS = ['geo_blocked', 'no_streams', 'no_connection', 'no_protocol', 'audio_error']
 
 export default class SoundCloud extends Component {
   static displayName = 'SoundCloud'
   static canPlay = url => MATCH_URL.test(url)
   static loopOnEnded = true
 
+  track = null
+
   callPlayer = callPlayer
   duration = null
   currentTime = null
   fractionLoaded = null
+
+  constructor (props, context) {
+    super(props, context)
+
+    this.state = {
+      track: null
+    }
+  }
+
+  pSetState (stateModifications) {
+    return new Promise((resolve, reject) => {
+      this.setState(stateModifications, resolve)
+    })
+  }
+
   load (url, isReady) {
     getSDK(SDK_URL, SDK_GLOBAL).then(SC => {
-      if (!this.iframe) return
-      const { PLAY, PLAY_PROGRESS, PAUSE, FINISH, ERROR } = SC.Widget.Events
       if (!isReady) {
-        this.player = SC.Widget(this.iframe)
-        this.player.bind(PLAY, this.props.onPlay)
-        this.player.bind(PAUSE, this.props.onPause)
-        this.player.bind(PLAY_PROGRESS, e => {
-          this.currentTime = e.currentPosition / 1000
-          this.fractionLoaded = e.loadedProgress
-        })
-        this.player.bind(FINISH, () => this.props.onEnded())
-        this.player.bind(ERROR, e => this.props.onError(e))
-      }
-      this.player.load(url, {
-        ...this.props.config.soundcloud.options,
-        callback: () => {
-          this.player.getDuration(duration => {
-            this.duration = duration / 1000
+        SC.initialize({ client_id: this.props.config.soundcloud.clientId })
+        SC.get('/resolve', { url: this.props.url })
+          .then((track) => {
+            return this.pSetState({ track })
+                       .then(() => track)
+          })
+          .then((track) => {
+            this.duration = track.duration / 1000
+            return SC.stream('/tracks/' + track.id, { autoPlay: true })
+          })
+          .then((player) => {
+            this.player = player
+
+            this.player.on('play', this.props.onPlay)
+            this.player.on('pause', this.props.onPause)
+            this.player.on('time', () => {
+              this.currentTime = this.player.controller._currentPosition / 1000
+              this.fractionLoaded = this.player.controller._loadedPosition
+            })
+            this.player.on('finish', () => this.props.onEnded())
+
+            ERRORS.forEach((error) => {
+              this.player.on(error, (e) => this.props.onError(e))
+            })
+
             this.props.onReady()
           })
-        }
-      })
+          .catch(this.props.onError)
+      }
     })
   }
   play () {
@@ -48,13 +75,13 @@ export default class SoundCloud extends Component {
     this.callPlayer('pause')
   }
   stop () {
-    // Nothing to do
+    this.player.pause()
   }
   seekTo (seconds) {
-    this.callPlayer('seekTo', seconds * 1000)
+    this.callPlayer('seek', seconds * 1000)
   }
   setVolume (fraction) {
-    this.callPlayer('setVolume', fraction * 100)
+    this.callPlayer('setVolume', fraction)
   }
   getDuration () {
     return this.duration
@@ -65,21 +92,16 @@ export default class SoundCloud extends Component {
   getSecondsLoaded () {
     return this.fractionLoaded * this.duration
   }
-  ref = iframe => {
-    this.iframe = iframe
-  }
   render () {
     const style = {
       width: '100%',
       height: '100%'
     }
+
+    const artwork = this.state.track ? this.state.track.artwork_url : ''
+
     return (
-      <iframe
-        ref={this.ref}
-        src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(this.props.url)}`}
-        style={style}
-        frameBorder={0}
-      />
+      <img src={artwork} style={style} />
     )
   }
 }
