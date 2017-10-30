@@ -14,8 +14,7 @@
     "build:demo": "cross-env NODE_ENV=production webpack --config webpack.demo.babel.js",
     "build:dist": "cross-env NODE_ENV=production webpack --config webpack.dist.babel.js",
     "preversion": "npm run lint",
-    "version": "npm run update-changelog && npm run build:dist && git add CHANGELOG.md dist",
-    "update-changelog": "auto-changelog --package --template compact",
+    "version": "auto-changelog -p && npm run build:dist && git add CHANGELOG.md dist",
     "prepublishOnly": "npm run build:lib && npm run build:dist",
     "postpublish": "npm run clean"
   },
