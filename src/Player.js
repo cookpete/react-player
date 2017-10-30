@@ -161,6 +161,7 @@ export default class Player extends Component {
         ref={this.ref}
         onReady={this.onReady}
         onPlay={this.onPlay}
+        onPause={this.onPause}
         onEnded={this.onEnded}
       />
     )
