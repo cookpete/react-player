@@ -4,8 +4,8 @@ import { callPlayer, getSDK, randomString } from '../utils'
 
 const SDK_URL = '//player.twitch.tv/js/embed/v1.js'
 const SDK_GLOBAL = 'Twitch'
-const MATCH_VIDEO_URL = /^(?:https?:\/\/)?(?:www\.)twitch\.tv\/videos\/(\d+)($|\?)/
-const MATCH_CHANNEL_URL = /^(?:https?:\/\/)?(?:www\.)twitch\.tv\/([a-z0-9_]+)($|\?)/
+const MATCH_VIDEO_URL = /^(?:https?:\/\/)?(?:www\.)|(?:go\.)twitch\.tv\/videos\/(\d+)($|\?)/
+const MATCH_CHANNEL_URL = /^(?:https?:\/\/)?(?:www\.)|(?:go\.)twitch\.tv\/([a-z0-9_]+)($|\?)/
 const PLAYER_ID_PREFIX = 'twitch-player-'
 
 export default class Twitch extends Component {
