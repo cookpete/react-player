@@ -105,14 +105,22 @@ export default class ReactPlayer extends Component {
       />
     )
   }
+  sortPlayers (a, b) {
+    // Retain player order to prevent weird iframe behaviour when switching players
+    if (a && b) {
+      return a.key < b.key ? -1 : 1
+    }
+    return 0
+  }
   render () {
     const { url, style, width, height } = this.props
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
     const activePlayer = this.renderActivePlayer(url)
     const preloadPlayers = renderPreloadPlayers(url, this.config)
+    const players = [ activePlayer, ...preloadPlayers ].sort(this.sortPlayers)
     return (
       <div ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
-        {[ activePlayer, ...preloadPlayers ]}
+        {players}
       </div>
     )
   }
