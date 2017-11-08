@@ -4,6 +4,7 @@ import SoundCloud from '../../src/players/SoundCloud'
 import YouTube from '../../src/players/YouTube'
 import Vimeo from '../../src/players/Vimeo'
 import Wistia from '../../src/players/Wistia'
+import Twitch from '../../src/players/Twitch'
 
 const { describe, it, expect } = window
 
@@ -65,6 +66,23 @@ describe('canPlay', () => {
       expect(Wistia.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.false
       expect(Wistia.canPlay('http://vimeo.com/1234')).to.be.false
       expect(Wistia.canPlay('https://www.youtube.com/watch?v=1234')).to.be.false
+    })
+  })
+
+  describe('Twitch', () => {
+    it('knows what it can play', () => {
+      expect(Twitch.canPlay('https://www.twitch.tv/videos/106400740')).to.be.true
+      expect(Twitch.canPlay('https://www.twitch.tv/kronovi')).to.be.true
+      expect(Twitch.canPlay('https://twitch.tv/videos/106400740')).to.be.true
+      expect(Twitch.canPlay('https://twitch.tv/kronovi')).to.be.true
+      expect(Twitch.canPlay('https://go.twitch.tv/videos/186996540')).to.be.true
+      expect(Twitch.canPlay('https://go.twitch.tv/kronovi')).to.be.true
+    })
+
+    it('knows what it can\'t play', () => {
+      expect(Twitch.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.false
+      expect(Twitch.canPlay('http://vimeo.com/1234')).to.be.false
+      expect(Twitch.canPlay('https://www.youtube.com/watch?v=1234')).to.be.false
     })
   })
 })
