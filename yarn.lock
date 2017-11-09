@@ -264,15 +264,15 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-auto-changelog@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/auto-changelog/-/auto-changelog-1.0.1.tgz#c9bc5859a6134a19ff6a3c443bdd82ca6b950a1a"
+auto-changelog@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/auto-changelog/-/auto-changelog-1.1.0.tgz#4f042b3b05d0dbdf247daf7436bd41803bbf6598"
   dependencies:
     babel-polyfill "^6.26.0"
     commander "^2.9.0"
     fs-extra "^4.0.2"
     handlebars "^4.0.11"
-    parse-github-url "^1.0.0"
+    parse-github-url "^1.0.1"
     semver "^5.1.0"
 
 autoprefixer@^6.3.1:
@@ -4508,9 +4508,9 @@ parse-asn1@^5.0.0:
     evp_bytestokey "^1.0.0"
     pbkdf2 "^3.0.3"
 
-parse-github-url@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/parse-github-url/-/parse-github-url-1.0.0.tgz#d0c50b592d5a252c61a8540a421dfe8e571cf45a"
+parse-github-url@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/parse-github-url/-/parse-github-url-1.0.1.tgz#af8d10e58cca8cfcc6e8975dd56942ccb36f5119"
 
 parse-glob@^3.0.4:
   version "3.0.4"
