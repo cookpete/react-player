@@ -137,6 +137,9 @@ export default class Player extends Component {
     if (activePlayer.loopOnEnded && loop) {
       this.seekTo(0)
     }
+    if (!loop) {
+      this.isPlaying = false
+    }
     onEnded()
   }
   onDurationCheck = () => {
