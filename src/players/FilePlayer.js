@@ -138,12 +138,12 @@ export default class FilePlayer extends Component {
     if (this.player.buffered.length === 0) return 0
     return this.player.buffered.end(0)
   }
-  renderSource = source => {
+  renderSource = (source, index) => {
     if (typeof source === 'string') {
-      return <source key={source} src={source} />
+      return <source key={index} src={source} />
     }
     const { src, type } = source
-    return <source key={src} src={src} type={type} />
+    return <source key={index} src={src} type={type} />
   }
   renderTrack = (track, index) => {
     return <track key={index} {...track} />
