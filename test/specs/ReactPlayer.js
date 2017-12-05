@@ -206,6 +206,23 @@ describe('ReactPlayer', () => {
             />,
           div)
         })
+
+        it('seekTo fraction', done => {
+          let player
+          render(
+            <ReactPlayer
+              ref={p => { player = p || player }}
+              url={test.url}
+              playing
+              onProgress={p => {
+                if (p.playedSeconds >= 3) {
+                  player.seekTo(0.5)
+                }
+              }}
+              onSeek={() => done()}
+            />,
+          div)
+        })
       }
 
       if (test.name === 'Vidme') {
