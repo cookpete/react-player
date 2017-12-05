@@ -249,6 +249,38 @@ describe('ReactPlayer', () => {
     })
   }
 
+  describe('playbackRate change', () => {
+    it('updates correctly', () => {
+      let player
+      const updatePlayer = () => {
+        render(
+          <ReactPlayer
+            url='http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
+            playbackRate={0.5}
+            onProgress={() => {
+              const p = player.getInternalPlayer()
+              if (p && p.playbackRate === 0.5) {
+                updatePlayer()
+              }
+            }}
+          />,
+        div)
+      }
+      render(
+        <ReactPlayer
+          ref={p => { player = p }}
+          url='http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
+          onProgress={() => {
+            const p = player.getInternalPlayer()
+            if (p && p.playbackRate === 1) {
+              updatePlayer()
+            }
+          }}
+        />,
+      div)
+    })
+  })
+
   describe('instance methods', () => {
     let player
     beforeEach(done => {

@@ -1,4 +1,4 @@
-import { parseStartTime, randomString, omit, getConfig } from '../../src/utils'
+import { parseStartTime, randomString, omit, getConfig, callPlayer } from '../../src/utils'
 
 const { describe, it, expect } = window
 
@@ -141,5 +141,38 @@ describe('getConfig', () => {
         preload: true
       }
     })
+  })
+})
+
+describe('callPlayer', () => {
+  it('calls a player method', () => {
+    const fakePlayer = {
+      player: {
+        testMethod: () => 'result'
+      }
+    }
+    expect(callPlayer.call(fakePlayer, 'testMethod')).to.equal('result')
+  })
+
+  it('returns null when player is not available', () => {
+    const fakePlayer = {
+      constructor: {
+        displayName: 'TestPlayer'
+      },
+      player: null
+    }
+    expect(callPlayer.call(fakePlayer, 'testMethod')).to.equal(null)
+  })
+
+  it('returns null when method is not available', () => {
+    const fakePlayer = {
+      constructor: {
+        displayName: 'TestPlayer'
+      },
+      player: {
+        testMethod: null
+      }
+    }
+    expect(callPlayer.call(fakePlayer, 'testMethod')).to.equal(null)
   })
 })
