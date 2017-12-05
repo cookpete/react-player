@@ -29,9 +29,6 @@ export default class Player extends Component {
     if (url !== nextProps.url) {
       this.player.load(nextProps.url, this.isReady)
     }
-    if (url && !nextProps.url) {
-      this.player.stop()
-    }
     if (!playing && nextProps.playing && !this.isPlaying) {
       this.player.play()
     }
