@@ -42,6 +42,12 @@ describe('canPlay', () => {
     it('knows what it can play', () => {
       expect(Vimeo.canPlay('http://vimeo.com/1234')).to.be.true
       expect(Vimeo.canPlay('https://vimeo.com/1234')).to.be.true
+      expect(Vimeo.canPlay('https://www.vimeo.com/1234')).to.be.true
+      expect(Vimeo.canPlay('https://vimeo.com/ondemand/tinact/84954874')).to.be.true
+      expect(Vimeo.canPlay('https://vimeo.com/channels/staffpicks/40004005')).to.be.true
+      expect(Vimeo.canPlay('https://vimeo.com/groups/motion/videos/73234721')).to.be.true
+      expect(Vimeo.canPlay('https://vimeo.com/album/3953264/video/166790294')).to.be.true
+      expect(Vimeo.canPlay('https://player.vimeo.com/video/40004005')).to.be.true
     })
 
     it('knows what it can\'t play', () => {
