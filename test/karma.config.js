@@ -2,16 +2,14 @@ import webpackConfig from '../webpack.config.babel'
 
 export default function (config) {
   config.set({
-    browsers: process.env.TRAVIS ? [ 'ChromeTravis' ] : [ 'Chrome' ],
+    browsers: ['Chrome'],
     singleRun: true,
-    frameworks: [ 'mocha', 'chai' ],
-    files: [
-      'karma.webpack.js'
-    ],
+    frameworks: ['mocha', 'chai'],
+    files: ['karma.webpack.js'],
     preprocessors: {
-      'karma.webpack.js': [ 'webpack', 'sourcemap' ]
+      'karma.webpack.js': ['webpack', 'sourcemap']
     },
-    reporters: [ 'mocha', 'coverage' ],
+    reporters: ['mocha', 'coverage'],
     webpack: {
       ...webpackConfig,
       devtool: 'inline-source-map'
@@ -25,12 +23,6 @@ export default function (config) {
       }
     },
     browserNoActivityTimeout: 60000,
-    customLaunchers: {
-      ChromeTravis: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
-    },
     coverageReporter: {
       dir: 'coverage',
       reporters: [
