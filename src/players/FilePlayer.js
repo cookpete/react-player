@@ -131,7 +131,7 @@ export default class FilePlayer extends Base {
     this.player.playbackRate = rate
   }
   getDuration () {
-    return this.player.duration
+    return this.player ? this.player.duration : 0
   }
   getCurrentTime () {
     return this.player.currentTime
