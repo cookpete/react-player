@@ -37,10 +37,6 @@ export default class ReactPlayer extends Component {
     }
     return false
   }
-  seekTo = fraction => {
-    if (!this.player) return null
-    this.player.seekTo(fraction)
-  }
   getDuration = () => {
     if (!this.player) return null
     return this.player.getDuration()
@@ -51,7 +47,11 @@ export default class ReactPlayer extends Component {
   }
   getInternalPlayer = (key = 'player') => {
     if (!this.player) return null
-    return this.player[key]
+    return this.player.getInternalPlayer(key)
+  }
+  seekTo = fraction => {
+    if (!this.player) return null
+    this.player.seekTo(fraction)
   }
   progress = () => {
     if (this.props.url && this.player && this.player.isReady) {

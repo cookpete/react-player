@@ -45,6 +45,10 @@ export default class Player extends Component {
       this.player.setPlaybackRate(nextProps.playbackRate)
     }
   }
+  getDuration () {
+    if (!this.isReady) return null
+    return this.player.getDuration()
+  }
   getCurrentTime () {
     if (!this.isReady) return null
     return this.player.getCurrentTime()
@@ -53,9 +57,9 @@ export default class Player extends Component {
     if (!this.isReady) return null
     return this.player.getSecondsLoaded()
   }
-  getDuration () {
-    if (!this.isReady) return null
-    return this.player.getDuration()
+  getInternalPlayer = (key) => {
+    if (!this.player) return null
+    return this.player[key]
   }
   seekTo (amount) {
     // When seeking before player is ready, store value and seek later
