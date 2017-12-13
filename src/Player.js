@@ -89,12 +89,7 @@ export default class Player extends Component {
     this.loadingSDK = false
     onReady()
     if (playing) {
-      if (this.loadOnReady) {
-        this.player.load(this.loadOnReady)
-        this.loadOnReady = null
-      } else {
-        this.player.play()
-      }
+      this.player.play()
     }
     this.onDurationCheck()
   }
