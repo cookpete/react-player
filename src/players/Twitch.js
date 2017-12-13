@@ -33,7 +33,8 @@ export default class Twitch extends Component {
         channel: isChannel ? id : '',
         height: '100%',
         width: '100%',
-        playsinline: playsinline
+        playsinline: playsinline,
+        autoplay: this.props.playing
       })
       const { READY, PLAY, PAUSE, ENDED } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)
