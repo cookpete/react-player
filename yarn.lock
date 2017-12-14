@@ -264,7 +264,7 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-auto-changelog@^1.1.0:
+auto-changelog@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/auto-changelog/-/auto-changelog-1.2.2.tgz#86d3f71448c63ec52798056802e8468d9af05dd9"
   dependencies:
