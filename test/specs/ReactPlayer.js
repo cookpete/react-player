@@ -116,7 +116,7 @@ describe('ReactPlayer', () => {
     renderPlayer({
       ...props,
       onProgress: p => {
-        if (changeProps && p.playedSeconds > 1) {
+        if (changeProps && p.playedSeconds > 3) {
           renderPlayer({ ...props, ...changeProps })
           if (onChange) {
             onChange()
