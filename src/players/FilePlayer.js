@@ -80,7 +80,8 @@ export default class FilePlayer extends Component {
     return AUDIO_EXTENSIONS.test(props.url) || props.config.file.forceAudio
   }
   shouldUseHLS (url) {
-    return HLS_EXTENSIONS.test(url) || this.props.config.file.forceHLS
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    return (HLS_EXTENSIONS.test(url) && !iOS) || this.props.config.file.forceHLS
   }
   shouldUseDASH (url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
