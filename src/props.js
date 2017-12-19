@@ -34,9 +34,6 @@ export const propTypes = {
       iframeParams: object,
       preload: bool
     }),
-    vidme: shape({
-      format: string
-    }),
     file: shape({
       attributes: object,
       tracks: array,
@@ -114,9 +111,6 @@ export const defaultProps = {
       },
       preload: false
     },
-    vidme: {
-      format: null
-    },
     file: {
       attributes: {},
       tracks: [],
@@ -146,7 +140,6 @@ export const DEPRECATED_CONFIG_PROPS = [
   'facebookConfig',
   'dailymotionConfig',
   'vimeoConfig',
-  'vidmeConfig',
   'fileConfig',
   'wistiaConfig'
 ]

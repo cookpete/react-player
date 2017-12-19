@@ -35,10 +35,6 @@ export interface VimeoConfig {
   preload?: boolean;
 }
 
-export interface VidmeConfig {
-  format?: string;
-}
-
 export interface WistiaConfig {
   options?: Object;
 }
@@ -57,7 +53,6 @@ export interface Config {
   facebook?: FacebookConfig;
   dailymotion?: DailyMotionConfig;
   vimeo?: VimeoConfig;
-  vidme?: VidmeConfig;
   file?: FileConfig;
   wistia?: WistiaConfig;
 }
@@ -81,7 +76,6 @@ export interface ReactPlayerProps {
   facebookConfig?: FacebookConfig;
   dailymotionConfig?: DailyMotionConfig;
   vimeoConfig?: VimeoConfig;
-  vidmeConfig?: VidmeConfig;
   fileConfig?: FileConfig;
   wistiaConfig?: WistiaConfig;
   onReady?(): void;

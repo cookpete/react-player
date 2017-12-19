@@ -240,13 +240,6 @@ export default class App extends Component {
               </td>
             </tr>
             <tr>
-              <th>Vidme</th>
-              <td>
-                {this.renderLoadButton('https://vid.me/yvi', 'Test A')}
-                {this.renderLoadButton('https://vid.me/GGho', 'Test B')}
-              </td>
-            </tr>
-            <tr>
               <th>Wistia</th>
               <td>
                 {this.renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}

@@ -43,12 +43,6 @@ const TEST_URLS = [
     switchTo: 'https://streamable.com/ifjh'
   },
   {
-    name: 'Vidme',
-    url: 'https://vid.me/yvi',
-    switchTo: 'https://vid.me/GGho',
-    error: 'https://vid.me/0000'
-  },
-  {
     name: 'Wistia',
     url: 'https://home.wistia.com/medias/e4a27b971d',
     switchTo: 'https://home.wistia.com/medias/29b0fbf547',
@@ -343,24 +337,6 @@ describe('ReactPlayer', () => {
         expect(node).to.be.a('HTMLDivElement')
         expect(node.style.display).to.equal('none')
       }
-    })
-  })
-
-  describe('Vidme format', () => {
-    it('plays a specific format', done => {
-      renderPlayer({
-        url: 'https://vid.me/GGho',
-        config: { vidme: { format: '240p' } },
-        onReady: () => done()
-      })
-    })
-
-    it('ignores an unknown format', done => {
-      renderPlayer({
-        url: 'https://vid.me/GGho',
-        config: { vidme: { format: 'test-unknown-format' } },
-        onReady: () => done()
-      })
     })
   })
 
