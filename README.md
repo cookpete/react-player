@@ -116,7 +116,7 @@ Prop | Description
 
 As of version `0.24`, there is a single `config` prop to override the settings for the various players. If you are migrating from an earlier version, you must move all the old config props inside `config`:
 
-```js
+```jsx
 <ReactPlayer
   url={url}
   config={{
@@ -132,7 +132,7 @@ As of version `0.24`, there is a single `config` prop to override the settings f
 
 The old style [config props](https://github.com/CookPete/react-player/tree/v0.23.0#config-props) still work but will produce a console warning:
 
-```js
+```jsx
 <ReactPlayer
   url={url}
   youtubeConfig={{ playerVars: { showinfo: 1 } }}
