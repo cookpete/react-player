@@ -52,6 +52,7 @@ const TEST_URLS = [
     name: 'DailyMotion',
     url: 'https://www.dailymotion.com/video/x5e9eog',
     switchTo: 'https://www.dailymotion.com/video/x61xx3z',
+    error: 'http://www.dailymotion.com/video/x6c0xvb',
     onSeek: true
   },
   {
