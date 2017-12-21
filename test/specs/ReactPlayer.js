@@ -362,10 +362,26 @@ describe('ReactPlayer', () => {
     })
   })
 
-  it('does not error when seeking using fraction before ready', () => {
+  it('Twitch switches from video to channel', done => {
+    renderPlayerChange(
+      { url: 'https://www.twitch.tv/videos/106400740' },
+      {
+        url: 'https://www.twitch.tv/kronovi',
+        onPlay: () => done(),
+        onPause: () => done() // onPause is also fine here because the channel may not be on
+      }
+    )
+  })
+
+  it('does not error when seeking using fraction when duration is available', done => {
     renderPlayer({
-      url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
-    }, () => player.seekTo(0.5))
+      url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE',
+      onReady: () => {
+        player.getInternalPlayer().getDuration = () => null // Pretty hacky but it does the job
+        player.seekTo(0.5)
+        setTimeout(done, 1000)
+      }
+    })
   })
 
   it('canPlay returns false', () => {
