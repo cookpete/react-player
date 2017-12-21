@@ -103,10 +103,10 @@ export default class Player extends Component {
       if (this.player.setPlaybackRate) {
         this.player.setPlaybackRate(playbackRate)
       }
-      this.player.setVolume(muted ? 0 : volume)
       onStart()
       this.startOnPlay = false
     }
+    this.player.setVolume(muted ? 0 : volume)
     onPlay()
     if (this.seekOnPlay) {
       this.seekTo(this.seekOnPlay)
