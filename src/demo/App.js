@@ -55,9 +55,11 @@ export default class App extends Component {
     this.setState({ playbackRate: parseFloat(e.target.value) })
   }
   onPlay = () => {
+    console.log('onPlay')
     this.setState({ playing: true })
   }
   onPause = () => {
+    console.log('onPause')
     this.setState({ playing: false })
   }
   onSeekMouseDown = e => {
@@ -71,23 +73,22 @@ export default class App extends Component {
     this.player.seekTo(parseFloat(e.target.value))
   }
   onProgress = state => {
+    console.log('onProgress', state)
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
     }
   }
+  onEnded = () => {
+    console.log('onEnded')
+    this.setState({ playing: this.state.loop })
+  }
+  onDuration = (duration) => {
+    console.log('onDuration', duration)
+    this.setState({ duration })
+  }
   onClickFullscreen = () => {
     screenfull.request(findDOMNode(this.player))
-  }
-  onConfigSubmit = () => {
-    let config
-    try {
-      config = JSON.parse(this.configInput.value)
-    } catch (error) {
-      config = {}
-      console.error('Error setting config:', error)
-    }
-    this.setState(config)
   }
   renderLoadButton = (url, label) => {
     return (
@@ -100,15 +101,7 @@ export default class App extends Component {
     this.player = player
   }
   render () {
-    const {
-      url, playing, volume, muted, loop,
-      played, loaded, duration,
-      playbackRate,
-      soundcloudConfig,
-      vimeoConfig,
-      youtubeConfig,
-      fileConfig
-    } = this.state
+    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.state
     const SEPARATOR = ' · '
 
     return (
@@ -127,20 +120,16 @@ export default class App extends Component {
               playbackRate={playbackRate}
               volume={volume}
               muted={muted}
-              soundcloudConfig={soundcloudConfig}
-              vimeoConfig={vimeoConfig}
-              youtubeConfig={youtubeConfig}
-              fileConfig={fileConfig}
               onReady={() => console.log('onReady')}
               onStart={() => console.log('onStart')}
               onPlay={this.onPlay}
               onPause={this.onPause}
               onBuffer={() => console.log('onBuffer')}
               onSeek={e => console.log('onSeek', e)}
-              onEnded={() => this.setState({ playing: loop })}
+              onEnded={this.onEnded}
               onError={e => console.log('onError', e)}
               onProgress={this.onProgress}
-              onDuration={duration => this.setState({ duration })}
+              onDuration={this.onDuration}
             />
           </div>
 
@@ -172,16 +161,22 @@ export default class App extends Component {
               <th>Volume</th>
               <td>
                 <input type='range' min={0} max={1} step='any' value={volume} onChange={this.setVolume} />
-                <label>
-                  <input type='checkbox' checked={muted} onChange={this.toggleMuted} /> Muted
-                </label>
               </td>
             </tr>
             <tr>
+              <th>
+                <label htmlFor='muted'>Muted</label>
+              </th>
               <td>
-                <label>
-                  <input type='checkbox' checked={loop} onChange={this.toggleLoop} /> Loop
-                </label>
+                <input id='muted' type='checkbox' checked={muted} onChange={this.toggleMuted} />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label htmlFor='loop'>Loop</label>
+              </th>
+              <td>
+                <input id='loop' type='checkbox' checked={loop} onChange={this.toggleLoop} />
               </td>
             </tr>
             <tr>
@@ -270,13 +265,6 @@ export default class App extends Component {
               <td>
                 <input ref={input => { this.urlInput = input }} type='text' placeholder='Enter URL' />
                 <button onClick={() => this.setState({ url: this.urlInput.value })}>Load</button>
-              </td>
-            </tr>
-            <tr>
-              <th>Custom config</th>
-              <td>
-                <textarea ref={textarea => { this.configInput = textarea }} placeholder='Enter JSON' />
-                <button onClick={this.onConfigSubmit}>Update Config</button>
               </td>
             </tr>
           </tbody></table>
