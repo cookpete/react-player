@@ -11,6 +11,7 @@ export default class Player extends Component {
   mounted = false
   isReady = false
   isPlaying = false // Track playing state internally to prevent bugs
+  isLoading = true // Use isLoading to prevent onPause when switching URL
   startOnPlay = true
   seekOnPlay = null
   componentDidMount () {
@@ -27,6 +28,7 @@ export default class Player extends Component {
     // Invoke player methods based on incoming props
     const { url, playing, volume, muted, playbackRate } = this.props
     if (url !== nextProps.url) {
+      this.isLoading = true
       this.player.load(nextProps.url, this.isReady)
     }
     if (!playing && nextProps.playing && !this.isPlaying) {
@@ -84,9 +86,9 @@ export default class Player extends Component {
   }
   onReady = () => {
     if (!this.mounted) return
-    const { onReady, playing } = this.props
     this.isReady = true
-    this.loadingSDK = false
+    this.isLoading = false
+    const { onReady, playing } = this.props
     onReady()
     if (playing) {
       this.player.play()
@@ -95,6 +97,7 @@ export default class Player extends Component {
   }
   onPlay = () => {
     this.isPlaying = true
+    this.isLoading = false
     const { volume, muted, onStart, onPlay, playbackRate } = this.props
     if (this.startOnPlay) {
       if (this.player.setPlaybackRate) {
@@ -113,7 +116,9 @@ export default class Player extends Component {
   }
   onPause = () => {
     this.isPlaying = false
-    this.props.onPause()
+    if (!this.isLoading) {
+      this.props.onPause()
+    }
   }
   onEnded = () => {
     const { activePlayer, loop, onEnded } = this.props
