@@ -29,7 +29,7 @@ export default class Streamable extends Component {
         this.duration = duration
         this.currentTime = seconds
       })
-      this.player.on('progress', ({ percent }) => {
+      this.player.on('buffered', ({ percent }) => {
         if (this.duration) {
           this.secondsLoaded = this.duration * percent
         }
