@@ -4,7 +4,7 @@ import { callPlayer, getSDK } from '../utils'
 
 const SDK_URL = '//fast.wistia.com/assets/external/E-v1.js'
 const SDK_GLOBAL = 'Wistia'
-const MATCH_URL = /^https?:\/\/(.+)?(wistia.com|wi.st)\/(medias|embed)\/(.*)$/
+const MATCH_URL = /(?:wistia.com|wi.st)\/(?:medias|embed)\/(.*)$/
 
 export default class Wistia extends Component {
   static displayName = 'Wistia'
@@ -13,7 +13,7 @@ export default class Wistia extends Component {
 
   callPlayer = callPlayer
   getID (url) {
-    return url && url.match(MATCH_URL)[4]
+    return url && url.match(MATCH_URL)[1]
   }
   load (url) {
     const { controls, onReady, onPlay, onPause, onSeek, onEnded, config } = this.props

@@ -5,7 +5,7 @@ import { callPlayer, getSDK, randomString } from '../utils'
 const SDK_URL = '//connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
 const SDK_GLOBAL_READY = 'fbAsyncInit'
-const MATCH_URL = /^https:\/\/www\.facebook\.com\/([^/?].+\/)?video(s|\.php)[/?].*$/
+const MATCH_URL = /facebook\.com\/([^/?].+\/)?video(s|\.php)[/?].*$/
 const PLAYER_ID_PREFIX = 'facebook-player-'
 
 export default class Facebook extends Component {

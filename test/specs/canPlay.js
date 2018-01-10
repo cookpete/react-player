@@ -11,6 +11,10 @@ const { describe, it, expect } = window
 describe('canPlay', () => {
   describe('YouTube', () => {
     it('knows what it can play', () => {
+      expect(YouTube.canPlay('youtube.com/watch?v=12345678901')).to.be.true
+      expect(YouTube.canPlay('www.youtube.com/watch?v=12345678901')).to.be.true
+      expect(YouTube.canPlay('//www.youtube.com/watch?v=12345678901')).to.be.true
+      expect(YouTube.canPlay('https://www.youtube.com/watch?v=12345678901')).to.be.true
       expect(YouTube.canPlay('https://www.youtube.com/watch?v=12345678901')).to.be.true
       expect(YouTube.canPlay('http://www.youtube.com/watch?v=12345678901')).to.be.true
       expect(YouTube.canPlay('https://youtube.com/watch?v=12345678901')).to.be.true
@@ -26,6 +30,8 @@ describe('canPlay', () => {
 
   describe('SoundCloud', () => {
     it('knows what it can play', () => {
+      expect(SoundCloud.canPlay('soundcloud.com/artist-name/title-name')).to.be.true
+      expect(SoundCloud.canPlay('//soundcloud.com/artist-name/title-name')).to.be.true
       expect(SoundCloud.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.true
       expect(SoundCloud.canPlay('http://soundcloud.com/artist_name/title_name')).to.be.true
       expect(SoundCloud.canPlay('http://snd.sc/artist-name/title-name')).to.be.true
@@ -40,6 +46,8 @@ describe('canPlay', () => {
 
   describe('Vimeo', () => {
     it('knows what it can play', () => {
+      expect(Vimeo.canPlay('vimeo.com/1234')).to.be.true
+      expect(Vimeo.canPlay('//vimeo.com/1234')).to.be.true
       expect(Vimeo.canPlay('http://vimeo.com/1234')).to.be.true
       expect(Vimeo.canPlay('https://vimeo.com/1234')).to.be.true
       expect(Vimeo.canPlay('https://www.vimeo.com/1234')).to.be.true
@@ -58,6 +66,8 @@ describe('canPlay', () => {
 
   describe('Wistia', () => {
     it('knows what it can play', () => {
+      expect(Wistia.canPlay('fast.wistia.com/medias/e4a27b971d')).to.be.true
+      expect(Wistia.canPlay('//fast.wistia.com/medias/e4a27b971d')).to.be.true
       expect(Wistia.canPlay('https://fast.wistia.com/medias/e4a27b971d')).to.be.true
       expect(Wistia.canPlay('http://fast.wistia.com/medias/e4a27b971d')).to.be.true
       expect(Wistia.canPlay('https://fast.wi.st/medias/e4a27b971d')).to.be.true
@@ -77,6 +87,9 @@ describe('canPlay', () => {
 
   describe('Twitch', () => {
     it('knows what it can play', () => {
+      expect(Twitch.canPlay('twitch.tv/videos/106400740')).to.be.true
+      expect(Twitch.canPlay('www.twitch.tv/videos/106400740')).to.be.true
+      expect(Twitch.canPlay('//www.twitch.tv/videos/106400740')).to.be.true
       expect(Twitch.canPlay('https://www.twitch.tv/videos/106400740')).to.be.true
       expect(Twitch.canPlay('https://www.twitch.tv/kronovi')).to.be.true
       expect(Twitch.canPlay('https://twitch.tv/videos/106400740')).to.be.true

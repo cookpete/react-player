@@ -5,7 +5,7 @@ import { callPlayer, getSDK, parseStartTime } from '../utils'
 const SDK_URL = 'https://api.dmcdn.net/all.js'
 const SDK_GLOBAL = 'DM'
 const SDK_GLOBAL_READY = 'dmAsyncInit'
-const MATCH_URL = /^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/
+const MATCH_URL = /dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/
 
 export default class DailyMotion extends Component {
   static displayName = 'DailyMotion'

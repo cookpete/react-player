@@ -4,7 +4,7 @@ import { callPlayer, getSDK } from '../utils'
 
 const SDK_URL = '//cdn.embed.ly/player-0.0.12.min.js'
 const SDK_GLOBAL = 'playerjs'
-const MATCH_URL = /^https?:\/\/streamable.com\/([a-z0-9]+)$/
+const MATCH_URL = /streamable.com\/([a-z0-9]+)$/
 
 export default class Streamable extends Component {
   static displayName = 'Streamable'
