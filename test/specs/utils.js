@@ -177,7 +177,7 @@ describe('callPlayer', () => {
   })
 })
 
-describe.only('isEqual', () => {
+describe('isEqual', () => {
   it('returns true', () => {
     const a = {
       b: { c: 3, d: 4 },
