@@ -1,4 +1,4 @@
-import { parseStartTime, randomString, omit, getConfig, callPlayer } from '../../src/utils'
+import { parseStartTime, randomString, omit, getConfig, callPlayer, isEqual } from '../../src/utils'
 
 const { describe, it, expect } = window
 
@@ -174,5 +174,65 @@ describe('callPlayer', () => {
       }
     }
     expect(callPlayer.call(fakePlayer, 'testMethod')).to.equal(null)
+  })
+})
+
+describe.only('isEqual', () => {
+  it('returns true', () => {
+    const a = {
+      b: { c: 3, d: 4 },
+      c: [1, 2, 3],
+      d: [{ a: 1 }, { b: 2 }]
+    }
+    const b = {
+      b: { c: 3, d: 4 },
+      c: [1, 2, 3],
+      d: [{ a: 1 }, { b: 2 }]
+    }
+    expect(isEqual(a, b)).to.equal(true)
+  })
+
+  it('returns false when deep property differs', () => {
+    const a = {
+      b: { c: 3, d: 4 },
+      c: [1, 2, 3],
+      d: [{ a: 1 }, { b: 2 }]
+    }
+    const b = {
+      b: { c: 3, d: 4 },
+      c: [1, 2, 3],
+      d: [{ a: 1 }, { b: 3 }]
+    }
+    expect(isEqual(a, b)).to.equal(false)
+  })
+
+  it('returns false when array size differs', () => {
+    const a = {
+      b: { c: 3, d: 4 },
+      c: [1, 2, 3],
+      d: [{ a: 1 }, { b: 2 }]
+    }
+    const b = {
+      b: { c: 3, d: 4 },
+      c: [1, 2],
+      d: [{ a: 1 }, { b: 3 }]
+    }
+    expect(isEqual(a, b)).to.equal(false)
+  })
+
+  it('ignores functions', () => {
+    const a = {
+      b: { c: 3, d: 4 },
+      c: [1, 2, 3],
+      d: [{ a: 1 }, { b: 2 }],
+      e: () => {}
+    }
+    const b = {
+      b: { c: 3, d: 4 },
+      c: [1, 2, 3],
+      d: [{ a: 1 }, { b: 2 }],
+      e: () => {}
+    }
+    expect(isEqual(a, b)).to.equal(true)
   })
 })

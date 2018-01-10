@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
-import { getConfig, omit, isObject } from './utils'
+import { getConfig, omit, isEqual } from './utils'
 import players from './players'
 import Player from './Player'
 import FilePlayer from './players/FilePlayer'
@@ -29,13 +29,7 @@ export default class ReactPlayer extends Component {
     clearTimeout(this.progressTimeout)
   }
   shouldComponentUpdate (nextProps) {
-    for (let key of Object.keys(this.props)) {
-      const prop = this.props[key]
-      if (!isObject(prop) && prop !== nextProps[key]) {
-        return true
-      }
-    }
-    return false
+    return !isEqual(this.props, nextProps)
   }
   getDuration = () => {
     if (!this.player) return null
