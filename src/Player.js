@@ -14,6 +14,7 @@ export default class Player extends Component {
   isLoading = true // Use isLoading to prevent onPause when switching URL
   startOnPlay = true
   seekOnPlay = null
+  onDurationCalled = false
   componentDidMount () {
     this.mounted = true
     this.player.load(this.props.url)
@@ -29,6 +30,7 @@ export default class Player extends Component {
     const { url, playing, volume, muted, playbackRate } = this.props
     if (url !== nextProps.url) {
       this.isLoading = true
+      this.onDurationCalled = false
       this.player.load(nextProps.url, this.isReady)
     }
     if (!playing && nextProps.playing && !this.isPlaying) {
@@ -134,7 +136,10 @@ export default class Player extends Component {
     clearTimeout(this.durationCheckTimeout)
     const duration = this.getDuration()
     if (duration) {
-      this.props.onDuration(duration)
+      if (!this.onDurationCalled) {
+        this.props.onDuration(duration)
+        this.onDurationCalled = true
+      }
     } else {
       this.durationCheckTimeout = setTimeout(this.onDurationCheck, 100)
     }
