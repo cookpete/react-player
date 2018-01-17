@@ -84,7 +84,8 @@ const TEST_URLS = [
     url: 'https://www.dailymotion.com/video/x5e9eog',
     switchTo: 'https://www.dailymotion.com/video/x61xx3z',
     error: 'http://www.dailymotion.com/video/x6c0xvb',
-    onSeek: true
+    onSeek: true,
+    skipVolumeTest: true
   }
 ]
 
@@ -195,13 +196,15 @@ describe('ReactPlayer', () => {
         })
       })
 
-      it.skip('volume change does not error', done => {
-        renderPlayerChange(
-          { url: test.url, volume: 1 },
-          { volume: 0.5 },
-          () => setTimeout(done, 1000)
-        )
-      })
+      if (!test.skipVolumeTest) {
+        it('volume change does not error', done => {
+          renderPlayerChange(
+            { url: test.url, volume: 1 },
+            { volume: 0.5 },
+            () => setTimeout(done, 1000)
+          )
+        })
+      }
 
       it('muted change does not error', done => {
         renderPlayerChange(
