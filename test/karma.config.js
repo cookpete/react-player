@@ -2,7 +2,7 @@ import webpackConfig from '../webpack.config.babel'
 
 export default function (config) {
   config.set({
-    browsers: ['Chrome'],
+    browsers: [process.env.TRAVIS ? 'ChromeTravis' : 'Chrome'],
     singleRun: true,
     frameworks: ['mocha', 'chai'],
     files: ['karma.webpack.js'],
@@ -28,6 +28,12 @@ export default function (config) {
       reporters: [
         { type: 'lcov', subdir: '.' }
       ]
+    },
+    customLaunchers: {
+      ChromeTravis: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
     }
   })
 }
