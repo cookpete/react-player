@@ -1,17 +1,11 @@
-$black: #000;
 $column-width: 480px;
 $gutter-width: 20px;
-// $break: $column-width * 2 + $gutter-width * 3;
 
 .app {
   margin: auto;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 300;
   text-align: center;
-
-  @media screen and ($column-width * 2) {
-
-  }
 }
 
 .section {
@@ -29,11 +23,11 @@ $gutter-width: 20px;
 
 .react-player {
   margin-bottom: 10px;
-  background: rgba($black, .1);
+  background: rgba(0, 0, 0, .1);
 }
 
 .faded {
-  color: rgba($black, .5);
+  color: rgba(0, 0, 0, .5);
 }
 
 .footer {

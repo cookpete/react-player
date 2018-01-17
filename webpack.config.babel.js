@@ -37,11 +37,11 @@ export default {
         include: [ PATH_SRC, PATH_TESTS ]
       },
       {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: styleLoader([
           'style-loader',
           'css-loader?sourceMap',
-          'sass-loader?sourceMap'
+          'postcss-loader?sourceMap'
         ]),
         include: PATH_SRC
       }

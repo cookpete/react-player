@@ -75,12 +75,15 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.2",
     "mocha": "^4.0.0",
-    "node-sass": "^4.1.1",
+    "postcss-automath": "^1.0.1",
+    "postcss-loader": "^2.0.10",
+    "postcss-nested": "^3.0.0",
+    "postcss-sassy-mixins": "^2.1.0",
+    "postcss-simple-vars": "^4.1.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-hot-loader": "^4.0.0-beta.15",
     "rimraf": "^2.5.4",
-    "sass-loader": "^6.0.1",
     "screenfull": "^3.0.2",
     "snazzy": "^7.0.0",
     "standard": "^10.0.0",
@@ -115,6 +118,14 @@
           "istanbul"
         ]
       }
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "postcss-nested": {},
+      "postcss-sassy-mixins": {},
+      "postcss-simple-vars": {},
+      "postcss-automath": {}
     }
   },
   "standard": {
