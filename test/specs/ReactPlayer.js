@@ -195,7 +195,7 @@ describe('ReactPlayer', () => {
         })
       })
 
-      it('volume change does not error', done => {
+      it.skip('volume change does not error', done => {
         renderPlayerChange(
           { url: test.url, volume: 1 },
           { volume: 0.5 },
