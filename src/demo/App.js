@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
+import { hot } from 'react-hot-loader'
 import screenfull from 'screenfull'
 
 import './reset.scss'
@@ -17,7 +18,7 @@ const MULTIPLE_SOURCES = [
   { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
 ]
 
-export default class App extends Component {
+class App extends Component {
   state = {
     url: null,
     playing: true,
@@ -319,3 +320,5 @@ export default class App extends Component {
     )
   }
 }
+
+export default hot(module)(App)

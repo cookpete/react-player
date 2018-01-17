@@ -25,7 +25,6 @@ export const plugins = [
 export default {
   devtool: 'cheap-module-eval-source-map',
   entry: [
-    'react-hot-loader/patch',
     `webpack-dev-server/client?http://localhost:${PORT}`,
     'webpack/hot/only-dev-server',
     './src/demo/index'
