@@ -87,7 +87,8 @@ export const defaultProps = {
         playsinline: 1,
         showinfo: 0,
         rel: 0,
-        iv_load_policy: 3
+        iv_load_policy: 3,
+        modestbranding: 1
       },
       preload: false
     },
