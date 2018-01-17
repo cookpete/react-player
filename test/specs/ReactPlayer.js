@@ -9,6 +9,37 @@ const { describe, it, expect, beforeEach, afterEach } = window
 
 const TEST_URLS = [
   {
+    name: 'FilePlayer',
+    url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
+    switchTo: 'http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3',
+    error: 'http://example.com/error.ogv',
+    onSeek: true
+  },
+  {
+    name: 'FilePlayer (multiple string sources)',
+    url: [
+      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
+      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
+      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm'
+    ]
+  },
+  {
+    name: 'FilePlayer (multiple object sources)',
+    url: [
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', type: 'video/ogv' },
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
+    ]
+  },
+  {
+    name: 'FilePlayer (HLS)',
+    url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
+  },
+  {
+    name: 'FilePlayer (DASH)',
+    url: 'http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd'
+  },
+  {
     name: 'YouTube',
     url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE',
     switchTo: 'https://www.youtube.com/watch?v=oUFJJNQGwhk',
@@ -54,37 +85,6 @@ const TEST_URLS = [
     switchTo: 'https://www.dailymotion.com/video/x61xx3z',
     error: 'http://www.dailymotion.com/video/x6c0xvb',
     onSeek: true
-  },
-  {
-    name: 'FilePlayer',
-    url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
-    switchTo: 'http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3',
-    error: 'http://example.com/error.ogv',
-    onSeek: true
-  },
-  {
-    name: 'FilePlayer (multiple string sources)',
-    url: [
-      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
-      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
-      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm'
-    ]
-  },
-  {
-    name: 'FilePlayer (multiple object sources)',
-    url: [
-      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
-      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', type: 'video/ogv' },
-      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
-    ]
-  },
-  {
-    name: 'FilePlayer (HLS)',
-    url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
-  },
-  {
-    name: 'FilePlayer (DASH)',
-    url: 'http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd'
   }
 ]
 
