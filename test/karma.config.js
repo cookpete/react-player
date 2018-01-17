@@ -19,7 +19,8 @@ export default function (config) {
     },
     client: {
       mocha: {
-        timeout: 60000
+        timeout: 60000,
+        retries: 9
       }
     },
     browserNoActivityTimeout: 60000,
