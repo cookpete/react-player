@@ -1,8 +1,8 @@
-<h2 align="center">
+<h1 align='center'>
   ReactPlayer
-</h2>
+</h1>
 
-<p align="center">
+<p align='center'>
   <a href='https://www.npmjs.com/package/react-player'>
     <img src='https://img.shields.io/npm/v/react-player.svg' alt='Latest npm version'>
   </a>
@@ -20,8 +20,8 @@
   </a>
 </p>
 
-<p align="center">
-  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion.
+<p align='center'>
+  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
 #### Migrating to `1.0.0`
@@ -295,4 +295,5 @@ See the [contribution guidelines](https://github.com/CookPete/react-player/blob/
 
 ### Thanks
 
-Huge thanks to anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors).
+- Many thanks to [Kostya Luchankin](https://github.com/phationmationion) for help overhauling the player inheritance patterns.
+- Thanks to anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors).
