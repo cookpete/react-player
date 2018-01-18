@@ -16,6 +16,7 @@ script:
   - npm run build:lib
   - npm run build:demo
   - npm run build:dist
+  - npm run build:standalone
 after_success:
   - npm run coverage
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && sshpass -e scp -r -o stricthostkeychecking=no demo/* $DEPLOY_DEST
