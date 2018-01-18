@@ -7,7 +7,7 @@ ReactPlayer
 [![Test Coverage](https://img.shields.io/codecov/c/github/cookpete/react-player.svg)](https://codecov.io/gh/CookPete/react-player)
 [![Donate](https://img.shields.io/badge/donate-PayPal-blue.svg)](https://paypal.me/ckpt)
 
-A react component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion.
+A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion.
 
 The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending.
 

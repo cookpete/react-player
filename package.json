@@ -1,7 +1,7 @@
 {
   "name": "react-player",
   "version": "1.0.0",
-  "description": "A react component for playing a variety of URLs, including file paths, YouTube, Facebook, SoundCloud, Streamable, Vimeo and Wistia",
+  "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
   "scripts": {
@@ -29,10 +29,15 @@
     "video",
     "audio",
     "youtube",
+    "facebook",
+    "twitch",
     "soundcloud",
     "streamable",
     "vimeo",
     "wistia",
+    "dailymotion",
+    "hls",
+    "dash",
     "react-component"
   ],
   "author": "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)",
