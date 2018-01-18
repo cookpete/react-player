@@ -85,7 +85,7 @@ const TEST_URLS = [
     switchTo: 'https://www.dailymotion.com/video/x61xx3z',
     error: 'http://www.dailymotion.com/video/x6c0xvb',
     onSeek: true,
-    skipVolumeTest: true
+    skip: true
   }
 ]
 
@@ -196,15 +196,13 @@ describe('ReactPlayer', () => {
         })
       })
 
-      if (!test.skipVolumeTest) {
-        it('volume change does not error', done => {
-          renderPlayerChange(
-            { url: test.url, volume: 1 },
-            { volume: 0.5 },
-            () => setTimeout(done, 1000)
-          )
-        })
-      }
+      it('volume change does not error', done => {
+        renderPlayerChange(
+          { url: test.url, volume: 1 },
+          { volume: 0.5 },
+          () => setTimeout(done, 1000)
+        )
+      })
 
       it('muted change does not error', done => {
         renderPlayerChange(
@@ -295,7 +293,7 @@ describe('ReactPlayer', () => {
     })
   }
 
-  describe('instance methods', () => {
+  describe.skip('instance methods', () => {
     beforeEach(done => {
       renderPlayer({
         url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
