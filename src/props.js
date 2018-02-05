@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types'
 
-const { string, bool, number, array, oneOfType, shape, object, func } = PropTypes
+const {string, bool, number, array, oneOfType, shape, object, func} = PropTypes
 
 export const propTypes = {
-  url: oneOfType([ string, array ]),
+  url: oneOfType([string, array]),
   playing: bool,
   loop: bool,
   controls: bool,
   volume: number,
   muted: bool,
   playbackRate: number,
-  width: oneOfType([ string, number ]),
-  height: oneOfType([ string, number ]),
+  width: oneOfType([string, number]),
+  height: oneOfType([string, number]),
   style: object,
   progressFrequency: number,
   playsinline: bool,
@@ -39,6 +39,7 @@ export const propTypes = {
       tracks: array,
       forceAudio: bool,
       forceHLS: bool,
+      forceHLSWithCookies: bool,
       forceDASH: bool
     }),
     wistia: shape({
@@ -117,22 +118,23 @@ export const defaultProps = {
       tracks: [],
       forceAudio: false,
       forceHLS: false,
+      forceHLSWithCookies: false,
       forceDASH: false
     },
     wistia: {
       options: {}
     }
   },
-  onReady: function () {},
-  onStart: function () {},
-  onPlay: function () {},
-  onPause: function () {},
-  onBuffer: function () {},
-  onEnded: function () {},
-  onError: function () {},
-  onDuration: function () {},
-  onSeek: function () {},
-  onProgress: function () {}
+  onReady: function() {},
+  onStart: function() {},
+  onPlay: function() {},
+  onPause: function() {},
+  onBuffer: function() {},
+  onEnded: function() {},
+  onError: function() {},
+  onDuration: function() {},
+  onSeek: function() {},
+  onProgress: function() {}
 }
 
 export const DEPRECATED_CONFIG_PROPS = [
