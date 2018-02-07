@@ -195,6 +195,23 @@ class ResponsivePlayer extends Component {
 
 See [`jsFiddle` example](https://jsfiddle.net/e6w3rtj1/)
 
+#### Single player imports
+
+If you are only ever playing a single type of URL, you can import individual players to keep your bundle size down:
+
+```jsx
+import YouTubePlayer from 'react-player/lib/players/YouTube'
+
+<YouTubePlayer
+  url='https://www.youtube.com/watch?v=d46Azg3Pm4c'
+  playing
+  controls
+  // Other ReactPlayer props will work here
+/>
+```
+
+See a list of available players [here](https://github.com/CookPete/react-player/tree/master/src/players).
+
 #### Standalone player
 
 If you aren’t using React, you can still render a player using the standalone library:

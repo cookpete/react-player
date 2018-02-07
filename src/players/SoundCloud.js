@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
+import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://w.soundcloud.com/player/api.js'
 const SDK_GLOBAL = 'SC'
 const MATCH_URL = /(soundcloud.com|snd.sc)\/.+$/
 
-export default class SoundCloud extends Component {
+export class SoundCloud extends Component {
   static displayName = 'SoundCloud'
   static canPlay = url => MATCH_URL.test(url)
   static loopOnEnded = true
@@ -84,3 +85,5 @@ export default class SoundCloud extends Component {
     )
   }
 }
+
+export default createSinglePlayer(SoundCloud)

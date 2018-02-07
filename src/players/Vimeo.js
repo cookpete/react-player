@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
+import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
 const MATCH_URL = /(?:www\.|player\.)?vimeo.com\/(?:(?:channels|ondemand)\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
 
-export default class Vimeo extends Component {
+export class Vimeo extends Component {
   static displayName = 'Vimeo'
   static canPlay = url => MATCH_URL.test(url)
 
@@ -90,3 +91,5 @@ export default class Vimeo extends Component {
     return <div style={style} ref={this.ref} />
   }
 }
+
+export default createSinglePlayer(Vimeo)

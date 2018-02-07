@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { getSDK } from '../utils'
+import createSinglePlayer from '../singlePlayer'
 
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
@@ -31,7 +32,7 @@ function canPlay (url) {
   )
 }
 
-export default class FilePlayer extends Component {
+export class FilePlayer extends Component {
   static displayName = 'FilePlayer'
   static canPlay = canPlay
 
@@ -182,3 +183,5 @@ export default class FilePlayer extends Component {
     )
   }
 }
+
+export default createSinglePlayer(FilePlayer)

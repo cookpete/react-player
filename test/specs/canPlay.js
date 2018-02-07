@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-expressions */
 
-import SoundCloud from '../../src/players/SoundCloud'
-import YouTube from '../../src/players/YouTube'
-import Vimeo from '../../src/players/Vimeo'
-import Wistia from '../../src/players/Wistia'
-import Twitch from '../../src/players/Twitch'
+import { SoundCloud } from '../../src/players/SoundCloud'
+import { YouTube } from '../../src/players/YouTube'
+import { Vimeo } from '../../src/players/Vimeo'
+import { Wistia } from '../../src/players/Wistia'
+import { Twitch } from '../../src/players/Twitch'
 
 const { describe, it, expect } = window
 

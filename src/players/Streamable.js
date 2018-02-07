@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
+import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = '//cdn.embed.ly/player-0.1.0.min.js'
 const SDK_GLOBAL = 'playerjs'
 const MATCH_URL = /streamable.com\/([a-z0-9]+)$/
 
-export default class Streamable extends Component {
+export class Streamable extends Component {
   static displayName = 'Streamable'
   static canPlay = url => MATCH_URL.test(url)
 
@@ -81,3 +82,5 @@ export default class Streamable extends Component {
     )
   }
 }
+
+export default createSinglePlayer(Streamable)

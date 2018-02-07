@@ -4,7 +4,7 @@ import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
 import { getConfig, omit, isEqual } from './utils'
 import players from './players'
 import Player from './Player'
-import FilePlayer from './players/FilePlayer'
+import { FilePlayer } from './players/FilePlayer'
 import renderPreloadPlayers from './preload'
 
 const SUPPORTED_PROPS = Object.keys(propTypes)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, randomString } from '../utils'
+import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = '//connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
@@ -8,7 +9,7 @@ const SDK_GLOBAL_READY = 'fbAsyncInit'
 const MATCH_URL = /facebook\.com\/([^/?].+\/)?video(s|\.php)[/?].*$/
 const PLAYER_ID_PREFIX = 'facebook-player-'
 
-export default class Facebook extends Component {
+export class Facebook extends Component {
   static displayName = 'Facebook'
   static canPlay = url => MATCH_URL.test(url)
   static loopOnEnded = true
@@ -84,3 +85,5 @@ export default class Facebook extends Component {
     )
   }
 }
+
+export default createSinglePlayer(Facebook)

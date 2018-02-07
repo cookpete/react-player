@@ -1,10 +1,10 @@
 import React from 'react'
 
 import Player from './Player'
-import YouTube from './players/YouTube'
-import SoundCloud from './players/SoundCloud'
-import Vimeo from './players/Vimeo'
-import DailyMotion from './players/DailyMotion'
+import { YouTube } from './players/YouTube'
+import { SoundCloud } from './players/SoundCloud'
+import { Vimeo } from './players/Vimeo'
+import { DailyMotion } from './players/DailyMotion'
 
 const PRELOAD_PLAYERS = [
   {
