@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
 
-const SDK_URL = '//cdn.embed.ly/player-0.0.12.min.js'
+const SDK_URL = '//cdn.embed.ly/player-0.1.0.min.js'
 const SDK_GLOBAL = 'playerjs'
 const MATCH_URL = /streamable.com\/([a-z0-9]+)$/
 
