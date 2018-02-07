@@ -72,7 +72,7 @@ Prop | Description | Default
 `width` | Sets the width of the player | `640px`
 `height` | Sets the height of the player | `360px`
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element | `{}`
-`progressFrequency` | The time between `onProgress` callbacks, in milliseconds | `1000`
+`progressInterval` | The time between `onProgress` callbacks, in milliseconds | `1000`
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
 `config` | Override options for the various players, see [config prop](#config-prop)
 

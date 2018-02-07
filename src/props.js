@@ -13,7 +13,7 @@ export const propTypes = {
   width: oneOfType([ string, number ]),
   height: oneOfType([ string, number ]),
   style: object,
-  progressFrequency: number,
+  progressInterval: number,
   playsinline: bool,
   config: shape({
     soundcloud: shape({
@@ -67,7 +67,7 @@ export const defaultProps = {
   width: '640px',
   height: '360px',
   style: {},
-  progressFrequency: 1000,
+  progressInterval: 1000,
   playsinline: false,
   config: {
     soundcloud: {

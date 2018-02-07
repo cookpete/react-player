@@ -24,6 +24,10 @@ export default class ReactPlayer extends Component {
   config = getConfig(this.props, defaultProps, true)
   componentDidMount () {
     this.progress()
+    if (this.props.progressFrequency) {
+      const message = 'ReactPlayer: %cprogressFrequency%c is deprecated, please use %cprogressInterval%c instead'
+      console.warn(message, 'font-weight: bold', '', 'font-weight: bold', '')
+    }
   }
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
@@ -69,7 +73,7 @@ export default class ReactPlayer extends Component {
         this.prevLoaded = progress.loaded
       }
     }
-    this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
+    this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency || this.props.progressInterval)
   }
   getActivePlayer (url) {
     for (let Player of players) {
