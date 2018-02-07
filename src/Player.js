@@ -18,8 +18,10 @@ export default class Player extends Component {
   componentDidMount () {
     this.mounted = true
     this.player.load(this.props.url)
+    this.progress()
   }
   componentWillUnmount () {
+    clearTimeout(this.progressTimeout)
     if (this.isReady) {
       this.player.stop()
     }
@@ -64,6 +66,30 @@ export default class Player extends Component {
   getInternalPlayer = (key) => {
     if (!this.player) return null
     return this.player[key]
+  }
+  progress = () => {
+    if (this.props.url && this.player && this.isReady) {
+      const playedSeconds = this.getCurrentTime() || 0
+      const loadedSeconds = this.getSecondsLoaded()
+      const duration = this.getDuration()
+      if (duration) {
+        const progress = {
+          playedSeconds,
+          played: playedSeconds / duration
+        }
+        if (loadedSeconds !== null) {
+          progress.loadedSeconds = loadedSeconds
+          progress.loaded = loadedSeconds / duration
+        }
+        // Only call onProgress if values have changed
+        if (progress.played !== this.prevPlayed || progress.loaded !== this.prevLoaded) {
+          this.props.onProgress(progress)
+        }
+        this.prevPlayed = progress.played
+        this.prevLoaded = progress.loaded
+      }
+    }
+    this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
   }
   seekTo (amount) {
     // When seeking before player is ready, store value and seek later
