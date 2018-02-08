@@ -39,7 +39,8 @@ export const propTypes = {
       tracks: array,
       forceAudio: bool,
       forceHLS: bool,
-      forceDASH: bool
+      forceDASH: bool,
+      hlsOptions: object
     }),
     wistia: shape({
       options: object
@@ -117,7 +118,8 @@ export const defaultProps = {
       tracks: [],
       forceAudio: false,
       forceHLS: false,
-      forceDASH: false
+      forceDASH: false,
+      hlsOptions: {}
     },
     wistia: {
       options: {}
