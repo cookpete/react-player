@@ -4,7 +4,7 @@ import { callPlayer, getSDK } from '../utils'
 
 const SDK_URL = 'https://w.soundcloud.com/player/api.js'
 const SDK_GLOBAL = 'SC'
-const MATCH_URL = /(soundcloud.com|snd.sc)\/([a-z0-9-_]+\/[a-z0-9-_]+)$/
+const MATCH_URL = /(soundcloud.com|snd.sc)\/.+$/
 
 export default class SoundCloud extends Component {
   static displayName = 'SoundCloud'
