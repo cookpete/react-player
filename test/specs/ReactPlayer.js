@@ -77,7 +77,8 @@ const TEST_URLS = [
     name: 'Wistia',
     url: 'https://home.wistia.com/medias/e4a27b971d',
     switchTo: 'https://home.wistia.com/medias/29b0fbf547',
-    onSeek: true
+    onSeek: true,
+    skip: true
   },
   {
     name: 'DailyMotion',
