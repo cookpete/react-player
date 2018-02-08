@@ -35,10 +35,10 @@ describe('canPlay', () => {
       expect(SoundCloud.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.true
       expect(SoundCloud.canPlay('http://soundcloud.com/artist_name/title_name')).to.be.true
       expect(SoundCloud.canPlay('http://snd.sc/artist-name/title-name')).to.be.true
+      expect(SoundCloud.canPlay('http://soundcloud.com/artist-only')).to.be.true
     })
 
     it('knows what it can\'t play', () => {
-      expect(SoundCloud.canPlay('http://soundcloud.com/artist-only')).to.be.false
       expect(SoundCloud.canPlay('https://www.youtube.com/watch?v=12345678901')).to.be.false
       expect(SoundCloud.canPlay('http://vimeo.com/1234')).to.be.false
     })
