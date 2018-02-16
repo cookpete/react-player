@@ -5,7 +5,7 @@ import { callPlayer, getSDK, parseStartTime } from '../utils'
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
-const MATCH_URL = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})$/
+const MATCH_URL = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})/
 
 export default class YouTube extends Component {
   static displayName = 'YouTube'
