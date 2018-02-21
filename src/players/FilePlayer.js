@@ -146,8 +146,7 @@ export default class FilePlayer extends Component {
     if (typeof source === 'string') {
       return <source key={index} src={source} />
     }
-    const { src, type } = source
-    return <source key={index} src={src} type={type} />
+    return <source key={index} {...source} />
   }
   renderTrack = (track, index) => {
     return <track key={index} {...track} />
