@@ -35,6 +35,9 @@ export default class ReactPlayer extends Component {
   shouldComponentUpdate (nextProps) {
     return !isEqual(this.props, nextProps)
   }
+  componentWillUpdate (nextProps) {
+    this.config = getConfig(nextProps, defaultProps)
+  }
   getDuration = () => {
     if (!this.player) return null
     return this.player.getDuration()
