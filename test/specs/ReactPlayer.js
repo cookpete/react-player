@@ -393,4 +393,32 @@ describe('ReactPlayer', () => {
     expect(ReactPlayer.canPlay('file.txt')).to.be.false
     expect(ReactPlayer.canPlay([ 'http://example.com', 'file.txt' ])).to.be.false
   })
+
+  describe('as prop', () => {
+    it('defaults wrapper to a div', () => {
+      renderPlayer({
+        url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
+      })
+      expect(player.wrapper).to.be.a('HTMLDivElement')
+    })
+
+    it('supports custom wrapper elements', () => {
+      renderPlayer({
+        as: 'p',
+        url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
+      })
+      expect(player.wrapper).to.be.a('HTMLParagraphElement')
+    })
+
+    it('supports custom wrapper components', () => {
+      const CustomWrapper = ({ children }) => <div id='test-hook' data-fake-attribute='woah'>{children}</div>
+      renderPlayer({
+        as: CustomWrapper,
+        url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
+      })
+      const el = document.getElementById('test-hook')
+      expect(el.dataset.fakeAttribute).to.equal('woah')
+      expect(el.querySelectorAll('video').length).to.equal(1)
+    })
+  })
 })

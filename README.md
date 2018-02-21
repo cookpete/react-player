@@ -75,6 +75,7 @@ Prop | Description | Default
 `progressInterval` | The time between `onProgress` callbacks, in milliseconds | `1000`
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
 `config` | Override options for the various players, see [config prop](#config-prop)
+`as` | Element/component to use as the container element | `div`
 
 #### Callback props
 
@@ -167,7 +168,7 @@ class ResponsivePlayer extends Component {
   render () {
     return (
       <div className='player-wrapper'>
-        <ReactPlayer 
+        <ReactPlayer
           className='react-player'
           url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
           width='100%'
