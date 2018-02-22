@@ -15,6 +15,7 @@ export const propTypes = {
   style: object,
   progressInterval: number,
   playsinline: bool,
+  wrapper: oneOfType([ string, func ]),
   config: shape({
     soundcloud: shape({
       options: object
@@ -70,6 +71,7 @@ export const defaultProps = {
   style: {},
   progressInterval: 1000,
   playsinline: false,
+  wrapper: 'div',
   config: {
     soundcloud: {
       options: {
