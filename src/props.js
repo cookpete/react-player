@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 const { string, bool, number, array, oneOfType, shape, object, func } = PropTypes
 
 export const propTypes = {
-  as: oneOfType([ string, func ]),
   url: oneOfType([ string, array ]),
   playing: bool,
   loop: bool,
@@ -16,6 +15,7 @@ export const propTypes = {
   style: object,
   progressInterval: number,
   playsinline: bool,
+  wrapper: oneOfType([ string, func ]),
   config: shape({
     soundcloud: shape({
       options: object
@@ -60,7 +60,6 @@ export const propTypes = {
 }
 
 export const defaultProps = {
-  as: 'div',
   playing: false,
   loop: false,
   controls: false,
@@ -72,6 +71,7 @@ export const defaultProps = {
   style: {},
   progressInterval: 1000,
   playsinline: false,
+  wrapper: 'div',
   config: {
     soundcloud: {
       options: {

@@ -114,7 +114,7 @@ export default class ReactPlayer extends Component {
     return 0
   }
   render () {
-    const { url, style, width, height, as: Wrapper } = this.props
+    const { url, style, width, height, wrapper: Wrapper } = this.props
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
     const activePlayer = this.renderActivePlayer(url)
     const preloadPlayers = renderPreloadPlayers(url, this.config)

@@ -70,6 +70,7 @@ export interface ReactPlayerProps {
   style?: Object;
   progressInterval?: number;
   playsinline?: boolean;
+  wrapper?: any;
   config?: Config;
   soundcloudConfig?: SoundCloudConfig;
   youtubeConfig?: YouTubeConfig;

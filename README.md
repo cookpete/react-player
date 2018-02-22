@@ -74,8 +74,8 @@ Prop | Description | Default
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element | `{}`
 `progressInterval` | The time between `onProgress` callbacks, in milliseconds | `1000`
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
+`wrapper` | Element or component to use as the container element | `div`
 `config` | Override options for the various players, see [config prop](#config-prop)
-`as` | Element/component to use as the container element | `div`
 
 #### Callback props
 
