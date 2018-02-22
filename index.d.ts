@@ -39,6 +39,10 @@ export interface WistiaConfig {
   options?: Object;
 }
 
+export interface MixcloudConfig {
+  options?: Object;
+}
+
 export interface FileConfig {
   attributes?: Object;
   tracks?: TrackProps[];
@@ -55,6 +59,7 @@ export interface Config {
   vimeo?: VimeoConfig;
   file?: FileConfig;
   wistia?: WistiaConfig;
+  mixcloud?: MixcloudConfig;
 }
 
 export interface ReactPlayerProps {

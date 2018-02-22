@@ -250,6 +250,13 @@ class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Mixcloud</th>
+              <td>
+                {this.renderLoadButton('https://www.mixcloud.com/mixcloud/meet-the-curators/', 'Test A')}
+                {this.renderLoadButton('https://www.mixcloud.com/mixcloud/mixcloud-curates-4-mary-anne-hobbs-in-conversation-with-dan-deacon/', 'Test B')}
+              </td>
+            </tr>
+            <tr>
               <th>Files</th>
               <td>
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}

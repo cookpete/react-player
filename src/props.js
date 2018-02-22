@@ -45,6 +45,9 @@ export const propTypes = {
     }),
     wistia: shape({
       options: object
+    }),
+    mixcloud: shape({
+      options: object
     })
   }),
   onReady: func,
@@ -125,6 +128,11 @@ export const defaultProps = {
     },
     wistia: {
       options: {}
+    },
+    mixcloud: {
+      options: {
+        hide_cover: 1
+      }
     }
   },
   onReady: function () {},

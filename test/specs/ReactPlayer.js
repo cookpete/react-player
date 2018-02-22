@@ -87,6 +87,11 @@ const TEST_URLS = [
     error: 'http://www.dailymotion.com/video/x6c0xvb',
     onSeek: true,
     skip: true
+  },
+  {
+    name: 'Mixcloud',
+    url: 'https://www.mixcloud.com/mixcloud/meet-the-curators/',
+    switchTo: 'https://www.mixcloud.com/mixcloud/mixcloud-curates-4-mary-anne-hobbs-in-conversation-with-dan-deacon/'
   }
 ]
 

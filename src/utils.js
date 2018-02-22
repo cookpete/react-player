@@ -41,6 +41,13 @@ export function randomString () {
   return Math.random().toString(36).substr(2, 5)
 }
 
+export function queryString (object) {
+  return Object
+    .keys(object)
+    .map(key => `${key}=${object[key]}`)
+    .join('&')
+}
+
 // Util function to load an external SDK
 // or return the SDK if it is already loaded
 export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true) {

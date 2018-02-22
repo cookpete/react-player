@@ -6,6 +6,7 @@ import { Streamable } from './Streamable'
 import { Wistia } from './Wistia'
 import { Twitch } from './Twitch'
 import { DailyMotion } from './DailyMotion'
+import { Mixcloud } from './Mixcloud'
 import { FilePlayer } from './FilePlayer'
 
 export default [
@@ -17,5 +18,6 @@ export default [
   Wistia,
   Twitch,
   DailyMotion,
+  Mixcloud,
   FilePlayer
 ]
