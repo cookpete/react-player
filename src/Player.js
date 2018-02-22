@@ -116,10 +116,10 @@ export default class Player extends Component {
     }
     this.onDurationCheck()
   }
-  onPause = () => {
+  onPause = (e) => {
     this.isPlaying = false
     if (!this.isLoading) {
-      this.props.onPause()
+      this.props.onPause(e)
     }
   }
   onEnded = () => {
