@@ -91,7 +91,8 @@ const TEST_URLS = [
   {
     name: 'Mixcloud',
     url: 'https://www.mixcloud.com/mixcloud/meet-the-curators/',
-    switchTo: 'https://www.mixcloud.com/mixcloud/mixcloud-curates-4-mary-anne-hobbs-in-conversation-with-dan-deacon/'
+    switchTo: 'https://www.mixcloud.com/mixcloud/mixcloud-curates-4-mary-anne-hobbs-in-conversation-with-dan-deacon/',
+    skip: true
   }
 ]
 
