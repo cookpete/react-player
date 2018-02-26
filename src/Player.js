@@ -89,7 +89,7 @@ export default class Player extends Component {
         this.prevLoaded = progress.loaded
       }
     }
-    this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency)
+    this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency || this.props.progressInterval)
   }
   seekTo (amount) {
     // When seeking before player is ready, store value and seek later
