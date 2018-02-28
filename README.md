@@ -21,7 +21,7 @@
 </p>
 
 <p align='center'>
-  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion. Not using React? <a href='#standalone-player'>No problem.</a>
+  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
 #### Migrating to `1.0.0`
