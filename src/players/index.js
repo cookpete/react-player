@@ -8,6 +8,7 @@ import { Twitch } from './Twitch'
 import { DailyMotion } from './DailyMotion'
 import { Mixcloud } from './Mixcloud'
 import { FilePlayer } from './FilePlayer'
+import { RuTube } from './RuTube';
 
 export default [
   YouTube,
@@ -19,5 +20,6 @@ export default [
   Twitch,
   DailyMotion,
   Mixcloud,
-  FilePlayer
+  FilePlayer,
+  RuTube
 ]
