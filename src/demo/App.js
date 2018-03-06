@@ -257,6 +257,12 @@ class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Rutube</th>
+              <td>
+                {this.renderLoadButton('https://rutube.ru/video/86d910d5ee1b77bbf4fe40a7acf2d622/', 'Rutube')}
+              </td>
+            </tr>
+            <tr>
               <th>Files</th>
               <td>
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}
