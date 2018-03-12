@@ -95,7 +95,7 @@ export class FilePlayer extends Component {
       getSDK(HLS_SDK_URL, HLS_GLOBAL).then(Hls => {
         this.hls = new Hls(this.props.config.file.hlsOptions)
         this.hls.on(Hls.Events.ERROR, (e, data) => {
-          switch(data.type) {
+          switch (data.type) {
             case Hls.ErrorTypes.NETWORK_ERROR:
               // try to recover network error
               // hls: fatal network error encountered, trying to recover
