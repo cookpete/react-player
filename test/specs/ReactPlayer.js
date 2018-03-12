@@ -11,7 +11,7 @@ const TEST_URLS = [
   {
     name: 'FilePlayer',
     url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
-    switchTo: 'http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3',
+    switchTo: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
     error: 'http://example.com/error.ogv',
     onSeek: true
   },
