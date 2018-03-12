@@ -96,19 +96,19 @@ export class FilePlayer extends Component {
         this.hls = new Hls(this.props.config.file.hlsOptions)
         this.hls.on(Hls.Events.ERROR, (e, data) => {
           switch(data.type) {
-          case Hls.ErrorTypes.NETWORK_ERROR:
-            // try to recover network error
-            // hls: fatal network error encountered, trying to recover
-            this.hls.startLoad()
-            break;
-          case Hls.ErrorTypes.MEDIA_ERROR:
-            // hls: fatal media error encountered, trying to recover
-            this.hls.recoverMediaError()
-            break;
-          default:
-            // cannot recover
-            this.hls.destroy()
-            break;
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              // try to recover network error
+              // hls: fatal network error encountered, trying to recover
+              this.hls.startLoad()
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              // hls: fatal media error encountered, trying to recover
+              this.hls.recoverMediaError()
+              break;
+            default:
+              // cannot recover
+              this.hls.destroy()
+              break;
           }
         })
         this.hls.loadSource(url)
