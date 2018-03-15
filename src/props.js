@@ -66,7 +66,7 @@ export const defaultProps = {
   playing: false,
   loop: false,
   controls: false,
-  volume: 0.8,
+  volume: null,
   muted: false,
   playbackRate: 1,
   width: '640px',

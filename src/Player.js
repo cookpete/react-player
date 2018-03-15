@@ -32,6 +32,7 @@ export default class Player extends Component {
     const { url, playing, volume, muted, playbackRate } = this.props
     if (url !== nextProps.url) {
       this.isLoading = true
+      this.startOnPlay = true
       this.onDurationCalled = false
       this.player.load(nextProps.url, this.isReady)
     }
@@ -41,11 +42,13 @@ export default class Player extends Component {
     if (playing && !nextProps.playing && this.isPlaying) {
       this.player.pause()
     }
-    if (volume !== nextProps.volume && !nextProps.muted) {
-      this.player.setVolume(nextProps.volume)
-    }
-    if (muted !== nextProps.muted) {
-      this.player.setVolume(nextProps.muted ? 0 : nextProps.volume)
+    if (nextProps.volume !== null) {
+      if (volume !== nextProps.volume && !nextProps.muted) {
+        this.player.setVolume(nextProps.volume)
+      }
+      if (muted !== nextProps.muted) {
+        this.player.setVolume(nextProps.muted ? 0 : nextProps.volume)
+      }
     }
     if (playbackRate !== nextProps.playbackRate && this.player.setPlaybackRate) {
       this.player.setPlaybackRate(nextProps.playbackRate)
@@ -116,8 +119,11 @@ export default class Player extends Component {
     if (!this.mounted) return
     this.isReady = true
     this.isLoading = false
-    const { onReady, playing } = this.props
+    const { onReady, playing, volume, muted } = this.props
     onReady()
+    if (muted || volume !== null) {
+      this.player.setVolume(muted ? 0 : volume)
+    }
     if (playing) {
       this.player.play()
     }
@@ -126,7 +132,7 @@ export default class Player extends Component {
   onPlay = () => {
     this.isPlaying = true
     this.isLoading = false
-    const { volume, muted, onStart, onPlay, playbackRate } = this.props
+    const { onStart, onPlay, playbackRate } = this.props
     if (this.startOnPlay) {
       if (this.player.setPlaybackRate) {
         this.player.setPlaybackRate(playbackRate)
@@ -134,7 +140,6 @@ export default class Player extends Component {
       onStart()
       this.startOnPlay = false
     }
-    this.player.setVolume(muted ? 0 : volume)
     onPlay()
     if (this.seekOnPlay) {
       this.seekTo(this.seekOnPlay)
