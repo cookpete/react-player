@@ -11,7 +11,7 @@ const TEST_URLS = [
   {
     name: 'FilePlayer',
     url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
-    switchTo: 'http://www.sample-videos.com/audio/mp3/crowd-cheering.mp3',
+    switchTo: 'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
     error: 'http://example.com/error.ogv',
     onSeek: true
   },
@@ -383,7 +383,7 @@ describe('ReactPlayer', () => {
     )
   })
 
-  it('does not error when seeking using fraction when duration is available', done => {
+  it('does not error when seeking using fraction when duration is not available', done => {
     renderPlayer({
       url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE',
       onReady: () => {
