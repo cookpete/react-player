@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 
-import { propTypes, defaultProps } from './props'
+import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
+import { getConfig, omit, isEqual } from './utils'
 import Player from './Player'
-import { isEqual, getConfig } from './utils'
+
+const SUPPORTED_PROPS = Object.keys(propTypes)
 
 export default function createSinglePlayer (activePlayer) {
   return class SinglePlayer extends Component {
@@ -17,16 +19,24 @@ export default function createSinglePlayer (activePlayer) {
     componentWillUpdate (nextProps) {
       this.config = getConfig(nextProps, defaultProps)
     }
+    ref = player => {
+      this.player = player
+    }
     render () {
       if (!activePlayer.canPlay(this.props.url)) {
         return null
       }
+      const { style, width, height, wrapper: Wrapper } = this.props
+      const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
       return (
-        <Player
-          {...this.props}
-          activePlayer={activePlayer}
-          config={getConfig(this.props, defaultProps)}
-        />
+        <Wrapper style={{ ...style, width, height }} {...otherProps}>
+          <Player
+            {...this.props}
+            ref={this.ref}
+            activePlayer={activePlayer}
+            config={getConfig(this.props, defaultProps)}
+          />
+        </Wrapper>
       )
     }
   }
