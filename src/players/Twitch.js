@@ -17,7 +17,7 @@ export class Twitch extends Component {
   callPlayer = callPlayer
   playerID = PLAYER_ID_PREFIX + randomString()
   load (url, isReady) {
-    const { playsinline, onError } = this.props
+    const { playsinline, onError, config } = this.props
     const isChannel = MATCH_CHANNEL_URL.test(url)
     const id = isChannel ? url.match(MATCH_CHANNEL_URL)[1] : url.match(MATCH_VIDEO_URL)[1]
     if (isReady) {
@@ -35,7 +35,8 @@ export class Twitch extends Component {
         height: '100%',
         width: '100%',
         playsinline: playsinline,
-        autoplay: this.props.playing
+        autoplay: this.props.playing,
+        ...config.twitch.options
       })
       const { READY, PLAY, PAUSE, ENDED } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)

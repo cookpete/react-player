@@ -48,6 +48,9 @@ export const propTypes = {
     }),
     mixcloud: shape({
       options: object
+    }),
+    twitch: shape({
+      options: object
     })
   }),
   onReady: func,
@@ -133,6 +136,9 @@ export const defaultProps = {
       options: {
         hide_cover: 1
       }
+    },
+    twitch: {
+      options: {}
     }
   },
   onReady: function () {},
