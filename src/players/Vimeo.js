@@ -5,7 +5,7 @@ import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
-const MATCH_URL = /(?:www\.|player\.)?vimeo.com\/(?:(?:channels|ondemand)\/(?:\w+\/)?|groups\/([^/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)(\d+)(?:$|\/|\?)/
+const MATCH_URL = /vimeo.com\//
 
 export class Vimeo extends Component {
   static displayName = 'Vimeo'
@@ -15,13 +15,8 @@ export class Vimeo extends Component {
   duration = null
   currentTime = null
   secondsLoaded = null
-  load (url, isReady) {
-    const id = url.match(MATCH_URL)[3]
+  load (url) {
     this.duration = null
-    if (isReady) {
-      this.player.loadVideo(id).catch(this.props.onError)
-      return
-    }
     getSDK(SDK_URL, SDK_GLOBAL).then(Vimeo => {
       if (!this.container) return
       this.player = new Vimeo.Player(this.container, {
@@ -88,7 +83,13 @@ export class Vimeo extends Component {
       backgroundColor: 'black',
       ...this.props.style
     }
-    return <div style={style} ref={this.ref} />
+    return (
+      <div
+        key={this.props.url}
+        ref={this.ref}
+        style={style}
+      />
+    )
   }
 }
 
