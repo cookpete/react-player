@@ -5,7 +5,7 @@ import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = '//cdn.embed.ly/player-0.1.0.min.js'
 const SDK_GLOBAL = 'playerjs'
-const MATCH_URL = /streamable.com\/([a-z0-9]+)$/
+const MATCH_URL = /streamable\.com\/([a-z0-9]+)$/
 
 export class Streamable extends Component {
   static displayName = 'Streamable'

@@ -5,7 +5,7 @@ import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = '//fast.wistia.com/assets/external/E-v1.js'
 const SDK_GLOBAL = 'Wistia'
-const MATCH_URL = /(?:wistia.com|wi.st)\/(?:medias|embed)\/(.*)$/
+const MATCH_URL = /(?:wistia\.com|wi\.st)\/(?:medias|embed)\/(.*)$/
 
 export class Wistia extends Component {
   static displayName = 'Wistia'
