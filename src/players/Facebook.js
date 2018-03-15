@@ -35,6 +35,7 @@ export class Facebook extends Component {
           this.player.subscribe('finishedPlaying', this.props.onEnded)
           this.player.subscribe('startedBuffering', this.props.onBuffer)
           this.player.subscribe('error', this.props.onError)
+          this.callPlayer('unmute')
           this.props.onReady()
         }
       })
