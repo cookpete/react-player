@@ -62,6 +62,7 @@ describe('canPlay', () => {
     it('knows what it can\'t play', () => {
       expect(Vimeo.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.false
       expect(Vimeo.canPlay('https://www.youtube.com/watch?v=1234')).to.be.false
+      expect(Vimeo.canPlay('https://player.vimeo.com/external/134290208.sd.mp4?s=000000&profile_id=123')).to.be.false
     })
   })
 
