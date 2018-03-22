@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { getSDK } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
+const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
@@ -38,6 +39,9 @@ export class FilePlayer extends Component {
 
   componentDidMount () {
     this.addListeners()
+    if (IOS) {
+      this.player.load()
+    }
   }
   componentWillReceiveProps (nextProps) {
     if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(nextProps)) {
@@ -81,11 +85,7 @@ export class FilePlayer extends Component {
     return AUDIO_EXTENSIONS.test(props.url) || props.config.file.forceAudio
   }
   shouldUseHLS (url) {
-    const iOS =
-      typeof navigator !== 'undefined' &&
-      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-      !window.MSStream
-    return (HLS_EXTENSIONS.test(url) && !iOS) || this.props.config.file.forceHLS
+    return (HLS_EXTENSIONS.test(url) && !IOS) || this.props.config.file.forceHLS
   }
   shouldUseDASH (url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
