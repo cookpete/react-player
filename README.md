@@ -234,6 +234,23 @@ If you aren’t using React, you can still render a player using the standalone 
 
 See [`jsFiddle` example](https://jsfiddle.net/krkcvx9s/)
 
+#### Adding your own players
+
+If you have your own player, that is compatible with ReactPlayer's internal architecture, you can use it like this:
+
+```javascript
+import YourOwnPlayer from './somewhere';
+ReactPlayer.addCustomPlayer(YourOwnPlayer);
+```
+
+Or you can clear all additional players:
+
+```javascript
+ReactPlayer.removeCustomPlayers();
+```
+
+It is your responsibility to ensure that custom players keep up with any internal changes to ReactPlayer in later versions.
+
 #### Using Bower
 
 ```bash
