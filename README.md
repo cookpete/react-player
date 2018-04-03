@@ -24,10 +24,6 @@
   A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
-#### Migrating to `1.0.0`
-
-All existing implementations of `ReactPlayer` should still work without any changes after migrating. The major changes are to how the component works internally. Keep an eye out for bugs and [raise an issue](https://github.com/CookPete/react-player/issues/new) if one doesn’t already exist.
-
 ### Usage
 
 ```bash
