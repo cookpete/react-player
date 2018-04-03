@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK, randomString } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
-const SDK_URL = '//player.twitch.tv/js/embed/v1.js'
+const SDK_URL = 'https://player.twitch.tv/js/embed/v1.js'
 const SDK_GLOBAL = 'Twitch'
 const MATCH_VIDEO_URL = /(?:www\.|go\.)?twitch\.tv\/videos\/(\d+)($|\?)/
 const MATCH_CHANNEL_URL = /(?:www\.|go\.)?twitch\.tv\/([a-z0-9_]+)($|\?)/
