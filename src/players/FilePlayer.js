@@ -82,6 +82,9 @@ export class FilePlayer extends Component {
     this.props.onSeek(e.target.currentTime)
   }
   shouldUseAudio (props) {
+    if (this.props.config.file.attributes.poster) {
+      return false // Use <video> so that poster is shown
+    }
     return AUDIO_EXTENSIONS.test(props.url) || props.config.file.forceAudio
   }
   shouldUseHLS (url) {
