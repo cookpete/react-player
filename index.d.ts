@@ -46,6 +46,7 @@ export interface MixcloudConfig {
 export interface FileConfig {
   attributes?: Object;
   tracks?: TrackProps[];
+  forceVideo?: boolean;
   forceAudio?: boolean;
   forceHLS?: boolean;
   forceDASH?: boolean;

@@ -370,6 +370,36 @@ describe('ReactPlayer', () => {
     })
   })
 
+  describe.only('FilePlayer forceVideo', () => {
+    beforeEach(done => {
+      renderPlayer({
+        url: 'http://example.com/file.mp3',
+        config: { file: { forceVideo: true } }
+      }, () => done())
+    })
+
+    it('forces video element', () => {
+      const video = player.getInternalPlayer()
+      expect(video).to.be.a('HTMLVideoElement')
+      expect(video.src).to.equal('http://example.com/file.mp3')
+    })
+  })
+
+  describe.only('FilePlayer forceAudio', () => {
+    beforeEach(done => {
+      renderPlayer({
+        url: 'http://example.com/random/path',
+        config: { file: { forceAudio: true } }
+      }, () => done())
+    })
+
+    it('forces audio element', () => {
+      const video = player.getInternalPlayer()
+      expect(video).to.be.a('HTMLAudioElement')
+      expect(video.src).to.equal('http://example.com/random/path')
+    })
+  })
+
   // onPause being called was a bug that has been fixed
   // so skip this test for now
   it.skip('Twitch switches from video to channel', done => {
