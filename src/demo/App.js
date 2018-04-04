@@ -104,7 +104,6 @@ class App extends Component {
   render () {
     const { url, playing, volume, muted, loop, played, playedSeconds, loaded, duration, playbackRate } = this.state
     const SEPARATOR = ' · '
-    console.log(this.state, 'dsaasadssdaasd')
     return (
       <div className='app'>
         <section className='section'>

@@ -61,12 +61,9 @@ export class Twitch extends Component {
     }, onError)
   }
   play () {
-    console.log('call play')
     this.callPlayer('play')
   }
   pause () {
-    console.log('call pause')
-    console.trace()
     this.callPlayer('pause')
   }
   stop () {
