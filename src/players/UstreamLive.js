@@ -46,11 +46,9 @@ export class UstreamLive extends Component {
     }, this.props.onError)
   }
   play () {
-    console.log('do a play')
     this.callPlayer('callMethod', 'play')
   }
   pause () {
-    console.log('do a pause')
     this.callPlayer('callMethod', 'pause')
   }
   stop () {

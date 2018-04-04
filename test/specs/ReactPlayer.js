@@ -95,11 +95,6 @@ const TEST_URLS = [
     skip: true
   },
   {
-    name: 'Twitch',
-    url: 'https://www.twitch.tv/videos/106400740',
-    switchTo: 'https://www.twitch.tv/videos/175705374'
-  },
-  {
     name: 'Ustream',
     url: 'http://www.ustream.tv/channel/9408562',
     switchTo: 'http://www.ustream.tv/channel/6540154'
