@@ -21,16 +21,15 @@ export class UstreamLive extends Component {
   }
   load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(UstreamEmbed => {
-
       this.player = UstreamEmbed(this.playerID)
-      this.player.currentTime = 0;
+      this.player.currentTime = 0
       this.player.addListener('playing', (type, playing) => {
         if (playing) {
           this.playTime = Date.now()
           this.props.onPlay()
         } else {
           this.player.currentTime = this.getCurrentTime()
-          this.playTime = null;
+          this.playTime = null
           this.props.onPause()
         }
       })
@@ -71,7 +70,7 @@ export class UstreamLive extends Component {
     if (this.playTime) {
       playing = (Date.now() - this.playTime) / 1000
     }
-    debugger;
+
     return this.player.currentTime + playing
   }
   getSecondsLoaded () {

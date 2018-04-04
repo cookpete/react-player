@@ -75,7 +75,7 @@ export default class Player extends Component {
       const playedSeconds = this.getCurrentTime() || 0
       const loadedSeconds = this.getSecondsLoaded()
       const duration = this.getDuration()
-      debugger;
+
       if (duration) {
         const progress = {
           playedSeconds,
