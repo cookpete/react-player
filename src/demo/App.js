@@ -259,6 +259,12 @@ class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Iframe</th>
+              <td>
+                {this.renderLoadButton('https://mixer.com/embed/player/monstercat', 'Test A')}
+              </td>
+            </tr>
+            <tr>
               <th>Files</th>
               <td>
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}

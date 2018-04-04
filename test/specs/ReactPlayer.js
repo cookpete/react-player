@@ -98,6 +98,11 @@ const TEST_URLS = [
     name: 'Ustream',
     url: 'http://www.ustream.tv/channel/9408562',
     switchTo: 'http://www.ustream.tv/channel/6540154'
+  },
+  {
+    name: 'Iframe',
+    url: 'https://mixer.com/embed/player/monstercat',
+    switchTo: 'https://www.google.com/'
   }
 ]
 
