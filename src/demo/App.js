@@ -259,6 +259,13 @@ class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Iframe</th>
+              <td>
+                {this.renderLoadButton('https://www.w3schools.com', 'Test A')}
+                {this.renderLoadButton('https://www.w3schools.com', 'Test B')}
+              </td>
+            </tr>
+            <tr>
               <th>Files</th>
               <td>
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}
