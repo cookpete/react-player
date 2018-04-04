@@ -257,7 +257,7 @@ class App extends Component {
               </td>
             </tr>
             <tr>
-              <th>Ustream</th>
+              <th>UstreamLive</th>
               <td>
                 {this.renderLoadButton('http://www.ustream.tv/channel/6540154', 'Test A')}
                 {this.renderLoadButton('http://www.ustream.tv/channel/9408562', 'Test B')}

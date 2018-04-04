@@ -6,8 +6,8 @@ import createSinglePlayer from '../singlePlayer'
 const SDK_URL = 'http://developers.ustream.tv/js/ustream-embedapi.min.js'
 const SDK_GLOBAL = 'UstreamEmbed'
 const MATCH_URL = /(ustream.tv\/channel\/)([^#&?/]*)/
-const PLAYER_ID_PREFIX = 'ustream-player-'
-export class Ustream extends Component {
+const PLAYER_ID_PREFIX = 'UstreamLive-player-'
+export class UstreamLive extends Component {
   static displayName = 'UstreamLive';
   static canPlay = url => MATCH_URL.test(url);
   static loopOnEnded = false;
@@ -21,13 +21,16 @@ export class Ustream extends Component {
   }
   load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(UstreamEmbed => {
+
       this.player = UstreamEmbed(this.playerID)
+      this.player.currentTime = 0;
       this.player.addListener('playing', (type, playing) => {
         if (playing) {
-          this.playTick = Date.now()
+          this.playTime = Date.now()
           this.props.onPlay()
         } else {
-          this.playTick = null
+          this.player.currentTime = this.getCurrentTime()
+          this.playTime = null;
           this.props.onPause()
         }
       })
@@ -39,19 +42,8 @@ export class Ustream extends Component {
       })
       this.player.addListener('finished', this.props.onEnded)
       this.player.getProperty('duration', (duration) => {
-        this.player.duration = duration
-        this.durationCalled = true
+        this.player.duration = duration || Infinity
       })
-
-      setInterval(() => {
-        if (this.props.playing) {
-          if (this.playTick) {
-            const now = Date.now()
-            this.player.currentTime += (now - this.playTick) / 1000
-            this.playTick = now
-          }
-        }
-      }, 300)
     }, this.props.onError)
   }
   play () {
@@ -75,8 +67,12 @@ export class Ustream extends Component {
     return Infinity
   }
   getCurrentTime () {
-    console.log('a', this.player.currentTime)
-    return this.player.currentTime
+    let playing = 0
+    if (this.playTime) {
+      playing = (Date.now() - this.playTime) / 1000
+    }
+    debugger;
+    return this.player.currentTime + playing
   }
   getSecondsLoaded () {
     return null
@@ -109,4 +105,4 @@ export class Ustream extends Component {
   }
 }
 
-export default createSinglePlayer(Ustream)
+export default createSinglePlayer(UstreamLive)
