@@ -93,6 +93,11 @@ const TEST_URLS = [
     url: 'https://www.mixcloud.com/mixcloud/meet-the-curators/',
     switchTo: 'https://www.mixcloud.com/mixcloud/mixcloud-curates-4-mary-anne-hobbs-in-conversation-with-dan-deacon/',
     skip: true
+  },
+  {
+    name: 'Ustream',
+    url: 'http://www.ustream.tv/channel/9408562',
+    switchTo: 'http://www.ustream.tv/channel/6540154'
   }
 ]
 
@@ -249,23 +254,23 @@ describe('ReactPlayer', () => {
         })
       }
 
-      it('seekTo, onEnded', done => {
-        let duration
-        let seeked = false
-        renderPlayer({
-          url: test.url,
-          onDuration: d => { duration = d },
-          onProgress: p => {
-            if (!seeked && duration && p.playedSeconds > 1) {
-              player.seekTo(duration - 1)
-              seeked = true
-            }
-          },
-          onEnded: () => done()
-        })
-      })
-
       if (test.onSeek) {
+        it('seekTo, onEnded', done => {
+          let duration
+          let seeked = false
+          renderPlayer({
+            url: test.url,
+            onDuration: d => { duration = d },
+            onProgress: p => {
+              if (!seeked && duration && p.playedSeconds > 1) {
+                player.seekTo(duration - 1)
+                seeked = true
+              }
+            },
+            onEnded: () => done()
+          })
+        })
+
         it('onSeek', done => {
           renderPlayer({
             url: test.url,

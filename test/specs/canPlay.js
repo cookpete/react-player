@@ -5,6 +5,7 @@ import { YouTube } from '../../src/players/YouTube'
 import { Vimeo } from '../../src/players/Vimeo'
 import { Wistia } from '../../src/players/Wistia'
 import { Twitch } from '../../src/players/Twitch'
+import { UstreamLive } from '../../src/players/UstreamLive'
 
 const { describe, it, expect } = window
 
@@ -104,6 +105,16 @@ describe('canPlay', () => {
       expect(Twitch.canPlay('http://soundcloud.com/artist-name/title-name')).to.be.false
       expect(Twitch.canPlay('http://vimeo.com/1234')).to.be.false
       expect(Twitch.canPlay('https://www.youtube.com/watch?v=1234')).to.be.false
+    })
+  })
+
+  describe('Ustream', () => {
+    it('knows what it can play', () => {
+      expect(UstreamLive.canPlay('http://www.ustream.tv/channel/9408562')).to.be.true
+    })
+
+    it('knows what it can\'t play', () => {
+      expect(UstreamLive.canPlay('http://www.ustream.tv/recorded/9408562')).to.be.false
     })
   })
 })
