@@ -8,97 +8,97 @@ import ReactPlayer from '../../src/ReactPlayer'
 const { describe, it, expect, beforeEach, afterEach } = window
 
 const TEST_URLS = [
-  // {
-  //   name: 'FilePlayer',
-  //   url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
-  //   switchTo: 'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
-  //   error: 'http://example.com/error.ogv',
-  //   onSeek: true
-  // },
-  // {
-  //   name: 'FilePlayer (multiple string sources)',
-  //   url: [
-  //     'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
-  //     'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
-  //     'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm'
-  //   ]
-  // },
-  // {
-  //   name: 'FilePlayer (multiple object sources)',
-  //   url: [
-  //     { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
-  //     { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', type: 'video/ogv' },
-  //     { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
-  //   ]
-  // },
-  // {
-  //   name: 'FilePlayer (HLS)',
-  //   url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
-  // },
-  // {
-  //   name: 'FilePlayer (DASH)',
-  //   url: 'http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd'
-  // },
-  // {
-  //   name: 'YouTube',
-  //   url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE',
-  //   switchTo: 'https://www.youtube.com/watch?v=oUFJJNQGwhk',
-  //   error: 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
-  // },
-  // {
-  //   name: 'SoundCloud',
-  //   url: 'https://soundcloud.com/miami-nights-1984/accelerated',
-  //   switchTo: 'https://soundcloud.com/tycho/tycho-awake',
-  //   error: 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
-  // },
-  // {
-  //   name: 'Facebook',
-  //   url: 'https://www.facebook.com/facebook/videos/10153231379946729/',
-  //   switchTo: 'https://www.facebook.com/FacebookDevelopers/videos/10152454700553553/'
-  // },
-  // {
-  //   name: 'Vimeo',
-  //   url: 'https://vimeo.com/90509568',
-  //   switchTo: 'https://vimeo.com/169599296',
-  //   error: 'http://vimeo.com/00000000',
-  //   onSeek: true
-  // },
-  // {
-  //   name: 'Twitch',
-  //   url: 'https://www.twitch.tv/videos/106400740',
-  //   switchTo: 'https://www.twitch.tv/videos/175705374'
-  // },
-  // {
-  //   name: 'Streamable',
-  //   url: 'https://streamable.com/moo',
-  //   switchTo: 'https://streamable.com/ifjh'
-  // },
-  // {
-  //   name: 'Wistia',
-  //   url: 'https://home.wistia.com/medias/e4a27b971d',
-  //   switchTo: 'https://home.wistia.com/medias/29b0fbf547',
-  //   onSeek: true,
-  //   skip: true
-  // },
-  // {
-  //   name: 'DailyMotion',
-  //   url: 'https://www.dailymotion.com/video/x5e9eog',
-  //   switchTo: 'https://www.dailymotion.com/video/x61xx3z',
-  //   error: 'http://www.dailymotion.com/video/x6c0xvb',
-  //   onSeek: true,
-  //   skip: true
-  // },
-  // {
-  //   name: 'Mixcloud',
-  //   url: 'https://www.mixcloud.com/mixcloud/meet-the-curators/',
-  //   switchTo: 'https://www.mixcloud.com/mixcloud/mixcloud-curates-4-mary-anne-hobbs-in-conversation-with-dan-deacon/',
-  //   skip: true
-  // },
-  // {
-  //   name: 'Twitch',
-  //   url: 'https://www.twitch.tv/videos/106400740',
-  //   switchTo: 'https://www.twitch.tv/videos/175705374'
-  // },
+  {
+    name: 'FilePlayer',
+    url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
+    switchTo: 'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
+    error: 'http://example.com/error.ogv',
+    onSeek: true
+  },
+  {
+    name: 'FilePlayer (multiple string sources)',
+    url: [
+      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
+      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
+      'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm'
+    ]
+  },
+  {
+    name: 'FilePlayer (multiple object sources)',
+    url: [
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', type: 'video/ogv' },
+      { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
+    ]
+  },
+  {
+    name: 'FilePlayer (HLS)',
+    url: 'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
+  },
+  {
+    name: 'FilePlayer (DASH)',
+    url: 'http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd'
+  },
+  {
+    name: 'YouTube',
+    url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE',
+    switchTo: 'https://www.youtube.com/watch?v=oUFJJNQGwhk',
+    error: 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
+  },
+  {
+    name: 'SoundCloud',
+    url: 'https://soundcloud.com/miami-nights-1984/accelerated',
+    switchTo: 'https://soundcloud.com/tycho/tycho-awake',
+    error: 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
+  },
+  {
+    name: 'Facebook',
+    url: 'https://www.facebook.com/facebook/videos/10153231379946729/',
+    switchTo: 'https://www.facebook.com/FacebookDevelopers/videos/10152454700553553/'
+  },
+  {
+    name: 'Vimeo',
+    url: 'https://vimeo.com/90509568',
+    switchTo: 'https://vimeo.com/169599296',
+    error: 'http://vimeo.com/00000000',
+    onSeek: true
+  },
+  {
+    name: 'Twitch',
+    url: 'https://www.twitch.tv/videos/106400740',
+    switchTo: 'https://www.twitch.tv/videos/175705374'
+  },
+  {
+    name: 'Streamable',
+    url: 'https://streamable.com/moo',
+    switchTo: 'https://streamable.com/ifjh'
+  },
+  {
+    name: 'Wistia',
+    url: 'https://home.wistia.com/medias/e4a27b971d',
+    switchTo: 'https://home.wistia.com/medias/29b0fbf547',
+    onSeek: true,
+    skip: true
+  },
+  {
+    name: 'DailyMotion',
+    url: 'https://www.dailymotion.com/video/x5e9eog',
+    switchTo: 'https://www.dailymotion.com/video/x61xx3z',
+    error: 'http://www.dailymotion.com/video/x6c0xvb',
+    onSeek: true,
+    skip: true
+  },
+  {
+    name: 'Mixcloud',
+    url: 'https://www.mixcloud.com/mixcloud/meet-the-curators/',
+    switchTo: 'https://www.mixcloud.com/mixcloud/mixcloud-curates-4-mary-anne-hobbs-in-conversation-with-dan-deacon/',
+    skip: true
+  },
+  {
+    name: 'Twitch',
+    url: 'https://www.twitch.tv/videos/106400740',
+    switchTo: 'https://www.twitch.tv/videos/175705374'
+  },
   {
     name: 'Ustream',
     url: 'http://www.ustream.tv/channel/9408562',
@@ -260,23 +260,23 @@ describe('ReactPlayer', () => {
         })
       }
 
-      it('seekTo, onEnded', done => {
-        let duration
-        let seeked = false
-        renderPlayer({
-          url: test.url,
-          onDuration: d => { duration = d },
-          onProgress: p => {
-            if (!seeked && duration && p.playedSeconds > 1) {
-              player.seekTo(duration - 1)
-              seeked = true
-            }
-          },
-          onEnded: () => done()
-        })
-      })
-
       if (test.onSeek) {
+        it('seekTo, onEnded', done => {
+          let duration
+          let seeked = false
+          renderPlayer({
+            url: test.url,
+            onDuration: d => { duration = d },
+            onProgress: p => {
+              if (!seeked && duration && p.playedSeconds > 1) {
+                player.seekTo(duration - 1)
+                seeked = true
+              }
+            },
+            onEnded: () => done()
+          })
+        })
+
         it('onSeek', done => {
           renderPlayer({
             url: test.url,
