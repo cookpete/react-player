@@ -95,7 +95,7 @@ const TEST_URLS = [
     skip: true
   },
   {
-    name: 'Ustream',
+    name: 'UstreamLive',
     url: 'http://www.ustream.tv/channel/9408562',
     switchTo: 'http://www.ustream.tv/channel/6540154'
   },
