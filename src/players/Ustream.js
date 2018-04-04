@@ -5,7 +5,7 @@ import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'http://developers.ustream.tv/js/ustream-embedapi.min.js'
 const SDK_GLOBAL = 'UstreamEmbed'
-const MATCH_URL = /(ustream.tv\/channel\/)([^\#\&\?\/]*)/
+const MATCH_URL = /(ustream.tv\/channel\/)([^#&?/]*)/
 const PLAYER_ID_PREFIX = 'ustream-player-'
 export class Ustream extends Component {
   static displayName = 'UstreamLive';
