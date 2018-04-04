@@ -257,6 +257,13 @@ class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Ustream</th>
+              <td>
+                {this.renderLoadButton('http://www.ustream.tv/channel/6540154', 'Test A')}
+                {this.renderLoadButton('http://www.ustream.tv/channel/9408562', 'Test B')}
+              </td>
+            </tr>
+            <tr>
               <th>Files</th>
               <td>
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}

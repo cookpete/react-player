@@ -29,6 +29,8 @@ export default class Player extends Component {
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
+    console.log(this.props, 'props')
+    console.log(nextProps, 'nextProps')
     const { url, playing, volume, muted, playbackRate } = this.props
     if (url !== nextProps.url) {
       this.isLoading = true
