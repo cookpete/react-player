@@ -8,6 +8,7 @@
     "clean": "rimraf lib demo",
     "start": "webpack-dev-server",
     "lint": "standard --verbose | snazzy",
+    "format": "standard --fix --verbose | snazzy",
     "test": "cross-env NODE_ENV=test babel-node ./node_modules/karma/bin/karma start test/karma.config.js",
     "coverage": "codecov",
     "build:lib": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
