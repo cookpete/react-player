@@ -75,7 +75,6 @@ export default class Player extends Component {
       const playedSeconds = this.getCurrentTime() || 0
       const loadedSeconds = this.getSecondsLoaded()
       const duration = this.getDuration()
-
       if (duration) {
         const progress = {
           playedSeconds,
@@ -86,7 +85,7 @@ export default class Player extends Component {
           progress.loaded = loadedSeconds / duration
         }
 
-        // Special Case for Live Typed so they still OnProgress
+        // Special case for live types so they still OnProgress
         if (duration === Infinity && progress.playedSeconds !== this.prevPlayedSeconds) {
           this.props.onProgress(progress)
         } else if (progress.played !== this.prevPlayed || progress.loaded !== this.prevLoaded) {

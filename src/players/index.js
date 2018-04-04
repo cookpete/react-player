@@ -8,8 +8,8 @@ import { Twitch } from './Twitch'
 import { DailyMotion } from './DailyMotion'
 import { Mixcloud } from './Mixcloud'
 import { UstreamLive } from './UstreamLive'
-
 import { FilePlayer } from './FilePlayer'
+
 export default [
   YouTube,
   SoundCloud,
