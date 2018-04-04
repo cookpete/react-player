@@ -159,7 +159,6 @@ describe('ReactPlayer', () => {
         // Use a count object to ensure everything is called at least once
         let count = {}
         const bump = key => {
-          console.log(key)
           count[key] = count[key] || 0
           count[key]++
           if (Object.keys(count).length === 5) {
