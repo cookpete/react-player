@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, randomString, queryString } from '../utils'
+import { randomString } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
-const SDK_URL = 'http://developers.ustream.tv/js/ustream-embedapi.min.js'
-const SDK_GLOBAL = 'UstreamEmbed'
-const MATCH_URL = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+const MATCH_URL = /^(https?:\/\/)?([\da-z\\.-]+)\.([a-z\\.]{2,6})([\\/\w \\.-]*)*\/?$/
 const PLAYER_ID_PREFIX = 'Iframe-player-'
 export class Iframe extends Component {
   static displayName = 'Iframe';
@@ -20,12 +18,12 @@ export class Iframe extends Component {
   }
   play () {
     this.playTime = Date.now()
-    this.props.onPlay()
+    setTimeout( () => (this.props.onPlay()), 1)
   }
   pause () {
     this.player.currentTime = this.getCurrentTime()
     this.playTime = null
-    this.props.onPause()
+    setTimeout( () => (this.props.onPause()), 1)
   }
   stop () {
     this.player.currentTime = this.getCurrentTime()
@@ -55,7 +53,6 @@ export class Iframe extends Component {
     this.container = container
   }
   render () {
-    const base = '//www.ustream.tv/embed'
     const style = {
       width: '100%',
       height: '100%'
@@ -74,7 +71,6 @@ export class Iframe extends Component {
         />
       )
     } else {
-
       // pause flow for iframe
       return (
         <div style={style} >
@@ -84,14 +80,14 @@ export class Iframe extends Component {
             display: 'flex',
             height: '100%',
             justifyContent: 'center',
-            width: '100%',
+            width: '100%'
           }}>
-            <div className="pause" style= {{
+            <div className='pause' style={{
               borderStyle: 'double',
               borderWidth: '0px 0px 0px 50px',
               color: 'gray',
-              height: '60px',
-            }}/>
+              height: '60px'
+            }} />
           </div>
         </div>
       )

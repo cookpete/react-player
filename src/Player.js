@@ -36,7 +36,9 @@ export default class Player extends Component {
       this.onDurationCalled = false
       this.player.load(nextProps.url, this.isReady)
     }
+    console.log(playing, nextProps.playing, this.isPlaying, 'STATE')
     if (!playing && nextProps.playing && !this.isPlaying) {
+      console.log('inside');
       this.player.play()
     }
     if (playing && !nextProps.playing && this.isPlaying) {
