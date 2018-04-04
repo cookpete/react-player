@@ -1,6 +1,6 @@
 {
-  "name": "react-player",
-  "version": "1.3.1",
+  "name": "maestro-react-player",
+  "version": "1.0.0",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CookPete/react-player.git"
+    "url": "https://github.com/lessthan3/maestro-react-player.git"
   },
   "keywords": [
     "react",
@@ -42,12 +42,12 @@
     "dash",
     "react-component"
   ],
-  "author": "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)",
+  "author": "Jason Gornall <jason@maestro.io> (http://github.com/jasongornall)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CookPete/react-player/issues"
+    "url": "https://github.com/lessthan3/maestro-react-player/issues"
   },
-  "homepage": "https://github.com/CookPete/react-player",
+  "homepage": "https://github.com/lessthan3/maestro-react-player",
   "peerDependencies": {
     "react": "*"
   },
