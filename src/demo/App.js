@@ -102,9 +102,9 @@ class App extends Component {
     this.player = player
   }
   render () {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.state
+    const { url, playing, volume, muted, loop, played, playedSeconds, loaded, duration, playbackRate } = this.state
     const SEPARATOR = ' · '
-
+    console.log(this.state, 'dsaasadssdaasd')
     return (
       <div className='app'>
         <section className='section'>
@@ -225,7 +225,8 @@ class App extends Component {
               <td>
                 {this.renderLoadButton('https://www.twitch.tv/videos/106400740', 'Test A')}
                 {this.renderLoadButton('https://www.twitch.tv/videos/12783852', 'Test B')}
-                {this.renderLoadButton('https://www.twitch.tv/kronovi', 'Test C')}
+                {this.renderLoadButton('https://www.twitch.tv/ofsoulheartmind', 'Offline Test C')}
+                {this.renderLoadButton('https://www.twitch.tv/monstercat', 'Online Test C')}
               </td>
             </tr>
             <tr>
@@ -320,6 +321,10 @@ class App extends Component {
             <tr>
               <th>remaining</th>
               <td><Duration seconds={duration * (1 - played)} /></td>
+            </tr>
+            <tr>
+              <th>playedSeconds</th>
+              <td><Duration seconds={playedSeconds} /></td>
             </tr>
           </tbody></table>
         </section>

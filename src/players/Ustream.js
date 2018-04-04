@@ -12,7 +12,6 @@ export class Ustream extends Component {
   static canPlay = url => MATCH_URL.test(url);
   static loopOnEnded = false;
 
-
   playerID = PLAYER_ID_PREFIX + randomString()
 
   callPlayer = callPlayer
@@ -21,13 +20,14 @@ export class Ustream extends Component {
     return m[2]
   }
   load (url) {
-    console.log('loadUrl')
     getSDK(SDK_URL, SDK_GLOBAL).then(UstreamEmbed => {
       this.player = UstreamEmbed(this.playerID)
       this.player.addListener('playing', (type, playing) => {
         if (playing) {
+          this.playTick = Date.now()
           this.props.onPlay()
         } else {
+          this.playTick = null
           this.props.onPause()
         }
       })
@@ -39,25 +39,27 @@ export class Ustream extends Component {
       })
       this.player.addListener('finished', this.props.onEnded)
       this.player.getProperty('duration', (duration) => {
-        this.player.duration = duration;
-        this.props.onDuration(duration)
-      });
-      setInterval( () => {
-        this.player.getProperty('progress', (progress) => {
-          this.currentTime = progress
-          console.log('asdsadasdas');
-          this.props.onProgress(progress)
-        });
-      }, 1000)
+        this.player.duration = duration
+        this.durationCalled = true
+      })
 
+      setInterval(() => {
+        if (this.props.playing) {
+          if (this.playTick) {
+            const now = Date.now()
+            this.player.currentTime += (now - this.playTick) / 1000
+            this.playTick = now
+          }
+        }
+      }, 300)
     }, this.props.onError)
   }
   play () {
-    console.log('do a play');
+    console.log('do a play')
     this.callPlayer('callMethod', 'play')
   }
   pause () {
-    console.log('do a pause');
+    console.log('do a pause')
     this.callPlayer('callMethod', 'pause')
   }
   stop () {
@@ -70,9 +72,10 @@ export class Ustream extends Component {
     this.callPlayer('callMethod', 'volume', fraction * 100)
   }
   getDuration () {
-    return this.player.duration || null
+    return Infinity
   }
   getCurrentTime () {
+    console.log('a', this.player.currentTime)
     return this.player.currentTime
   }
   getSecondsLoaded () {
@@ -89,7 +92,7 @@ export class Ustream extends Component {
       height: '100%'
     }
     const query = queryString({
-      autoplay: this.props.playing,
+      autoplay: this.props.playing
     })
 
     return (

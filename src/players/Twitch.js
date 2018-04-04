@@ -12,6 +12,7 @@ const PLAYER_ID_PREFIX = 'twitch-player-'
 export class Twitch extends Component {
   static displayName = 'Twitch'
   static canPlay = url => MATCH_VIDEO_URL.test(url) || MATCH_CHANNEL_URL.test(url)
+  static isChannel = url => MATCH_CHANNEL_URL.test(url)
   static loopOnEnded = true
 
   callPlayer = callPlayer
@@ -20,6 +21,10 @@ export class Twitch extends Component {
     const { playsinline, onError, config } = this.props
     const isChannel = MATCH_CHANNEL_URL.test(url)
     const id = isChannel ? url.match(MATCH_CHANNEL_URL)[1] : url.match(MATCH_VIDEO_URL)[1]
+
+    // hacks to fix seek logic on live players
+    this.channelTime = 0
+    this.pausedTime = 0
     if (isReady) {
       if (isChannel) {
         this.player.setChannel(id)
@@ -40,17 +45,27 @@ export class Twitch extends Component {
       })
       const { READY, PLAY, PAUSE, ENDED } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)
-      this.player.addEventListener(PLAY, this.props.onPlay)
-      this.player.addEventListener(PAUSE, this.props.onPause)
+      this.player.addEventListener(PLAY, (args) => {
+        if (isChannel) {
+          this.channelTime = this.pausedTime
+        }
+        this.props.onPlay(args)
+      })
+      this.player.addEventListener(PAUSE, (args) => {
+        if (isChannel) {
+          this.pausedTime = this.getCurrentTime()
+        }
+        this.props.onPause(args)
+      })
       this.player.addEventListener(ENDED, this.props.onEnded)
     }, onError)
   }
   play () {
-    console.log('call play');
+    console.log('call play')
     this.callPlayer('play')
   }
   pause () {
-    console.log('call pause');
+    console.log('call pause')
     console.trace()
     this.callPlayer('pause')
   }
@@ -64,10 +79,14 @@ export class Twitch extends Component {
     this.callPlayer('setVolume', fraction)
   }
   getDuration () {
+    // need this for offline mode too
+    if (Twitch.isChannel(this.props.url)) {
+      return Infinity
+    }
     return this.callPlayer('getDuration')
   }
   getCurrentTime () {
-    return this.callPlayer('getCurrentTime')
+    return this.channelTime + this.callPlayer('getCurrentTime')
   }
   getSecondsLoaded () {
     return null

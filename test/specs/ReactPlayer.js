@@ -102,7 +102,7 @@ const TEST_URLS = [
   {
     name: 'Ustream',
     url: 'http://www.ustream.tv/channel/9408562',
-    switchTo: 'http://www.ustream.tv/channel/6540154',
+    switchTo: 'http://www.ustream.tv/channel/6540154'
   }
 ]
 
@@ -164,7 +164,7 @@ describe('ReactPlayer', () => {
         // Use a count object to ensure everything is called at least once
         let count = {}
         const bump = key => {
-          console.log(key);
+          console.log(key)
           count[key] = count[key] || 0
           count[key]++
           if (Object.keys(count).length === 5) {
