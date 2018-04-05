@@ -4,6 +4,7 @@ import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 
 import ReactPlayer from '../../src/ReactPlayer'
+import { FilePlayer } from '../../src/players/FilePlayer'
 
 const { describe, it, expect, beforeEach, afterEach } = window
 
@@ -455,6 +456,35 @@ describe('ReactPlayer', () => {
       const el = document.getElementById('test-hook')
       expect(el.dataset.fakeAttribute).to.equal('woah')
       expect(el.querySelectorAll('video').length).to.equal(1)
+    })
+  })
+
+  describe('custom players', () => {
+    class CustomPlayer extends React.Component {
+      static canPlay = url => true
+      static displayName = 'CustomPlayer'
+      load () {}
+      render () {
+        return (
+          <div />
+        )
+      }
+    }
+
+    it('could be added with usage of static method', () => {
+      ReactPlayer.addCustomPlayer(CustomPlayer)
+      renderPlayer({
+        url: 'test:url'
+      })
+      expect(player.player.player instanceof CustomPlayer).to.be.true
+    })
+
+    it('could be cleared with usage of static method', () => {
+      ReactPlayer.removeCustomPlayers()
+      renderPlayer({
+        url: 'test:url'
+      })
+      expect(player.player.player instanceof FilePlayer).to.be.true
     })
   })
 })

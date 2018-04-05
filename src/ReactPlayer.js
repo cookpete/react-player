@@ -9,12 +9,20 @@ import renderPreloadPlayers from './preload'
 
 const SUPPORTED_PROPS = Object.keys(propTypes)
 
+let customPlayers = []
+
 export default class ReactPlayer extends Component {
+  static addCustomPlayer = player => {
+    customPlayers.push(player)
+  }
+  static removeCustomPlayers = () => {
+    customPlayers = []
+  }
   static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
   static canPlay = url => {
-    for (let Player of players) {
+    for (let Player of [ ...customPlayers, ...players ]) {
       if (Player.canPlay(url)) {
         return true
       }
@@ -51,7 +59,7 @@ export default class ReactPlayer extends Component {
     this.player.seekTo(fraction)
   }
   getActivePlayer (url) {
-    for (let Player of players) {
+    for (let Player of [ ...customPlayers, ...players ]) {
       if (Player.canPlay(url)) {
         return Player
       }
