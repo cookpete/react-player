@@ -1,65 +1,62 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import PropTypes from 'prop-types'
+import React from 'react'
 import ReactPlayer from '../ReactPlayer'
 
 export default class MaestroPlayer extends React.Component {
   static propTypes = {
     refreshPlayer: PropTypes.func.isRequired,
     video: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-    }),
+      url: PropTypes.string.isRequired
+    })
   };
 
   static defaultProps = {
-    video: null,
+    video: null
   };
 
   state = {
-    ready: false,
+    ready: false
   };
 
   // End Player Controls
-  componentWillUpdate(nextProps) {
-    const { video: nextVideo } = nextProps;
+  componentWillUpdate (nextProps) {
     if (this.player) {
-      this.player.seekTo(100);
+      this.player.seekTo(100)
     }
   }
 
   // player methods
   ref = (player) => {
-    debugger;
-    this.player = player;
+    this.player = player
   };
 
   // inital sync on Ready
   onReady = () => {
-    debugger;
-    const { video } = this.props;
-    this.player.seekTo(video.offset);
+    const { video } = this.props
+    this.player.seekTo(video.offset)
     this.setState({
-      ready: true,
-    });
+      ready: true
+    })
   };
 
   onPause = () => {
-    this.wasPaused = true;
+    this.wasPaused = true
   };
 
   onPlay = () => {
-    const { refreshPlayer } = this.props;
+    const { refreshPlayer } = this.props
     if (this.wasPaused) {
-      this.wasPaused = false;
-      refreshPlayer();
+      this.wasPaused = false
+      refreshPlayer()
     }
   };
 
   onEnded = () => {
-    const { refreshPlayer } = this.props;
-    refreshPlayer();
+    const { refreshPlayer } = this.props
+    refreshPlayer()
   };
 
-  render() {
+  render () {
     const video = {
       url: 'https://mixer.com/embed/player/monstercat'
     }
@@ -69,7 +66,7 @@ export default class MaestroPlayer extends React.Component {
         { video && <ReactPlayer
           ref={this.ref}
           controls
-          height="100%"
+          height='100%'
           onEnded={this.onEnded}
           onPause={this.onPause}
           onPlay={this.onPlay}
@@ -79,12 +76,12 @@ export default class MaestroPlayer extends React.Component {
           style={{
             left: 0,
             position: 'absolute',
-            top: 0,
+            top: 0
           }}
           url={video.url}
-          width="100%"
+          width='100%'
         /> }
       </React.Fragment>
-    );
+    )
   }
 }

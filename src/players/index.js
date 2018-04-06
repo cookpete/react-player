@@ -23,5 +23,5 @@ export default [
   Mixcloud,
   UstreamLive,
   FilePlayer,
-  Iframe,
+  Iframe
 ]

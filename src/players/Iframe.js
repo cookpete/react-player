@@ -15,7 +15,7 @@ export class Iframe extends Component {
       currentTime: 0
     }
   }
-  componentDidMount() {
+  componentDidMount () {
     this.props.onReady()
   }
   play () {
