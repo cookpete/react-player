@@ -14,16 +14,18 @@ export class Iframe extends Component {
     this.player = {
       currentTime: 0
     }
+  }
+  componentDidMount() {
     this.props.onReady()
   }
   play () {
     this.playTime = Date.now()
-    setTimeout( () => (this.props.onPlay()), 1)
+    this.props.onPlay()
   }
   pause () {
     this.player.currentTime = this.getCurrentTime()
     this.playTime = null
-    setTimeout( () => (this.props.onPause()), 1)
+    this.props.onPause()
   }
   stop () {
     this.player.currentTime = this.getCurrentTime()
@@ -50,6 +52,7 @@ export class Iframe extends Component {
     return null
   }
   ref = container => {
+    console.log('b')
     this.container = container
   }
   render () {
