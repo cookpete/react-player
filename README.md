@@ -141,15 +141,17 @@ When `preload` is set to `true` for players that support it, a short, silent vid
 #### Static Methods
 
 Method | Description
----- | -----------
+------ | -----------
 `ReactPlayer.canPlay(url)` | Determine if a URL can be played. This does *not* detect media that is unplayable due to privacy settings, streaming permissions, etc. In that case, the `onError` prop will be invoked after attemping to play. Any URL that does not match any patterns will fall back to a native HTML5 media player.
+`ReactPlayer.addCustomPlayer(CustomPlayer)` | Add a custom player. See [Adding custom players](#adding-custom-players)
+`ReactPlayer.removeCustomPlayers()` | Remove any players that have been added using `addCustomPlayer()`
 
 #### Instance Methods
 
 Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call instance methods on the player. See [the demo app](src/demo/App.js) for an example of this.
 
 Method | Description
----- | -----------
+------ | -----------
 `seekTo(amount)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`
 `getCurrentTime()` | Returns the number of seconds that has been played<br />&nbsp; ◦ &nbsp;Returns `null` if duration is unavailable
 `getDuration()` | Returns the duration (in seconds) of the currently playing media<br />&nbsp; ◦ &nbsp;Returns `null` if duration is unavailable
@@ -230,16 +232,16 @@ If you aren’t using React, you can still render a player using the standalone 
 
 See [`jsFiddle` example](https://jsfiddle.net/krkcvx9s/)
 
-#### Adding your own players
+#### Adding custom players
 
-If you have your own player, that is compatible with ReactPlayer's internal architecture, you can use it like this:
+If you have your own player that is compatible with ReactPlayer’s internal architecture, you can add it using `addCustomPlayer`:
 
 ```javascript
 import YourOwnPlayer from './somewhere';
 ReactPlayer.addCustomPlayer(YourOwnPlayer);
 ```
 
-Or you can clear all additional players:
+Use `removeCustomPlayers` to clear all custom players:
 
 ```javascript
 ReactPlayer.removeCustomPlayers();
