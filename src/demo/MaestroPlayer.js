@@ -49,7 +49,7 @@ export default class MaestroPlayer extends React.Component {
   onReady = () => {
     console.log('NO READY FIRED', '123')
     console.log(this.player, 'rrr', this.playerz)
-    const { video } = this.props
+    const { video } = this.state;
     this.player.seekTo(video.offset)
     this.setState({
       ready: true
