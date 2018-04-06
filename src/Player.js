@@ -16,6 +16,7 @@ export default class Player extends Component {
   seekOnPlay = null
   onDurationCalled = false
   componentDidMount () {
+    console.log('MOUNTED')
     this.mounted = true
     this.player.load(this.props.url)
     this.progress()
@@ -120,7 +121,9 @@ export default class Player extends Component {
     this.player.seekTo(amount)
   }
   onReady = () => {
+    console.log('ready')
     if (!this.mounted) return
+    console.log('ready', 'mounted?')
     this.isReady = true
     this.isLoading = false
     const { onReady, playing, volume, muted } = this.props
