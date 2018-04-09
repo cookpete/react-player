@@ -18,7 +18,7 @@
     "preversion": "npm run lint",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
     "prepublishOnly": "npm run build:lib && npm run build:dist",
-    "mtm": "npm run prepublishOnly && mv ./dist ../maestro-web/node_modules/maestro-react-player/dist && mv ./lib ../maestro-web/node_modules/maestro-react-player/lib",
+    "mtm": "npm run prepublishOnly && rsync -r ./dist ../maestro-web/node_modules/maestro-react-player/dist && rsync -r ./lib ../maestro-web/node_modules/maestro-react-player/lib",
     "postpublish": "npm run clean"
   },
   "repository": {
