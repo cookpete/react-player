@@ -15,9 +15,21 @@ export default class MaestroPlayer extends React.Component {
   };
 
   state = {
+    video: null,
     ready: false
   };
-
+  componentDidMount () {
+    setTimeout(() => {
+      this.setState({
+        video: {
+          offset: 102,
+          spot: 'tv',
+          url: 'https://twitch.tv/monstercat'
+        },
+        ready: false
+      })
+    }, 1000)
+  }
   // End Player Controls
   componentWillUpdate (nextProps) {
     if (this.player) {
@@ -27,12 +39,16 @@ export default class MaestroPlayer extends React.Component {
 
   // player methods
   ref = (player) => {
+    console.log(player, 'PLAYER')
     this.player = player
+    this.playerz = '1'
   };
 
   // inital sync on Ready
   onReady = () => {
-    const { video } = this.props
+    console.log('NO READY FIRED', '123')
+    console.log(this.player, 'rrr', this.playerz)
+    const { video } = this.state
     this.player.seekTo(video.offset)
     this.setState({
       ready: true
@@ -57,10 +73,8 @@ export default class MaestroPlayer extends React.Component {
   };
 
   render () {
-    const video = {
-      url: 'https://mixer.com/embed/player/monstercat'
-    }
-
+    const { ready, video } = this.state
+    console.log(video, ready, 'STATE')
     return (
       <React.Fragment>
         { video && <ReactPlayer
@@ -81,6 +95,7 @@ export default class MaestroPlayer extends React.Component {
           url={video.url}
           width='100%'
         /> }
+        { !ready && <div> loading </div> }
       </React.Fragment>
     )
   }

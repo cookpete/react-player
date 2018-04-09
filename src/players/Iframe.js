@@ -9,14 +9,11 @@ export class Iframe extends Component {
   static displayName = 'Iframe';
   static canPlay = url => MATCH_URL.test(url);
   playerID = PLAYER_ID_PREFIX + randomString()
-
-  load (url) {
-    this.player = {
-      currentTime: 0
-    }
+  player = {
+    currentTime: 0
   }
-  componentDidMount () {
-    this.props.onReady()
+  load (url) {
+    setTimeout(() => this.props.onReady(), 3000)
   }
   play () {
     this.playTime = Date.now()
@@ -52,7 +49,6 @@ export class Iframe extends Component {
     return null
   }
   ref = container => {
-    console.log('b')
     this.container = container
   }
   render () {
