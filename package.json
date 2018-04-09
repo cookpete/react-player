@@ -1,6 +1,6 @@
 {
   "name": "maestro-react-player",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
@@ -18,7 +18,7 @@
     "preversion": "npm run lint",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
     "prepublishOnly": "npm run build:lib && npm run build:dist",
-    "mtm": "npm run prepublishOnly && rsync -r ./dist ../maestro-web/node_modules/maestro-react-player/dist && rsync -r ./lib ../maestro-web/node_modules/maestro-react-player/lib",
+    "mtm": "npm run prepublishOnly && rsync -r ./dist ../maestro-web/node_modules/maestro-react-player && rsync -r ./lib ../maestro-web/node_modules/maestro-react-player",
     "postpublish": "npm run clean"
   },
   "repository": {

@@ -19,7 +19,7 @@ export class Twitch extends Component {
   playerID = PLAYER_ID_PREFIX + randomString()
   load (url, isReady) {
     const { playsinline, onError, config } = this.props
-    const isChannel = MATCH_CHANNEL_URL.test(url)
+    const isChannel = Twitch.isChannel(url)
     const id = isChannel ? url.match(MATCH_CHANNEL_URL)[1] : url.match(MATCH_VIDEO_URL)[1]
 
     // hacks to fix seek logic on live players
@@ -70,7 +70,12 @@ export class Twitch extends Component {
     this.callPlayer('pause')
   }
   seekTo (seconds) {
-    this.callPlayer('seek', seconds)
+    const {url} = this.props
+
+    // only VOD should be
+    if (!Twitch.isChannel(url)) {
+      this.callPlayer('seek', seconds)
+    }
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
