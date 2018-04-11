@@ -19,6 +19,22 @@ export default function createSinglePlayer (activePlayer) {
     componentWillUpdate (nextProps) {
       this.config = getConfig(nextProps, defaultProps)
     }
+    getDuration = () => {
+      if (!this.player) return null
+      return this.player.getDuration()
+    }
+    getCurrentTime = () => {
+      if (!this.player) return null
+      return this.player.getCurrentTime()
+    }
+    getInternalPlayer = (key = 'player') => {
+      if (!this.player) return null
+      return this.player.getInternalPlayer(key)
+    }
+    seekTo = fraction => {
+      if (!this.player) return null
+      this.player.seekTo(fraction)
+    }
     ref = player => {
       this.player = player
     }
