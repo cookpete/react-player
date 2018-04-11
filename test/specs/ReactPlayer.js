@@ -371,7 +371,7 @@ describe('ReactPlayer', () => {
     })
   })
 
-  describe.only('FilePlayer forceVideo', () => {
+  describe('FilePlayer forceVideo', () => {
     beforeEach(done => {
       renderPlayer({
         url: 'http://example.com/file.mp3',
@@ -386,7 +386,7 @@ describe('ReactPlayer', () => {
     })
   })
 
-  describe.only('FilePlayer forceAudio', () => {
+  describe('FilePlayer forceAudio', () => {
     beforeEach(done => {
       renderPlayer({
         url: 'http://example.com/random/path',
