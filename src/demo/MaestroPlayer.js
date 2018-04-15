@@ -28,6 +28,16 @@ export default class MaestroPlayer extends React.Component {
         },
         ready: false
       })
+    }, 2000)
+    setTimeout(() => {
+      this.setState({
+        video: {
+          offset: 102,
+          spot: 'tv',
+          url: 'https://twitch.tv/redbull'
+        },
+        ready: false
+      })
     }, 1000)
   }
   // End Player Controls

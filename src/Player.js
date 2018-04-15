@@ -14,6 +14,7 @@ export default class Player extends Component {
   isLoading = true // Use isLoading to prevent onPause when switching URL
   startOnPlay = true
   seekOnPlay = null
+  nextUrl = null // Used to prevent double loading
   onDurationCalled = false
   componentDidMount () {
     this.mounted = true
@@ -34,7 +35,13 @@ export default class Player extends Component {
       this.isLoading = true
       this.startOnPlay = true
       this.onDurationCalled = false
-      this.player.load(nextProps.url, this.isReady)
+
+      // don't double load SDK
+      if (!this.isReady) {
+        this.nextUrl = nextProps.url
+      } else {
+        this.player.load(nextProps.url, true)
+      }
     }
     if (!playing && nextProps.playing && !this.isPlaying) {
       this.player.play()
@@ -124,6 +131,7 @@ export default class Player extends Component {
     this.isLoading = false
     const { onReady, playing, volume, muted } = this.props
     onReady()
+
     if (muted || volume !== null) {
       this.player.setVolume(muted ? 0 : volume)
     }
@@ -131,6 +139,12 @@ export default class Player extends Component {
       this.player.play()
     }
     this.onDurationCheck()
+
+    // url was attempting to play while sdk was loading.. load proper one
+    if (this.nextUrl) {
+      this.player.load(this.nextUrl, true)
+      this.nextUrl = null
+    }
   }
   onPlay = () => {
     this.isPlaying = true
