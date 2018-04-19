@@ -148,7 +148,7 @@ export class FilePlayer extends Component {
   getCurrentTime () {
     return this.player.currentTime
   }
-
+  // This methodology was take from video.js
   getBufferedEnd() {
     const buffered = this.player.buffered;
     const duration = this.getDuration();
@@ -160,7 +160,6 @@ export class FilePlayer extends Component {
 
     return end;
   }
-
   getSecondsLoaded () {
     if (this.player.buffered.length === 0) return 0;
     return this.getBufferedEnd();
