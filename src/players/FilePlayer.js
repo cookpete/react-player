@@ -148,9 +148,22 @@ export class FilePlayer extends Component {
   getCurrentTime () {
     return this.player.currentTime
   }
+
+  getBufferedEnd() {
+    const buffered = this.player.buffered;
+    const duration = this.getDuration();
+    let end = buffered.end(buffered.length - 1);
+
+    if (end > duration) {
+      end = duration;
+    }
+
+    return end;
+  }
+
   getSecondsLoaded () {
-    if (this.player.buffered.length === 0) return 0
-    return this.player.buffered.end(0)
+    if (this.player.buffered.length === 0) return 0;
+    return this.getBufferedEnd();
   }
   renderSource = (source, index) => {
     if (typeof source === 'string') {
