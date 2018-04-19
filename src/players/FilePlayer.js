@@ -149,20 +149,20 @@ export class FilePlayer extends Component {
     return this.player.currentTime
   }
   // This methodology was take from video.js
-  getBufferedEnd() {
-    const buffered = this.player.buffered;
-    const duration = this.getDuration();
-    let end = buffered.end(buffered.length - 1);
+  getBufferedEnd () {
+    const buffered = this.player.buffered
+    const duration = this.getDuration()
+    let end = buffered.end(buffered.length - 1)
 
     if (end > duration) {
-      end = duration;
+      end = duration
     }
 
-    return end;
+    return end
   }
   getSecondsLoaded () {
-    if (this.player.buffered.length === 0) return 0;
-    return this.getBufferedEnd();
+    if (this.player.buffered.length === 0) return 0
+    return this.getBufferedEnd()
   }
   renderSource = (source, index) => {
     if (typeof source === 'string') {

@@ -44,8 +44,8 @@ export default class ReactPlayer extends Component {
   }
 
   getSecondsLoaded = () => {
-    if (!this.player) return null;
-    return this.player.getSecondsLoaded();
+    if (!this.player) return null
+    return this.player.getSecondsLoaded()
   }
 
   getDuration = () => {
