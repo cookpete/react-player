@@ -12,6 +12,7 @@ const HLS_GLOBAL = 'Hls'
 const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js'
 const DASH_GLOBAL = 'dashjs'
+const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 
 function canPlay (url) {
   if (url instanceof Array) {
@@ -164,7 +165,18 @@ export class FilePlayer extends Component {
     if (this.player.buffered.length === 0) return 0
     return this.getBufferedEnd()
   }
-  renderSource = (source, index) => {
+  getSource (url) {
+    const useHLS = this.shouldUseHLS(url)
+    const useDASH = this.shouldUseDASH(url)
+    if (url instanceof Array || useHLS || useDASH) {
+      return undefined
+    }
+    if (MATCH_DROPBOX_URL.test(url)) {
+      return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+    }
+    return url
+  }
+  renderSourceElement = (source, index) => {
     if (typeof source === 'string') {
       return <source key={index} src={source} />
     }
@@ -179,10 +191,7 @@ export class FilePlayer extends Component {
   render () {
     const { url, loop, controls, config, width, height } = this.props
     const useAudio = this.shouldUseAudio(this.props)
-    const useHLS = this.shouldUseHLS(url)
-    const useDASH = this.shouldUseDASH(url)
     const Element = useAudio ? 'audio' : 'video'
-    const src = url instanceof Array || useHLS || useDASH ? undefined : url
     const style = {
       width: !width || width === 'auto' ? width : '100%',
       height: !height || height === 'auto' ? height : '100%'
@@ -190,14 +199,14 @@ export class FilePlayer extends Component {
     return (
       <Element
         ref={this.ref}
-        src={src}
+        src={this.getSource(url)}
         style={style}
         preload='auto'
         controls={controls}
         loop={loop}
         {...config.file.attributes}>
         {url instanceof Array &&
-          url.map(this.renderSource)
+          url.map(this.renderSourceElement)
         }
         {config.file.tracks.map(this.renderTrack)}
       </Element>
