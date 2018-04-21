@@ -42,12 +42,6 @@ export default class ReactPlayer extends Component {
   componentWillUpdate (nextProps) {
     this.config = getConfig(nextProps, defaultProps)
   }
-
-  getSecondsLoaded = () => {
-    if (!this.player) return null
-    return this.player.getSecondsLoaded()
-  }
-
   getDuration = () => {
     if (!this.player) return null
     return this.player.getDuration()
@@ -55,6 +49,10 @@ export default class ReactPlayer extends Component {
   getCurrentTime = () => {
     if (!this.player) return null
     return this.player.getCurrentTime()
+  }
+  getSecondsLoaded = () => {
+    if (!this.player) return null
+    return this.player.getSecondsLoaded()
   }
   getInternalPlayer = (key = 'player') => {
     if (!this.player) return null

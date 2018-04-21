@@ -27,6 +27,10 @@ export default function createSinglePlayer (activePlayer) {
       if (!this.player) return null
       return this.player.getCurrentTime()
     }
+    getSecondsLoaded = () => {
+      if (!this.player) return null
+      return this.player.getSecondsLoaded()
+    }
     getInternalPlayer = (key = 'player') => {
       if (!this.player) return null
       return this.player.getInternalPlayer(key)
