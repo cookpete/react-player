@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Hls from 'hls.js'
 
 import { getSDK } from '../utils'
 import createSinglePlayer from '../singlePlayer'
@@ -7,8 +8,6 @@ const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigato
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
-const HLS_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.8.9/hls.min.js'
-const HLS_GLOBAL = 'Hls'
 const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js'
 const DASH_GLOBAL = 'dashjs'
@@ -98,14 +97,12 @@ export class FilePlayer extends Component {
   }
   load (url) {
     if (this.shouldUseHLS(url)) {
-      getSDK(HLS_SDK_URL, HLS_GLOBAL).then(Hls => {
-        this.hls = new Hls(this.props.config.file.hlsOptions)
-        this.hls.on(Hls.Events.ERROR, (e, data) => {
-          this.props.onError(e, data, this.hls, Hls)
-        })
-        this.hls.loadSource(url)
-        this.hls.attachMedia(this.player)
+      this.hls = new Hls(this.props.config.file.hlsOptions)
+      this.hls.on(Hls.Events.ERROR, (e, data) => {
+        this.props.onError(e, data, this.hls, Hls)
       })
+      this.hls.loadSource(url)
+      this.hls.attachMedia(this.player)
     }
     if (this.shouldUseDASH(url)) {
       getSDK(DASH_SDK_URL, DASH_GLOBAL).then(dashjs => {
