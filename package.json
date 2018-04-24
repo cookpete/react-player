@@ -1,6 +1,6 @@
 {
-  "name": "react-player",
-  "version": "1.4.0",
+  "name": "react-player-cu",
+  "version": "1.0.0",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CookPete/react-player.git"
+    "url": "https://github.com/mrayrbles/react-player.git"
   },
   "keywords": [
     "react",
@@ -46,7 +46,7 @@
   "bugs": {
     "url": "https://github.com/CookPete/react-player/issues"
   },
-  "homepage": "https://github.com/CookPete/react-player",
+  "homepage": "",
   "peerDependencies": {
     "react": "*"
   },
@@ -128,7 +128,7 @@
     }
   },
   "postcss": {
-    "plugins": {
+    "plugins": {npm
       "postcss-nested": {},
       "postcss-sassy-mixins": {},
       "postcss-simple-vars": {},
