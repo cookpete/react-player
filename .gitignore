@@ -5,3 +5,4 @@ npm-debug.log
 /demo
 /test/coverage
 .idea
+/dist
