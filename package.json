@@ -1,6 +1,6 @@
 {
   "name": "react-player-cu",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
@@ -102,7 +102,6 @@
     "babel-plugin-transform-object-assign": "6.22.0",
     "babel-preset-es2015": "6.24.1",
     "deepmerge": "^2.0.1",
-    "hls.js": "0.9.1",
     "load-script": "^1.0.0",
     "prop-types": "^15.5.6"
   },
