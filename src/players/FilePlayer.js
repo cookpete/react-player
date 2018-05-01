@@ -129,6 +129,7 @@ export class FilePlayer extends Component {
       })
       .catch((err) => {
         console.log('hls failed to load');
+        if (retries === 5) throw new Error('Dash library is not loading from ', DASH_SDK_URL);
         this.load(url);
       })
     }
