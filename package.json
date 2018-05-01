@@ -1,6 +1,6 @@
 {
   "name": "react-player-cu",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
@@ -16,7 +16,7 @@
     "build:standalone": "cross-env NODE_ENV=production webpack --config webpack.standalone.babel.js",
     "preversion": "npm run lint",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:dist",
+    "prepare": "npm run build:lib && npm run build:dist",
     "postpublish": "npm run clean"
   },
   "repository": {
@@ -60,6 +60,8 @@
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
+    "babel-plugin-transform-object-assign": "6.22.0",
+    "babel-preset-es2015": "6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.16.0",
@@ -99,8 +101,6 @@
     "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
-    "babel-plugin-transform-object-assign": "6.22.0",
-    "babel-preset-es2015": "6.24.1",
     "deepmerge": "^2.0.1",
     "load-script": "^1.0.0",
     "prop-types": "^15.5.6"
