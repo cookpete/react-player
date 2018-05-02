@@ -97,8 +97,8 @@ export class FilePlayer extends Component {
   shouldUseDASH (url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
   }
-  load (url) {
-    let retries = 0;
+  load (url, retries = 5) {
+
     if (this.shouldUseHLS(url)) {
       // this.hls = new Hls(this.props.config.file.hlsOptions)
       // this.hls.on(Hls.Events.ERROR, (e, data) => {
@@ -116,12 +116,12 @@ export class FilePlayer extends Component {
       })
       .catch((err) => {
         console.log('hls failed to load', retries);
-        retries++;
-        if (retries === 5) {
+        retries--;
+        if (!retries) {
           throw new Error('Hls is not loading from ', HLS_SDK_URL);
         } else {
           setTimeout(() => {
-            this.load(url);     
+            this.load(url, retries);     
           }, 100);
           
         }
