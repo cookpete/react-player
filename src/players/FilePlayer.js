@@ -253,13 +253,11 @@ export class FilePlayer extends Component {
           return [file.libraryUrl.hls,...HLS_SDK_URLS];
         }
         return HLS_SDK_URLS;
-        break;
       case DASH: 
         if (file && file.libraryUrl && file.libraryUrl.dash) {
           return [file.libraryUrl.hls,...DASH_SDK_URLS];
         }
         return DASH_SDK_URLS;
-        break;
     } 
   }
 }
