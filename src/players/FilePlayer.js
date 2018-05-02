@@ -8,13 +8,13 @@ const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigato
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
-const HLS_SDK_URLS = ['https://cdn.jsdelivr.net/npm/hls.js@latest','https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.9.1/hls.min.js']
+const HLS_SDK_URLS = ['https://cdn.jsdelivr.net/npm/hls.js@latest', 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.9.1/hls.min.js']
 const HLS_GLOBAL = 'Hls'
 const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
-const DASH_SDK_URLS = ['https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js','https://cdn.dashjs.org/latest/dash.all.min.js']
+const DASH_SDK_URLS = ['https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js', 'https://cdn.dashjs.org/latest/dash.all.min.js']
 const DASH_GLOBAL = 'dashjs'
-const HLS = 'hls';
-const DASH = 'dash';
+const HLS = 'hls'
+const DASH = 'dash'
 
 function canPlay (url) {
   if (url instanceof Array) {
@@ -99,16 +99,14 @@ export class FilePlayer extends Component {
   shouldUseDASH (url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
   }
+  // TODO: Change retries to an array of urls that is whittled down.
   load (url, retries = null) {
-
+    // deal with hls videos
     if (this.shouldUseHLS(url)) {
-      
       const hlsUrls = this.getLibraryUrlArray(HLS)
-
       if (retries === null) {
         retries = hlsUrls.length - 1
       }
-
       getSDK(hlsUrls[retries], HLS_GLOBAL).then(Hls => {
         this.hls = new Hls(this.props.config.file.hlsOptions)
         this.hls.on(Hls.Events.ERROR, (e, data) => {
@@ -118,39 +116,41 @@ export class FilePlayer extends Component {
         this.hls.attachMedia(this.player)
       })
       .catch((err) => {
-        console.log('hls failed to load', retries);
-        retries--;
-        if (retries<0) {
-          throw new Error(`Hls is not loading from ${ this.getLibraryUrlArray(HLS).join(' ')  }`);
-        } else {
-          setTimeout(() => {
-            this.load(url, retries);     
-          }, 1000);
-          
+        // to get around lint error https://eslint.org/docs/rules/handle-callback-err
+        if (err) {
+          retries -= 1
+          if (retries < 0) {
+            throw new Error(`Hls is not loading from ${this.getLibraryUrlArray(HLS).join(' ')}`)
+          } else {
+            setTimeout(() => {
+              this.load(url, retries)
+            }, 1000)
+          }
         }
-        
       })
     }
+    // deal with dash videos
     if (this.shouldUseDASH(url)) {
-      const dashUrls = this.getLibraryUrlArray(DASH);
-
+      const dashUrls = this.getLibraryUrlArray(DASH)
       if (retries === null) {
         retries = dashUrls.length - 1
       }
-
       getSDK(dashUrls[retries], DASH_GLOBAL).then(dashjs => {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
       .catch((err) => {
-        retries--;
-        if (!retries) {
-          throw new Error(`Dash is not loading from ${ this.getLibraryUrlArray(DASH).join(' ') } `);
-        } else {
-          setTimeout(() => {
-            this.load(url, retries);     
-          }, 1000);
+        // to get around lint error https://eslint.org/docs/rules/handle-callback-err
+        if (err) {
+          retries -= 1
+          if (retries < 0) {
+            throw new Error(`Dash is not loading from ${this.getLibraryUrlArray(DASH).join(' ')}`)
+          } else {
+            setTimeout(() => {
+              this.load(url, retries)
+            }, 1000)
+          }
         }
       })
     }
@@ -243,22 +243,21 @@ export class FilePlayer extends Component {
       </Element>
     )
   }
-  getLibraryUrlArray(type) {
-    const { config } = this.props;
-    const { file } = config;
-
-    switch(type) {
-      case HLS: 
+  getLibraryUrlArray (type) {
+    const { config } = this.props
+    const { file } = config
+    switch (type) {
+      case HLS:
         if (file && file.libraryUrl && file.libraryUrl.hls) {
-          return [file.libraryUrl.hls,...HLS_SDK_URLS];
+          return [file.libraryUrl.hls, ...HLS_SDK_URLS]
         }
-        return HLS_SDK_URLS;
-      case DASH: 
+        return HLS_SDK_URLS
+      case DASH:
         if (file && file.libraryUrl && file.libraryUrl.dash) {
-          return [file.libraryUrl.hls,...DASH_SDK_URLS];
+          return [file.libraryUrl.hls, ...DASH_SDK_URLS]
         }
-        return DASH_SDK_URLS;
-    } 
+        return DASH_SDK_URLS
+    }
   }
 }
 
