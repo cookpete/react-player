@@ -115,19 +115,19 @@ export class FilePlayer extends Component {
         this.hls.loadSource(url)
         this.hls.attachMedia(this.player)
       })
-      .catch((err) => {
-        // to get around lint error https://eslint.org/docs/rules/handle-callback-err
-        if (err) {
-          retries -= 1
-          if (retries < 0) {
-            throw new Error(`Hls is not loading from ${this.getLibraryUrlArray(HLS).join(' ')}`)
-          } else {
-            setTimeout(() => {
-              this.load(url, retries)
-            }, 1000)
+        .catch((err) => {
+          // to get around lint error https://eslint.org/docs/rules/handle-callback-err
+          if (err) {
+            retries -= 1
+            if (retries < 0) {
+              throw new Error(`Hls is not loading from ${this.getLibraryUrlArray(HLS).join(' ')}`)
+            } else {
+              setTimeout(() => {
+                this.load(url, retries)
+              }, 1000)
+            }
           }
-        }
-      })
+        })
     }
     // deal with dash videos
     if (this.shouldUseDASH(url)) {
@@ -140,19 +140,19 @@ export class FilePlayer extends Component {
         this.dash.initialize(this.player, url, this.props.playing)
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
-      .catch((err) => {
-        // to get around lint error https://eslint.org/docs/rules/handle-callback-err
-        if (err) {
-          retries -= 1
-          if (retries < 0) {
-            throw new Error(`Dash is not loading from ${this.getLibraryUrlArray(DASH).join(' ')}`)
-          } else {
-            setTimeout(() => {
-              this.load(url, retries)
-            }, 1000)
+        .catch((err) => {
+          // to get around lint error https://eslint.org/docs/rules/handle-callback-err
+          if (err) {
+            retries -= 1
+            if (retries < 0) {
+              throw new Error(`Dash is not loading from ${this.getLibraryUrlArray(DASH).join(' ')}`)
+            } else {
+              setTimeout(() => {
+                this.load(url, retries)
+              }, 1000)
+            }
           }
-        }
-      })
+        })
     }
   }
   play () {
