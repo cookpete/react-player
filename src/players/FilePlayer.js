@@ -115,10 +115,17 @@ export class FilePlayer extends Component {
         this.hls.attachMedia(this.player)
       })
       .catch((err) => {
-        console.log('hls failed to load');
+        console.log('hls failed to load', retries);
         retries++;
-        if (retries === 5) throw new Error('Hls is not loading from ', HLS_SDK_URL);
-        this.load(url);
+        if (retries === 5) {
+          throw new Error('Hls is not loading from ', HLS_SDK_URL);
+        } else {
+          setTimeout(() => {
+            this.load(url);     
+          }, 100);
+          
+        }
+        
       })
     }
     if (this.shouldUseDASH(url)) {
