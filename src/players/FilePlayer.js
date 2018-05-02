@@ -8,7 +8,7 @@ const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigato
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
-const HLS_SDK_URL = 'https://cdn.jsdelivr.net/npm/hls.js@latest'
+const HLS_SDK_URLS = ['https://cdn.jsdelivr.net/npm/hls.js@latest','https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.9.1/hls.min.js']
 const HLS_GLOBAL = 'Hls'
 const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js'
@@ -97,7 +97,7 @@ export class FilePlayer extends Component {
   shouldUseDASH (url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
   }
-  load (url, retries = 5) {
+  load (url, retries = HLS_SDK_URLS.length) {
 
     if (this.shouldUseHLS(url)) {
       // this.hls = new Hls(this.props.config.file.hlsOptions)
@@ -106,7 +106,7 @@ export class FilePlayer extends Component {
       // })
       // this.hls.loadSource(url)
       // this.hls.attachMedia(this.player)
-      getSDK(HLS_SDK_URL, HLS_GLOBAL).then(Hls => {
+      getSDK(HLS_SDK_URLS[retries], HLS_GLOBAL).then(Hls => {
         this.hls = new Hls(this.props.config.file.hlsOptions)
         this.hls.on(Hls.Events.ERROR, (e, data) => {
           this.props.onError(e, data, this.hls, Hls)
@@ -122,7 +122,7 @@ export class FilePlayer extends Component {
         } else {
           setTimeout(() => {
             this.load(url, retries);     
-          }, 100);
+          }, 1000);
           
         }
         
@@ -135,9 +135,14 @@ export class FilePlayer extends Component {
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
       .catch((err) => {
-        console.log('hls failed to load');
-        if (retries === 5) throw new Error('Dash library is not loading from ', DASH_SDK_URL);
-        this.load(url);
+        retries--;
+        if (!retries) {
+          throw new Error('Dash is not loading from ', DASH_SDK_URL);
+        } else {
+          setTimeout(() => {
+            this.load(url, retries);     
+          }, 1000);
+        }
       })
     }
   }
