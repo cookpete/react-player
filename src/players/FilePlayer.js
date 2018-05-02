@@ -11,8 +11,10 @@ const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
 const HLS_SDK_URLS = ['https://cdn.jsdelivr.net/npm/hls.js@latest','https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.9.1/hls.min.js']
 const HLS_GLOBAL = 'Hls'
 const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
-const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js'
+const DASH_SDK_URLS = ['https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js','https://cdn.dashjs.org/latest/dash.all.min.js']
 const DASH_GLOBAL = 'dashjs'
+const HLS = 'hls';
+const DASH = 'dash';
 
 function canPlay (url) {
   if (url instanceof Array) {
@@ -97,16 +99,17 @@ export class FilePlayer extends Component {
   shouldUseDASH (url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
   }
-  load (url, retries = HLS_SDK_URLS.length - 1) {
+  load (url, retries = null) {
 
     if (this.shouldUseHLS(url)) {
-      // this.hls = new Hls(this.props.config.file.hlsOptions)
-      // this.hls.on(Hls.Events.ERROR, (e, data) => {
-      //   this.props.onError(e, data, this.hls, Hls)
-      // })
-      // this.hls.loadSource(url)
-      // this.hls.attachMedia(this.player)
-      getSDK(HLS_SDK_URLS[retries], HLS_GLOBAL).then(Hls => {
+      
+      const hlsUrls = this.getLibraryUrlArray(HLS)
+
+      if (retries === null) {
+        retries = hlsUrls.length - 1
+      }
+
+      getSDK(hlsUrls[retries], HLS_GLOBAL).then(Hls => {
         this.hls = new Hls(this.props.config.file.hlsOptions)
         this.hls.on(Hls.Events.ERROR, (e, data) => {
           this.props.onError(e, data, this.hls, Hls)
@@ -118,7 +121,7 @@ export class FilePlayer extends Component {
         console.log('hls failed to load', retries);
         retries--;
         if (retries<0) {
-          throw new Error(`Hls is not loading from ${ HLS_SDK_URLS.join(',')}`);
+          throw new Error(`Hls is not loading from ${ this.getLibraryUrlArray(HLS).join(' ')  }`);
         } else {
           setTimeout(() => {
             this.load(url, retries);     
@@ -129,7 +132,13 @@ export class FilePlayer extends Component {
       })
     }
     if (this.shouldUseDASH(url)) {
-      getSDK(DASH_SDK_URL, DASH_GLOBAL).then(dashjs => {
+      const dashUrls = this.getLibraryUrlArray(DASH);
+
+      if (retries === null) {
+        retries = dashUrls.length - 1
+      }
+
+      getSDK(dashUrls[retries], DASH_GLOBAL).then(dashjs => {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
         this.dash.getDebug().setLogToBrowserConsole(false)
@@ -137,7 +146,7 @@ export class FilePlayer extends Component {
       .catch((err) => {
         retries--;
         if (!retries) {
-          throw new Error('Dash is not loading from ', DASH_SDK_URL);
+          throw new Error(`Dash is not loading from ${ this.getLibraryUrlArray(DASH).join(' ') } `);
         } else {
           setTimeout(() => {
             this.load(url, retries);     
@@ -233,6 +242,25 @@ export class FilePlayer extends Component {
         {config.file.tracks.map(this.renderTrack)}
       </Element>
     )
+  }
+  getLibraryUrlArray(type) {
+    const { config } = this.props;
+    const { file } = config;
+
+    switch(type) {
+      case HLS: 
+        if (file && file.libraryUrl && file.libraryUrl.hls) {
+          return [file.libraryUrl.hls,...HLS_SDK_URLS];
+        }
+        return HLS_SDK_URLS;
+        break;
+      case DASH: 
+        if (file && file.libraryUrl && file.libraryUrl.dash) {
+          return [file.libraryUrl.hls,...DASH_SDK_URLS];
+        }
+        return DASH_SDK_URLS;
+        break;
+    } 
   }
 }
 

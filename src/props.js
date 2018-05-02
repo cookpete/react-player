@@ -42,7 +42,11 @@ export const propTypes = {
       forceAudio: bool,
       forceHLS: bool,
       forceDASH: bool,
-      hlsOptions: object
+      hlsOptions: object,
+      libraryUrl: shape({
+        hls: string,
+        dash: string
+      })
     }),
     wistia: shape({
       options: object
