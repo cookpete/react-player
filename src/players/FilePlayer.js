@@ -118,7 +118,7 @@ export class FilePlayer extends Component {
         console.log('hls failed to load', retries);
         retries--;
         if (retries<0) {
-          throw new Error('Hls is not loading from ', HLS_SDK_URLS.join(','));
+          throw new Error(`Hls is not loading from ${ HLS_SDK_URLS.join(',')}`);
         } else {
           setTimeout(() => {
             this.load(url, retries);     
