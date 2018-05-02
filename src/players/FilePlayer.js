@@ -97,7 +97,7 @@ export class FilePlayer extends Component {
   shouldUseDASH (url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
   }
-  load (url, retries = HLS_SDK_URLS.length) {
+  load (url, retries = HLS_SDK_URLS.length - 1) {
 
     if (this.shouldUseHLS(url)) {
       // this.hls = new Hls(this.props.config.file.hlsOptions)
