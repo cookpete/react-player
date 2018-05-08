@@ -80,6 +80,10 @@ export class Twitch extends Component {
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }
+  getVolume () {
+    const volume = this.callPlayer('getVolume');
+    return volume
+  }
   getDuration () {
     // need this for offline mode too
     if (Twitch.isChannel(this.props.url)) {

@@ -87,6 +87,11 @@ export default class Player extends Component {
           playedSeconds,
           played: playedSeconds / duration
         }
+
+        // only twitch atm because they don't have an onVolume :/
+        if (this.player.getVolume) {
+          progress.volume = this.player.getVolume();
+        }
         if (loadedSeconds !== null) {
           progress.loadedSeconds = loadedSeconds
           progress.loaded = loadedSeconds / duration
