@@ -11,6 +11,7 @@ import './App.css'
 import { version } from '../../package.json'
 import ReactPlayer from '../ReactPlayer'
 import Duration from './Duration'
+import { canAutoPlay } from '../utils'
 
 const MULTIPLE_SOURCES = [
   { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
@@ -28,7 +29,8 @@ class App extends Component {
     loaded: 0,
     duration: 0,
     playbackRate: 1.0,
-    loop: false
+    loop: false,
+    canAutoPlay: null
   }
   load = url => {
     this.setState({
@@ -98,13 +100,24 @@ class App extends Component {
       </button>
     )
   }
+  componentDidMount () {
+    canAutoPlay().then((result) => {
+      console.log('***********************')
+      console.log('App.canAutoPlay')
+      console.log(result)
+      console.log('***********************')
+      this.setState({
+        canAutoPlay: result
+      })
+    })
+  }
   ref = player => {
     this.player = player
   }
   render () {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.state
+    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate, canAutoPlay } = this.state
     const SEPARATOR = ' · '
-
+    if (this.state.canAutoPlay === null) return null
     return (
       <div className='app'>
         <section className='section'>
@@ -119,6 +132,7 @@ class App extends Component {
               playing={playing}
               loop={loop}
               playbackRate={playbackRate}
+              autoplay={canAutoPlay}
               volume={volume}
               muted={muted}
               onReady={() => console.log('onReady')}

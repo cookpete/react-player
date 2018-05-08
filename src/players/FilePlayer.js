@@ -156,13 +156,17 @@ export class FilePlayer extends Component {
     }
   }
   play () {
-    const promise = this.player.play()
-    if (promise) {
-      promise.catch(this.props.onError)
+    try {
+      const promise = this.player.play()
+      if (promise) {
+        promise.catch(this.props.onError)
+      }
+    } catch (err) {
+      throw new Error(`FilePlayer error trying to play video: ${err.message}`)
     }
   }
   pause () {
-    this.player.pause()
+    if (this.player) this.player.pause()
   }
   stop () {
     this.player.removeAttribute('src')
@@ -174,19 +178,19 @@ export class FilePlayer extends Component {
     }
   }
   seekTo (seconds) {
-    this.player.currentTime = seconds
+    if (this.player) this.player.currentTime = seconds
   }
   setVolume (fraction) {
-    this.player.volume = fraction
+    if (this.player) this.player.volume = fraction
   }
   setPlaybackRate (rate) {
-    this.player.playbackRate = rate
+    if (this.player) this.player.playbackRate = rate
   }
   getDuration () {
-    return this.player.duration
+    return this.player ? this.player.duration : 0
   }
   getCurrentTime () {
-    return this.player.currentTime
+    return this.player ? this.player.currentTime : 0
   }
   // This methodology was take from video.js
   getBufferedEnd () {
