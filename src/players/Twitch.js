@@ -40,18 +40,21 @@ export class Twitch extends Component {
         height: '100%',
         width: '100%',
         playsinline: playsinline,
-        autoplay: this.props.playing,
+        autoplay: true,
         ...config.twitch.options
       })
       const { READY, PLAY, PAUSE, ENDED } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)
       this.player.addEventListener(PLAY, (args) => {
+
+        console.log('ON PLAY CALLBACK')
         if (isChannel) {
           this.channelTime = this.pausedTime
         }
         this.props.onPlay(args)
       })
       this.player.addEventListener(PAUSE, (args) => {
+         console.log('ON PAUSE CALLBACK')
         if (isChannel) {
           this.pausedTime = this.getCurrentTime()
         }
@@ -61,9 +64,11 @@ export class Twitch extends Component {
     }, onError)
   }
   play () {
+    console.log('EXECUTE PLAY')
     this.callPlayer('play')
   }
   pause () {
+    console.log('EXECUTE PAUSE')
     this.callPlayer('pause')
   }
   stop () {
