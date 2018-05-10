@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
-import { getConfig, omit, isEqual, canAutoPlay } from './utils'
+import { getConfig, omit, isEqual } from './utils'
 import players from './players'
 import Player from './Player'
 import { FilePlayer } from './players/FilePlayer'
@@ -18,7 +18,6 @@ export default class ReactPlayer extends Component {
   static removeCustomPlayers = () => {
     customPlayers = []
   }
-  static canAutoPlay = canAutoPlay
   static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
@@ -113,4 +112,3 @@ export default class ReactPlayer extends Component {
     )
   }
 }
-
