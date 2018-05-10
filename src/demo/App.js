@@ -267,6 +267,7 @@ class App extends Component {
             <tr>
               <th>Files</th>
               <td>
+                {this.renderLoadButton('https://c16bf6dae818f25ef804-3497e1c83042e554e7f05925f38cc356.ssl.cf1.rackcdn.com/56526b0eb160252f1ae2d70a/56ac5b7e959aec7372545e5f.mp4','mp4')}
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', 'ogv')}
                 {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', 'webm')}
