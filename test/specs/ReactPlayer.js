@@ -111,8 +111,8 @@ describe('ReactPlayer', () => {
         }
       }
     }
-    // Note that playing is set to true by default
-    render(<ReactPlayer ref={ref} playing {...props} />, div)
+    // Note that playing and muted are set to true by default
+    render(<ReactPlayer ref={ref} playing muted {...props} />, div)
   }
 
   // Test util for rendering a player and then changing props after a short time
@@ -214,8 +214,8 @@ describe('ReactPlayer', () => {
 
       it('muted change does not error', done => {
         renderPlayerChange(
-          { url: test.url, muted: false },
-          { muted: true },
+          { url: test.url, muted: true },
+          { muted: false },
           () => setTimeout(done, 1000)
         )
       })
