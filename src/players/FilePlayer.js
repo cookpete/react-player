@@ -140,6 +140,12 @@ export class FilePlayer extends Component {
   setVolume (fraction) {
     this.player.volume = fraction
   }
+  mute = () => {
+    this.player.muted = true
+  }
+  unmute = () => {
+    this.player.muted = false
+  }
   setPlaybackRate (rate) {
     this.player.playbackRate = rate
   }
@@ -185,12 +191,12 @@ export class FilePlayer extends Component {
     this.player = player
   }
   render () {
-    const { url, loop, controls, config, width, height } = this.props
+    const { url, playing, loop, controls, muted, config, width, height } = this.props
     const useAudio = this.shouldUseAudio(this.props)
     const Element = useAudio ? 'audio' : 'video'
     const style = {
-      width: !width || width === 'auto' ? width : '100%',
-      height: !height || height === 'auto' ? height : '100%'
+      width: width === 'auto' ? width : '100%',
+      height: height === 'auto' ? height : '100%'
     }
     return (
       <Element
@@ -198,7 +204,9 @@ export class FilePlayer extends Component {
         src={this.getSource(url)}
         style={style}
         preload='auto'
+        autoPlay={playing}
         controls={controls}
+        muted={muted}
         loop={loop}
         {...config.file.attributes}>
         {url instanceof Array &&

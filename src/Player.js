@@ -42,12 +42,18 @@ export default class Player extends Component {
     if (playing && !nextProps.playing && this.isPlaying) {
       this.player.pause()
     }
-    if (nextProps.volume !== null) {
-      if (volume !== nextProps.volume && !nextProps.muted) {
-        this.player.setVolume(nextProps.volume)
-      }
-      if (muted !== nextProps.muted) {
-        this.player.setVolume(nextProps.muted ? 0 : nextProps.volume)
+    if (volume !== nextProps.volume && nextProps.volume !== null) {
+      this.player.setVolume(nextProps.volume)
+    }
+    if (muted !== nextProps.muted) {
+      if (nextProps.muted) {
+        this.player.mute()
+      } else {
+        this.player.unmute()
+        if (nextProps.volume !== null) {
+          // Set volume next tick to fix a bug with DailyMotion
+          setTimeout(() => this.player.setVolume(nextProps.volume))
+        }
       }
     }
     if (playbackRate !== nextProps.playbackRate && this.player.setPlaybackRate) {
@@ -121,8 +127,8 @@ export default class Player extends Component {
     this.isLoading = false
     const { onReady, playing, volume, muted } = this.props
     onReady()
-    if (muted || volume !== null) {
-      this.player.setVolume(muted ? 0 : volume)
+    if (!muted && volume !== null) {
+      this.player.setVolume(volume)
     }
     if (playing) {
       this.player.play()

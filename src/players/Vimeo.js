@@ -28,6 +28,8 @@ export class Vimeo extends Component {
       this.player = new Vimeo.Player(this.container, {
         ...this.props.config.vimeo.playerOptions,
         url,
+        autoplay: this.props.playing,
+        muted: this.props.muted,
         loop: this.props.loop
       })
       this.player.ready().then(() => {
@@ -68,6 +70,14 @@ export class Vimeo extends Component {
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
+  }
+  mute = () => {
+    this.setVolume(0)
+  }
+  unmute = () => {
+    if (this.props.volume !== null) {
+      this.setVolume(this.props.volume)
+    }
   }
   getDuration () {
     return this.duration

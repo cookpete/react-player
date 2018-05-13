@@ -93,7 +93,6 @@ export const defaultProps = {
     },
     youtube: {
       playerVars: {
-        autoplay: 0,
         playsinline: 1,
         showinfo: 0,
         rel: 0,
@@ -115,7 +114,6 @@ export const defaultProps = {
     vimeo: {
       playerOptions: {
         autopause: false,
-        autoplay: false,
         byline: false,
         portrait: false,
         title: false

@@ -35,7 +35,10 @@ export class Facebook extends Component {
           this.player.subscribe('finishedPlaying', this.props.onEnded)
           this.player.subscribe('startedBuffering', this.props.onBuffer)
           this.player.subscribe('error', this.props.onError)
-          this.callPlayer('unmute')
+          if (!this.props.muted) {
+            // Player is muted by default
+            this.callPlayer('unmute')
+          }
           this.props.onReady()
         }
       })
@@ -54,10 +57,13 @@ export class Facebook extends Component {
     this.callPlayer('seek', seconds)
   }
   setVolume (fraction) {
-    if (fraction !== 0) {
-      this.callPlayer('unmute')
-    }
     this.callPlayer('setVolume', fraction)
+  }
+  mute = () => {
+    this.callPlayer('mute')
+  }
+  unmute = () => {
+    this.callPlayer('unmute')
   }
   getDuration () {
     return this.callPlayer('getDuration')
@@ -80,8 +86,9 @@ export class Facebook extends Component {
         id={this.playerID}
         className='fb-video'
         data-href={this.props.url}
+        data-autoplay={this.props.playing ? 'true' : 'false'}
         data-allowfullscreen='true'
-        data-controls={!this.props.controls ? 'false' : undefined}
+        data-controls={this.props.controls ? 'true' : 'false'}
       />
     )
   }

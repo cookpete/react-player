@@ -46,6 +46,12 @@ export class Mixcloud extends Component {
   setVolume (fraction) {
     // No volume support
   }
+  mute = () => {
+    // No volume support
+  }
+  unmute = () => {
+    // No volume support
+  }
   getDuration () {
     return this.duration
   }
