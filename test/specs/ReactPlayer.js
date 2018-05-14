@@ -43,8 +43,7 @@ const TEST_URLS = [
   {
     name: 'YouTube',
     url: 'https://www.youtube.com/watch?v=M7lc1UVf-VE',
-    switchTo: 'https://www.youtube.com/watch?v=oUFJJNQGwhk',
-    error: 'https://www.youtube.com/watch?v=xxxxxxxxxxx'
+    switchTo: 'https://www.youtube.com/watch?v=oUFJJNQGwhk'
   },
   {
     name: 'SoundCloud',
