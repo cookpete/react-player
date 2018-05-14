@@ -49,7 +49,8 @@ const TEST_URLS = [
     name: 'SoundCloud',
     url: 'https://soundcloud.com/miami-nights-1984/accelerated',
     switchTo: 'https://soundcloud.com/tycho/tycho-awake',
-    error: 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx'
+    error: 'https://soundcloud.com/xxxxxxxxxxx/xxxxxxxxxxx',
+    skip: true
   },
   {
     name: 'Facebook',
