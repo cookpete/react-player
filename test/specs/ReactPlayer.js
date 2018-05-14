@@ -12,7 +12,7 @@ const TEST_URLS = [
   {
     name: 'FilePlayer',
     url: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv',
-    switchTo: 'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
+    switchTo: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm',
     error: 'http://example.com/error.ogv',
     onSeek: true
   },
