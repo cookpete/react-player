@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 const { string, bool, number, array, oneOfType, shape, object, func } = PropTypes
 
 export const propTypes = {
-  url: oneOfType([ string, array ]),
+  url: oneOfType([ string, array, object ]),
   playing: bool,
   loop: bool,
   controls: bool,

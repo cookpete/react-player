@@ -26,6 +26,9 @@ function canPlay (url) {
     }
     return false
   }
+  if (url instanceof window.MediaStream) {
+    return true
+  }
   return (
     AUDIO_EXTENSIONS.test(url) ||
     VIDEO_EXTENSIONS.test(url) ||
@@ -115,6 +118,13 @@ export class FilePlayer extends Component {
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
+    if (url instanceof window.MediaStream) {
+      try {
+        this.player.srcObject = url
+      } catch (e) {
+        this.player.src = window.URL.createObjectURL(url)
+      }
+    }
   }
   play () {
     const promise = this.player.play()
@@ -170,7 +180,7 @@ export class FilePlayer extends Component {
   getSource (url) {
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
-    if (url instanceof Array || useHLS || useDASH) {
+    if (url instanceof Array || url instanceof window.MediaStream || useHLS || useDASH) {
       return undefined
     }
     if (MATCH_DROPBOX_URL.test(url)) {
