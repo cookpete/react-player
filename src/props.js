@@ -32,7 +32,7 @@ export const propTypes = {
       preload: bool
     }),
     vimeo: shape({
-      iframeParams: object,
+      playerOptions: object,
       preload: bool
     }),
     file: shape({

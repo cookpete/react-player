@@ -31,7 +31,7 @@ export interface DailyMotionConfig {
 }
 
 export interface VimeoConfig {
-  iframeParams?: Object;
+  playerOptions?: Object;
   preload?: boolean;
 }
 
