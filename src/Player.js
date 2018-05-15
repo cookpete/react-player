@@ -12,6 +12,7 @@ export default class Player extends Component {
   isReady = false
   isPlaying = false // Track playing state internally to prevent bugs
   isLoading = true // Use isLoading to prevent onPause when switching URL
+  loadOnReady = null
   startOnPlay = true
   seekOnPlay = null
   onDurationCalled = false
@@ -32,6 +33,11 @@ export default class Player extends Component {
     // Invoke player methods based on incoming props
     const { url, playing, volume, muted, playbackRate } = this.props
     if (url !== nextProps.url) {
+      if (this.isLoading) {
+        console.warn(`ReactPlayer: the attempt to load ${nextProps.url} is being deferred until the player has loaded`)
+        this.loadOnReady = nextProps.url
+        return
+      }
       this.isLoading = true
       this.startOnPlay = true
       this.onDurationCalled = false
@@ -131,7 +137,10 @@ export default class Player extends Component {
     if (!muted && volume !== null) {
       this.player.setVolume(volume)
     }
-    if (playing) {
+    if (this.loadOnReady) {
+      this.player.load(this.loadOnReady, true)
+      this.loadOnReady = null
+    } else if (playing) {
       this.player.play()
     }
     this.onDurationCheck()
