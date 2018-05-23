@@ -15,7 +15,7 @@ export class YouTube extends Component {
 
   callPlayer = callPlayer
   load (url, isReady) {
-    const { playsinline, controls, config, onError } = this.props
+    const { playing, muted, playsinline, controls, config, onError } = this.props
     const id = url && url.match(MATCH_URL)[1]
     if (isReady) {
       this.player.cueVideoById({
@@ -31,6 +31,8 @@ export class YouTube extends Component {
         height: '100%',
         videoId: id,
         playerVars: {
+          autoplay: playing ? 1 : 0,
+          mute: muted ? 1 : 0,
           controls: controls ? 1 : 0,
           start: parseStartTime(url),
           origin: window.location.origin,
@@ -69,6 +71,12 @@ export class YouTube extends Component {
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
+  }
+  mute = () => {
+    this.callPlayer('mute')
+  }
+  unmute = () => {
+    this.callPlayer('unMute')
   }
   setPlaybackRate (rate) {
     this.callPlayer('setPlaybackRate', rate)

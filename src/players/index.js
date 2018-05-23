@@ -6,9 +6,9 @@ import { Streamable } from './Streamable'
 import { Wistia } from './Wistia'
 import { Twitch } from './Twitch'
 import { DailyMotion } from './DailyMotion'
-import { Mixcloud } from './Mixcloud'
 import { UstreamLive } from './UstreamLive'
 import { Iframe } from './Iframe'
+import { Mixcloud } from './Mixcloud'
 import { FilePlayer } from './FilePlayer'
 
 export default [
@@ -23,5 +23,5 @@ export default [
   Mixcloud,
   UstreamLive,
   FilePlayer,
-  Iframe
+  Iframe,
 ]

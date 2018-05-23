@@ -35,6 +35,9 @@ export class Streamable extends Component {
           this.secondsLoaded = this.duration * percent
         }
       })
+      if (this.props.muted) {
+        this.player.mute()
+      }
     }, this.props.onError)
   }
   play () {
@@ -51,6 +54,12 @@ export class Streamable extends Component {
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
+  }
+  mute = () => {
+    this.callPlayer('mute')
+  }
+  unmute = () => {
+    this.callPlayer('unmute')
   }
   getDuration () {
     return this.duration

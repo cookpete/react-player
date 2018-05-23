@@ -1,6 +1,6 @@
 {
-  "name": "maestro-react-player",
-  "version": "1.0.6",
+  "name": "react-player",
+  "version": "1.1.0",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
@@ -8,7 +8,6 @@
     "clean": "rimraf lib demo",
     "start": "webpack-dev-server",
     "lint": "standard --verbose | snazzy",
-    "format": "standard --fix --verbose | snazzy",
     "test": "cross-env NODE_ENV=test babel-node ./node_modules/karma/bin/karma start test/karma.config.js",
     "coverage": "codecov",
     "build:lib": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
@@ -18,12 +17,13 @@
     "preversion": "npm run lint",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
     "prepublishOnly": "npm run build:lib && npm run build:dist",
+    "format": "standard --fix --verbose | snazzy",
     "mtm": "npm run prepublishOnly && rsync -r ./dist ../maestro-web/node_modules/maestro-react-player && rsync -r ./lib ../maestro-web/node_modules/maestro-react-player",
     "postpublish": "npm run clean"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lessthan3/maestro-react-player.git"
+    "url": "https://github.com/CookPete/react-player.git"
   },
   "keywords": [
     "react",
@@ -43,12 +43,12 @@
     "dash",
     "react-component"
   ],
-  "author": "Jason Gornall <jason@maestro.io> (http://github.com/jasongornall)",
+  "author": "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lessthan3/maestro-react-player/issues"
+    "url": "https://github.com/CookPete/react-player/issues"
   },
-  "homepage": "https://github.com/lessthan3/maestro-react-player",
+  "homepage": "https://github.com/CookPete/react-player",
   "peerDependencies": {
     "react": "*"
   },

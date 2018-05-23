@@ -21,6 +21,7 @@ export class UstreamLive extends Component {
   }
   load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(UstreamEmbed => {
+      if (!this.container) return
       this.player = UstreamEmbed(this.playerID)
       this.player.currentTime = 0
       this.player.addListener('playing', (type, playing) => {
@@ -45,6 +46,13 @@ export class UstreamLive extends Component {
       })
     }, this.props.onError)
   }
+  mute = () => {
+     // todo
+  }
+  unmute = () => {
+    // todo
+  }
+
   play () {
     this.callPlayer('callMethod', 'play')
   }

@@ -12,9 +12,9 @@ export default class Player extends Component {
   isReady = false
   isPlaying = false // Track playing state internally to prevent bugs
   isLoading = true // Use isLoading to prevent onPause when switching URL
+  loadOnReady = null
   startOnPlay = true
   seekOnPlay = null
-  nextUrl = null // Used to prevent double loading
   onDurationCalled = false
   componentDidMount () {
     this.mounted = true
@@ -23,6 +23,7 @@ export default class Player extends Component {
   }
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
+    clearTimeout(this.durationCheckTimeout)
     if (this.isReady) {
       this.player.stop()
     }
@@ -32,16 +33,15 @@ export default class Player extends Component {
     // Invoke player methods based on incoming props
     const { url, playing, volume, muted, playbackRate } = this.props
     if (url !== nextProps.url) {
+      if (this.isLoading) {
+        console.warn(`ReactPlayer: the attempt to load ${nextProps.url} is being deferred until the player has loaded`)
+        this.loadOnReady = nextProps.url
+        return
+      }
       this.isLoading = true
       this.startOnPlay = true
       this.onDurationCalled = false
-
-      // don't double load SDK
-      if (!this.isReady) {
-        this.nextUrl = nextProps.url
-      } else {
-        this.player.load(nextProps.url, true)
-      }
+      this.player.load(nextProps.url, this.isReady)
     }
     if (!playing && nextProps.playing && !this.isPlaying) {
       this.player.play()
@@ -49,12 +49,18 @@ export default class Player extends Component {
     if (playing && !nextProps.playing && this.isPlaying) {
       this.player.pause()
     }
-    if (nextProps.volume !== null) {
-      if (volume !== nextProps.volume && !nextProps.muted) {
-        this.player.setVolume(nextProps.volume)
-      }
-      if (muted !== nextProps.muted) {
-        this.player.setVolume(nextProps.muted ? 0 : nextProps.volume)
+    if (volume !== nextProps.volume && nextProps.volume !== null) {
+      this.player.setVolume(nextProps.volume)
+    }
+    if (muted !== nextProps.muted) {
+      if (nextProps.muted) {
+        this.player.mute()
+      } else {
+        this.player.unmute()
+        if (nextProps.volume !== null) {
+          // Set volume next tick to fix a bug with DailyMotion
+          setTimeout(() => this.player.setVolume(nextProps.volume))
+        }
       }
     }
     if (playbackRate !== nextProps.playbackRate && this.player.setPlaybackRate) {
@@ -87,23 +93,20 @@ export default class Player extends Component {
           playedSeconds,
           played: playedSeconds / duration
         }
-
-        // only twitch atm because they don't have an onVolume :/
-        if (this.player.getVolume) {
-          progress.volume = this.player.getVolume();
-        }
         if (loadedSeconds !== null) {
           progress.loadedSeconds = loadedSeconds
           progress.loaded = loadedSeconds / duration
         }
-
-        // Special case for live types so they still OnProgress
-        if (duration === Infinity && progress.playedSeconds !== this.prevPlayedSeconds) {
-          this.props.onProgress(progress)
-        } else if (progress.played !== this.prevPlayed || progress.loaded !== this.prevLoaded) {
+        if (this.player.getVolume) {
+          progress.volume = this.player.getVolume();
+        }
+        if (this.player.getMuted) {
+          progress.muted = this.player.getMuted();
+        }
+        // Only call onProgress if values have changed
+        if (progress.loaded !== this.prevLoaded || progress.playedSeconds !== this.playedSeconds) {
           this.props.onProgress(progress)
         }
-        this.prevPlayedSeconds = progress.playedSeconds
         this.prevPlayed = progress.played
         this.prevLoaded = progress.loaded
       }
@@ -123,6 +126,7 @@ export default class Player extends Component {
       // Convert fraction to seconds based on duration
       const duration = this.player.getDuration()
       if (!duration) {
+        console.warn('ReactPlayer: could not seek using fraction – duration not yet available')
         return
       }
       this.player.seekTo(duration * amount)
@@ -136,20 +140,16 @@ export default class Player extends Component {
     this.isLoading = false
     const { onReady, playing, volume, muted } = this.props
     onReady()
-
-    if (muted || volume !== null) {
-      this.player.setVolume(muted ? 0 : volume)
+    if (!muted && volume !== null) {
+      this.player.setVolume(volume)
     }
-    if (playing) {
+    if (this.loadOnReady) {
+      this.player.load(this.loadOnReady, true)
+      this.loadOnReady = null
+    } else if (playing) {
       this.player.play()
     }
     this.onDurationCheck()
-
-    // url was attempting to play while sdk was loading.. load proper one
-    if (this.nextUrl) {
-      this.player.load(this.nextUrl, true)
-      this.nextUrl = null
-    }
   }
   onPlay = () => {
     this.isPlaying = true

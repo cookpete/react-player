@@ -38,6 +38,7 @@ export class DailyMotion extends Component {
         params: {
           controls: controls,
           autoplay: this.props.playing,
+          mute: this.props.muted,
           start: parseStartTime(url),
           origin: window.location.origin,
           ...config.dailymotion.params
@@ -73,6 +74,12 @@ export class DailyMotion extends Component {
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
+  }
+  mute = () => {
+    this.callPlayer('setMuted', true)
+  }
+  unmute = () => {
+    this.callPlayer('setMuted', false)
   }
   getDuration () {
     return this.player.duration || null

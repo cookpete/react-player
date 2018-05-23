@@ -7,11 +7,12 @@ const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigato
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
-const HLS_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.8.9/hls.min.js'
+const HLS_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.9.1/hls.min.js'
 const HLS_GLOBAL = 'Hls'
 const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js'
 const DASH_GLOBAL = 'dashjs'
+const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 
 function canPlay (url) {
   if (url instanceof Array) {
@@ -24,6 +25,9 @@ function canPlay (url) {
       }
     }
     return false
+  }
+  if (url instanceof window.MediaStream) {
+    return true
   }
   return (
     AUDIO_EXTENSIONS.test(url) ||
@@ -56,11 +60,9 @@ export class FilePlayer extends Component {
   componentWillUnmount () {
     this.removeListeners()
   }
-
   addListeners () {
     const { onReady, onPlay, onPause, onEnded, onError, playsinline } = this.props
-    this.player.addEventListener('loadeddata', onReady)
-    // TODO may want canPlay to continue playing for slow browsers
+    this.player.addEventListener('canplay', onReady)
     this.player.addEventListener('play', onPlay)
     this.player.addEventListener('pause', onPause)
     this.player.addEventListener('seeked', this.onSeek)
@@ -73,8 +75,7 @@ export class FilePlayer extends Component {
   }
   removeListeners () {
     const { onReady, onPlay, onPause, onEnded, onError } = this.props
-    this.player.addEventListener('loadeddata', onReady)
-    // TODO may want canPlay to continue playing for slow browsers
+    this.player.removeEventListener('canplay', onReady)
     this.player.removeEventListener('play', onPlay)
     this.player.removeEventListener('pause', onPause)
     this.player.removeEventListener('seeked', this.onSeek)
@@ -85,6 +86,12 @@ export class FilePlayer extends Component {
     this.props.onSeek(e.target.currentTime)
   }
   shouldUseAudio (props) {
+    if (props.config.file.forceVideo) {
+      return false
+    }
+    if (props.config.file.attributes.poster) {
+      return false // Use <video> so that poster is shown
+    }
     return AUDIO_EXTENSIONS.test(props.url) || props.config.file.forceAudio
   }
   shouldUseHLS (url) {
@@ -111,6 +118,13 @@ export class FilePlayer extends Component {
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
+    if (url instanceof window.MediaStream) {
+      try {
+        this.player.srcObject = url
+      } catch (e) {
+        this.player.src = window.URL.createObjectURL(url)
+      }
+    }
   }
   play () {
     const promise = this.player.play()
@@ -136,6 +150,12 @@ export class FilePlayer extends Component {
   setVolume (fraction) {
     this.player.volume = fraction
   }
+  mute = () => {
+    this.player.muted = true
+  }
+  unmute = () => {
+    this.player.muted = false
+  }
   setPlaybackRate (rate) {
     this.player.playbackRate = rate
   }
@@ -146,10 +166,29 @@ export class FilePlayer extends Component {
     return this.player.currentTime
   }
   getSecondsLoaded () {
-    if (this.player.buffered.length === 0) return 0
-    return this.player.buffered.end(0)
+    const { buffered } = this.player
+    if (buffered.length === 0) {
+      return 0
+    }
+    const end = buffered.end(buffered.length - 1)
+    const duration = this.getDuration()
+    if (end > duration) {
+      return duration
+    }
+    return end
   }
-  renderSource = (source, index) => {
+  getSource (url) {
+    const useHLS = this.shouldUseHLS(url)
+    const useDASH = this.shouldUseDASH(url)
+    if (url instanceof Array || url instanceof window.MediaStream || useHLS || useDASH) {
+      return undefined
+    }
+    if (MATCH_DROPBOX_URL.test(url)) {
+      return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+    }
+    return url
+  }
+  renderSourceElement = (source, index) => {
     if (typeof source === 'string') {
       return <source key={index} src={source} />
     }
@@ -162,27 +201,26 @@ export class FilePlayer extends Component {
     this.player = player
   }
   render () {
-    const { url, loop, controls, config, width, height } = this.props
+    const { url, playing, loop, controls, muted, config, width, height } = this.props
     const useAudio = this.shouldUseAudio(this.props)
-    const useHLS = this.shouldUseHLS(url)
-    const useDASH = this.shouldUseDASH(url)
     const Element = useAudio ? 'audio' : 'video'
-    const src = url instanceof Array || useHLS || useDASH ? undefined : url
     const style = {
-      width: !width || width === 'auto' ? width : '100%',
-      height: !height || height === 'auto' ? height : '100%'
+      width: width === 'auto' ? width : '100%',
+      height: height === 'auto' ? height : '100%'
     }
     return (
       <Element
         ref={this.ref}
-        src={src}
+        src={this.getSource(url)}
         style={style}
         preload='auto'
+        autoPlay={playing}
         controls={controls}
+        muted={muted}
         loop={loop}
         {...config.file.attributes}>
         {url instanceof Array &&
-          url.map(this.renderSource)
+          url.map(this.renderSourceElement)
         }
         {config.file.tracks.map(this.renderTrack)}
       </Element>

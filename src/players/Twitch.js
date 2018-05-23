@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK, randomString } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
-const SDK_URL = '//player.twitch.tv/js/embed/v1.js'
+const SDK_URL = 'https://player.twitch.tv/js/embed/v1.js'
 const SDK_GLOBAL = 'Twitch'
 const MATCH_VIDEO_URL = /(?:www\.|go\.)?twitch\.tv\/videos\/(\d+)($|\?)/
 const MATCH_CHANNEL_URL = /(?:www\.|go\.)?twitch\.tv\/([a-z0-9_]+)($|\?)/
@@ -12,19 +12,14 @@ const PLAYER_ID_PREFIX = 'twitch-player-'
 export class Twitch extends Component {
   static displayName = 'Twitch'
   static canPlay = url => MATCH_VIDEO_URL.test(url) || MATCH_CHANNEL_URL.test(url)
-  static isChannel = url => MATCH_CHANNEL_URL.test(url)
   static loopOnEnded = true
 
   callPlayer = callPlayer
   playerID = PLAYER_ID_PREFIX + randomString()
   load (url, isReady) {
     const { playsinline, onError, config } = this.props
-    const isChannel = Twitch.isChannel(url)
+    const isChannel = MATCH_CHANNEL_URL.test(url)
     const id = isChannel ? url.match(MATCH_CHANNEL_URL)[1] : url.match(MATCH_VIDEO_URL)[1]
-
-    // hacks to fix seek logic on live players
-    this.channelTime = 0
-    this.pausedTime = 0
     if (isReady) {
       if (isChannel) {
         this.player.setChannel(id)
@@ -41,22 +36,13 @@ export class Twitch extends Component {
         width: '100%',
         playsinline: playsinline,
         autoplay: this.props.playing,
+        muted: this.props.muted,
         ...config.twitch.options
       })
       const { READY, PLAY, PAUSE, ENDED } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)
-      this.player.addEventListener(PLAY, (args) => {
-        if (isChannel) {
-          this.channelTime = this.pausedTime
-        }
-        this.props.onPlay(args)
-      })
-      this.player.addEventListener(PAUSE, (args) => {
-        if (isChannel) {
-          this.pausedTime = this.getCurrentTime()
-        }
-        this.props.onPause(args)
-      })
+      this.player.addEventListener(PLAY, this.props.onPlay)
+      this.player.addEventListener(PAUSE, this.props.onPause)
       this.player.addEventListener(ENDED, this.props.onEnded)
     }, onError)
   }
@@ -70,29 +56,28 @@ export class Twitch extends Component {
     this.callPlayer('pause')
   }
   seekTo (seconds) {
-    const {url} = this.props
-
-    // only VOD should be
-    if (!Twitch.isChannel(url)) {
-      this.callPlayer('seek', seconds)
-    }
+    this.callPlayer('seek', seconds)
+  }
+  getVolume () {
+    return this.callPlayer('getVolume');
+  }
+  getMuted () {
+    return this.callPlayer('getMuted');
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }
-  getVolume () {
-    const volume = this.callPlayer('getVolume');
-    return volume
+  mute = () => {
+    this.callPlayer('setMuted', true)
+  }
+  unmute = () => {
+    this.callPlayer('setMuted', false)
   }
   getDuration () {
-    // need this for offline mode too
-    if (Twitch.isChannel(this.props.url)) {
-      return Infinity
-    }
     return this.callPlayer('getDuration')
   }
   getCurrentTime () {
-    return this.channelTime + this.callPlayer('getCurrentTime')
+    return this.callPlayer('getCurrentTime')
   }
   getSecondsLoaded () {
     return null

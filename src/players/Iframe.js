@@ -13,6 +13,7 @@ export class Iframe extends Component {
     currentTime: 0
   }
   load (url) {
+    if (!this.container) return
     setTimeout(() => this.props.onReady(), 3000)
   }
   play () {
@@ -33,6 +34,12 @@ export class Iframe extends Component {
     // no support
   }
   setVolume (fraction) {
+    // no support
+  }
+  mute = () => {
+    // no support
+  }
+  unmute = () => {
     // no support
   }
   getDuration () {
