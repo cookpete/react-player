@@ -62,6 +62,9 @@ export default class ReactPlayer extends Component {
     if (!this.player) return null
     this.player.seekTo(fraction)
   }
+  onReady = () => {
+    this.props.onReady(this)
+  }
   getActivePlayer (url) {
     for (let Player of [ ...customPlayers, ...players ]) {
       if (Player.canPlay(url)) {
@@ -87,6 +90,7 @@ export default class ReactPlayer extends Component {
         ref={this.activePlayerRef}
         config={this.config}
         activePlayer={activePlayer}
+        onReady={this.onReady}
       />
     )
   }
