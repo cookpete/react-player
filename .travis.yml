@@ -12,13 +12,13 @@ node_js:
   - node
 script:
   - npm run lint
-  - npm run test
+  - npm run test:coverage
   - npm run build:lib
   - npm run build:demo
   - npm run build:dist
   - npm run build:standalone
 after_success:
-  - npm run coverage
+  - npm run test:codecov
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && sshpass -e scp -r -o stricthostkeychecking=no demo/* $DEPLOY_DEST
 env:
   global:
