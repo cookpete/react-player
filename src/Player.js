@@ -111,9 +111,7 @@ export default class Player extends Component {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && amount !== 0) {
       this.seekOnPlay = amount
-      setTimeout(() => {
-        this.seekOnPlay = null
-      }, SEEK_ON_PLAY_EXPIRY)
+      setTimeout(() => { this.seekOnPlay = null }, SEEK_ON_PLAY_EXPIRY)
       return
     }
     if (amount > 0 && amount < 1) {
@@ -198,6 +196,9 @@ export default class Player extends Component {
   }
   render () {
     const Player = this.props.activePlayer
+    if (!Player) {
+      return null
+    }
     return (
       <Player
         {...this.props}
