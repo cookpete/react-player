@@ -51,7 +51,7 @@ export function queryString (object) {
 // Util function to load an external SDK
 // or return the SDK if it is already loaded
 const resolves = {}
-export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true) {
+export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, fetchScript = loadScript) {
   if (window[sdkGlobal] && isLoaded(window[sdkGlobal])) {
     return Promise.resolve(window[sdkGlobal])
   }
@@ -74,7 +74,7 @@ export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true) 
         onLoaded(window[sdkGlobal])
       }
     }
-    loadScript(url, err => {
+    fetchScript(url, err => {
       if (err) reject(err)
       if (!sdkReady) {
         onLoaded(window[sdkGlobal])
