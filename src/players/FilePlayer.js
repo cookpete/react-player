@@ -14,6 +14,10 @@ const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.a
 const DASH_GLOBAL = 'dashjs'
 const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 
+function isMediaStream (url) {
+  return typeof window !== 'undefined' && url instanceof window.MediaStream
+}
+
 function canPlay (url) {
   if (url instanceof Array) {
     for (let item of url) {
@@ -26,7 +30,7 @@ function canPlay (url) {
     }
     return false
   }
-  if (url instanceof window.MediaStream) {
+  if (isMediaStream(url)) {
     return true
   }
   return (
@@ -118,7 +122,7 @@ export class FilePlayer extends Component {
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
-    if (url instanceof window.MediaStream) {
+    if (isMediaStream(url)) {
       try {
         this.player.srcObject = url
       } catch (e) {
@@ -180,7 +184,7 @@ export class FilePlayer extends Component {
   getSource (url) {
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
-    if (url instanceof Array || url instanceof window.MediaStream || useHLS || useDASH) {
+    if (url instanceof Array || isMediaStream(url) || useHLS || useDASH) {
       return undefined
     }
     if (MATCH_DROPBOX_URL.test(url)) {
