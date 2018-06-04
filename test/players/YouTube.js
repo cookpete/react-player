@@ -76,7 +76,8 @@ test('load() when ready', t => {
   instance.load(TEST_URL, true)
   t.true(instance.player.cueVideoById.calledOnceWith({
     videoId: 'oUFJJNQGwhk',
-    startSeconds: 0
+    startSeconds: undefined,
+    endSeconds: undefined
   }))
   t.true(getSDK.notCalled)
   getSDK.restore()

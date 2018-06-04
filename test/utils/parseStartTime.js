@@ -31,11 +31,11 @@ test('parses using a hash', t => {
   t.is(parseStartTime(YOUTUBE_URL + '#start=32'), 32)
 })
 
-test('returns 0 for invalid stamps', t => {
-  t.is(parseStartTime(YOUTUBE_URL), 0)
-  t.is(parseStartTime(YOUTUBE_URL + '?start='), 0)
-  t.is(parseStartTime(YOUTUBE_URL + '?start=hms'), 0)
-  t.is(parseStartTime(YOUTUBE_URL + '?start=invalid'), 0)
-  t.is(parseStartTime(YOUTUBE_URL + '?strat=32'), 0)
-  t.is(parseStartTime(YOUTUBE_URL + '#s=32'), 0)
+test('returns undefined for invalid stamps', t => {
+  t.is(parseStartTime(YOUTUBE_URL), undefined)
+  t.is(parseStartTime(YOUTUBE_URL + '?start='), undefined)
+  t.is(parseStartTime(YOUTUBE_URL + '?start=hms'), undefined)
+  t.is(parseStartTime(YOUTUBE_URL + '?start=invalid'), undefined)
+  t.is(parseStartTime(YOUTUBE_URL + '?strat=32'), undefined)
+  t.is(parseStartTime(YOUTUBE_URL + '#s=32'), undefined)
 })

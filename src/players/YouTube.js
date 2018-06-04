@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, parseStartTime } from '../utils'
+import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
@@ -16,11 +16,13 @@ export class YouTube extends Component {
   callPlayer = callPlayer
   load (url, isReady) {
     const { playing, muted, playsinline, controls, config, onError } = this.props
+    const { playerVars } = config.youtube
     const id = url && url.match(MATCH_URL)[1]
     if (isReady) {
       this.player.cueVideoById({
         videoId: id,
-        startSeconds: parseStartTime(url)
+        startSeconds: parseStartTime(url) || playerVars.start,
+        endSeconds: parseEndTime(url) || playerVars.end
       })
       return
     }
@@ -37,7 +39,7 @@ export class YouTube extends Component {
           start: parseStartTime(url),
           origin: window.location.origin,
           playsinline: playsinline,
-          ...config.youtube.playerVars
+          ...playerVars
         },
         events: {
           onReady: this.props.onReady,

@@ -4,26 +4,27 @@ import merge from 'deepmerge'
 import { DEPRECATED_CONFIG_PROPS } from './props'
 
 const MATCH_START_QUERY = /[?&#](?:start|t)=([0-9hms]+)/
+const MATCH_END_QUERY = /[?&#]end=([0-9hms]+)/
 const MATCH_START_STAMP = /(\d+)(h|m|s)/g
 const MATCH_NUMERIC = /^\d+$/
 
 // Parse YouTube URL for a start time param, ie ?t=1h14m30s
 // and return the start time in seconds
-export function parseStartTime (url) {
-  const match = url.match(MATCH_START_QUERY)
+function parseTimeParam (url, pattern) {
+  const match = url.match(pattern)
   if (match) {
     const stamp = match[1]
     if (stamp.match(MATCH_START_STAMP)) {
-      return parseStartStamp(stamp)
+      return parseTimeString(stamp)
     }
     if (MATCH_NUMERIC.test(stamp)) {
-      return parseInt(stamp, 10)
+      return parseInt(stamp)
     }
   }
-  return 0
+  return undefined
 }
 
-function parseStartStamp (stamp) {
+function parseTimeString (stamp) {
   let seconds = 0
   let array = MATCH_START_STAMP.exec(stamp)
   while (array !== null) {
@@ -34,6 +35,14 @@ function parseStartStamp (stamp) {
     array = MATCH_START_STAMP.exec(stamp)
   }
   return seconds
+}
+
+export function parseStartTime (url) {
+  return parseTimeParam(url, MATCH_START_QUERY)
+}
+
+export function parseEndTime (url) {
+  return parseTimeParam(url, MATCH_END_QUERY)
 }
 
 // http://stackoverflow.com/a/38622545
