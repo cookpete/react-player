@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { getSDK } from '../utils'
+import { getSDK, isMediaStream } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
 const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
@@ -13,10 +13,6 @@ const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js'
 const DASH_GLOBAL = 'dashjs'
 const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
-
-function isMediaStream (url) {
-  return typeof window !== 'undefined' && url instanceof window.MediaStream
-}
 
 function canPlay (url) {
   if (url instanceof Array) {
