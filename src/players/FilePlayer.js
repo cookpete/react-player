@@ -214,7 +214,7 @@ export class FilePlayer extends Component {
         src={this.getSource(url)}
         style={style}
         preload='auto'
-        autoPlay={playing}
+        autoPlay={playing || undefined}
         controls={controls}
         muted={muted}
         loop={loop}
