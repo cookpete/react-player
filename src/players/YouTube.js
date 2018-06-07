@@ -37,6 +37,7 @@ export class YouTube extends Component {
           mute: muted ? 1 : 0,
           controls: controls ? 1 : 0,
           start: parseStartTime(url),
+          end: parseEndTime(url),
           origin: window.location.origin,
           playsinline: playsinline,
           ...playerVars
