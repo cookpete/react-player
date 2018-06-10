@@ -13,8 +13,11 @@ export class Iframe extends Component {
     currentTime: 0
   }
   load (url) {
-    if (!this.container) return
-    setTimeout(() => this.props.onReady(), 3000)
+    if (!this.container) {
+      this.props.onReady()
+    } else {
+      setTimeout(() => this.props.onReady(), 3000)
+    }
   }
   play () {
     this.playTime = Date.now()

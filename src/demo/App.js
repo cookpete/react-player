@@ -259,7 +259,7 @@ class App extends Component {
             <tr>
               <th>Iframe</th>
               <td>
-                {this.renderLoadButton('https://www.w3schools.com', 'Test B')}
+                {this.renderLoadButton('https://mixer.com/embed/player/monstercat', 'Test B')}
               </td>
             </tr>
             <tr>
