@@ -184,7 +184,8 @@ export class VAST extends Component {
     const {sources, tracker: clickTrackingURLTemplate} = this.state
     const { width, height } = this.props
     const wrapperStyle = {
-      cursor: clickTrackingURLTemplate ? 'pointer' : 'default'
+      cursor: clickTrackingURLTemplate ? 'pointer' : 'default',
+      height: '100%'
     }
     const videoStyle = {
       width: width === 'auto' ? width : '100%',
