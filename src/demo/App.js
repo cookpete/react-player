@@ -74,7 +74,7 @@ class App extends Component {
     this.player.seekTo(parseFloat(e.target.value))
   }
   onProgress = state => {
-    console.log('onProgress', state)
+    // console.log('onProgress', state)
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
@@ -279,6 +279,12 @@ class App extends Component {
                 {this.renderLoadButton(MULTIPLE_SOURCES, 'Multiple')}
                 {this.renderLoadButton('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8', 'HLS (m3u8)')}
                 {this.renderLoadButton('http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd', 'DASH (mpd)')}
+              </td>
+            </tr>
+            <tr>
+              <th>VAST</th>
+              <td>
+                {this.renderLoadButton('VAST:https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=25235872&PluID=0&pos=7996&ord=%5Btimestamp%5D&cim=1', 'Test A')}
               </td>
             </tr>
             <tr>

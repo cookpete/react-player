@@ -10,6 +10,7 @@ import { UstreamLive } from './UstreamLive'
 import { Iframe } from './Iframe'
 import { Mixcloud } from './Mixcloud'
 import { FilePlayer } from './FilePlayer'
+import { VAST } from './VAST'
 
 export default [
   YouTube,
@@ -22,6 +23,7 @@ export default [
   DailyMotion,
   Mixcloud,
   UstreamLive,
+  VAST,
   FilePlayer,
-  Iframe,
+  Iframe
 ]

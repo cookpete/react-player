@@ -63,7 +63,8 @@ export const propTypes = {
   onError: func,
   onDuration: func,
   onSeek: func,
-  onProgress: func
+  onProgress: func,
+  onVolumeChange: func
 }
 
 export const defaultProps = {
@@ -139,7 +140,7 @@ export const defaultProps = {
     },
     twitch: {
       options: {}
-    }
+    },
   },
   onReady: function () {},
   onStart: function () {},
@@ -150,7 +151,8 @@ export const defaultProps = {
   onError: function () {},
   onDuration: function () {},
   onSeek: function () {},
-  onProgress: function () {}
+  onProgress: function () {},
+  onVolumeChange: function () {}
 }
 
 export const DEPRECATED_CONFIG_PROPS = [

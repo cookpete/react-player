@@ -61,26 +61,28 @@ export class FilePlayer extends Component {
     this.removeListeners()
   }
   addListeners () {
-    const { onReady, onPlay, onPause, onEnded, onError, playsinline } = this.props
+    const { onReady, onPlay, onPause, onEnded, onVolumeChange, onError, playsinline } = this.props
     this.player.addEventListener('canplay', onReady)
     this.player.addEventListener('play', onPlay)
     this.player.addEventListener('pause', onPause)
     this.player.addEventListener('seeked', this.onSeek)
     this.player.addEventListener('ended', onEnded)
     this.player.addEventListener('error', onError)
+    this.player.addEventListener('volumechange', onVolumeChange)
     if (playsinline) {
       this.player.setAttribute('playsinline', '')
       this.player.setAttribute('webkit-playsinline', '')
     }
   }
   removeListeners () {
-    const { onReady, onPlay, onPause, onEnded, onError } = this.props
+    const { onReady, onPlay, onPause, onEnded, onVolumeChange, onError } = this.props
     this.player.removeEventListener('canplay', onReady)
     this.player.removeEventListener('play', onPlay)
     this.player.removeEventListener('pause', onPause)
     this.player.removeEventListener('seeked', this.onSeek)
     this.player.removeEventListener('ended', onEnded)
     this.player.removeEventListener('error', onError)
+    this.player.removeEventListener('volumechange', onVolumeChange)
   }
   onSeek = e => {
     this.props.onSeek(e.target.currentTime)
