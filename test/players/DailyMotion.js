@@ -30,10 +30,20 @@ testPlayerMethods(DailyMotion, {
   unmute: 'setMuted'
 })
 
+test('canPlay()', async t => {
+  t.true(DailyMotion.canPlay(TEST_URL))
+  t.true(DailyMotion.canPlay('http://www.dailymotion.com/embed/video/x5s5r35'))
+  t.true(DailyMotion.canPlay('https://www.dailymotion.com/video/x5s5r35'))
+  t.true(DailyMotion.canPlay('https://dai.ly/x5s5r35'))
+  t.true(DailyMotion.canPlay('https://www.dailymotion.com/video/x5s5r35_test1234'))
+  t.true(DailyMotion.canPlay('http://dailymotion.com/embed/video/xq2cmn'))
+})
+
 test('load()', async t => {
   class MockPlayer {
     constructor (container, options) {
       t.true(container === 'abc')
+      t.true(options.video === 'x5e9eog')
       t.pass()
     }
   }

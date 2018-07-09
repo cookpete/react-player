@@ -6,7 +6,7 @@ import createSinglePlayer from '../singlePlayer'
 const SDK_URL = 'https://api.dmcdn.net/all.js'
 const SDK_GLOBAL = 'DM'
 const SDK_GLOBAL_READY = 'dmAsyncInit'
-const MATCH_URL = /dailymotion\.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/
+const MATCH_URL = /^(?:(?:https?):)?(?:\/\/)?(?:www\.)?(?:(?:dailymotion\.com(?:\/embed)?\/video)|dai\.ly)\/([a-zA-Z0-9]+)(?:_[\w_-]+)?$/
 
 export class DailyMotion extends Component {
   static displayName = 'DailyMotion'
@@ -14,13 +14,9 @@ export class DailyMotion extends Component {
   static loopOnEnded = true
 
   callPlayer = callPlayer
-  parseId (url) {
-    const m = url.match(MATCH_URL)
-    return m[4] || m[2]
-  }
   load (url) {
     const { controls, config, onError, playing } = this.props
-    const id = this.parseId(url)
+    const [, id] = url.match(MATCH_URL)
     if (this.player) {
       this.player.load(id, {
         start: parseStartTime(url),
