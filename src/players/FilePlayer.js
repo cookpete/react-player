@@ -26,7 +26,7 @@ function canPlay (url) {
     }
     return false
   }
-  if (url instanceof window.MediaStream) {
+  if (window.MediaStream && url instanceof window.MediaStream) {
     return true
   }
   return (
