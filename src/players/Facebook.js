@@ -40,6 +40,10 @@ export class Facebook extends Component {
             this.callPlayer('unmute')
           }
           this.props.onReady()
+
+          // For some reason Facebook have added `visibility: hidden`
+          // to the iframe when autoplay fails, so here we set it back
+          document.getElementById(this.playerID).querySelector('iframe').style.visibility = 'visible'
         }
       })
     })

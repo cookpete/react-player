@@ -7,6 +7,14 @@ import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
 import { Facebook } from '../../src/players/Facebook'
 
+global.document = {
+  getElementById: () => ({
+    querySelector: () => ({
+      style: {}
+    })
+  })
+}
+
 configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.facebook.com/facebook/videos/10153231379946729'
