@@ -160,12 +160,15 @@ export class FilePlayer extends Component {
     this.player.playbackRate = rate
   }
   getDuration () {
+    if (!this.player) return null
     return this.player.duration
   }
   getCurrentTime () {
+    if (!this.player) return null
     return this.player.currentTime
   }
   getSecondsLoaded () {
+    if (!this.player) return null
     const { buffered } = this.player
     if (buffered.length === 0) {
       return 0
