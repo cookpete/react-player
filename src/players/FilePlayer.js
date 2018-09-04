@@ -119,7 +119,7 @@ export class FilePlayer extends Component {
       })
     }
 
-    if (url instanceof Array ) {
+    if (url instanceof Array) {
       // Whenever working with multiple sources (array), it seems
       // to be required to signal manually the browser of the source change.
       // Just replacing children source dom nodes is not enough
