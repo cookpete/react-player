@@ -118,7 +118,17 @@ export class FilePlayer extends Component {
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
-    if (isMediaStream(url)) {
+
+    if (url instanceof Array ) {
+      // Whenever working with multiple sources (array), it seems
+      // to be required to signal manually the browser of the source change.
+      // Just replacing children source dom nodes is not enough
+      try {
+        this.player.srcObject = null
+      } catch (e) {
+        // ignore
+      }
+    } else if (isMediaStream(url)) {
       try {
         this.player.srcObject = url
       } catch (e) {
