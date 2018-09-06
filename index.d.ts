@@ -50,6 +50,7 @@ export interface FileConfig {
   forceAudio?: boolean;
   forceHLS?: boolean;
   forceDASH?: boolean;
+  hlsOptions?: boolean;
 }
 
 export interface Config {
