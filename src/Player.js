@@ -190,6 +190,11 @@ export default class Player extends Component {
       this.durationCheckTimeout = setTimeout(this.onDurationCheck, 100)
     }
   }
+  onLoaded = () => {
+    // Sometimes we know loading has stopped but onReady/onPlay are never called
+    // so this provides a way for players to avoid getting stuck
+    this.isLoading = false
+  }
   ref = player => {
     if (player) {
       this.player = player
@@ -208,6 +213,7 @@ export default class Player extends Component {
         onPlay={this.onPlay}
         onPause={this.onPause}
         onEnded={this.onEnded}
+        onLoaded={this.onLoaded}
       />
     )
   }

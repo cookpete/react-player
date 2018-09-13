@@ -27,6 +27,11 @@ export class Facebook extends Component {
         xfbml: true,
         version: 'v2.5'
       })
+      FB.Event.subscribe('xfbml.render', msg => {
+        // Here we know the SDK has loaded, even if onReady/onPlay
+        // is not called due to a video that cannot be embedded
+        this.props.onLoaded()
+      })
       FB.Event.subscribe('xfbml.ready', msg => {
         if (msg.type === 'video' && msg.id === this.playerID) {
           this.player = msg.instance

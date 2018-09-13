@@ -46,14 +46,16 @@ test('load()', async t => {
     init: () => null,
     Event: {
       subscribe: (event, fn) => {
-        fn({
-          type: 'video',
-          id: 'mock-player-id',
-          instance: {
-            subscribe: () => null,
-            unmute: () => null
-          }
-        })
+        if (event === 'xfbml.ready') {
+          fn({
+            type: 'video',
+            id: 'mock-player-id',
+            instance: {
+              subscribe: () => null,
+              unmute: () => null
+            }
+          })
+        }
       }
     }
   }
