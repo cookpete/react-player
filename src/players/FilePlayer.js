@@ -120,14 +120,11 @@ export class FilePlayer extends Component {
     }
 
     if (url instanceof Array) {
-      // Whenever working with multiple sources (array), it seems
-      // to be required to signal manually the browser of the source change.
-      // Just replacing children source dom nodes is not enough
-      try {
-        this.player.load()
-      } catch (e) {
-        // ignore
-      }
+      // When setting new urls (<source>) on an already loaded video,
+      // HTMLMediaElement.load() is needed to reset the media element
+      // and restart the media resource. Just replacing children source
+      // dom nodes is not enough
+      this.player.load()
     } else if (isMediaStream(url)) {
       try {
         this.player.srcObject = url
