@@ -124,7 +124,7 @@ export class FilePlayer extends Component {
       // to be required to signal manually the browser of the source change.
       // Just replacing children source dom nodes is not enough
       try {
-        this.player.srcObject = null
+        this.player.load()
       } catch (e) {
         // ignore
       }
