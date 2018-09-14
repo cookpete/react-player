@@ -71,6 +71,9 @@ export class YouTube extends Component {
   }
   seekTo (amount) {
     this.callPlayer('seekTo', amount)
+    if (!this.props.playing) {
+      this.pause()
+    }
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
