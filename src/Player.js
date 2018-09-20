@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps } from './props'
+import { isEqual } from './utils'
 
 const SEEK_ON_PLAY_EXPIRY = 5000
 
@@ -32,7 +33,7 @@ export default class Player extends Component {
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     const { url, playing, volume, muted, playbackRate } = this.props
-    if (url !== nextProps.url) {
+    if (!isEqual(url, nextProps.url)) {
       if (this.isLoading) {
         console.warn(`ReactPlayer: the attempt to load ${nextProps.url} is being deferred until the player has loaded`)
         this.loadOnReady = nextProps.url
