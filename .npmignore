@@ -1,4 +1,5 @@
 src
 test
+coverage
 server.js
 webpack.config.*.js
