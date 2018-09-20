@@ -118,7 +118,14 @@ export class FilePlayer extends Component {
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
-    if (isMediaStream(url)) {
+
+    if (url instanceof Array) {
+      // When setting new urls (<source>) on an already loaded video,
+      // HTMLMediaElement.load() is needed to reset the media element
+      // and restart the media resource. Just replacing children source
+      // dom nodes is not enough
+      this.player.load()
+    } else if (isMediaStream(url)) {
       try {
         this.player.srcObject = url
       } catch (e) {
