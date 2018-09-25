@@ -1,8 +1,8 @@
 {
   "name": "react-player-cu",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "A React component for playing a hls and mp4 videos. It is a fork of Pete Cook's <pete@cookpete.com> (http://github.com/cookpete) react-player.",
-  "main": "dist/ReactPlayer.js",
+  "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
   "scripts": {
     "clean": "rimraf lib demo",
