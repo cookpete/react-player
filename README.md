@@ -27,14 +27,14 @@
 ### Usage
 
 ```bash
-npm install react-player --save
+npm install react-player-cu --save
 # or
-yarn add react-player
+yarn add react-player-cu
 ```
 
 ```js
 import React, { Component } from 'react'
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player-cu'
 
 class App extends Component {
   render () {

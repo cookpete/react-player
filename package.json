@@ -1,7 +1,7 @@
 {
   "name": "react-player-cu",
-  "version": "1.0.22",
-  "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
+  "version": "1.0.25",
+  "description": "A React component for playing a hls and mp4 videos. It is a fork of Pete Cook's <pete@cookpete.com> (http://github.com/cookpete) react-player.",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
   "scripts": {
@@ -16,11 +16,12 @@
     "build:standalone": "cross-env NODE_ENV=production webpack --config webpack.standalone.babel.js",
     "preversion": "npm run lint",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublish": "npm run build:lib && npm run build:dist"
+    "prepublishOnly": "npm run build:lib && npm run build:dist",
+    "postpublish": "npm run clean"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mryarbles/react-player.git"
+    "url": "https://github.com/cyberu/react-player.git"
   },
   "keywords": [
     "react",
@@ -43,7 +44,7 @@
   "author": "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CookPete/react-player/issues"
+    "url": "https://github.com/cyberu/react-player/issues"
   },
   "homepage": "",
   "peerDependencies": {

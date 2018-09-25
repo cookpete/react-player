@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 // import Hls from 'hls.js'
 
-import { getSDK } from '../utils'
+import { getSDK, isMediaStream } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
 const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
-const HLS_SDK_URLS = ['https://cdn.jsdelivr.net/npm/hls.js@latest', 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.9.1/hls.min.js']
+const HLS_SDK_URLS = ['https://cdn.jsdelivr.net/npm/hls.js@latest', 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.10.1/hls.min.js']
 const HLS_GLOBAL = 'Hls'
 const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
 const DASH_SDK_URLS = ['https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash.all.min.js', 'https://cdn.dashjs.org/latest/dash.all.min.js']
@@ -17,23 +17,26 @@ const HLS = 'hls'
 const DASH = 'dash'
 
 function canPlay (url) {
-  if (url instanceof Array) {
-    for (let item of url) {
-      if (typeof item === 'string' && canPlay(item)) {
-        return true
-      }
-      if (canPlay(item.src)) {
-        return true
-      }
+    if (url instanceof Array) {
+        for (let item of url) {
+            if (typeof item === 'string' && canPlay(item)) {
+                return true
+            }
+            if (canPlay(item.src)) {
+                return true
+            }
+        }
+        return false
     }
-    return false
-  }
-  return (
-    AUDIO_EXTENSIONS.test(url) ||
-    VIDEO_EXTENSIONS.test(url) ||
-    HLS_EXTENSIONS.test(url) ||
-    DASH_EXTENSIONS.test(url)
-  )
+    if (isMediaStream(url)) {
+        return true
+    }
+    return (
+        AUDIO_EXTENSIONS.test(url) ||
+        VIDEO_EXTENSIONS.test(url) ||
+        HLS_EXTENSIONS.test(url) ||
+        DASH_EXTENSIONS.test(url)
+    )
 }
 
 export class FilePlayer extends Component {
