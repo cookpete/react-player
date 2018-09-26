@@ -40,6 +40,7 @@ export default function renderPreloadPlayers (url, config) {
           activePlayer={player.Player}
           url={player.url}
           playing
+          muted
           style={{ display: 'none' }}
         />
       )

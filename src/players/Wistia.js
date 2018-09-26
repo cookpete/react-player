@@ -17,12 +17,15 @@ export class Wistia extends Component {
     return url && url.match(MATCH_URL)[1]
   }
   load (url) {
-    const { controls, onReady, onPlay, onPause, onSeek, onEnded, config } = this.props
+    const { playing, muted, controls, onReady, onPlay, onPause, onSeek, onEnded, config } = this.props
     getSDK(SDK_URL, SDK_GLOBAL).then(() => {
       window._wq = window._wq || []
       window._wq.push({
         id: this.getID(url),
         options: {
+          autoPlay: playing,
+          silentAutoPlay: 'allow',
+          muted: muted,
           controlsVisibleOnLoad: controls,
           ...config.wistia.options
         },
@@ -51,6 +54,12 @@ export class Wistia extends Component {
   }
   setVolume (fraction) {
     this.callPlayer('volume', fraction)
+  }
+  mute = () => {
+    this.callPlayer('mute')
+  }
+  unmute = () => {
+    this.callPlayer('unmute')
   }
   setPlaybackRate (rate) {
     this.callPlayer('playbackRate', rate)

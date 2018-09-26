@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { propTypes, defaultProps } from './props'
+import { isEqual } from './utils'
 
 const SEEK_ON_PLAY_EXPIRY = 5000
 
@@ -12,6 +13,7 @@ export default class Player extends Component {
   isReady = false
   isPlaying = false // Track playing state internally to prevent bugs
   isLoading = true // Use isLoading to prevent onPause when switching URL
+  loadOnReady = null
   startOnPlay = true
   seekOnPlay = null
   onDurationCalled = false
@@ -22,6 +24,7 @@ export default class Player extends Component {
   }
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
+    clearTimeout(this.durationCheckTimeout)
     if (this.isReady) {
       this.player.stop()
     }
@@ -30,7 +33,12 @@ export default class Player extends Component {
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     const { url, playing, volume, muted, playbackRate } = this.props
-    if (url !== nextProps.url) {
+    if (!isEqual(url, nextProps.url)) {
+      if (this.isLoading) {
+        console.warn(`ReactPlayer: the attempt to load ${nextProps.url} is being deferred until the player has loaded`)
+        this.loadOnReady = nextProps.url
+        return
+      }
       this.isLoading = true
       this.startOnPlay = true
       this.onDurationCalled = false
@@ -42,12 +50,18 @@ export default class Player extends Component {
     if (playing && !nextProps.playing && this.isPlaying) {
       this.player.pause()
     }
-    if (nextProps.volume !== null) {
-      if (volume !== nextProps.volume && !nextProps.muted) {
-        this.player.setVolume(nextProps.volume)
-      }
-      if (muted !== nextProps.muted) {
-        this.player.setVolume(nextProps.muted ? 0 : nextProps.volume)
+    if (volume !== nextProps.volume && nextProps.volume !== null) {
+      this.player.setVolume(nextProps.volume)
+    }
+    if (muted !== nextProps.muted) {
+      if (nextProps.muted) {
+        this.player.mute()
+      } else {
+        this.player.unmute()
+        if (nextProps.volume !== null) {
+          // Set volume next tick to fix a bug with DailyMotion
+          setTimeout(() => this.player.setVolume(nextProps.volume))
+        }
       }
     }
     if (playbackRate !== nextProps.playbackRate && this.player.setPlaybackRate) {
@@ -98,9 +112,7 @@ export default class Player extends Component {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && amount !== 0) {
       this.seekOnPlay = amount
-      setTimeout(() => {
-        this.seekOnPlay = null
-      }, SEEK_ON_PLAY_EXPIRY)
+      setTimeout(() => { this.seekOnPlay = null }, SEEK_ON_PLAY_EXPIRY)
       return
     }
     if (amount > 0 && amount < 1) {
@@ -121,10 +133,13 @@ export default class Player extends Component {
     this.isLoading = false
     const { onReady, playing, volume, muted } = this.props
     onReady()
-    if (muted || volume !== null) {
-      this.player.setVolume(muted ? 0 : volume)
+    if (!muted && volume !== null) {
+      this.player.setVolume(volume)
     }
-    if (playing) {
+    if (this.loadOnReady) {
+      this.player.load(this.loadOnReady, true)
+      this.loadOnReady = null
+    } else if (playing) {
       this.player.play()
     }
     this.onDurationCheck()
@@ -175,6 +190,11 @@ export default class Player extends Component {
       this.durationCheckTimeout = setTimeout(this.onDurationCheck, 100)
     }
   }
+  onLoaded = () => {
+    // Sometimes we know loading has stopped but onReady/onPlay are never called
+    // so this provides a way for players to avoid getting stuck
+    this.isLoading = false
+  }
   ref = player => {
     if (player) {
       this.player = player
@@ -182,6 +202,9 @@ export default class Player extends Component {
   }
   render () {
     const Player = this.props.activePlayer
+    if (!Player) {
+      return null
+    }
     return (
       <Player
         {...this.props}
@@ -190,6 +213,7 @@ export default class Player extends Component {
         onPlay={this.onPlay}
         onPause={this.onPause}
         onEnded={this.onEnded}
+        onLoaded={this.onLoaded}
       />
     )
   }

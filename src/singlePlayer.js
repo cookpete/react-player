@@ -13,6 +13,7 @@ export default function createSinglePlayer (activePlayer) {
     static defaultProps = defaultProps
     static canPlay = activePlayer.canPlay
 
+    config = getConfig(this.props, defaultProps, true)
     shouldComponentUpdate (nextProps) {
       return !isEqual(this.props, nextProps)
     }
@@ -26,6 +27,10 @@ export default function createSinglePlayer (activePlayer) {
     getCurrentTime = () => {
       if (!this.player) return null
       return this.player.getCurrentTime()
+    }
+    getSecondsLoaded = () => {
+      if (!this.player) return null
+      return this.player.getSecondsLoaded()
     }
     getInternalPlayer = (key = 'player') => {
       if (!this.player) return null
@@ -50,7 +55,7 @@ export default function createSinglePlayer (activePlayer) {
             {...this.props}
             ref={this.ref}
             activePlayer={activePlayer}
-            config={getConfig(this.props, defaultProps)}
+            config={this.config}
           />
         </Wrapper>
       )

@@ -27,6 +27,11 @@ export class Facebook extends Component {
         xfbml: true,
         version: 'v2.5'
       })
+      FB.Event.subscribe('xfbml.render', msg => {
+        // Here we know the SDK has loaded, even if onReady/onPlay
+        // is not called due to a video that cannot be embedded
+        this.props.onLoaded()
+      })
       FB.Event.subscribe('xfbml.ready', msg => {
         if (msg.type === 'video' && msg.id === this.playerID) {
           this.player = msg.instance
@@ -35,8 +40,15 @@ export class Facebook extends Component {
           this.player.subscribe('finishedPlaying', this.props.onEnded)
           this.player.subscribe('startedBuffering', this.props.onBuffer)
           this.player.subscribe('error', this.props.onError)
-          this.callPlayer('unmute')
+          if (!this.props.muted) {
+            // Player is muted by default
+            this.callPlayer('unmute')
+          }
           this.props.onReady()
+
+          // For some reason Facebook have added `visibility: hidden`
+          // to the iframe when autoplay fails, so here we set it back
+          document.getElementById(this.playerID).querySelector('iframe').style.visibility = 'visible'
         }
       })
     })
@@ -54,10 +66,13 @@ export class Facebook extends Component {
     this.callPlayer('seek', seconds)
   }
   setVolume (fraction) {
-    if (fraction !== 0) {
-      this.callPlayer('unmute')
-    }
     this.callPlayer('setVolume', fraction)
+  }
+  mute = () => {
+    this.callPlayer('mute')
+  }
+  unmute = () => {
+    this.callPlayer('unmute')
   }
   getDuration () {
     return this.callPlayer('getDuration')
@@ -80,8 +95,9 @@ export class Facebook extends Component {
         id={this.playerID}
         className='fb-video'
         data-href={this.props.url}
+        data-autoplay={this.props.playing ? 'true' : 'false'}
         data-allowfullscreen='true'
-        data-controls={!this.props.controls ? 'false' : undefined}
+        data-controls={this.props.controls ? 'true' : 'false'}
       />
     )
   }

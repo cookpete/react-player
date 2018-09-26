@@ -54,11 +54,15 @@ For platforms like [Meteor](https://www.meteor.com) without direct use of `npm` 
 * If you are using `npm` and need to support [browsers without `Promise`](http://caniuse.com/#feat=promises) you will need a [`Promise` polyfill](https://github.com/stefanpenner/es6-promise).
 * To support IE11 you will need to use [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill) or a similar ES2015+ polyfill.
 
+#### Autoplay
+
+As of Chrome 66, [videos must be `muted` in order to play automatically](https://www.theverge.com/2018/3/22/17150870/google-chrome-autoplay-videos-sound-mute-update). Some players, like Facebook, cannot be unmuted until the user interacts with the video, so you may want to enable `controls` to allow users to unmute videos themselves.
+
 ### Props
 
 Prop | Description | Default
 ---- | ----------- | -------
-`url` | The url of a video or song to play
+`url` | The url of a video or song to play<br/>&nbsp; ◦ &nbsp;Can be an [array](#multiple-sources-and-tracks) or [`MediaStream`](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream) object
 `playing` | Set to `true` or `false` to pause or play the media | `false`
 `loop` | Set to `true` or `false` to loop the media | `false`
 `controls` | Set to `true` or `false` to display native player controls<br />&nbsp; ◦ &nbsp;Vimeo, Twitch and Wistia player will always display controls | `false`
@@ -130,7 +134,7 @@ Key | Options
 `mixcloud` | `options`: Override the [default player options](https://www.mixcloud.com/developers/widget/#methods)
 `dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)<br />`preload`: Used for [preloading](#preloading)
 `twitch` | `options`: Override the [default player options](https://dev.twitch.tv/docs/embed)
-`file` | `attributes`: Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)<br />`forceVideo`: Always render a `<video>` element<br />`forceAudio`: Always render an `<audio>` element<br />`forceHLS`: Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams<br />`forceDASH`: Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams<br />`hlsOptions`: Override the [default `hls.js` options](https://github.com/video-dev/hls.js/blob/master/doc/API.md#fine-tuning)
+`file` | `attributes`: Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)<br />`forceVideo`: Always render a `<video>` element<br />`forceAudio`: Always render an `<audio>` element<br />`forceHLS`: Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams<br />`forceDASH`: Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams<br />`hlsOptions`: Override the [default `hls.js` options](https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning)
 
 ##### Preloading
 
@@ -141,17 +145,20 @@ When `preload` is set to `true` for players that support it, a short, silent vid
 #### Static Methods
 
 Method | Description
----- | -----------
+------ | -----------
 `ReactPlayer.canPlay(url)` | Determine if a URL can be played. This does *not* detect media that is unplayable due to privacy settings, streaming permissions, etc. In that case, the `onError` prop will be invoked after attemping to play. Any URL that does not match any patterns will fall back to a native HTML5 media player.
+`ReactPlayer.addCustomPlayer(CustomPlayer)` | Add a custom player. See [Adding custom players](#adding-custom-players)
+`ReactPlayer.removeCustomPlayers()` | Remove any players that have been added using `addCustomPlayer()`
 
 #### Instance Methods
 
 Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call instance methods on the player. See [the demo app](src/demo/App.js) for an example of this.
 
 Method | Description
----- | -----------
+------ | -----------
 `seekTo(amount)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`
-`getCurrentTime()` | Returns the number of seconds that has been played<br />&nbsp; ◦ &nbsp;Returns `null` if duration is unavailable
+`getCurrentTime()` | Returns the number of seconds that have been played<br />&nbsp; ◦ &nbsp;Returns `null` if unavailable
+`getSecondsLoaded()` | Returns the number of seconds that have been loaded<br />&nbsp; ◦ &nbsp;Returns `null` if unavailable or unsupported
 `getDuration()` | Returns the duration (in seconds) of the currently playing media<br />&nbsp; ◦ &nbsp;Returns `null` if duration is unavailable
 `getInternalPlayer()` | Returns the internal player of whatever is currently playing<br />&nbsp; ◦ &nbsp;eg the [YouTube player instance](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player), or the [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element when playing a video file<br />&nbsp; ◦ &nbsp;Use `getInternalPlayer('hls')` to get the [hls.js](https://github.com/video-dev/hls.js) player<br />&nbsp; ◦ &nbsp;Use `getInternalPlayer('dash')` to get the [dash.js](https://github.com/Dash-Industry-Forum/dash.js) player<br />&nbsp; ◦ &nbsp;Returns `null` if the internal player is unavailable
 
@@ -230,16 +237,16 @@ If you aren’t using React, you can still render a player using the standalone 
 
 See [`jsFiddle` example](https://jsfiddle.net/krkcvx9s/)
 
-#### Adding your own players
+#### Adding custom players
 
-If you have your own player, that is compatible with ReactPlayer's internal architecture, you can use it like this:
+If you have your own player that is compatible with ReactPlayer’s internal architecture, you can add it using `addCustomPlayer`:
 
 ```javascript
 import YourOwnPlayer from './somewhere';
 ReactPlayer.addCustomPlayer(YourOwnPlayer);
 ```
 
-Or you can clear all additional players:
+Use `removeCustomPlayers` to clear all custom players:
 
 ```javascript
 ReactPlayer.removeCustomPlayers();

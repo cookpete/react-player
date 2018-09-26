@@ -36,6 +36,7 @@ export class Twitch extends Component {
         width: '100%',
         playsinline: playsinline,
         autoplay: this.props.playing,
+        muted: this.props.muted,
         ...config.twitch.options
       })
       const { READY, PLAY, PAUSE, ENDED } = Twitch.Player
@@ -59,6 +60,12 @@ export class Twitch extends Component {
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
+  }
+  mute = () => {
+    this.callPlayer('setMuted', true)
+  }
+  unmute = () => {
+    this.callPlayer('setMuted', false)
   }
   getDuration () {
     return this.callPlayer('getDuration')

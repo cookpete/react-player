@@ -15,28 +15,29 @@ const DASH_SDK_URLS = ['https://cdnjs.cloudflare.com/ajax/libs/dashjs/2.6.5/dash
 const DASH_GLOBAL = 'dashjs'
 const HLS = 'hls'
 const DASH = 'dash'
+const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 
 function canPlay (url) {
-    if (url instanceof Array) {
-        for (let item of url) {
-            if (typeof item === 'string' && canPlay(item)) {
-                return true
-            }
-            if (canPlay(item.src)) {
-                return true
-            }
-        }
-        return false
-    }
-    if (isMediaStream(url)) {
+  if (url instanceof Array) {
+    for (let item of url) {
+      if (typeof item === 'string' && canPlay(item)) {
         return true
+      }
+      if (canPlay(item.src)) {
+        return true
+      }
     }
-    return (
-        AUDIO_EXTENSIONS.test(url) ||
-        VIDEO_EXTENSIONS.test(url) ||
-        HLS_EXTENSIONS.test(url) ||
-        DASH_EXTENSIONS.test(url)
-    )
+    return false
+  }
+  if (isMediaStream(url)) {
+    return true
+  }
+  return (
+    AUDIO_EXTENSIONS.test(url) ||
+    VIDEO_EXTENSIONS.test(url) ||
+    HLS_EXTENSIONS.test(url) ||
+    DASH_EXTENSIONS.test(url)
+  )
 }
 
 export class FilePlayer extends Component {
@@ -157,6 +158,20 @@ export class FilePlayer extends Component {
           }
         })
     }
+
+    if (url instanceof Array) {
+      // When setting new urls (<source>) on an already loaded video,
+      // HTMLMediaElement.load() is needed to reset the media element
+      // and restart the media resource. Just replacing children source
+      // dom nodes is not enough
+      this.player.load()
+    } else if (isMediaStream(url)) {
+      try {
+        this.player.srcObject = url
+      } catch (e) {
+        this.player.src = window.URL.createObjectURL(url)
+      }
+    }
   }
   play () {
     try {
@@ -186,32 +201,48 @@ export class FilePlayer extends Component {
   setVolume (fraction) {
     if (this.player) this.player.volume = fraction
   }
+  mute = () => {
+    this.player.muted = true
+  }
+  unmute = () => {
+    this.player.muted = false
+  }
   setPlaybackRate (rate) {
     if (this.player) this.player.playbackRate = rate
   }
   getDuration () {
-    return this.player ? this.player.duration : 0
+    if (!this.player) return null
+    return this.player.duration
   }
   getCurrentTime () {
-    return this.player ? this.player.currentTime : 0
-  }
-  // This methodology was take from video.js
-  getBufferedEnd () {
-    const buffered = this.player.buffered
-    const duration = this.getDuration()
-    let end = buffered.end(buffered.length - 1)
-
-    if (end > duration) {
-      end = duration
-    }
-
-    return end
+    if (!this.player) return null
+    return this.player.currentTime
   }
   getSecondsLoaded () {
-    if (this.player.buffered.length === 0) return 0
-    return this.getBufferedEnd()
+    if (!this.player) return null
+    const { buffered } = this.player
+    if (buffered.length === 0) {
+      return 0
+    }
+    const end = buffered.end(buffered.length - 1)
+    const duration = this.getDuration()
+    if (end > duration) {
+      return duration
+    }
+    return end
   }
-  renderSource = (source, index) => {
+  getSource (url) {
+    const useHLS = this.shouldUseHLS(url)
+    const useDASH = this.shouldUseDASH(url)
+    if (url instanceof Array || isMediaStream(url) || useHLS || useDASH) {
+      return undefined
+    }
+    if (MATCH_DROPBOX_URL.test(url)) {
+      return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+    }
+    return url
+  }
+  renderSourceElement = (source, index) => {
     if (typeof source === 'string') {
       return <source key={index} src={source} />
     }
@@ -224,27 +255,26 @@ export class FilePlayer extends Component {
     this.player = player
   }
   render () {
-    const { url, loop, controls, config, width, height } = this.props
+    const { url, playing, loop, controls, muted, config, width, height } = this.props
     const useAudio = this.shouldUseAudio(this.props)
-    const useHLS = this.shouldUseHLS(url)
-    const useDASH = this.shouldUseDASH(url)
     const Element = useAudio ? 'audio' : 'video'
-    const src = url instanceof Array || useHLS || useDASH ? undefined : url
     const style = {
-      width: !width || width === 'auto' ? width : '100%',
-      height: !height || height === 'auto' ? height : '100%'
+      width: width === 'auto' ? width : '100%',
+      height: height === 'auto' ? height : '100%'
     }
     return (
       <Element
         ref={this.ref}
-        src={src}
+        src={this.getSource(url)}
         style={style}
         preload='auto'
+        autoPlay={playing || undefined}
         controls={controls}
+        muted={muted}
         loop={loop}
         {...config.file.attributes}>
         {url instanceof Array &&
-          url.map(this.renderSource)
+          url.map(this.renderSourceElement)
         }
         {config.file.tracks.map(this.renderTrack)}
       </Element>

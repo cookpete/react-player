@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 const { string, bool, number, array, oneOfType, shape, object, func } = PropTypes
 
 export const propTypes = {
-  url: oneOfType([ string, array ]),
+  url: oneOfType([ string, array, object ]),
   playing: bool,
   loop: bool,
   controls: bool,
@@ -32,7 +32,7 @@ export const propTypes = {
       preload: bool
     }),
     vimeo: shape({
-      iframeParams: object,
+      playerOptions: object,
       preload: bool
     }),
     file: shape({
@@ -97,7 +97,6 @@ export const defaultProps = {
     },
     youtube: {
       playerVars: {
-        autoplay: 0,
         playsinline: 1,
         showinfo: 0,
         rel: 0,
@@ -119,7 +118,6 @@ export const defaultProps = {
     vimeo: {
       playerOptions: {
         autopause: false,
-        autoplay: false,
         byline: false,
         portrait: false,
         title: false

@@ -57,6 +57,14 @@ export class SoundCloud extends Component {
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
   }
+  mute = () => {
+    this.setVolume(0)
+  }
+  unmute = () => {
+    if (this.props.volume !== null) {
+      this.setVolume(this.props.volume)
+    }
+  }
   getDuration () {
     return this.duration
   }

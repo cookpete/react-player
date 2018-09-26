@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, parseStartTime } from '../utils'
+import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
@@ -15,12 +15,14 @@ export class YouTube extends Component {
 
   callPlayer = callPlayer
   load (url, isReady) {
-    const { playsinline, controls, config, onError } = this.props
+    const { playing, muted, playsinline, controls, config, onError } = this.props
+    const { playerVars } = config.youtube
     const id = url && url.match(MATCH_URL)[1]
     if (isReady) {
       this.player.cueVideoById({
         videoId: id,
-        startSeconds: parseStartTime(url)
+        startSeconds: parseStartTime(url) || playerVars.start,
+        endSeconds: parseEndTime(url) || playerVars.end
       })
       return
     }
@@ -31,11 +33,14 @@ export class YouTube extends Component {
         height: '100%',
         videoId: id,
         playerVars: {
+          autoplay: playing ? 1 : 0,
+          mute: muted ? 1 : 0,
           controls: controls ? 1 : 0,
           start: parseStartTime(url),
+          end: parseEndTime(url),
           origin: window.location.origin,
           playsinline: playsinline,
-          ...config.youtube.playerVars
+          ...playerVars
         },
         events: {
           onReady: this.props.onReady,
@@ -66,9 +71,18 @@ export class YouTube extends Component {
   }
   seekTo (amount) {
     this.callPlayer('seekTo', amount)
+    if (!this.props.playing) {
+      this.pause()
+    }
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
+  }
+  mute = () => {
+    this.callPlayer('mute')
+  }
+  unmute = () => {
+    this.callPlayer('unMute')
   }
   setPlaybackRate (rate) {
     this.callPlayer('setPlaybackRate', rate)

@@ -31,7 +31,7 @@ export interface DailyMotionConfig {
 }
 
 export interface VimeoConfig {
-  iframeParams?: Object;
+  playerOptions?: Object;
   preload?: boolean;
 }
 
@@ -50,6 +50,7 @@ export interface FileConfig {
   forceAudio?: boolean;
   forceHLS?: boolean;
   forceDASH?: boolean;
+  hlsOptions?: Object;
 }
 
 export interface Config {
