@@ -30,8 +30,8 @@ export default class Player extends Component {
       this.player.stop()
     }
     this.mounted = false
-    if (typeof (document.exitPictureInPicture) !== "undefined") {
-        document.exitPictureInPicture().catch(err => {})
+    if (typeof (document.exitPictureInPicture) !== 'undefined') {
+      document.exitPictureInPicture().catch(err => {})
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -52,13 +52,12 @@ export default class Player extends Component {
       this.player.play()
     }
     if (playing && !nextProps.playing && this.isPlaying) {
-        this.player.pause()
+      this.player.pause()
     }
     if (!pip && nextProps.pip) {
-        this.player.pictureInPictureEnable()
-    }
-    else if (pip && !nextProps.pip) {
-        this.player.pictureInPictureDisable()
+      this.player.pictureInPictureEnable()
+    } else if (pip && !nextProps.pip) {
+      this.player.pictureInPictureDisable()
     }
     if (volume !== nextProps.volume && nextProps.volume !== null) {
       this.player.setVolume(nextProps.volume)
@@ -155,8 +154,9 @@ export default class Player extends Component {
     this.onDurationCheck()
   }
   onPlay = () => {
-    if (this.tickPause)
-      clearTimeout(this.tickPause);
+    if (this.tickPause) {
+      clearTimeout(this.tickPause)
+	}
     this.isPlaying = true
     this.isLoading = false
     const { onStart, onPlay, playbackRate } = this.props
@@ -164,7 +164,7 @@ export default class Player extends Component {
       if (this.player.setPlaybackRate) {
         this.player.setPlaybackRate(playbackRate)
       }
-      if (typeof (document.exitPictureInPicture) !== "undefined") {
+      if (typeof (document.exitPictureInPicture) !== 'undefined') {
         document.exitPictureInPicture().catch(err => {})
       }
       onStart()
@@ -183,11 +183,11 @@ export default class Player extends Component {
       if (!this.isLoading) {
         this.props.onPause(e)
       }
-    }, 1);
+    }, 1)
   }
   onEnded = () => {
-    if (typeof (document.exitPictureInPicture) !== "undefined") {
-        document.exitPictureInPicture().catch(err => {})
+    if (typeof (document.exitPictureInPicture) !== 'undefined') {
+      document.exitPictureInPicture().catch(err => {})
     }
     const { activePlayer, loop, onEnded } = this.props
     if (activePlayer.loopOnEnded && loop) {

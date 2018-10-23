@@ -55,8 +55,9 @@ export class FilePlayer extends Component {
     const { onPiPLeave } = this.props
     const playing = this.props.playing
     onPiPLeave(evt)
-    if (playing)
+    if (playing) {
       this.player.play()
+	}
   }
 
   componentDidMount () {
@@ -167,15 +168,17 @@ export class FilePlayer extends Component {
     this.player.pause()
   }
   pictureInPictureEnable () {
-    if (typeof (this.player.requestPictureInPicture) !== 'undefined')
-        this.player.requestPictureInPicture().catch(err => {})
+    if (typeof (this.player.requestPictureInPicture) !== 'undefined') {
+      this.player.requestPictureInPicture().catch(err => {})
+	}
   }
   pictureInPictureDisable () {
-    if (typeof (document.exitPictureInPicture) !== "undefined" && document.pictureInPictureElement == this.player)
+    if (typeof (document.exitPictureInPicture) !== 'undefined' && document.pictureInPictureElement === this.player) {
       document.exitPictureInPicture().catch(err => {})
+	}
   }
   stop () {
-    if (typeof (document.exitPictureInPicture) !== "undefined" && document.pictureInPictureElement == this.player) {
+    if (typeof (document.exitPictureInPicture) !== 'undefined' && document.pictureInPictureElement == this.player) {
       document.exitPictureInPicture().catch(err => {})
       const { eventOnPiPLeave } = this
       eventOnPiPLeave(false);
