@@ -31,7 +31,7 @@ export default class Player extends Component {
     }
     this.mounted = false
     if (typeof (document.exitPictureInPicture) !== 'undefined') {
-      document.exitPictureInPicture().catch(err => {})
+      document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
     }
   }
   componentWillReceiveProps (nextProps) {
@@ -156,7 +156,7 @@ export default class Player extends Component {
   onPlay = () => {
     if (this.tickPause) {
       clearTimeout(this.tickPause)
-	}
+    }
     this.isPlaying = true
     this.isLoading = false
     const { onStart, onPlay, playbackRate } = this.props
@@ -165,7 +165,7 @@ export default class Player extends Component {
         this.player.setPlaybackRate(playbackRate)
       }
       if (typeof (document.exitPictureInPicture) !== 'undefined') {
-        document.exitPictureInPicture().catch(err => {})
+        document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
       }
       onStart()
       this.startOnPlay = false
@@ -187,7 +187,7 @@ export default class Player extends Component {
   }
   onEnded = () => {
     if (typeof (document.exitPictureInPicture) !== 'undefined') {
-      document.exitPictureInPicture().catch(err => {})
+      document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
     }
     const { activePlayer, loop, onEnded } = this.props
     if (activePlayer.loopOnEnded && loop) {

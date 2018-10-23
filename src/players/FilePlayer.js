@@ -57,7 +57,7 @@ export class FilePlayer extends Component {
     onPiPLeave(evt)
     if (playing) {
       this.player.play()
-	}
+    }
   }
 
   componentDidMount () {
@@ -169,19 +169,19 @@ export class FilePlayer extends Component {
   }
   pictureInPictureEnable () {
     if (typeof (this.player.requestPictureInPicture) !== 'undefined') {
-      this.player.requestPictureInPicture().catch(err => {})
-	}
+      this.player.requestPictureInPicture().catch((err) => { console.log(err.stack) })
+    }
   }
   pictureInPictureDisable () {
     if (typeof (document.exitPictureInPicture) !== 'undefined' && document.pictureInPictureElement === this.player) {
-      document.exitPictureInPicture().catch(err => {})
-	}
+      document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
+    }
   }
   stop () {
-    if (typeof (document.exitPictureInPicture) !== 'undefined' && document.pictureInPictureElement == this.player) {
-      document.exitPictureInPicture().catch(err => {})
+    if (typeof (document.exitPictureInPicture) !== 'undefined' && document.pictureInPictureElement === this.player) {
+      document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
       const { eventOnPiPLeave } = this
-      eventOnPiPLeave(false);
+      eventOnPiPLeave(false)
     }
     this.player.removeAttribute('src')
     if (this.hls) {
