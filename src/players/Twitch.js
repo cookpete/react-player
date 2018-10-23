@@ -12,6 +12,7 @@ const PLAYER_ID_PREFIX = 'twitch-player-'
 export class Twitch extends Component {
   static displayName = 'Twitch'
   static canPlay = url => MATCH_VIDEO_URL.test(url) || MATCH_CHANNEL_URL.test(url)
+  static canEnablePiP = url => false
   static loopOnEnded = true
 
   callPlayer = callPlayer
@@ -76,6 +77,8 @@ export class Twitch extends Component {
   getSecondsLoaded () {
     return null
   }
+  pictureInPictureEnable () {}
+  pictureInPictureDisable () {}
   render () {
     const style = {
       width: '100%',

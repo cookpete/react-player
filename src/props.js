@@ -5,6 +5,7 @@ const { string, bool, number, array, oneOfType, shape, object, func } = PropType
 export const propTypes = {
   url: oneOfType([ string, array, object ]),
   playing: bool,
+  pip: bool,
   loop: bool,
   controls: bool,
   volume: number,
@@ -63,7 +64,9 @@ export const propTypes = {
   onError: func,
   onDuration: func,
   onSeek: func,
-  onProgress: func
+  onProgress: func,
+  onPiPEnter: func,
+  onPiPLeave: func
 }
 
 export const defaultProps = {
@@ -150,7 +153,9 @@ export const defaultProps = {
   onError: function () {},
   onDuration: function () {},
   onSeek: function () {},
-  onProgress: function () {}
+  onProgress: function () {},
+  onPiPEnter: function () {},
+  onPiPLeave: function () {}
 }
 
 export const DEPRECATED_CONFIG_PROPS = [

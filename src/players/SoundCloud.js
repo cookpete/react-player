@@ -10,6 +10,7 @@ const MATCH_URL = /(soundcloud\.com|snd\.sc)\/.+$/
 export class SoundCloud extends Component {
   static displayName = 'SoundCloud'
   static canPlay = url => MATCH_URL.test(url)
+  static canEnablePiP = url => false
   static loopOnEnded = true
 
   callPlayer = callPlayer
@@ -77,6 +78,8 @@ export class SoundCloud extends Component {
   ref = iframe => {
     this.iframe = iframe
   }
+  pictureInPictureEnable () {}
+  pictureInPictureDisable () {}
   render () {
     const style = {
       width: '100%',

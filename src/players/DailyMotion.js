@@ -11,6 +11,7 @@ const MATCH_URL = /^(?:(?:https?):)?(?:\/\/)?(?:www\.)?(?:(?:dailymotion\.com(?:
 export class DailyMotion extends Component {
   static displayName = 'DailyMotion'
   static canPlay = url => MATCH_URL.test(url)
+  static canEnablePiP = url => false
   static loopOnEnded = true
 
   callPlayer = callPlayer
@@ -89,6 +90,8 @@ export class DailyMotion extends Component {
   ref = container => {
     this.container = container
   }
+  pictureInPictureEnable () {}
+  pictureInPictureDisable () {}
   render () {
     const style = {
       width: '100%',

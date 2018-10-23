@@ -10,6 +10,7 @@ const MATCH_URL = /(?:wistia\.com|wi\.st)\/(?:medias|embed)\/(.*)$/
 export class Wistia extends Component {
   static displayName = 'Wistia'
   static canPlay = url => MATCH_URL.test(url)
+  static canEnablePiP = url => false
   static loopOnEnded = true
 
   callPlayer = callPlayer
@@ -73,6 +74,8 @@ export class Wistia extends Component {
   getSecondsLoaded () {
     return null
   }
+  pictureInPictureEnable () {}
+  pictureInPictureDisable () {}
   render () {
     const id = this.getID(this.props.url)
     const className = `wistia_embed wistia_async_${id}`

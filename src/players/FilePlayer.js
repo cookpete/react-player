@@ -37,9 +37,27 @@ function canPlay (url) {
   )
 }
 
+function canEnablePiP (url) {
+  return canPlay(url) && !!document.pictureInPictureEnabled && !AUDIO_EXTENSIONS.test(url)
+}
+
 export class FilePlayer extends Component {
   static displayName = 'FilePlayer'
   static canPlay = canPlay
+  static canEnablePiP = canEnablePiP
+
+  eventOnPiPEnter = (evt) => {
+    const { onPiPEnter } = this.props
+    onPiPEnter(evt)
+  }
+
+  eventOnPiPLeave = (evt) => {
+    const { onPiPLeave } = this.props
+    const playing = this.props.playing
+    onPiPLeave(evt)
+    if (playing)
+      this.player.play()
+  }
 
   componentDidMount () {
     this.addListeners()
@@ -62,12 +80,15 @@ export class FilePlayer extends Component {
   }
   addListeners () {
     const { onReady, onPlay, onPause, onEnded, onError, playsinline } = this.props
+    const { eventOnPiPEnter, eventOnPiPLeave } = this
     this.player.addEventListener('canplay', onReady)
     this.player.addEventListener('play', onPlay)
     this.player.addEventListener('pause', onPause)
     this.player.addEventListener('seeked', this.onSeek)
     this.player.addEventListener('ended', onEnded)
     this.player.addEventListener('error', onError)
+    this.player.addEventListener('enterpictureinpicture', eventOnPiPEnter)
+    this.player.addEventListener('leavepictureinpicture', eventOnPiPLeave)
     if (playsinline) {
       this.player.setAttribute('playsinline', '')
       this.player.setAttribute('webkit-playsinline', '')
@@ -75,12 +96,15 @@ export class FilePlayer extends Component {
   }
   removeListeners () {
     const { onReady, onPlay, onPause, onEnded, onError } = this.props
+    const { eventOnPiPEnter, eventOnPiPLeave } = this
     this.player.removeEventListener('canplay', onReady)
     this.player.removeEventListener('play', onPlay)
     this.player.removeEventListener('pause', onPause)
     this.player.removeEventListener('seeked', this.onSeek)
     this.player.removeEventListener('ended', onEnded)
     this.player.removeEventListener('error', onError)
+    this.player.removeEventListener('enterpictureinpicture', eventOnPiPEnter)
+    this.player.removeEventListener('leavepictureinpicture', eventOnPiPLeave)
   }
   onSeek = e => {
     this.props.onSeek(e.target.currentTime)
@@ -142,7 +166,20 @@ export class FilePlayer extends Component {
   pause () {
     this.player.pause()
   }
+  pictureInPictureEnable () {
+    if (typeof (this.player.requestPictureInPicture) !== 'undefined')
+        this.player.requestPictureInPicture().catch(err => {})
+  }
+  pictureInPictureDisable () {
+    if (typeof (document.exitPictureInPicture) !== "undefined" && document.pictureInPictureElement == this.player)
+      document.exitPictureInPicture().catch(err => {})
+  }
   stop () {
+    if (typeof (document.exitPictureInPicture) !== "undefined" && document.pictureInPictureElement == this.player) {
+      document.exitPictureInPicture().catch(err => {})
+      const { eventOnPiPLeave } = this
+      eventOnPiPLeave(false);
+    }
     this.player.removeAttribute('src')
     if (this.hls) {
       this.hls.destroy()

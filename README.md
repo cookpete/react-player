@@ -64,6 +64,7 @@ Prop | Description | Default
 ---- | ----------- | -------
 `url` | The url of a video or song to play<br/>&nbsp; ◦ &nbsp;Can be an [array](#multiple-sources-and-tracks) or [`MediaStream`](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream) object
 `playing` | Set to `true` or `false` to pause or play the media | `false`
+`pip` | Set to `true` or `false` to enable or disable PictureInPicture mode | `false`
 `loop` | Set to `true` or `false` to loop the media | `false`
 `controls` | Set to `true` or `false` to display native player controls<br />&nbsp; ◦ &nbsp;Vimeo, Twitch and Wistia player will always display controls | `false`
 `volume` | Set the volume of the player, between `0` and `1`<br/>&nbsp; ◦ &nbsp;`null` uses default volume on all players [`#357`](https://github.com/CookPete/react-player/issues/357) | `null`
@@ -93,6 +94,8 @@ Prop | Description
 `onSeek` | Called when media seeks with `seconds` parameter
 `onEnded` | Called when media finishes playing
 `onError` | Called when an error occurs whilst attempting to play media
+`onPiPEnter` | Called when the PictueInPicture mode is enabled
+`onPiPLeave` | Called when the PictueInPicture mode is disabled
 
 #### Config prop
 
@@ -147,6 +150,7 @@ When `preload` is set to `true` for players that support it, a short, silent vid
 Method | Description
 ------ | -----------
 `ReactPlayer.canPlay(url)` | Determine if a URL can be played. This does *not* detect media that is unplayable due to privacy settings, streaming permissions, etc. In that case, the `onError` prop will be invoked after attemping to play. Any URL that does not match any patterns will fall back to a native HTML5 media player.
+`ReactPlayer.canEnablePiP(url)` | Determine if a URL can be played in Picture in Picture mode (Google Chrome >= 70).
 `ReactPlayer.addCustomPlayer(CustomPlayer)` | Add a custom player. See [Adding custom players](#adding-custom-players)
 `ReactPlayer.removeCustomPlayers()` | Remove any players that have been added using `addCustomPlayer()`
 
