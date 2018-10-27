@@ -20,7 +20,7 @@ const PRELOAD_PLAYERS = [
   {
     Player: Vimeo,
     configKey: 'vimeo',
-    url: 'https://vimeo.com/127250231'
+    url: 'https://vimeo.com/261464690'
   },
   {
     Player: DailyMotion,
