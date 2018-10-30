@@ -24,7 +24,9 @@ export class FaceMask extends Component {
       // eslint-disable-next-line new-cap
       this.player = new nfl.playaction({
         containerId: this.playerID,
-        initialVideo: { url }
+        initialVideo: { url },
+        height: '100%',
+        width: '100%'
       })
       const { PLAYER_READY, STATUS, TIME_UPDATE, VOLUME } = nfl.playaction.EVENTS
       const { COMPLETE, ERROR, PAUSED, PLAYING } = nfl.playaction.STATUS
