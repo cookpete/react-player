@@ -46,13 +46,10 @@ export class UstreamLive extends Component {
       })
     }, this.props.onError)
   }
-  mute = () => {
-     // todo
-  }
-  unmute = () => {
-    // todo
-  }
-
+  // todo
+  mute = () => {}
+  // todo
+  unmute = () => {}
   play () {
     this.callPlayer('callMethod', 'play')
   }

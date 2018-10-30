@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "src"
+  ],
+  "exec": "yarn build:demo",
+  "ext": "js"
+}

@@ -37,6 +37,7 @@ export class VAST extends Component {
           if (sources.length) {
             return this.setState({
               sources,
+              // eslint-disable-next-line new-cap
               tracker: new vast.tracker(ad, creative)
             })
           }
@@ -207,8 +208,7 @@ export class VAST extends Component {
           url={this.state.sources[0].src}
         />
       </div>
-    ) : null;
-
+    ) : null
   }
 }
 

@@ -19,7 +19,8 @@
     "prepublishOnly": "npm run build:lib && npm run build:dist",
     "format": "standard --fix --verbose | snazzy",
     "mtm": "npm run prepublishOnly && rsync -r ./dist ../maestro-web/node_modules/maestro-react-player && rsync -r ./lib ../maestro-web/node_modules/maestro-react-player",
-    "postpublish": "npm run clean"
+    "postpublish": "npm run clean",
+    "watch": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -83,6 +84,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.9",
     "mocha": "^4.1.0",
+    "nodemon": "^1.18.5",
     "postcss-automath": "^1.0.1",
     "postcss-loader": "^2.0.10",
     "postcss-nested": "^3.0.0",

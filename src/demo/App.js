@@ -243,6 +243,12 @@ class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>FaceMask</th>
+              <td>
+                {this.renderLoadButton('https://nflent-vh.akamaihd.net/i/films/2015/NFL_COM/show/NFLCOM/POST/22/160210_nfln_itn_car_vs_den_2nd_half_sb_highlights_413325_,180k,320k,500k,700k,1200k,2000k,3200k,5000k,.mp4.csmil/master.m3u8', 'Test A')}
+              </td>
+            </tr>
+            <tr>
               <th>DailyMotion</th>
               <td>
                 {this.renderLoadButton('https://www.dailymotion.com/video/x5e9eog', 'Test A')}

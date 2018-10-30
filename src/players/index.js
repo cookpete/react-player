@@ -3,6 +3,7 @@ import { SoundCloud } from './SoundCloud'
 import { Vimeo } from './Vimeo'
 import { Facebook } from './Facebook'
 import { Streamable } from './Streamable'
+import { FaceMask } from './FaceMask'
 import { Wistia } from './Wistia'
 import { Twitch } from './Twitch'
 import { DailyMotion } from './DailyMotion'
@@ -18,6 +19,7 @@ export default [
   Vimeo,
   Facebook,
   Streamable,
+  FaceMask,
   Wistia,
   Twitch,
   DailyMotion,

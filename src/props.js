@@ -140,7 +140,7 @@ export const defaultProps = {
     },
     twitch: {
       options: {}
-    },
+    }
   },
   onReady: function () {},
   onStart: function () {},
