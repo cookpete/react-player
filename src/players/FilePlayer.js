@@ -171,7 +171,7 @@ export class FilePlayer extends Component {
     const { duration } = this.player
     // on iOS, live streams return Infinity for the duration
     // so instead we use the end of the seekable timerange
-    if (duration === Infinity) {
+    if (duration === Infinity && this.player.seekable.length > 0) {
       return this.player.seekable.end(this.player.seekable.length - 1)
     }
     return duration
