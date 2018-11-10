@@ -59,6 +59,7 @@ export class FilePlayer extends Component {
   }
   componentWillUnmount () {
     this.removeListeners()
+    this._isUnmounted = true;
   }
   addListeners () {
     const { onReady, onPlay, onPause, onEnded, onError, playsinline } = this.props
@@ -103,6 +104,7 @@ export class FilePlayer extends Component {
   load (url) {
     if (this.shouldUseHLS(url)) {
       getSDK(HLS_SDK_URL, HLS_GLOBAL).then(Hls => {
+        if (this._isUnmounted) return
         this.hls = new Hls(this.props.config.file.hlsOptions)
         this.hls.on(Hls.Events.ERROR, (e, data) => {
           this.props.onError(e, data, this.hls, Hls)
@@ -113,6 +115,7 @@ export class FilePlayer extends Component {
     }
     if (this.shouldUseDASH(url)) {
       getSDK(DASH_SDK_URL, DASH_GLOBAL).then(dashjs => {
+        if (this._isUnmounted) return
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
         this.dash.getDebug().setLogToBrowserConsole(false)
