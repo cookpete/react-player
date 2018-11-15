@@ -101,6 +101,8 @@ export interface ReactPlayerProps {
 
 export default class ReactPlayer extends React.Component<ReactPlayerProps, any> {
   static canPlay(url: string): boolean;
+  static addCustomPlayer(player: ReactPlayer): void;
+  static removeCustomPlayers(): void;
   seekTo(fraction: number): void;
   getCurrentTime(): number;
   getDuration(): number;
