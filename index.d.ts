@@ -9,6 +9,7 @@ export interface TrackProps {
   kind: string;
   src: string;
   srcLang: string;
+  label: string;
   default?: boolean;
 }
 
