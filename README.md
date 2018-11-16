@@ -92,7 +92,7 @@ Prop | Description
 `onPause` | Called when media is paused
 `onBuffer` | Called when media starts buffering
 `onSeek` | Called when media seeks with `seconds` parameter
-`onEnded` | Called when media finishes playing
+`onEnded` | Called when media finishes playing<br />&nbsp; ◦ &nbsp;Does not fire when `loop` is set to `true`
 `onError` | Called when an error occurs whilst attempting to play media
 `onEnablePIP` | Called when picture-in-picture mode is enabled
 `onDisablePIP` | Called when picture-in-picture mode is disabled

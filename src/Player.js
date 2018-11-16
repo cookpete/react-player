@@ -183,8 +183,8 @@ export default class Player extends Component {
     }
     if (!loop) {
       this.isPlaying = false
+      onEnded()
     }
-    onEnded()
   }
   onDurationCheck = () => {
     clearTimeout(this.durationCheckTimeout)
