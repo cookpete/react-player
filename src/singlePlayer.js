@@ -44,7 +44,9 @@ export default function createSinglePlayer (activePlayer) {
       this.player = player
     }
     render () {
-      if (!activePlayer.canPlay(this.props.url)) {
+      const { forceVideo, forceAudio, forceHLS, forceDASH } = this.config.file
+      const skipCanPlay = forceVideo || forceAudio || forceHLS || forceDASH
+      if (!activePlayer.canPlay(this.props.url) && !skipCanPlay) {
         return null
       }
       const { style, width, height, wrapper: Wrapper } = this.props

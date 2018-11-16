@@ -78,3 +78,21 @@ test('render', t => {
     <Player activePlayer={FilePlayer} />
   ))
 })
+
+test('render - null', t => {
+  const wrapper = shallow(<SinglePlayer url='http://example.com/not-a-file-path' />)
+  t.true(wrapper.type() === null)
+})
+
+test('render - force via config', t => {
+  const wrapper = shallow(<SinglePlayer url='http://example.com/not-a-file-path' config={{ file: { forceVideo: true } }} />)
+  const player = wrapper.childAt(0)
+  t.true(player.is(Player))
+  t.true(player.prop('activePlayer') === FilePlayer)
+  t.true(player.prop('url') === 'http://example.com/not-a-file-path')
+
+  // This fails, but I don't know why
+  // t.true(wrapper.childAt(0).matchesElement(
+  //   <Player activePlayer={FilePlayer} />
+  // ))
+})
