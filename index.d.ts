@@ -52,6 +52,8 @@ export interface FileConfig {
   forceHLS?: boolean;
   forceDASH?: boolean;
   hlsOptions?: Object;
+  hlsVersion?: string;
+  dashVersion?: string;
 }
 
 export interface Config {
