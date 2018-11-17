@@ -78,6 +78,7 @@ export interface ReactPlayerProps {
   style?: Object;
   progressInterval?: number;
   playsinline?: boolean;
+  pip?: boolean;
   wrapper?: any;
   config?: Config;
   soundcloudConfig?: SoundCloudConfig;
@@ -93,6 +94,8 @@ export interface ReactPlayerProps {
   onPause?(): void;
   onBuffer?(): void;
   onEnded?(): void;
+  onEnablePIP?(): void;
+  onDisablePIP?(): void;
   onError?(error: any): void;
   onDuration?(duration: number): void;
   onSeek?(seconds: number): void;
@@ -102,6 +105,7 @@ export interface ReactPlayerProps {
 
 export default class ReactPlayer extends React.Component<ReactPlayerProps, any> {
   static canPlay(url: string): boolean;
+  static canEnablePIP(url: string): boolean;
   static addCustomPlayer(player: ReactPlayer): void;
   static removeCustomPlayers(): void;
   seekTo(fraction: number): void;

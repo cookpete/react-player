@@ -29,6 +29,14 @@ export default class ReactPlayer extends Component {
     }
     return false
   }
+  static canEnablePIP = url => {
+    for (let Player of [ ...customPlayers, ...players ]) {
+      if (Player.canEnablePIP && Player.canEnablePIP(url)) {
+        return true
+      }
+    }
+    return false
+  }
   config = getConfig(this.props, defaultProps, true)
   componentDidMount () {
     if (this.props.progressFrequency) {

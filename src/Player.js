@@ -28,11 +28,14 @@ export default class Player extends Component {
     if (this.isReady) {
       this.player.stop()
     }
+    if (this.player.disablePIP) {
+      this.player.disablePIP()
+    }
     this.mounted = false
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
-    const { url, playing, volume, muted, playbackRate } = this.props
+    const { url, playing, volume, muted, playbackRate, pip } = this.props
     if (!isEqual(url, nextProps.url)) {
       if (this.isLoading) {
         console.warn(`ReactPlayer: the attempt to load ${nextProps.url} is being deferred until the player has loaded`)
@@ -49,6 +52,11 @@ export default class Player extends Component {
     }
     if (playing && !nextProps.playing && this.isPlaying) {
       this.player.pause()
+    }
+    if (!pip && nextProps.pip && this.player.enablePIP) {
+      this.player.enablePIP()
+    } else if (pip && !nextProps.pip && this.player.disablePIP) {
+      this.player.disablePIP()
     }
     if (volume !== nextProps.volume && nextProps.volume !== null) {
       this.player.setVolume(nextProps.volume)

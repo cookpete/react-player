@@ -15,6 +15,7 @@ export const propTypes = {
   style: object,
   progressInterval: number,
   playsinline: bool,
+  pip: bool,
   wrapper: oneOfType([ string, func ]),
   config: shape({
     soundcloud: shape({
@@ -63,7 +64,9 @@ export const propTypes = {
   onError: func,
   onDuration: func,
   onSeek: func,
-  onProgress: func
+  onProgress: func,
+  onEnablePIP: func,
+  onDisablePIP: func
 }
 
 export const defaultProps = {
@@ -78,6 +81,7 @@ export const defaultProps = {
   style: {},
   progressInterval: 1000,
   playsinline: false,
+  pip: false,
   wrapper: 'div',
   config: {
     soundcloud: {
@@ -150,7 +154,9 @@ export const defaultProps = {
   onError: function () {},
   onDuration: function () {},
   onSeek: function () {},
-  onProgress: function () {}
+  onProgress: function () {},
+  onEnablePIP: function () {},
+  onDisablePIP: function () {}
 }
 
 export const DEPRECATED_CONFIG_PROPS = [

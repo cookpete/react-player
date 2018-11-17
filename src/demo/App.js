@@ -21,6 +21,7 @@ const MULTIPLE_SOURCES = [
 class App extends Component {
   state = {
     url: null,
+    pip: false,
     playing: true,
     volume: 0.8,
     muted: false,
@@ -34,11 +35,15 @@ class App extends Component {
     this.setState({
       url,
       played: 0,
-      loaded: 0
+      loaded: 0,
+      pip: false
     })
   }
   playPause = () => {
     this.setState({ playing: !this.state.playing })
+  }
+  pip = () => {
+    this.setState({ pip: !this.state.pip })
   }
   stop = () => {
     this.setState({ url: null, playing: false })
@@ -58,6 +63,14 @@ class App extends Component {
   onPlay = () => {
     console.log('onPlay')
     this.setState({ playing: true })
+  }
+  onEnablePIP = () => {
+    console.log('onEnablePIP')
+    this.setState({ pip: true })
+  }
+  onDisablePIP = () => {
+    console.log('onDisablePIP')
+    this.setState({ pip: false })
   }
   onPause = () => {
     console.log('onPause')
@@ -102,7 +115,7 @@ class App extends Component {
     this.player = player
   }
   render () {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate } = this.state
+    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
     const SEPARATOR = ' · '
 
     return (
@@ -116,6 +129,7 @@ class App extends Component {
               width='100%'
               height='100%'
               url={url}
+              pip={pip}
               playing={playing}
               loop={loop}
               playbackRate={playbackRate}
@@ -124,6 +138,8 @@ class App extends Component {
               onReady={() => console.log('onReady')}
               onStart={() => console.log('onStart')}
               onPlay={this.onPlay}
+              onEnablePIP={this.onEnablePIP}
+              onDisablePIP={this.onDisablePIP}
               onPause={this.onPause}
               onBuffer={() => console.log('onBuffer')}
               onSeek={e => console.log('onSeek', e)}
@@ -141,9 +157,17 @@ class App extends Component {
                 <button onClick={this.stop}>Stop</button>
                 <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
                 <button onClick={this.onClickFullscreen}>Fullscreen</button>
-                <button onClick={this.setPlaybackRate} value={1}>1</button>
-                <button onClick={this.setPlaybackRate} value={1.5}>1.5</button>
-                <button onClick={this.setPlaybackRate} value={2}>2</button>
+                {ReactPlayer.canEnablePIP(url) &&
+                  <button onClick={this.pip}>{pip ? 'Disable PiP' : 'Enable PiP'}</button>
+                }
+              </td>
+            </tr>
+            <tr>
+              <th>Speed</th>
+              <td>
+                <button onClick={this.setPlaybackRate} value={1}>1x</button>
+                <button onClick={this.setPlaybackRate} value={1.5}>1.5x</button>
+                <button onClick={this.setPlaybackRate} value={2}>2x</button>
               </td>
             </tr>
             <tr>
