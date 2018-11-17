@@ -17,7 +17,6 @@ export default class Player extends Component {
   startOnPlay = true
   seekOnPlay = null
   onDurationCalled = false
-  tickPause = false;
   componentDidMount () {
     this.mounted = true
     this.player.load(this.props.url)
@@ -29,10 +28,10 @@ export default class Player extends Component {
     if (this.isReady) {
       this.player.stop()
     }
-    this.mounted = false
-    if (typeof (document.exitPictureInPicture) !== 'undefined') {
-      document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
+    if (this.player.disablePIP) {
+      this.player.disablePIP()
     }
+    this.mounted = false
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
@@ -54,10 +53,10 @@ export default class Player extends Component {
     if (playing && !nextProps.playing && this.isPlaying) {
       this.player.pause()
     }
-    if (!pip && nextProps.pip) {
-      this.player.pictureInPictureEnable()
-    } else if (pip && !nextProps.pip) {
-      this.player.pictureInPictureDisable()
+    if (!pip && nextProps.pip && this.player.enablePIP) {
+      this.player.enablePIP()
+    } else if (pip && !nextProps.pip && this.player.disablePIP) {
+      this.player.disablePIP()
     }
     if (volume !== nextProps.volume && nextProps.volume !== null) {
       this.player.setVolume(nextProps.volume)
@@ -154,18 +153,12 @@ export default class Player extends Component {
     this.onDurationCheck()
   }
   onPlay = () => {
-    if (this.tickPause) {
-      clearTimeout(this.tickPause)
-    }
     this.isPlaying = true
     this.isLoading = false
     const { onStart, onPlay, playbackRate } = this.props
     if (this.startOnPlay) {
       if (this.player.setPlaybackRate) {
         this.player.setPlaybackRate(playbackRate)
-      }
-      if (typeof (document.exitPictureInPicture) !== 'undefined') {
-        document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
       }
       onStart()
       this.startOnPlay = false
@@ -178,17 +171,12 @@ export default class Player extends Component {
     this.onDurationCheck()
   }
   onPause = (e) => {
-    this.tickPause = setTimeout(() => {
-      this.isPlaying = false
-      if (!this.isLoading) {
-        this.props.onPause(e)
-      }
-    }, 1)
+    this.isPlaying = false
+    if (!this.isLoading) {
+      this.props.onPause(e)
+    }
   }
   onEnded = () => {
-    if (typeof (document.exitPictureInPicture) !== 'undefined') {
-      document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
-    }
     const { activePlayer, loop, onEnded } = this.props
     if (activePlayer.loopOnEnded && loop) {
       this.seekTo(0)

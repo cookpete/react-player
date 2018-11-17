@@ -11,7 +11,6 @@ const MATCH_URL = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?
 export class YouTube extends Component {
   static displayName = 'YouTube'
   static canPlay = url => MATCH_URL.test(url)
-  static canEnablePiP = url => false
   static loopOnEnded = true
 
   callPlayer = callPlayer
@@ -100,8 +99,6 @@ export class YouTube extends Component {
   ref = container => {
     this.container = container
   }
-  pictureInPictureEnable () {}
-  pictureInPictureDisable () {}
   render () {
     const style = {
       width: '100%',

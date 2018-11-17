@@ -10,7 +10,6 @@ const MATCH_URL = /streamable\.com\/([a-z0-9]+)$/
 export class Streamable extends Component {
   static displayName = 'Streamable'
   static canPlay = url => MATCH_URL.test(url)
-  static canEnablePiP = url => false
 
   callPlayer = callPlayer
   duration = null
@@ -74,8 +73,6 @@ export class Streamable extends Component {
   ref = iframe => {
     this.iframe = iframe
   }
-  pictureInPictureEnable () {}
-  pictureInPictureDisable () {}
   render () {
     const id = this.props.url.match(MATCH_URL)[1]
     const style = {

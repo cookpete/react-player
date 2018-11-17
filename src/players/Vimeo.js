@@ -16,7 +16,6 @@ export class Vimeo extends Component {
     }
     return MATCH_URL.test(url)
   }
-  static canEnablePiP = url => false
 
   callPlayer = callPlayer
   duration = null
@@ -92,8 +91,6 @@ export class Vimeo extends Component {
   ref = container => {
     this.container = container
   }
-  pictureInPictureEnable () {}
-  pictureInPictureDisable () {}
   render () {
     const style = {
       width: '100%',

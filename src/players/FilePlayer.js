@@ -37,28 +37,14 @@ function canPlay (url) {
   )
 }
 
-function canEnablePiP (url) {
+function canEnablePIP (url) {
   return canPlay(url) && !!document.pictureInPictureEnabled && !AUDIO_EXTENSIONS.test(url)
 }
 
 export class FilePlayer extends Component {
   static displayName = 'FilePlayer'
   static canPlay = canPlay
-  static canEnablePiP = canEnablePiP
-
-  eventOnPiPEnter = (evt) => {
-    const { onPiPEnter } = this.props
-    onPiPEnter(evt)
-  }
-
-  eventOnPiPLeave = (evt) => {
-    const { onPiPLeave } = this.props
-    const playing = this.props.playing
-    onPiPLeave(evt)
-    if (playing) {
-      this.player.play()
-    }
-  }
+  static canEnablePIP = canEnablePIP
 
   componentDidMount () {
     this.addListeners()
@@ -80,32 +66,37 @@ export class FilePlayer extends Component {
     this.removeListeners()
   }
   addListeners () {
-    const { onReady, onPlay, onPause, onEnded, onError, playsinline } = this.props
-    const { eventOnPiPEnter, eventOnPiPLeave } = this
+    const { onReady, onPlay, onPause, onEnded, onError, playsinline, onEnablePIP } = this.props
     this.player.addEventListener('canplay', onReady)
     this.player.addEventListener('play', onPlay)
     this.player.addEventListener('pause', onPause)
     this.player.addEventListener('seeked', this.onSeek)
     this.player.addEventListener('ended', onEnded)
     this.player.addEventListener('error', onError)
-    this.player.addEventListener('enterpictureinpicture', eventOnPiPEnter)
-    this.player.addEventListener('leavepictureinpicture', eventOnPiPLeave)
+    this.player.addEventListener('enterpictureinpicture', onEnablePIP)
+    this.player.addEventListener('leavepictureinpicture', this.onDisablePIP)
     if (playsinline) {
       this.player.setAttribute('playsinline', '')
       this.player.setAttribute('webkit-playsinline', '')
     }
   }
   removeListeners () {
-    const { onReady, onPlay, onPause, onEnded, onError } = this.props
-    const { eventOnPiPEnter, eventOnPiPLeave } = this
+    const { onReady, onPlay, onPause, onEnded, onError, onEnablePIP } = this.props
     this.player.removeEventListener('canplay', onReady)
     this.player.removeEventListener('play', onPlay)
     this.player.removeEventListener('pause', onPause)
     this.player.removeEventListener('seeked', this.onSeek)
     this.player.removeEventListener('ended', onEnded)
     this.player.removeEventListener('error', onError)
-    this.player.removeEventListener('enterpictureinpicture', eventOnPiPEnter)
-    this.player.removeEventListener('leavepictureinpicture', eventOnPiPLeave)
+    this.player.removeEventListener('enterpictureinpicture', onEnablePIP)
+    this.player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
+  }
+  onDisablePIP = e => {
+    const { onDisablePIP, playing } = this.props
+    onDisablePIP(e)
+    if (playing) {
+      this.play()
+    }
   }
   onSeek = e => {
     this.props.onSeek(e.target.currentTime)
@@ -167,22 +158,7 @@ export class FilePlayer extends Component {
   pause () {
     this.player.pause()
   }
-  pictureInPictureEnable () {
-    if (typeof (this.player.requestPictureInPicture) !== 'undefined') {
-      this.player.requestPictureInPicture().catch((err) => { console.log(err.stack) })
-    }
-  }
-  pictureInPictureDisable () {
-    if (typeof (document.exitPictureInPicture) !== 'undefined' && document.pictureInPictureElement === this.player) {
-      document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
-    }
-  }
   stop () {
-    if (typeof (document.exitPictureInPicture) !== 'undefined' && document.pictureInPictureElement === this.player) {
-      document.exitPictureInPicture().catch((err) => { console.log(err.stack) })
-      const { eventOnPiPLeave } = this
-      eventOnPiPLeave(false)
-    }
     this.player.removeAttribute('src')
     if (this.hls) {
       this.hls.destroy()
@@ -202,6 +178,16 @@ export class FilePlayer extends Component {
   }
   unmute = () => {
     this.player.muted = false
+  }
+  enablePIP () {
+    if (this.player.requestPictureInPicture && document.pictureInPictureElement !== this.player) {
+      this.player.requestPictureInPicture()
+    }
+  }
+  disablePIP () {
+    if (document.exitPictureInPicture && document.pictureInPictureElement === this.player) {
+      document.exitPictureInPicture()
+    }
   }
   setPlaybackRate (rate) {
     this.player.playbackRate = rate

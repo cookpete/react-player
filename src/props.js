@@ -5,7 +5,6 @@ const { string, bool, number, array, oneOfType, shape, object, func } = PropType
 export const propTypes = {
   url: oneOfType([ string, array, object ]),
   playing: bool,
-  pip: bool,
   loop: bool,
   controls: bool,
   volume: number,
@@ -16,6 +15,7 @@ export const propTypes = {
   style: object,
   progressInterval: number,
   playsinline: bool,
+  pip: bool,
   wrapper: oneOfType([ string, func ]),
   config: shape({
     soundcloud: shape({
@@ -65,8 +65,8 @@ export const propTypes = {
   onDuration: func,
   onSeek: func,
   onProgress: func,
-  onPiPEnter: func,
-  onPiPLeave: func
+  onEnablePIP: func,
+  onDisablePIP: func
 }
 
 export const defaultProps = {
@@ -81,6 +81,7 @@ export const defaultProps = {
   style: {},
   progressInterval: 1000,
   playsinline: false,
+  pip: false,
   wrapper: 'div',
   config: {
     soundcloud: {
@@ -154,8 +155,8 @@ export const defaultProps = {
   onDuration: function () {},
   onSeek: function () {},
   onProgress: function () {},
-  onPiPEnter: function () {},
-  onPiPLeave: function () {}
+  onEnablePIP: function () {},
+  onDisablePIP: function () {}
 }
 
 export const DEPRECATED_CONFIG_PROPS = [

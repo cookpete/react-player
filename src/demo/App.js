@@ -64,12 +64,12 @@ class App extends Component {
     console.log('onPlay')
     this.setState({ playing: true })
   }
-  onPiPEnter = () => {
-    console.log('onPiPEnter')
+  onEnablePIP = () => {
+    console.log('onEnablePIP')
     this.setState({ pip: true })
   }
-  onPiPLeave = () => {
-    console.log('onPiPLeave')
+  onDisablePIP = () => {
+    console.log('onDisablePIP')
     this.setState({ pip: false })
   }
   onPause = () => {
@@ -113,7 +113,6 @@ class App extends Component {
   }
   ref = player => {
     this.player = player
-    console.log(this.player)
   }
   render () {
     const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
@@ -139,8 +138,8 @@ class App extends Component {
               onReady={() => console.log('onReady')}
               onStart={() => console.log('onStart')}
               onPlay={this.onPlay}
-              onPiPEnter={this.onPiPEnter}
-              onPiPLeave={this.onPiPLeave}
+              onEnablePIP={this.onEnablePIP}
+              onDisablePIP={this.onDisablePIP}
               onPause={this.onPause}
               onBuffer={() => console.log('onBuffer')}
               onSeek={e => console.log('onSeek', e)}
@@ -157,11 +156,18 @@ class App extends Component {
               <td>
                 <button onClick={this.stop}>Stop</button>
                 <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
-                {ReactPlayer.canEnablePiP(url) && <button onClick={this.pip}>{pip ? 'Disable PiP' : 'Enable PiP'}</button>}
                 <button onClick={this.onClickFullscreen}>Fullscreen</button>
-                <button onClick={this.setPlaybackRate} value={1}>1</button>
-                <button onClick={this.setPlaybackRate} value={1.5}>1.5</button>
-                <button onClick={this.setPlaybackRate} value={2}>2</button>
+                {ReactPlayer.canEnablePIP(url) &&
+                  <button onClick={this.pip}>{pip ? 'Disable PiP' : 'Enable PiP'}</button>
+                }
+              </td>
+            </tr>
+            <tr>
+              <th>Speed</th>
+              <td>
+                <button onClick={this.setPlaybackRate} value={1}>1x</button>
+                <button onClick={this.setPlaybackRate} value={1.5}>1.5x</button>
+                <button onClick={this.setPlaybackRate} value={2}>2x</button>
               </td>
             </tr>
             <tr>

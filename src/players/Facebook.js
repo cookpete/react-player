@@ -12,7 +12,6 @@ const PLAYER_ID_PREFIX = 'facebook-player-'
 export class Facebook extends Component {
   static displayName = 'Facebook'
   static canPlay = url => MATCH_URL.test(url)
-  static canEnablePiP = url => false
   static loopOnEnded = true
 
   callPlayer = callPlayer
@@ -84,8 +83,6 @@ export class Facebook extends Component {
   getSecondsLoaded () {
     return null
   }
-  pictureInPictureEnable () {}
-  pictureInPictureDisable () {}
   render () {
     const style = {
       width: '100%',

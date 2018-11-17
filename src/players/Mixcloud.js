@@ -10,7 +10,6 @@ const MATCH_URL = /mixcloud\.com\/([^/]+\/[^/]+)/
 export class Mixcloud extends Component {
   static displayName = 'Mixcloud'
   static canPlay = url => MATCH_URL.test(url)
-  static canEnablePiP = url => false
 
   callPlayer = callPlayer
   duration = null
@@ -65,8 +64,6 @@ export class Mixcloud extends Component {
   ref = iframe => {
     this.iframe = iframe
   }
-  pictureInPictureEnable () {}
-  pictureInPictureDisable () {}
   render () {
     const { url, config } = this.props
     const id = url.match(MATCH_URL)[1]
