@@ -150,7 +150,7 @@ When `preload` is set to `true` for players that support it, a short, silent vid
 Method | Description
 ------ | -----------
 `ReactPlayer.canPlay(url)` | Determine if a URL can be played. This does *not* detect media that is unplayable due to privacy settings, streaming permissions, etc. In that case, the `onError` prop will be invoked after attemping to play. Any URL that does not match any patterns will fall back to a native HTML5 media player.
-`ReactPlayer.canEnablePiP(url)` | Determine if a URL can be played in Picture in Picture mode (Google Chrome >= 70).
+`ReactPlayer.canEnablePiP(url)` | Determine if a URL can be played in [picture-in-picture mode](https://developers.google.com/web/updates/2018/10/watch-video-using-picture-in-picture)
 `ReactPlayer.addCustomPlayer(CustomPlayer)` | Add a custom player. See [Adding custom players](#adding-custom-players)
 `ReactPlayer.removeCustomPlayers()` | Remove any players that have been added using `addCustomPlayer()`
 
