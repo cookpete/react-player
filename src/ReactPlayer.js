@@ -122,3 +122,14 @@ export default class ReactPlayer extends Component {
     )
   }
 }
+
+export { default as YouTube } from './players/YouTube'
+export { default as SoundCloud } from './players/SoundCloud'
+export { default as Vimeo } from './players/Vimeo'
+export { default as Facebook } from './players/Facebook'
+export { default as Streamable } from './players/Streamable'
+export { default as Wistia } from './players/Wistia'
+export { default as Twitch } from './players/Twitch'
+export { default as DailyMotion } from './players/DailyMotion'
+export { default as Mixcloud } from './players/Mixcloud'
+export { default as FilePlayer } from './players/FilePlayer'
