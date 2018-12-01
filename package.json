@@ -58,7 +58,6 @@
     "babel-core": "^6.16.0",
     "babel-eslint": "^8.2.1",
     "babel-loader": "^7.0.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
