@@ -7,6 +7,19 @@ const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_URL = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})/
+const MATCH_PLAYLIST = /list=([a-zA-Z0-9_-]+)/
+
+function parsePlaylist (url) {
+  if (MATCH_PLAYLIST.test(url)) {
+    const [, playlistId] = url.match(MATCH_PLAYLIST)
+    console.log(playlistId)
+    return {
+      listType: 'playlist',
+      list: playlistId
+    }
+  }
+  return {}
+}
 
 export class YouTube extends Component {
   static displayName = 'YouTube'
@@ -39,6 +52,7 @@ export class YouTube extends Component {
           end: parseEndTime(url),
           origin: window.location.origin,
           playsinline: playsinline,
+          ...parsePlaylist(url),
           ...playerVars
         },
         events: {
