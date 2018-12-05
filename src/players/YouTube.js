@@ -11,11 +11,10 @@ const MATCH_URL = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?
 export class YouTube extends Component {
   static displayName = 'YouTube'
   static canPlay = url => MATCH_URL.test(url)
-  static loopOnEnded = true
 
   callPlayer = callPlayer
   load (url, isReady) {
-    const { playing, muted, playsinline, controls, config, onError } = this.props
+    const { playing, muted, playsinline, controls, loop, config, onError } = this.props
     const { playerVars } = config.youtube
     const id = url && url.match(MATCH_URL)[1]
     if (isReady) {
@@ -48,15 +47,24 @@ export class YouTube extends Component {
           onError: event => onError(event.data)
         }
       })
+      if (loop) {
+        this.player.setLoop(true) // Enable playlist looping
+      }
     }, onError)
   }
   onStateChange = ({ data }) => {
-    const { onPlay, onPause, onBuffer, onEnded, onReady } = this.props
+    const { onPlay, onPause, onBuffer, onEnded, onReady, loop } = this.props
     const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
     if (data === PLAYING) onPlay()
     if (data === PAUSED) onPause()
     if (data === BUFFERING) onBuffer()
-    if (data === ENDED) onEnded()
+    if (data === ENDED) {
+      const isPlaylist = !!this.callPlayer('getPlaylist')
+      if (loop && !isPlaylist) {
+        this.play() // Only loop manually if not playing a playlist
+      }
+      onEnded()
+    }
     if (data === CUED) onReady()
   }
   play () {
