@@ -84,7 +84,7 @@ export class UstreamLive extends Component {
   }
   render () {
     const channelId = this.parseId(this.props.url)
-    const base = '//www.ustream.tv/embed'
+    const base = 'https://www.ustream.tv/embed'
     const style = {
       width: '100%',
       height: '100%'
