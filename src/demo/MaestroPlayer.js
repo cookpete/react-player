@@ -4,13 +4,14 @@ import ReactPlayer from '../ReactPlayer'
 
 export default class MaestroPlayer extends React.Component {
   static propTypes = {
-    refreshPlayer: PropTypes.func.isRequired,
+    refreshPlayer: PropTypes.func,
     video: PropTypes.shape({
       url: PropTypes.string.isRequired
     })
   };
 
   static defaultProps = {
+    refreshPlayer: () => {},
     video: null
   };
 
@@ -24,7 +25,7 @@ export default class MaestroPlayer extends React.Component {
         video: {
           offset: 102,
           spot: 'tv',
-          url: 'VAST:https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=25235872&PluID=0&pos=7996&ord=%5Btimestamp%5D&cim=1'
+          url: 'http://www.ustream.tv/channel/6540154'
         },
         ready: false
       })
