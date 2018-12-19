@@ -16,6 +16,7 @@ export const propTypes = {
   progressInterval: number,
   playsinline: bool,
   pip: bool,
+  light: oneOfType([ bool, string ]),
   wrapper: oneOfType([ string, func ]),
   config: shape({
     soundcloud: shape({
@@ -84,6 +85,7 @@ export const defaultProps = {
   progressInterval: 1000,
   playsinline: false,
   pip: false,
+  light: false,
   wrapper: 'div',
   config: {
     soundcloud: {

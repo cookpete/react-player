@@ -4,6 +4,7 @@ import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
 import { getConfig, omit, isEqual } from './utils'
 import players from './players'
 import Player from './Player'
+import Preview from './Preview'
 import { FilePlayer } from './players/FilePlayer'
 import renderPreloadPlayers from './preload'
 
@@ -38,17 +39,23 @@ export default class ReactPlayer extends Component {
     return false
   }
   config = getConfig(this.props, defaultProps, true)
+  state = {
+    showPreview: !!this.props.light
+  }
   componentDidMount () {
     if (this.props.progressFrequency) {
       const message = 'ReactPlayer: %cprogressFrequency%c is deprecated, please use %cprogressInterval%c instead'
       console.warn(message, 'font-weight: bold', '', 'font-weight: bold', '')
     }
   }
-  shouldComponentUpdate (nextProps) {
-    return !isEqual(this.props, nextProps)
+  shouldComponentUpdate (nextProps, nextState) {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState)
   }
   componentWillUpdate (nextProps) {
     this.config = getConfig(nextProps, defaultProps)
+  }
+  onClickPreview = () => {
+    this.setState({ showPreview: false })
   }
   getDuration = () => {
     if (!this.player) return null
@@ -88,9 +95,8 @@ export default class ReactPlayer extends Component {
   activePlayerRef = player => {
     this.player = player
   }
-  renderActivePlayer (url) {
+  renderActivePlayer (url, activePlayer) {
     if (!url) return null
-    const activePlayer = this.getActivePlayer(url)
     return (
       <Player
         {...this.props}
@@ -110,11 +116,22 @@ export default class ReactPlayer extends Component {
     return 0
   }
   render () {
-    const { url, style, width, height, wrapper: Wrapper } = this.props
+    const { url, style, width, height, light, wrapper: Wrapper } = this.props
+    const { showPreview } = this.state
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
-    const activePlayer = this.renderActivePlayer(url)
+    const activePlayer = this.getActivePlayer(url)
+    const renderedActivePlayer = this.renderActivePlayer(url, activePlayer)
     const preloadPlayers = renderPreloadPlayers(url, this.config)
-    const players = [ activePlayer, ...preloadPlayers ].sort(this.sortPlayers)
+    const players = [ renderedActivePlayer, ...preloadPlayers ].sort(this.sortPlayers)
+    if (showPreview && url) {
+      return (
+        <Preview
+          url={url}
+          light={light}
+          onClick={this.onClickPreview}
+        />
+      )
+    }
     return (
       <Wrapper ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
         {players}

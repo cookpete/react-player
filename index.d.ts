@@ -81,6 +81,7 @@ export interface ReactPlayerProps {
   progressInterval?: number;
   playsinline?: boolean;
   pip?: boolean;
+  light?: boolean | string;
   wrapper?: any;
   config?: Config;
   soundcloudConfig?: SoundCloudConfig;
