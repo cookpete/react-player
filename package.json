@@ -93,7 +93,7 @@
     "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
-    "deepmerge": "^2.0.1",
+    "deepmerge": "^3.0.0",
     "load-script": "^1.0.0",
     "prop-types": "^15.5.6"
   },
