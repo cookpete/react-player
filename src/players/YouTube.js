@@ -12,7 +12,6 @@ const MATCH_PLAYLIST = /list=([a-zA-Z0-9_-]+)/
 function parsePlaylist (url) {
   if (MATCH_PLAYLIST.test(url)) {
     const [, playlistId] = url.match(MATCH_PLAYLIST)
-    console.log(playlistId)
     return {
       listType: 'playlist',
       list: playlistId
@@ -31,6 +30,10 @@ export class YouTube extends Component {
     const { playerVars } = config.youtube
     const id = url && url.match(MATCH_URL)[1]
     if (isReady) {
+      if (MATCH_PLAYLIST.test(url)) {
+        this.player.loadPlaylist(parsePlaylist(url))
+        return
+      }
       this.player.cueVideoById({
         videoId: id,
         startSeconds: parseStartTime(url) || playerVars.start,
