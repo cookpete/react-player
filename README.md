@@ -235,7 +235,7 @@ See a list of available players [here](https://github.com/CookPete/react-player/
 If you aren’t using React, you can still render a player using the standalone library:
 
 ```html
-<script src='https://cdn.rawgit.com/CookPete/react-player/standalone/dist/ReactPlayer.standalone.js'></script>
+<script src='https://unpkg.com/react-player/dist/ReactPlayer.standalone.js'></script>
 <script>
   const container = document.getElementById('container')
   const url = 'https://www.youtube.com/watch?v=d46Azg3Pm4c'
