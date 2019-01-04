@@ -263,6 +263,12 @@ class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>UstreamVideo</th>
+              <td>
+                {this.renderLoadButton('https://www.ustream.tv/recorded/119423438', 'Test A')}
+              </td>
+            </tr>
+            <tr>
               <th>Iframe</th>
               <td>
                 {this.renderLoadButton('https://mixer.com/embed/player/monstercat', 'Test B')}

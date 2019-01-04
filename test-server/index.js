@@ -4,7 +4,7 @@ const path = require('path')
 
 const app = new Koa()
 app.use((ctx) => {
-  const {path: reqPath } = ctx
+  const { path: reqPath } = ctx
   const filePath = path.join(__dirname, '..', 'demo', reqPath === '/' ? '/index.html' : reqPath)
   const exists = fs.existsSync(filePath)
   if (!exists) {
