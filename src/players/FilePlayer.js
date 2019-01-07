@@ -78,7 +78,7 @@ export class FilePlayer extends Component {
     if (playsinline) {
       this.player.setAttribute('playsinline', '')
       this.player.setAttribute('webkit-playsinline', '')
-      this.player.setAttribute('x5-playsinline', 'true')
+      this.player.setAttribute('x5-playsinline', '')
     }
   }
   removeListeners () {
