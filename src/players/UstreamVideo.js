@@ -63,7 +63,7 @@ export class UstreamVideo extends Component {
     const {onEnded, onError, onPause, onPlay, onReady, playing, url} = this.props
     const videoId = this.parseId(url)
     this.setState({
-      ustreamSrc: `https://www.ustream.tv/embed/recorded/${videoId}?html5ui=1&autoplay=${playing}`
+      ustreamSrc: `https://www.ustream.tv/embed/recorded/${videoId}?html5ui=1&autoplay=${playing}&controls=false&showtitle=false`
     })
     getSDK(SDK_URL, SDK_GLOBAL).then(UstreamEmbed => {
       if (!this.container) return
