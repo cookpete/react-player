@@ -63,6 +63,7 @@ As of Chrome 66, [videos must be `muted` in order to play automatically](https:/
 Prop | Description | Default
 ---- | ----------- | -------
 `url` | The url of a video or song to play<br/>&nbsp; ◦ &nbsp;Can be an [array](#multiple-sources-and-tracks) or [`MediaStream`](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream) object
+`host` | For YouTube, the host can be changed to embed from alternate sites. Can be set to `https://www.youtube-nocookie.com` or `https://www.youtube.com` | `https://www.youtube.com`
 `playing` | Set to `true` or `false` to pause or play the media | `false`
 `loop` | Set to `true` or `false` to loop the media | `false`
 `controls` | Set to `true` or `false` to display native player controls<br />&nbsp; ◦ &nbsp;Vimeo, Twitch and Wistia player will always display controls | `false`

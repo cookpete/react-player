@@ -21,6 +21,7 @@ const MULTIPLE_SOURCES = [
 class App extends Component {
   state = {
     url: null,
+    host: null,
     pip: false,
     playing: true,
     volume: 0.8,
@@ -115,7 +116,7 @@ class App extends Component {
     this.player = player
   }
   render () {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
+    const { url, host, playing, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
     const SEPARATOR = ' · '
 
     return (
@@ -129,6 +130,7 @@ class App extends Component {
               width='100%'
               height='100%'
               url={url}
+              host={host}
               pip={pip}
               playing={playing}
               loop={loop}
@@ -299,6 +301,13 @@ class App extends Component {
                 <button onClick={() => this.setState({ url: this.urlInput.value })}>Load</button>
               </td>
             </tr>
+            <tr>
+              <th>Host (Youtube Only)</th>
+              <td>
+                <input ref={input => { this.hostInput = input }} type='text' placeholder='Enter URL' />
+                <button onClick={() => this.setState({ host: this.hostInput.value })}>Load</button>
+              </td>
+            </tr>
           </tbody></table>
 
           <h2>State</h2>
@@ -308,6 +317,12 @@ class App extends Component {
               <th>url</th>
               <td className={!url ? 'faded' : ''}>
                 {(url instanceof Array ? 'Multiple' : url) || 'null'}
+              </td>
+            </tr>
+            <tr>
+              <th>host</th>
+              <td className={!host ? 'faded' : ''}>
+                {(host instanceof Array ? 'Multiple' : host) || 'null'}
               </td>
             </tr>
             <tr>

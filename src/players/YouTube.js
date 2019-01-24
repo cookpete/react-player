@@ -55,6 +55,7 @@ export class YouTube extends Component {
           ...parsePlaylist(url),
           ...playerVars
         },
+        host: this.props.host,
         events: {
           onReady: this.props.onReady,
           onStateChange: this.onStateChange,
