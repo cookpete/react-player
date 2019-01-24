@@ -17,7 +17,11 @@ export const propTypes = {
   playsinline: bool,
   pip: bool,
   light: oneOfType([ bool, string ]),
-  wrapper: oneOfType([ string, func ]),
+  wrapper: oneOfType([
+    string,
+    func,
+    shape({ render: func.isRequired })
+  ]),
   config: shape({
     soundcloud: shape({
       options: object
