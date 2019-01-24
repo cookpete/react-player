@@ -130,7 +130,7 @@ Settings for each player live under different keys:
 
 Key | Options
 --- | -------
-`youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`preload`: Used for [preloading](#preloading)
+`youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`embedOptions`: Override the [default embed options](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player)<br />`preload`: Used for [preloading](#preloading)
 `facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)
 `soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)<br />`preload`: Used for [preloading](#preloading)
 `vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters)<br />`preload`: Used for [preloading](#preloading)

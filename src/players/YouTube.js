@@ -27,7 +27,7 @@ export class YouTube extends Component {
   callPlayer = callPlayer
   load (url, isReady) {
     const { playing, muted, playsinline, controls, loop, config, onError } = this.props
-    const { playerVars } = config.youtube
+    const { playerVars, embedOptions } = config.youtube
     const id = url && url.match(MATCH_URL)[1]
     if (isReady) {
       if (MATCH_PLAYLIST.test(url)) {
@@ -62,7 +62,8 @@ export class YouTube extends Component {
           onReady: this.props.onReady,
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
-        }
+        },
+        ...embedOptions
       })
       if (loop) {
         this.player.setLoop(true) // Enable playlist looping

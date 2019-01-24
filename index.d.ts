@@ -19,6 +19,7 @@ export interface SoundCloudConfig {
 
 export interface YouTubeConfig {
   playerVars?: Object;
+  embedOptions?: Object;
   preload?: boolean;
 }
 

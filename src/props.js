@@ -28,6 +28,7 @@ export const propTypes = {
     }),
     youtube: shape({
       playerVars: object,
+      embedOptions: object,
       preload: bool
     }),
     facebook: shape({
@@ -111,6 +112,7 @@ export const defaultProps = {
         iv_load_policy: 3,
         modestbranding: 1
       },
+      embedOptions: {},
       preload: false
     },
     facebook: {
