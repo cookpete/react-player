@@ -23,6 +23,8 @@ class App extends Component {
     url: null,
     pip: false,
     playing: true,
+    controls: false,
+    light: false,
     volume: 0.8,
     muted: false,
     played: 0,
@@ -42,11 +44,18 @@ class App extends Component {
   playPause = () => {
     this.setState({ playing: !this.state.playing })
   }
-  pip = () => {
-    this.setState({ pip: !this.state.pip })
-  }
   stop = () => {
     this.setState({ url: null, playing: false })
+  }
+  toggleControls = () => {
+    const url = this.state.url
+    this.setState({
+      controls: !this.state.controls,
+      url: null
+    }, () => this.load(url))
+  }
+  toggleLight = () => {
+    this.setState({ light: !this.state.light })
   }
   toggleLoop = () => {
     this.setState({ loop: !this.state.loop })
@@ -59,6 +68,9 @@ class App extends Component {
   }
   setPlaybackRate = e => {
     this.setState({ playbackRate: parseFloat(e.target.value) })
+  }
+  togglePIP = () => {
+    this.setState({ pip: !this.state.pip })
   }
   onPlay = () => {
     console.log('onPlay')
@@ -115,7 +127,7 @@ class App extends Component {
     this.player = player
   }
   render () {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
+    const { url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
     const SEPARATOR = ' · '
 
     return (
@@ -131,6 +143,8 @@ class App extends Component {
               url={url}
               pip={pip}
               playing={playing}
+              controls={controls}
+              light={light}
               loop={loop}
               playbackRate={playbackRate}
               volume={volume}
@@ -158,7 +172,7 @@ class App extends Component {
                 <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
                 <button onClick={this.onClickFullscreen}>Fullscreen</button>
                 {ReactPlayer.canEnablePIP(url) &&
-                  <button onClick={this.pip}>{pip ? 'Disable PiP' : 'Enable PiP'}</button>
+                  <button onClick={this.togglePIP}>{pip ? 'Disable PiP' : 'Enable PiP'}</button>
                 }
               </td>
             </tr>
@@ -190,6 +204,15 @@ class App extends Component {
             </tr>
             <tr>
               <th>
+                <label htmlFor='controls'>Controls</label>
+              </th>
+              <td>
+                <input id='controls' type='checkbox' checked={controls} onChange={this.toggleControls} />
+                <em>&nbsp; Requires player reload</em>
+              </td>
+            </tr>
+            <tr>
+              <th>
                 <label htmlFor='muted'>Muted</label>
               </th>
               <td>
@@ -202,6 +225,14 @@ class App extends Component {
               </th>
               <td>
                 <input id='loop' type='checkbox' checked={loop} onChange={this.toggleLoop} />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label htmlFor='light'>Light mode</label>
+              </th>
+              <td>
+                <input id='light' type='checkbox' checked={light} onChange={this.toggleLight} />
               </td>
             </tr>
             <tr>
