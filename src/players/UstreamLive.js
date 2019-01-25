@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK, randomString } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
-const SDK_URL = 'http://developers.ustream.tv/js/ustream-embedapi.min.js'
+const SDK_URL = 'https://developers.ustream.tv/js/ustream-embedapi.min.js'
 const SDK_GLOBAL = 'UstreamEmbed'
 const MATCH_URL = /(ustream.tv\/channel\/)([^#&?/]*)/
 const PLAYER_ID_PREFIX = 'UstreamLive-player-'
