@@ -53,6 +53,9 @@ export default class ReactPlayer extends Component {
   }
   componentWillUpdate (nextProps) {
     this.config = getConfig(nextProps, defaultProps)
+    if (!this.props.light && nextProps.light) {
+      this.setState({ showPreview: true })
+    }
   }
   onClickPreview = () => {
     this.setState({ showPreview: false })
