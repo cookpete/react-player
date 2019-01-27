@@ -113,6 +113,9 @@ export class YouTube extends Component {
   setPlaybackRate (rate) {
     this.callPlayer('setPlaybackRate', rate)
   }
+  setLoop (loop) {
+    this.callPlayer('setLoop', loop)
+  }
   getDuration () {
     return this.callPlayer('getDuration')
   }

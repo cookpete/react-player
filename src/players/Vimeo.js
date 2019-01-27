@@ -77,6 +77,9 @@ export class Vimeo extends Component {
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }
+  setLoop (loop) {
+    this.callPlayer('setLoop', loop)
+  }
   mute = () => {
     this.setVolume(0)
   }

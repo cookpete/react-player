@@ -35,7 +35,7 @@ export default class Player extends Component {
   }
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
-    const { url, playing, volume, muted, playbackRate, pip } = this.props
+    const { url, playing, volume, muted, playbackRate, pip, loop } = this.props
     if (!isEqual(url, nextProps.url)) {
       if (this.isLoading) {
         console.warn(`ReactPlayer: the attempt to load ${nextProps.url} is being deferred until the player has loaded`)
@@ -74,6 +74,9 @@ export default class Player extends Component {
     }
     if (playbackRate !== nextProps.playbackRate && this.player.setPlaybackRate) {
       this.player.setPlaybackRate(nextProps.playbackRate)
+    }
+    if (loop !== nextProps.loop && this.player.setLoop) {
+      this.player.setLoop(nextProps.loop)
     }
   }
   getDuration () {
