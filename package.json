@@ -52,7 +52,7 @@
     "react": "*"
   },
   "devDependencies": {
-    "auto-changelog": "^1.2.2",
+    "auto-changelog": "^1.11.0",
     "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.16.0",
