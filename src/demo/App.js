@@ -193,6 +193,12 @@ class App extends Component {
         <section className='section'>
           <table><tbody>
             <tr>
+              <th>jwplayer</th>
+              <td>
+                {this.renderLoadButton('https://cdn.jwplayer.com/videos/2uds76S9-HtWOEijk.mp4?exp=1548281117280&sig=1bde6d017cb469f0805c8a3d5f3e53d3', 'Natasha')}
+              </td>
+            </tr>
+            <tr>
               <th>YouTube</th>
               <td>
                 {this.renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A')}

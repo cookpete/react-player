@@ -13,6 +13,7 @@ import { Iframe } from './Iframe'
 import { Mixcloud } from './Mixcloud'
 import { FilePlayer } from './FilePlayer'
 import { VAST } from './VAST'
+import { JWPlayer } from './JWPlayer';
 
 export default [
   YouTube,
@@ -27,6 +28,7 @@ export default [
   Mixcloud,
   UstreamLive,
   UstreamVideo,
+  JWPlayer,
   VAST,
   FilePlayer,
   Iframe

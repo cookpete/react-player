@@ -26,6 +26,7 @@ export default class Player extends Component {
     clearTimeout(this.durationCheckTimeout)
     if (this.isReady) {
       this.player.stop()
+      this.player.handleUnmount && this.player.handleUnmount();
     }
     this.mounted = false
   }
