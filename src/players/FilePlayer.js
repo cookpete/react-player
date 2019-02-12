@@ -262,6 +262,7 @@ export class FilePlayer extends Component {
         controls={controls}
         muted={muted}
         loop={loop}
+        playsinline=""
         {...config.file.attributes}>
         {url instanceof Array &&
           url.map(this.renderSourceElement)
