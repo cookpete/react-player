@@ -61,7 +61,7 @@ export class FilePlayer extends Component {
     this.removeListeners()
   }
   addListeners () {
-    const { onReady, onPlay, onPause, onEnded, onVolumeChange, onError, playsinline } = this.props
+    const { onReady, onPlay, onPause, onEnded, onVolumeChange, onError, playsinline, videoElementId } = this.props
     this.player.addEventListener('canplay', onReady)
     this.player.addEventListener('play', onPlay)
     this.player.addEventListener('pause', onPause)
@@ -69,6 +69,8 @@ export class FilePlayer extends Component {
     this.player.addEventListener('ended', onEnded)
     this.player.addEventListener('error', onError)
     this.player.addEventListener('volumechange', onVolumeChange)
+    // wow
+    this.player.setAttribute('id', videoElementId)
     if (playsinline) {
       this.player.setAttribute('playsinline', '')
       this.player.setAttribute('webkit-playsinline', '')
