@@ -29,7 +29,7 @@ const PRELOAD_PLAYERS = [
   }
 ]
 
-export default function renderPreloadPlayers (url, config) {
+export default function renderPreloadPlayers (url, controls, config) {
   const players = []
 
   for (let player of PRELOAD_PLAYERS) {
@@ -39,6 +39,7 @@ export default function renderPreloadPlayers (url, config) {
           key={player.Player.displayName}
           activePlayer={player.Player}
           url={player.url}
+          controls={controls}
           playing
           muted
           style={{ display: 'none' }}

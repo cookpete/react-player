@@ -119,12 +119,12 @@ export default class ReactPlayer extends Component {
     return 0
   }
   render () {
-    const { url, style, width, height, light, wrapper: Wrapper } = this.props
+    const { url, controls, style, width, height, light, wrapper: Wrapper } = this.props
     const { showPreview } = this.state
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
     const activePlayer = this.getActivePlayer(url)
     const renderedActivePlayer = this.renderActivePlayer(url, activePlayer)
-    const preloadPlayers = renderPreloadPlayers(url, this.config)
+    const preloadPlayers = renderPreloadPlayers(url, controls, this.config)
     const players = [ renderedActivePlayer, ...preloadPlayers ].sort(this.sortPlayers)
     if (showPreview && url) {
       return (
