@@ -189,6 +189,10 @@ export default class Player extends Component {
       onEnded()
     }
   }
+  onError = (e) => {
+    this.isLoading = false
+    this.props.onError(e)
+  }
   onDurationCheck = () => {
     clearTimeout(this.durationCheckTimeout)
     const duration = this.getDuration()
@@ -225,6 +229,7 @@ export default class Player extends Component {
         onPause={this.onPause}
         onEnded={this.onEnded}
         onLoaded={this.onLoaded}
+        onError={this.onError}
       />
     )
   }
