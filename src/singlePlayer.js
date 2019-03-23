@@ -36,9 +36,9 @@ export default function createSinglePlayer (activePlayer) {
       if (!this.player) return null
       return this.player.getInternalPlayer(key)
     }
-    seekTo = fraction => {
+    seekTo = (fraction, type) => {
       if (!this.player) return null
-      this.player.seekTo(fraction)
+      this.player.seekTo(fraction, type)
     }
     ref = player => {
       this.player = player

@@ -119,14 +119,15 @@ export default class Player extends Component {
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency || this.props.progressInterval)
   }
-  seekTo (amount) {
+  seekTo (amount, type) {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && amount !== 0) {
       this.seekOnPlay = amount
       setTimeout(() => { this.seekOnPlay = null }, SEEK_ON_PLAY_EXPIRY)
       return
     }
-    if (amount > 0 && amount < 1) {
+    const isFraction = !type ? (amount > 0 && amount < 1) : type === 'fraction'
+    if (isFraction) {
       // Convert fraction to seconds based on duration
       const duration = this.player.getDuration()
       if (!duration) {
