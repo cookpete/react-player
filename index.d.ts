@@ -15,6 +15,7 @@ export interface TrackProps {
 
 export interface SoundCloudConfig {
   options?: Object;
+  preload?: boolean;
 }
 
 export interface YouTubeConfig {

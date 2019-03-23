@@ -24,7 +24,8 @@ export const propTypes = {
   ]),
   config: shape({
     soundcloud: shape({
-      options: object
+      options: object,
+      preload: bool
     }),
     youtube: shape({
       playerVars: object,
