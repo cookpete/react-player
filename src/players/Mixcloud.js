@@ -10,6 +10,7 @@ const MATCH_URL = /mixcloud\.com\/([^/]+\/[^/]+)/
 export class Mixcloud extends Component {
   static displayName = 'Mixcloud'
   static canPlay = url => MATCH_URL.test(url)
+  static loopOnEnded = true
 
   callPlayer = callPlayer
   duration = null

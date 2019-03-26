@@ -15,13 +15,21 @@ export const propTypes = {
   style: object,
   progressInterval: number,
   playsinline: bool,
-  wrapper: oneOfType([ string, func ]),
+  pip: bool,
+  light: oneOfType([ bool, string ]),
+  wrapper: oneOfType([
+    string,
+    func,
+    shape({ render: func.isRequired })
+  ]),
   config: shape({
     soundcloud: shape({
-      options: object
+      options: object,
+      preload: bool
     }),
     youtube: shape({
       playerVars: object,
+      embedOptions: object,
       preload: bool
     }),
     facebook: shape({
@@ -43,6 +51,8 @@ export const propTypes = {
       forceHLS: bool,
       forceDASH: bool,
       hlsOptions: object,
+      hlsVersion: string,
+      dashVersion: string,
       libraryUrl: shape({
         hls: string,
         dash: string
@@ -67,7 +77,9 @@ export const propTypes = {
   onError: func,
   onDuration: func,
   onSeek: func,
-  onProgress: func
+  onProgress: func,
+  onEnablePIP: func,
+  onDisablePIP: func
 }
 
 export const defaultProps = {
@@ -82,6 +94,8 @@ export const defaultProps = {
   style: {},
   progressInterval: 1000,
   playsinline: false,
+  pip: false,
+  light: false,
   wrapper: 'div',
   config: {
     soundcloud: {
@@ -103,6 +117,7 @@ export const defaultProps = {
         iv_load_policy: 3,
         modestbranding: 1
       },
+      embedOptions: {},
       preload: false
     },
     facebook: {
@@ -131,7 +146,9 @@ export const defaultProps = {
       forceAudio: false,
       forceHLS: false,
       forceDASH: false,
-      hlsOptions: {}
+      hlsOptions: {},
+      hlsVersion: '0.10.1',
+      dashVersion: '2.9.2'
     },
     wistia: {
       options: {}
@@ -154,7 +171,9 @@ export const defaultProps = {
   onError: function () {},
   onDuration: function () {},
   onSeek: function () {},
-  onProgress: function () {}
+  onProgress: function () {},
+  onEnablePIP: function () {},
+  onDisablePIP: function () {}
 }
 
 export const DEPRECATED_CONFIG_PROPS = [

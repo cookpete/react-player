@@ -36,15 +36,17 @@ export default function createSinglePlayer (activePlayer) {
       if (!this.player) return null
       return this.player.getInternalPlayer(key)
     }
-    seekTo = fraction => {
+    seekTo = (fraction, type) => {
       if (!this.player) return null
-      this.player.seekTo(fraction)
+      this.player.seekTo(fraction, type)
     }
     ref = player => {
       this.player = player
     }
     render () {
-      if (!activePlayer.canPlay(this.props.url)) {
+      const { forceVideo, forceAudio, forceHLS, forceDASH } = this.config.file
+      const skipCanPlay = forceVideo || forceAudio || forceHLS || forceDASH
+      if (!activePlayer.canPlay(this.props.url) && !skipCanPlay) {
         return null
       }
       const { style, width, height, wrapper: Wrapper } = this.props

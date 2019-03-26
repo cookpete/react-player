@@ -39,9 +39,9 @@ export class Twitch extends Component {
         muted: this.props.muted,
         ...config.twitch.options
       })
-      const { READY, PLAY, PAUSE, ENDED } = Twitch.Player
+      const { READY, PLAYING, PAUSE, ENDED } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)
-      this.player.addEventListener(PLAY, this.props.onPlay)
+      this.player.addEventListener(PLAYING, this.props.onPlay)
       this.player.addEventListener(PAUSE, this.props.onPause)
       this.player.addEventListener(ENDED, this.props.onEnded)
     }, onError)

@@ -20,7 +20,7 @@ const PRELOAD_PLAYERS = [
   {
     Player: Vimeo,
     configKey: 'vimeo',
-    url: 'https://vimeo.com/127250231'
+    url: 'https://vimeo.com/300970506'
   },
   {
     Player: DailyMotion,
@@ -29,7 +29,7 @@ const PRELOAD_PLAYERS = [
   }
 ]
 
-export default function renderPreloadPlayers (url, config) {
+export default function renderPreloadPlayers (url, controls, config) {
   const players = []
 
   for (let player of PRELOAD_PLAYERS) {
@@ -39,6 +39,7 @@ export default function renderPreloadPlayers (url, config) {
           key={player.Player.displayName}
           activePlayer={player.Player}
           url={player.url}
+          controls={controls}
           playing
           muted
           style={{ display: 'none' }}

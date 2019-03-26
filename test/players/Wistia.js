@@ -21,7 +21,7 @@ const TEST_CONFIG = {
 testPlayerMethods(Wistia, {
   play: 'play',
   pause: 'pause',
-  stop: 'remove',
+  // stop: 'remove',
   seekTo: 'time',
   setVolume: 'volume',
   mute: 'mute',
@@ -47,7 +47,8 @@ test('load()', t => {
       t.true(window._wq instanceof Array)
       t.true(window._wq.length === 1)
       window._wq[0].onReady({
-        bind: () => null
+        bind: () => null,
+        unbind: () => null
       })
     }, 100)
     t.true(getSDK.calledOnce)
