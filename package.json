@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CookPete/react-player.git"
+    "url": "https://github.com/cyberu/react-player.git"
   },
   "keywords": [
     "react",
@@ -47,7 +47,7 @@
   "bugs": {
     "url": "https://github.com/cyberu/react-player/issues"
   },
-  "homepage": "https://github.com/CookPete/react-player",
+  "homepage": "",
   "peerDependencies": {
     "react": "*"
   },
