@@ -171,10 +171,10 @@ export function isEqual (a, b) {
   return a === b
 }
 
-export function isMediaStream (url) {
-    return (
-        typeof window !== 'undefined' &&
-        typeof window.MediaStream !== 'undefined' &&
-        url instanceof window.MediaStream
-    )
+export function isMediaStream(url) {
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.MediaStream !== 'undefined' &&
+    url instanceof window.MediaStream
+  );
 }
