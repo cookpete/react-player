@@ -1,6 +1,6 @@
 {
   "name": "react-player-cu",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A React component for playing a hls and mp4 videos. It is a fork of Pete Cook's <pete@cookpete.com> (http://github.com/cookpete) react-player.",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CookPete/react-player.git"
+    "url": "https://github.com/cyberu/react-player.git"
   },
   "keywords": [
     "react",
@@ -52,13 +52,12 @@
     "react": "*"
   },
   "devDependencies": {
-    "auto-changelog": "^1.2.2",
+    "auto-changelog": "^1.11.0",
     "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.16.0",
     "babel-eslint": "^8.2.1",
     "babel-loader": "^7.0.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
@@ -84,7 +83,7 @@
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0-beta.15",
     "rimraf": "^2.5.4",
-    "screenfull": "^3.3.2",
+    "screenfull": "^4.0.0",
     "sinon": "^5.0.3",
     "snazzy": "^7.0.0",
     "standard": "^11.0.0-beta.0",
@@ -94,7 +93,7 @@
     "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
-    "deepmerge": "^2.0.1",
+    "deepmerge": "^3.0.0",
     "load-script": "^1.0.0",
     "prop-types": "^15.5.6"
   },

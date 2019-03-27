@@ -26,11 +26,12 @@ export class Vimeo extends Component {
     getSDK(SDK_URL, SDK_GLOBAL).then(Vimeo => {
       if (!this.container) return
       this.player = new Vimeo.Player(this.container, {
-        ...this.props.config.vimeo.playerOptions,
         url,
         autoplay: this.props.playing,
         muted: this.props.muted,
-        loop: this.props.loop
+        loop: this.props.loop,
+        playsinline: this.props.playsinline,
+        ...this.props.config.vimeo.playerOptions
       })
       this.player.ready().then(() => {
         const iframe = this.container.querySelector('iframe')
@@ -39,11 +40,12 @@ export class Vimeo extends Component {
       }).catch(this.props.onError)
       this.player.on('loaded', () => {
         this.props.onReady()
-        this.player.getDuration().then(duration => {
-          this.duration = duration
-        })
+        this.refreshDuration()
       })
-      this.player.on('play', this.props.onPlay)
+      this.player.on('play', () => {
+        this.props.onPlay()
+        this.refreshDuration()
+      })
       this.player.on('pause', this.props.onPause)
       this.player.on('seeked', e => this.props.onSeek(e.seconds))
       this.player.on('ended', this.props.onEnded)
@@ -55,6 +57,11 @@ export class Vimeo extends Component {
         this.secondsLoaded = seconds
       })
     }, this.props.onError)
+  }
+  refreshDuration () {
+    this.player.getDuration().then(duration => {
+      this.duration = duration
+    })
   }
   play () {
     this.callPlayer('play')
@@ -70,6 +77,9 @@ export class Vimeo extends Component {
   }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
+  }
+  setLoop (loop) {
+    this.callPlayer('setLoop', loop)
   }
   mute = () => {
     this.setVolume(0)

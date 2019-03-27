@@ -11,7 +11,6 @@ import './App.css'
 import { version } from '../../package.json'
 import ReactPlayer from '../ReactPlayer'
 import Duration from './Duration'
-import { canAutoPlay } from '../utils'
 
 const MULTIPLE_SOURCES = [
   { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
@@ -22,21 +21,24 @@ const MULTIPLE_SOURCES = [
 class App extends Component {
   state = {
     url: null,
+    pip: false,
     playing: true,
+    controls: false,
+    light: false,
     volume: 0.8,
     muted: false,
     played: 0,
     loaded: 0,
     duration: 0,
     playbackRate: 1.0,
-    loop: false,
-    canAutoPlay: null
+    loop: false
   }
   load = url => {
     this.setState({
       url,
       played: 0,
-      loaded: 0
+      loaded: 0,
+      pip: false
     })
   }
   playPause = () => {
@@ -44,6 +46,16 @@ class App extends Component {
   }
   stop = () => {
     this.setState({ url: null, playing: false })
+  }
+  toggleControls = () => {
+    const url = this.state.url
+    this.setState({
+      controls: !this.state.controls,
+      url: null
+    }, () => this.load(url))
+  }
+  toggleLight = () => {
+    this.setState({ light: !this.state.light })
   }
   toggleLoop = () => {
     this.setState({ loop: !this.state.loop })
@@ -57,9 +69,20 @@ class App extends Component {
   setPlaybackRate = e => {
     this.setState({ playbackRate: parseFloat(e.target.value) })
   }
+  togglePIP = () => {
+    this.setState({ pip: !this.state.pip })
+  }
   onPlay = () => {
     console.log('onPlay')
     this.setState({ playing: true })
+  }
+  onEnablePIP = () => {
+    console.log('onEnablePIP')
+    this.setState({ pip: true })
+  }
+  onDisablePIP = () => {
+    console.log('onDisablePIP')
+    this.setState({ pip: false })
   }
   onPause = () => {
     console.log('onPause')
@@ -100,24 +123,13 @@ class App extends Component {
       </button>
     )
   }
-  componentDidMount () {
-    canAutoPlay().then((result) => {
-      console.log('***********************')
-      console.log('App.canAutoPlay')
-      console.log(result)
-      console.log('***********************')
-      this.setState({
-        canAutoPlay: result
-      })
-    })
-  }
   ref = player => {
     this.player = player
   }
   render () {
-    const { url, playing, volume, muted, loop, played, loaded, duration, playbackRate, canAutoPlay } = this.state
+    const { url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
     const SEPARATOR = ' · '
-    if (this.state.canAutoPlay === null) return null
+
     return (
       <div className='app'>
         <section className='section'>
@@ -129,15 +141,19 @@ class App extends Component {
               width='100%'
               height='100%'
               url={url}
+              pip={pip}
               playing={playing}
+              controls={controls}
+              light={light}
               loop={loop}
               playbackRate={playbackRate}
-              autoplay={canAutoPlay}
               volume={volume}
               muted={muted}
               onReady={() => console.log('onReady')}
               onStart={() => console.log('onStart')}
               onPlay={this.onPlay}
+              onEnablePIP={this.onEnablePIP}
+              onDisablePIP={this.onDisablePIP}
               onPause={this.onPause}
               onBuffer={() => console.log('onBuffer')}
               onSeek={e => console.log('onSeek', e)}
@@ -155,9 +171,17 @@ class App extends Component {
                 <button onClick={this.stop}>Stop</button>
                 <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
                 <button onClick={this.onClickFullscreen}>Fullscreen</button>
-                <button onClick={this.setPlaybackRate} value={1}>1</button>
-                <button onClick={this.setPlaybackRate} value={1.5}>1.5</button>
-                <button onClick={this.setPlaybackRate} value={2}>2</button>
+                {ReactPlayer.canEnablePIP(url) &&
+                  <button onClick={this.togglePIP}>{pip ? 'Disable PiP' : 'Enable PiP'}</button>
+                }
+              </td>
+            </tr>
+            <tr>
+              <th>Speed</th>
+              <td>
+                <button onClick={this.setPlaybackRate} value={1}>1x</button>
+                <button onClick={this.setPlaybackRate} value={1.5}>1.5x</button>
+                <button onClick={this.setPlaybackRate} value={2}>2x</button>
               </td>
             </tr>
             <tr>
@@ -180,6 +204,15 @@ class App extends Component {
             </tr>
             <tr>
               <th>
+                <label htmlFor='controls'>Controls</label>
+              </th>
+              <td>
+                <input id='controls' type='checkbox' checked={controls} onChange={this.toggleControls} />
+                <em>&nbsp; Requires player reload</em>
+              </td>
+            </tr>
+            <tr>
+              <th>
                 <label htmlFor='muted'>Muted</label>
               </th>
               <td>
@@ -192,6 +225,14 @@ class App extends Component {
               </th>
               <td>
                 <input id='loop' type='checkbox' checked={loop} onChange={this.toggleLoop} />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label htmlFor='light'>Light mode</label>
+              </th>
+              <td>
+                <input id='light' type='checkbox' checked={light} onChange={this.toggleLight} />
               </td>
             </tr>
             <tr>
@@ -211,6 +252,7 @@ class App extends Component {
               <td>
                 {this.renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A')}
                 {this.renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B')}
+                {this.renderLoadButton('https://www.youtube.com/playlist?list=PLDEcUiPhzbjI217qs5KgMvbvx6-fgY_Al', 'Playlist')}
               </td>
             </tr>
             <tr>

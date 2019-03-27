@@ -7,16 +7,14 @@ export default {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'ReactPlayer.standalone.js',
-    library: 'renderReactPlayer'
+    library: 'renderReactPlayer',
+    libraryExport: 'default'
   },
   module: {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        options: {
-          plugins: ['add-module-exports']
-        }
+        loader: 'babel-loader'
       }
     ]
   },

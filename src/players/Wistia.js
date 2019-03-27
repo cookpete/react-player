@@ -31,6 +31,7 @@ export class Wistia extends Component {
         },
         onReady: player => {
           this.player = player
+          this.unbind()
           this.player.bind('play', onPlay)
           this.player.bind('pause', onPause)
           this.player.bind('seek', onSeek)
@@ -46,7 +47,15 @@ export class Wistia extends Component {
   pause () {
     this.callPlayer('pause')
   }
+  unbind () {
+    const { onPlay, onPause, onSeek, onEnded } = this.props
+    this.player.unbind('play', onPlay)
+    this.player.unbind('pause', onPause)
+    this.player.unbind('seek', onSeek)
+    this.player.unbind('end', onEnded)
+  }
   stop () {
+    this.unbind()
     this.callPlayer('remove')
   }
   seekTo (seconds) {

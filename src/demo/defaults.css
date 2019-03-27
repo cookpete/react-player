@@ -7,6 +7,10 @@ body {
   line-height: 1.4;
 }
 
+em {
+  font-style: italic;
+}
+
 body,
 h1,
 h2,
