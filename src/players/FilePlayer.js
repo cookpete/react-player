@@ -68,7 +68,7 @@ export class FilePlayer extends Component {
   addListeners () {
     const { onReady, onPlay, onPause, onEnded, onError, playsinline, onEnablePIP } = this.props
     this.player.addEventListener('canplay', onReady)
-    this.player.addEventListener('play', onPlay)
+    this.player.addEventListener('playing', onPlay)
     this.player.addEventListener('pause', onPause)
     this.player.addEventListener('seeked', this.onSeek)
     this.player.addEventListener('ended', onEnded)
@@ -84,7 +84,7 @@ export class FilePlayer extends Component {
   removeListeners () {
     const { onReady, onPlay, onPause, onEnded, onError, onEnablePIP } = this.props
     this.player.removeEventListener('canplay', onReady)
-    this.player.removeEventListener('play', onPlay)
+    this.player.removeEventListener('playing', onPlay)
     this.player.removeEventListener('pause', onPause)
     this.player.removeEventListener('seeked', this.onSeek)
     this.player.removeEventListener('ended', onEnded)
