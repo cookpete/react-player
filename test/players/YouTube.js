@@ -83,10 +83,13 @@ test('load() when ready', t => {
   getSDK.restore()
 })
 
-test('onStateChange() - play', async t => {
-  const onPlay = () => t.pass()
-  const instance = shallow(<YouTube url={TEST_URL} onPlay={onPlay} />).instance()
+test('onStateChange() - play', t => {
+  const called = {}
+  const onPlay = () => { called.onPlay = true }
+  const onBufferEnd = () => { called.onBufferEnd = true }
+  const instance = shallow(<YouTube url={TEST_URL} onPlay={onPlay} onBufferEnd={onBufferEnd} />).instance()
   instance.onStateChange({ data: 'PLAYING' })
+  t.true(called.onPlay && called.onBufferEnd)
 })
 
 test('onStateChange() - pause', async t => {
