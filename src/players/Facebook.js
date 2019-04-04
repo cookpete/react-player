@@ -39,6 +39,7 @@ export class Facebook extends Component {
           this.player.subscribe('paused', this.props.onPause)
           this.player.subscribe('finishedPlaying', this.props.onEnded)
           this.player.subscribe('startedBuffering', this.props.onBuffer)
+          this.player.subscribe('finishedBuffering', this.props.onBufferEnd)
           this.player.subscribe('error', this.props.onError)
           if (!this.props.muted) {
             // Player is muted by default
