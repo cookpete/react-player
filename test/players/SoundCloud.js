@@ -87,6 +87,7 @@ test('render()', t => {
       src='https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fmiami-nights-1984%2Faccelerated'
       style={style}
       frameBorder={0}
+      allow='autoplay'
     />
   ))
 })
