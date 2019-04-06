@@ -113,7 +113,7 @@ export default class ReactPlayer extends React.Component<ReactPlayerProps, any> 
   static canEnablePIP(url: string): boolean;
   static addCustomPlayer(player: ReactPlayer): void;
   static removeCustomPlayers(): void;
-  seekTo(fraction: number): void;
+  seekTo(amount: number, type?: 'seconds' | 'fraction'): void;
   getCurrentTime(): number;
   getDuration(): number;
   getInternalPlayer(key?: string): Object;
