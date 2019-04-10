@@ -98,6 +98,7 @@ export interface ReactPlayerProps {
   onPlay?(): void;
   onPause?(): void;
   onBuffer?(): void;
+  onBufferEnd?(): void;
   onEnded?(): void;
   onEnablePIP?(): void;
   onDisablePIP?(): void;
