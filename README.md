@@ -92,7 +92,7 @@ Prop | Description
 `onDuration` | Callback containing duration of the media, in seconds
 `onPause` | Called when media is paused
 `onBuffer` | Called when media starts buffering
-`onBufferEnd` | Called when media has finished buffering (works for file paths, YouTube and Facebook players)
+`onBufferEnd` | Called when media has finished buffering<br />&nbsp; ◦ &nbsp;Works for files, YouTube and Facebook
 `onSeek` | Called when media seeks with `seconds` parameter
 `onEnded` | Called when media finishes playing<br />&nbsp; ◦ &nbsp;Does not fire when `loop` is set to `true`
 `onError` | Called when an error occurs whilst attempting to play media
