@@ -89,6 +89,7 @@ export class SoundCloud extends Component {
         src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(this.props.url)}`}
         style={style}
         frameBorder={0}
+        allow='autoplay'
       />
     )
   }
