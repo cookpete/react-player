@@ -17,7 +17,7 @@ export class Wistia extends Component {
     return url && url.match(MATCH_URL)[1]
   }
   load (url) {
-    const { playing, muted, controls, onReady, onPlay, onPause, onSeek, onEnded, config } = this.props
+    const { playing, muted, controls, onReady, onPlay, onPause, onSeek, onEnded, config, onError } = this.props
     getSDK(SDK_URL, SDK_GLOBAL).then(() => {
       window._wq = window._wq || []
       window._wq.push({
@@ -39,7 +39,7 @@ export class Wistia extends Component {
           onReady()
         }
       })
-    })
+    }, onError)
   }
   play () {
     this.callPlayer('play')
