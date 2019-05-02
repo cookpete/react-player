@@ -306,6 +306,12 @@ class App extends Component {
               </td>
             </tr>
             <tr>
+              <th>Phenix</th>
+              <td>
+                {this.renderLoadButton('phenix:http://localhost:4004/end-to-end/v2/phenix/api|us-southwest#maestro.io#andyTest2.Doo3kmPq7VCi', 'Local')}
+              </td>
+            </tr>
+            <tr>
               <th>Custom URL</th>
               <td>
                 <input ref={input => { this.urlInput = input }} type='text' placeholder='Enter URL' />

@@ -6,7 +6,7 @@ import createSinglePlayer from '../singlePlayer'
 const SDK_URL = '//cdn.jwplayer.com/libraries/8DNY8ff0.js'
 const SDK_GLOBAL = 'jwplayer'
 // TODO: figure out all cases
-const MATCH_VIDEO_URL = /jwplayer/;
+const MATCH_VIDEO_URL = /jwplayer/
 const PLAYER_ID_PREFIX = 'jw-player-'
 
 export class JWPlayer extends Component {
@@ -17,25 +17,25 @@ export class JWPlayer extends Component {
   callPlayer = callPlayer
   playerID = PLAYER_ID_PREFIX + randomString()
   load (url, isReady) {
-    const { playsinline, onError, config } = this.props
+    const { onError } = this.props
     if (isReady) {
       this.player.setup({
-        file: url,
+        file: url
       })
     } else {
       getSDK(SDK_URL, SDK_GLOBAL).then(jwplayer => {
         this.player = jwplayer(this.playerID).setup({
-          file: url,
-        });
-        this.player.on("ready", this.props.onReady);
-        this.player.on("play", this.props.onPlay);
-        this.player.on("pause", this.props.onPause);
-        this.player.on("error", onError);
+          file: url
+        })
+        this.player.on('ready', this.props.onReady)
+        this.player.on('play', this.props.onPlay)
+        this.player.on('pause', this.props.onPause)
+        this.player.on('error', onError)
       }, onError)
     }
   }
-  handleUnmount() {
-    this.callPlayer('remove');
+  handleUnmount () {
+    this.callPlayer('remove')
   }
   play () {
     this.callPlayer('play')
@@ -50,7 +50,7 @@ export class JWPlayer extends Component {
     this.callPlayer('seek', seconds)
   }
   getVolume () {
-    return this.callPlayer('getVolume') / 100;
+    return this.callPlayer('getVolume') / 100
   }
   getMuted () {
     return this.callPlayer('getMute')
