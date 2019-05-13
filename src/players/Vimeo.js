@@ -64,7 +64,10 @@ export class Vimeo extends Component {
     })
   }
   play () {
-    this.callPlayer('play')
+    const promise = this.callPlayer('play')
+    if (promise) {
+      promise.catch(this.props.onError)
+    }
   }
   pause () {
     this.callPlayer('pause')
