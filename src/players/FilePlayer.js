@@ -139,7 +139,7 @@ export class FilePlayer extends Component {
         let results = null
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
-        this.dash.getDebug().setLogToBrowserConsole(true)
+        this.dash.getDebug().setLogToBrowserConsole(false)
         Object.keys(dashConfig).map(x => {
           if (dashConfig[x].params) {
             results = this.dash[x](...dashConfig[x].params)
