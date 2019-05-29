@@ -50,7 +50,11 @@ export class VAST extends Component {
     }
   }
 
-  load (url) {
+  load (rawUrl) {
+    // replace [RANDOM] or [random] with a randomly generated cache value
+    const ord = Math.random() * 10000000000000000
+    const url = rawUrl.replace(/\[random]/ig, ord)
+
     vast.client.get(url.slice('VAST:'.length), { withCredentials: true }, (response, error) => {
       if (error) {
         return this.props.onError(error)
