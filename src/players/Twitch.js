@@ -39,11 +39,15 @@ export class Twitch extends Component {
         muted: this.props.muted,
         ...config.twitch.options
       })
-      const { READY, PLAYING, PAUSE, ENDED, OFFLINE } = Twitch.Player
+      const { READY, PLAYING, PAUSE, ENDED, ONLINE, OFFLINE } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)
       this.player.addEventListener(PLAYING, this.props.onPlay)
       this.player.addEventListener(PAUSE, this.props.onPause)
       this.player.addEventListener(ENDED, this.props.onEnded)
+      // -- Send onLoaded when the stream is online
+      // -- This will prevent permanent loading state
+      // -- when the stream has autoplay fo false
+      this.player.addEventListener(ONLINE, this.props.onLoaded)
       // -- Send onLoaded when the stream is offline
       // -- This will prevent permanent loading state
       // -- after choosing a stream that is offline from the start
