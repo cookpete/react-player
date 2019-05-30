@@ -9,15 +9,18 @@ export interface TrackProps {
   kind: string;
   src: string;
   srcLang: string;
+  label: string;
   default?: boolean;
 }
 
 export interface SoundCloudConfig {
   options?: Object;
+  preload?: boolean;
 }
 
 export interface YouTubeConfig {
   playerVars?: Object;
+  embedOptions?: Object;
   preload?: boolean;
 }
 
@@ -50,6 +53,9 @@ export interface FileConfig {
   forceAudio?: boolean;
   forceHLS?: boolean;
   forceDASH?: boolean;
+  hlsOptions?: Object;
+  hlsVersion?: string;
+  dashVersion?: string;
 }
 
 export interface Config {
@@ -76,6 +82,8 @@ export interface ReactPlayerProps {
   style?: Object;
   progressInterval?: number;
   playsinline?: boolean;
+  pip?: boolean;
+  light?: boolean | string;
   wrapper?: any;
   config?: Config;
   soundcloudConfig?: SoundCloudConfig;
@@ -90,7 +98,10 @@ export interface ReactPlayerProps {
   onPlay?(): void;
   onPause?(): void;
   onBuffer?(): void;
+  onBufferEnd?(): void;
   onEnded?(): void;
+  onEnablePIP?(): void;
+  onDisablePIP?(): void;
   onError?(error: any): void;
   onDuration?(duration: number): void;
   onSeek?(seconds: number): void;
@@ -100,7 +111,10 @@ export interface ReactPlayerProps {
 
 export default class ReactPlayer extends React.Component<ReactPlayerProps, any> {
   static canPlay(url: string): boolean;
-  seekTo(fraction: number): void;
+  static canEnablePIP(url: string): boolean;
+  static addCustomPlayer(player: ReactPlayer): void;
+  static removeCustomPlayers(): void;
+  seekTo(amount: number, type?: 'seconds' | 'fraction'): void;
   getCurrentTime(): number;
   getDuration(): number;
   getInternalPlayer(key?: string): Object;

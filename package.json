@@ -1,25 +1,26 @@
 {
   "name": "maestro-react-player",
-  "version": "1.2.17",
+  "version": "1.11.0",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
   "scripts": {
-    "clean": "rimraf lib demo",
+    "clean": "rimraf lib demo coverage",
     "start": "webpack-dev-server",
     "lint": "standard --verbose | snazzy",
-    "test": "cross-env NODE_ENV=test babel-node ./node_modules/karma/bin/karma start test/karma.config.js",
-    "coverage": "codecov",
+    "test": "cross-env NODE_ENV=test ava",
+    "test:coverage": "cross-env NODE_ENV=test nyc ava",
     "build:lib": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
-    "build:demo": "cross-env NODE_ENV=production webpack --config webpack.demo.babel.js && node test-server",
+    "build:demo": "cross-env NODE_ENV=production webpack --config webpack.demo.babel.js",
     "build:dist": "cross-env NODE_ENV=production webpack --config webpack.dist.babel.js",
     "build:standalone": "cross-env NODE_ENV=production webpack --config webpack.standalone.babel.js",
-    "preversion": "npm run lint",
+    "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
     "prepublishOnly": "npm run build:lib && npm run build:dist",
-    "format": "standard --fix --verbose | snazzy",
-    "mtm": "npm run prepublishOnly && rsync -r ./dist ../maestro-web/node_modules/maestro-react-player && rsync -r ./lib ../maestro-web/node_modules/maestro-react-player",
     "postpublish": "npm run clean",
+    "format": "standard --fix --verbose | snazzy",
+    "server": "node test-server/index.js",
+    "mtm": "npm run prepublishOnly && rsync -r ./dist ../maestro-web/node_modules/maestro-react-player && rsync -r ./lib ../maestro-web/node_modules/maestro-react-player",
     "watch": "nodemon"
   },
   "repository": {
@@ -54,12 +55,12 @@
     "react": "*"
   },
   "devDependencies": {
-    "auto-changelog": "^1.2.2",
+    "auto-changelog": "^1.11.0",
+    "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.16.0",
     "babel-eslint": "^8.2.1",
     "babel-loader": "^7.0.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
     "babel-plugin-transform-es3-property-literals": "^6.8.0",
@@ -67,25 +68,16 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
-    "chai": "^4.0.2",
     "codecov": "^3.0.0",
-    "cross-env": "^5.2.0",
+    "cross-env": "^5.1.3",
     "css-loader": "^0.28.9",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^3.0.2",
     "html-webpack-plugin": "^2.30.1",
-    "karma": "^2.0.0",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-cli": "^1.0.1",
-    "karma-coverage": "^1.1.1",
-    "karma-mocha": "^1.2.0",
-    "karma-mocha-reporter": "^2.2.0",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^2.0.9",
-    "koa": "^2.6.2",
-    "mocha": "^4.1.0",
-    "nodemon": "^1.19.0",
+    "nodemon": "^1.19.1",
+    "nyc": "^11.7.1",
     "postcss-automath": "^1.0.1",
     "postcss-loader": "^2.0.10",
     "postcss-nested": "^3.0.0",
@@ -95,7 +87,8 @@
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0-beta.15",
     "rimraf": "^2.5.4",
-    "screenfull": "^3.3.2",
+    "screenfull": "^4.0.0",
+    "sinon": "^5.0.3",
     "snazzy": "^7.0.0",
     "standard": "^11.0.0-beta.0",
     "style-loader": "^0.19.1",
@@ -104,7 +97,8 @@
     "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
-    "deepmerge": "^2.0.1",
+    "deepmerge": "^3.0.0",
+    "koa": "^2.7.0",
     "load-script": "^1.0.0",
     "prop-types": "^15.5.6",
     "vast-client": "^1.8.4"
@@ -144,6 +138,25 @@
     "parser": "babel-eslint",
     "ignore": [
       "/dist/*"
+    ]
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register",
+      "babel-polyfill"
+    ]
+  },
+  "nyc": {
+    "all": true,
+    "include": "src",
+    "sourceMap": false,
+    "instrument": false,
+    "report-dir": "./coverage",
+    "temp-directory": "./coverage/.nyc_output",
+    "reporter": [
+      "text",
+      "html"
     ]
   }
 }

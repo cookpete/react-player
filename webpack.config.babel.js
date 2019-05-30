@@ -5,7 +5,8 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 const PORT = 3000
 const PRODUCTION = process.env.NODE_ENV === 'production'
-const PUBLIC_PATH = PRODUCTION ? '' : `http://localhost:${PORT}/`
+const HOST = process.env.HOST || 'localhost'
+const PUBLIC_PATH = PRODUCTION ? '' : `http://${HOST}:${PORT}/`
 
 const PATH_DEMO = join(__dirname, 'demo')
 const PATH_SRC = join(__dirname, 'src')
@@ -25,7 +26,7 @@ export const plugins = [
 export default {
   devtool: 'cheap-module-eval-source-map',
   entry: [
-    `webpack-dev-server/client?http://localhost:${PORT}`,
+    `webpack-dev-server/client?http://${HOST}:${PORT}`,
     'webpack/hot/only-dev-server',
     './src/demo/index'
   ],
@@ -59,6 +60,7 @@ export default {
     new webpack.NamedModulesPlugin()
   ],
   devServer: {
+    host: HOST,
     port: PORT,
     publicPath: PUBLIC_PATH,
     hot: true,

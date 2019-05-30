@@ -4,7 +4,8 @@ import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
 import { getConfig, omit, isEqual } from './utils'
 import players from './players'
 import Player from './Player'
-import { FilePlayer } from './players/FilePlayer'
+import Preview from './Preview'
+import { Iframe } from './players/Iframe'
 import renderPreloadPlayers from './preload'
 
 const SUPPORTED_PROPS = Object.keys(propTypes)
@@ -29,18 +30,35 @@ export default class ReactPlayer extends Component {
     }
     return false
   }
+  static canEnablePIP = url => {
+    for (let Player of [ ...customPlayers, ...players ]) {
+      if (Player.canEnablePIP && Player.canEnablePIP(url)) {
+        return true
+      }
+    }
+    return false
+  }
   config = getConfig(this.props, defaultProps, true)
+  state = {
+    showPreview: !!this.props.light
+  }
   componentDidMount () {
     if (this.props.progressFrequency) {
       const message = 'ReactPlayer: %cprogressFrequency%c is deprecated, please use %cprogressInterval%c instead'
       console.warn(message, 'font-weight: bold', '', 'font-weight: bold', '')
     }
   }
-  shouldComponentUpdate (nextProps) {
-    return !isEqual(this.props, nextProps)
+  shouldComponentUpdate (nextProps, nextState) {
+    return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState)
   }
   componentWillUpdate (nextProps) {
     this.config = getConfig(nextProps, defaultProps)
+    if (!this.props.light && nextProps.light) {
+      this.setState({ showPreview: true })
+    }
+  }
+  onClickPreview = () => {
+    this.setState({ showPreview: false })
   }
   getDuration = () => {
     if (!this.player) return null
@@ -58,9 +76,12 @@ export default class ReactPlayer extends Component {
     if (!this.player) return null
     return this.player.getInternalPlayer(key)
   }
-  seekTo = fraction => {
+  seekTo = (fraction, type) => {
     if (!this.player) return null
-    this.player.seekTo(fraction)
+    this.player.seekTo(fraction, type)
+  }
+  onReady = () => {
+    this.props.onReady(this)
   }
   getActivePlayer (url) {
     for (let Player of [ ...customPlayers, ...players ]) {
@@ -69,7 +90,7 @@ export default class ReactPlayer extends Component {
       }
     }
     // Fall back to FilePlayer if nothing else can play the URL
-    return FilePlayer
+    return Iframe
   }
   wrapperRef = wrapper => {
     this.wrapper = wrapper
@@ -77,9 +98,8 @@ export default class ReactPlayer extends Component {
   activePlayerRef = player => {
     this.player = player
   }
-  renderActivePlayer (url) {
+  renderActivePlayer (url, activePlayer) {
     if (!url) return null
-    const activePlayer = this.getActivePlayer(url)
     return (
       <Player
         {...this.props}
@@ -87,6 +107,7 @@ export default class ReactPlayer extends Component {
         ref={this.activePlayerRef}
         config={this.config}
         activePlayer={activePlayer}
+        onReady={this.onReady}
       />
     )
   }
@@ -98,15 +119,36 @@ export default class ReactPlayer extends Component {
     return 0
   }
   render () {
-    const { url, style, width, height, wrapper: Wrapper } = this.props
+    const { url, controls, style, width, height, light, wrapper: Wrapper } = this.props
+    const showPreview = this.state.showPreview && url
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
-    const activePlayer = this.renderActivePlayer(url)
-    const preloadPlayers = renderPreloadPlayers(url, this.config)
-    const players = [ activePlayer, ...preloadPlayers ].sort(this.sortPlayers)
+    const activePlayer = this.getActivePlayer(url)
+    const renderedActivePlayer = this.renderActivePlayer(url, activePlayer)
+    const preloadPlayers = renderPreloadPlayers(url, controls, this.config)
+    const players = [ renderedActivePlayer, ...preloadPlayers ].sort(this.sortPlayers)
+    const preview = <Preview url={url} light={light} onClick={this.onClickPreview} />
     return (
       <Wrapper ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
-        {players}
+        {showPreview ? preview : players}
       </Wrapper>
     )
   }
 }
+
+export { default as YouTube } from './players/YouTube'
+export { default as SoundCloud } from './players/SoundCloud'
+export { default as Vimeo } from './players/Vimeo'
+export { default as Facebook } from './players/Facebook'
+export { default as Streamable } from './players/Streamable'
+export { default as FaceMask } from './players/FaceMask'
+export { default as Wistia } from './players/Wistia'
+export { default as Twitch } from './players/Twitch'
+export { default as DailyMotion } from './players/DailyMotion'
+export { default as UstreamLive } from './players/UstreamLive'
+export { default as UstreamVideo } from './players/UstreamVideo'
+export { default as Iframe } from './players/Iframe'
+export { default as Mixcloud } from './players/Mixcloud'
+export { default as FilePlayer } from './players/FilePlayer'
+export { default as VAST } from './players/VAST'
+export { default as JWPlayer } from './players/JWPlayer'
+export { default as PhenixPlayer } from './players/PhenixPlayer'

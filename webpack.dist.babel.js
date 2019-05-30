@@ -7,7 +7,8 @@ export default {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'ReactPlayer.js',
-    library: 'ReactPlayer'
+    library: 'ReactPlayer',
+    libraryExport: 'default'
   },
   externals: {
     'react': 'React'
@@ -16,10 +17,7 @@ export default {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        options: {
-          plugins: ['add-module-exports']
-        }
+        loader: 'babel-loader'
       }
     ]
   },

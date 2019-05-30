@@ -27,6 +27,11 @@ export class Facebook extends Component {
         xfbml: true,
         version: 'v2.5'
       })
+      FB.Event.subscribe('xfbml.render', msg => {
+        // Here we know the SDK has loaded, even if onReady/onPlay
+        // is not called due to a video that cannot be embedded
+        this.props.onLoaded()
+      })
       FB.Event.subscribe('xfbml.ready', msg => {
         if (msg.type === 'video' && msg.id === this.playerID) {
           this.player = msg.instance
@@ -34,12 +39,17 @@ export class Facebook extends Component {
           this.player.subscribe('paused', this.props.onPause)
           this.player.subscribe('finishedPlaying', this.props.onEnded)
           this.player.subscribe('startedBuffering', this.props.onBuffer)
+          this.player.subscribe('finishedBuffering', this.props.onBufferEnd)
           this.player.subscribe('error', this.props.onError)
           if (!this.props.muted) {
             // Player is muted by default
             this.callPlayer('unmute')
           }
           this.props.onReady()
+
+          // For some reason Facebook have added `visibility: hidden`
+          // to the iframe when autoplay fails, so here we set it back
+          document.getElementById(this.playerID).querySelector('iframe').style.visibility = 'visible'
         }
       })
     })

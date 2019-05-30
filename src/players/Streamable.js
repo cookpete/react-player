@@ -55,6 +55,9 @@ export class Streamable extends Component {
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
   }
+  setLoop (loop) {
+    this.callPlayer('setLoop', loop)
+  }
   mute = () => {
     this.callPlayer('mute')
   }
