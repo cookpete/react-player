@@ -58,6 +58,12 @@ export class Twitch extends Component {
   seekTo (seconds) {
     this.callPlayer('seek', seconds)
   }
+  getVolume () {
+    return this.callPlayer('getVolume')
+  }
+  getMuted () {
+    return this.callPlayer('getMuted')
+  }
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }

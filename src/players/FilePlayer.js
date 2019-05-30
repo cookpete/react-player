@@ -66,7 +66,11 @@ export class FilePlayer extends Component {
     this.removeListeners()
   }
   addListeners () {
-    const { onReady, onPlay, onBuffer, onBufferEnd, onPause, onEnded, onError, playsinline, onEnablePIP } = this.props
+    const {
+      onReady, onPlay, onBuffer, onBufferEnd,
+      onPause, onEnded, onError, playsinline, onEnablePIP,
+      onVolumeChange, videoElementId
+    } = this.props
     this.player.addEventListener('canplay', onReady)
     this.player.addEventListener('play', onPlay)
     this.player.addEventListener('waiting', onBuffer)
@@ -75,6 +79,8 @@ export class FilePlayer extends Component {
     this.player.addEventListener('seeked', this.onSeek)
     this.player.addEventListener('ended', onEnded)
     this.player.addEventListener('error', onError)
+    this.player.addEventListener('volumeChange', onVolumeChange)
+    this.player.setAttribute('id', videoElementId)
     this.player.addEventListener('enterpictureinpicture', onEnablePIP)
     this.player.addEventListener('leavepictureinpicture', this.onDisablePIP)
     if (playsinline) {
@@ -84,7 +90,11 @@ export class FilePlayer extends Component {
     }
   }
   removeListeners () {
-    const { onReady, onPlay, onBuffer, onBufferEnd, onPause, onEnded, onError, onEnablePIP } = this.props
+    const {
+      onReady, onPlay, onBuffer, onBufferEnd,
+      onPause, onEnded, onError, onEnablePIP,
+      onVolumeChange
+    } = this.props
     this.player.removeEventListener('canplay', onReady)
     this.player.removeEventListener('play', onPlay)
     this.player.removeEventListener('waiting', onBuffer)
@@ -93,6 +103,7 @@ export class FilePlayer extends Component {
     this.player.removeEventListener('seeked', this.onSeek)
     this.player.removeEventListener('ended', onEnded)
     this.player.removeEventListener('error', onError)
+    this.player.removeEventListener('volumeChange', onVolumeChange)
     this.player.removeEventListener('enterpictureinpicture', onEnablePIP)
     this.player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
   }

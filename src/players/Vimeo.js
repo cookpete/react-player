@@ -26,12 +26,12 @@ export class Vimeo extends Component {
     getSDK(SDK_URL, SDK_GLOBAL).then(Vimeo => {
       if (!this.container) return
       this.player = new Vimeo.Player(this.container, {
+        ...this.props.config.vimeo.playerOptions,
         url,
         autoplay: this.props.playing,
         muted: this.props.muted,
         loop: this.props.loop,
-        playsinline: this.props.playsinline,
-        ...this.props.config.vimeo.playerOptions
+        playsinline: this.props.playsinline
       })
       this.player.ready().then(() => {
         const iframe = this.container.querySelector('iframe')
