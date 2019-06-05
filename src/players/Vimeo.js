@@ -6,7 +6,7 @@ import createSinglePlayer from '../singlePlayer'
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
 const MATCH_URL = /vimeo\.com\/.+/
-const MATCH_FILE_URL = /vimeo\.com\/external\/.+\.mp4/
+const MATCH_FILE_URL = /vimeo\.com\/external\/[0-9]+\..+/
 
 export class Vimeo extends Component {
   static displayName = 'Vimeo'

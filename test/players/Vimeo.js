@@ -16,6 +16,11 @@ const TEST_CONFIG = {
   }
 }
 
+test('canPlay', t => {
+  t.false(Vimeo.canPlay('https://player.vimeo.com/external/268931179.m3u8?s=4d7bec5817b90f9227891dd828e32deb91fa01e7'))
+  t.false(Vimeo.canPlay('https://player.vimeo.com/external/134290208.sd.mp4?s=9000cee9e39cb10a907c297ec36bcde452dfb9e5'))
+})
+
 testPlayerMethods(Vimeo, {
   play: 'play',
   pause: 'pause',
