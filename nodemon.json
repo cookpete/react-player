@@ -2,6 +2,6 @@
   "watch": [
     "src"
   ],
-  "exec": "yarn build:demo",
+  "exec": "yarn mtm",
   "ext": "js"
 }

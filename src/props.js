@@ -75,6 +75,7 @@ export const propTypes = {
   onDuration: func,
   onSeek: func,
   onProgress: func,
+  onVolumeChange: func,
   onEnablePIP: func,
   onDisablePIP: func
 }
@@ -169,6 +170,7 @@ export const defaultProps = {
   onError: function () {},
   onDuration: function () {},
   onSeek: function () {},
+  onVolumeChange: function () {},
   onProgress: function () {},
   onEnablePIP: function () {},
   onDisablePIP: function () {}

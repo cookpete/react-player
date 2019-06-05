@@ -358,7 +358,8 @@ class App extends Component {
             <tr>
               <th>VAST</th>
               <td>
-                {this.renderLoadButton('VAST:https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=25235872&PluID=0&pos=7996&ord=%5Btimestamp%5D&cim=1', 'Test A')}
+                {this.renderLoadButton('VAST:https://bs.serving-sys.com/Serving?cn=display&c=23&pl=VAST&pli=25235872&PluID=0&pos=7996&ord=%5Btimestamp%5D&cim=1', 'VAST')}
+                {this.renderLoadButton('VAST:https://svastx.moatads.com/groupmunilevervideo5876034363/Axe_-_UNE_AXE_461_AXE_YHWYC_2019-27846092_js.xml', 'VPAID')}
               </td>
             </tr>
             <tr>
