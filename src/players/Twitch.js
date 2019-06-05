@@ -39,11 +39,15 @@ export class Twitch extends Component {
         muted: this.props.muted,
         ...config.twitch.options
       })
-      const { READY, PLAYING, PAUSE, ENDED } = Twitch.Player
+      const { READY, PLAYING, PAUSE, ENDED, ONLINE, OFFLINE } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)
       this.player.addEventListener(PLAYING, this.props.onPlay)
       this.player.addEventListener(PAUSE, this.props.onPause)
       this.player.addEventListener(ENDED, this.props.onEnded)
+
+      // Prevent weird isLoading behaviour when streams are offline
+      this.player.addEventListener(ONLINE, this.props.onLoaded)
+      this.player.addEventListener(OFFLINE, this.props.onLoaded)
     }, onError)
   }
   play () {
