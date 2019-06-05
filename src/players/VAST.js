@@ -389,8 +389,8 @@ export class VAST extends Component {
         style={{display: 'none'}}
         id={this.autoplayID}
       >
-        <source src={'https://s0.2mdn.net/4253510/google_ddm_animation_480P.mp4'} />
-        <source src={'https://s0.2mdn.net/4253510/google_ddm_animation_480P.webm'} />
+        <source src={'https://storage.googleapis.com/maestro-vast/google_ddm_animation_480P.mp4'} />
+        <source src={'https://storage.googleapis.com/maestro-vast/google_ddm_animation_480P.webm'} />
       </video>
     )
   }
