@@ -102,7 +102,7 @@ export interface ReactPlayerProps {
   onEnded?(): void;
   onEnablePIP?(): void;
   onDisablePIP?(): void;
-  onError?(error: any): void;
+  onError?(error: any, data?: any, hlsInstance?: any, hlsGlobal?: any): void;
   onDuration?(duration: number): void;
   onSeek?(seconds: number): void;
   onProgress?(state: { played: number, playedSeconds: number, loaded: number, loadedSeconds: number }): void;
