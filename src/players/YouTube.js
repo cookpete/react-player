@@ -65,9 +65,11 @@ export class YouTube extends Component {
         },
         ...embedOptions
       })
-      if (loop) {
-        this.player.setLoop(true) // Enable playlist looping
-      }
+       if (onReady) {
+          if (loop) {
+            this.player.setLoop(true); // Enable playlist looping
+          }
+        }
     }, onError)
   }
   onStateChange = ({ data }) => {
