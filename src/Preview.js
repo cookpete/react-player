@@ -12,7 +12,8 @@ export default class Preview extends Component {
     this.fetchImage(this.props)
   }
   componentWillReceiveProps (nextProps) {
-    if (this.props.url !== nextProps.url) {
+    const { url, light } = this.props
+    if (url !== nextProps.url || light !== nextProps.light) {
       this.fetchImage(nextProps)
     }
   }
