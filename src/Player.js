@@ -190,9 +190,9 @@ export default class Player extends Component {
       onEnded()
     }
   }
-  onError = (e) => {
+  onError = (...args) => {
     this.isLoading = false
-    this.props.onError(e)
+    this.props.onError(...args)
   }
   onDurationCheck = () => {
     clearTimeout(this.durationCheckTimeout)
