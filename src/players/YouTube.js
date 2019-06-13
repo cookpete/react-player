@@ -59,15 +59,17 @@ export class YouTube extends Component {
           ...playerVars
         },
         events: {
-          onReady: this.props.onReady,
+          onReady: () => {
+            if (loop) {
+              this.player.setLoop(true) // Enable playlist looping
+            }
+            this.props.onReady()
+          },
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
         },
         ...embedOptions
       })
-      if (loop) {
-        this.player.setLoop(true) // Enable playlist looping
-      }
     }, onError)
   }
   onStateChange = ({ data }) => {
