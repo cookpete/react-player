@@ -70,7 +70,7 @@ export interface Config {
 }
 
 export interface ReactPlayerProps {
-  url?: string | string[] | SourceProps[];
+  url?: string | string[] | SourceProps[] | MediaStream;
   playing?: boolean;
   loop?: boolean;
   controls?: boolean;
