@@ -37,6 +37,18 @@ export class Twitch extends Component {
         playsinline: playsinline,
         autoplay: this.props.playing,
         muted: this.props.muted,
+        // -- Receive controls options trough direct prop values instead of player options
+        /*
+        // -- currently needs to be passed as
+        config={{
+            twitch: {
+              options: {
+                controls: false
+              }
+            }
+          }}
+        */
+        controls: this.props.controls,
         ...config.twitch.options
       })
       const { READY, PLAYING, PAUSE, ENDED, ONLINE, OFFLINE } = Twitch.Player
