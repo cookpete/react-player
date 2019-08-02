@@ -6,7 +6,7 @@ import createSinglePlayer from '../singlePlayer'
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
 const MATCH_URL = /vimeo\.com\/.+/
-const MATCH_FILE_URL = /vimeo\.com\/external\/.+\.mp4/
+const MATCH_FILE_URL = /vimeo\.com\/external\/[0-9]+\..+/
 
 export class Vimeo extends Component {
   static displayName = 'Vimeo'
@@ -64,7 +64,10 @@ export class Vimeo extends Component {
     })
   }
   play () {
-    this.callPlayer('play')
+    const promise = this.callPlayer('play')
+    if (promise) {
+      promise.catch(this.props.onError)
+    }
   }
   pause () {
     this.callPlayer('pause')
@@ -106,8 +109,7 @@ export class Vimeo extends Component {
       width: '100%',
       height: '100%',
       overflow: 'hidden',
-      backgroundColor: 'black',
-      ...this.props.style
+      backgroundColor: 'black'
     }
     return (
       <div
