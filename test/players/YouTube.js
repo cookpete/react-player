@@ -118,7 +118,7 @@ test('onStateChange() - ready', async t => {
 
 test('render()', t => {
   const wrapper = shallow(<YouTube url={TEST_URL} />)
-  const style = { width: '100%', height: '100%' }
+  const style = { width: '100%', height: '100%', display: undefined }
   t.true(wrapper.contains(
     <div style={style}>
       <div />

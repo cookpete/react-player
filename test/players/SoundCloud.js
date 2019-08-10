@@ -79,7 +79,8 @@ test('getSecondsLoaded()', t => {
 test('render()', t => {
   const style = {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    display: undefined
   }
   const wrapper = shallow(<SoundCloud url={TEST_URL} />)
   t.true(wrapper.contains(

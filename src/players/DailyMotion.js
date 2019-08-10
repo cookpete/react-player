@@ -90,10 +90,12 @@ export class DailyMotion extends Component {
     this.container = container
   }
   render () {
+    const { display } = this.props
     const style = {
       width: '100%',
       height: '100%',
-      backgroundColor: 'black'
+      backgroundColor: 'black',
+      display
     }
     return (
       <div style={style}>

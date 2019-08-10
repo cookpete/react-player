@@ -109,11 +109,13 @@ export class Vimeo extends Component {
     this.container = container
   }
   render () {
+    const { display } = this.props
     const style = {
       width: '100%',
       height: '100%',
       overflow: 'hidden',
-      backgroundColor: 'black'
+      backgroundColor: 'black',
+      display
     }
     return (
       <div

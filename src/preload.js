@@ -42,7 +42,7 @@ export default function renderPreloadPlayers (url, controls, config) {
           controls={controls}
           playing
           muted
-          style={{ display: 'none' }}
+          display='none'
         />
       )
     }

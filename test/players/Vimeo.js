@@ -66,7 +66,8 @@ test('render()', t => {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    display: undefined
   }
   t.true(wrapper.contains(
     <div key={TEST_URL} style={style} />

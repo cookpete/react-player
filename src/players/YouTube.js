@@ -134,9 +134,11 @@ export class YouTube extends Component {
     this.container = container
   }
   render () {
+    const { display } = this.props
     const style = {
       width: '100%',
-      height: '100%'
+      height: '100%',
+      display
     }
     return (
       <div style={style}>

@@ -41,7 +41,7 @@ test('preload players', t => {
   const props = {
     playing: true,
     muted: true,
-    style: { display: 'none' }
+    display: 'none'
   }
   t.true(wrapper.children().length === 4)
   t.true(wrapper.childAt(0).matchesElement(<Player key='DailyMotion' activePlayer={DailyMotion} {...props} />))
