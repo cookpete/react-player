@@ -64,6 +64,9 @@ export default class ReactPlayer extends Component {
   onClickPreview = () => {
     this.setState({ showPreview: false })
   }
+  showPreview = () => {
+    this.setState({ showPreview: true })
+  }
   getDuration = () => {
     if (!this.player) return null
     return this.player.getDuration()

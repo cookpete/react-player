@@ -171,6 +171,9 @@ class App extends Component {
                 <button onClick={this.stop}>Stop</button>
                 <button onClick={this.playPause}>{playing ? 'Pause' : 'Play'}</button>
                 <button onClick={this.onClickFullscreen}>Fullscreen</button>
+                {light &&
+                  <button onClick={() => this.player.showPreview()}>Show preview</button>
+                }
                 {ReactPlayer.canEnablePIP(url) &&
                   <button onClick={this.togglePIP}>{pip ? 'Disable PiP' : 'Enable PiP'}</button>
                 }
