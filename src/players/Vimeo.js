@@ -10,6 +10,7 @@ const MATCH_FILE_URL = /vimeo\.com\/external\/[0-9]+\..+/
 
 export class Vimeo extends Component {
   static displayName = 'Vimeo'
+  static forceLoad = true // Prevent checking isLoading when URL changes
   static canPlay = url => {
     if (MATCH_FILE_URL.test(url)) {
       return false

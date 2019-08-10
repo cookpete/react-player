@@ -49,7 +49,7 @@ test('player.load()', t => {
 
 test('set loadOnReady', t => {
   const stub = sinon.stub(console, 'warn')
-  const wrapper = shallow(<Player url='file.mp4' />)
+  const wrapper = shallow(<Player url='file.mp4' activePlayer={{}} />)
   const instance = wrapper.instance()
   const fake = sinon.fake()
   instance.ref({ load: fake })
