@@ -33,50 +33,50 @@ export default class Player extends Component {
     }
     this.mounted = false
   }
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate(prevProps) {
     // Invoke player methods based on incoming props
-    const { url, playing, volume, muted, playbackRate, pip, loop, activePlayer } = this.props
-    if (!isEqual(url, nextProps.url)) {
+    const { url, playing, volume, muted, playbackRate, pip, loop, activePlayer } = prevProps
+    if (!isEqual(url, this.props.url)) {
       if (this.isLoading && !activePlayer.forceLoad) {
-        console.warn(`ReactPlayer: the attempt to load ${nextProps.url} is being deferred until the player has loaded`)
-        this.loadOnReady = nextProps.url
+        console.warn(`ReactPlayer: the attempt to load ${this.props.url} is being deferred until the player has loaded`)
+        this.loadOnReady = this.props.url
         return
       }
       this.isLoading = true
       this.startOnPlay = true
       this.onDurationCalled = false
-      this.player.load(nextProps.url, this.isReady)
+      this.player.load(this.props.url, this.isReady)
     }
-    if (!playing && nextProps.playing && !this.isPlaying) {
+    if (!playing && this.props.playing && !this.isPlaying) {
       this.player.play()
     }
-    if (playing && !nextProps.playing && this.isPlaying) {
+    if (playing && !this.props.playing && this.isPlaying) {
       this.player.pause()
     }
-    if (!pip && nextProps.pip && this.player.enablePIP) {
+    if (!pip && this.props.pip && this.player.enablePIP) {
       this.player.enablePIP()
-    } else if (pip && !nextProps.pip && this.player.disablePIP) {
+    } else if (pip && !this.props.pip && this.player.disablePIP) {
       this.player.disablePIP()
     }
-    if (volume !== nextProps.volume && nextProps.volume !== null) {
-      this.player.setVolume(nextProps.volume)
+    if (volume !== this.props.volume && this.props.volume !== null) {
+      this.player.setVolume(this.props.volume)
     }
-    if (muted !== nextProps.muted) {
-      if (nextProps.muted) {
+    if (muted !== this.props.muted) {
+      if (this.props.muted) {
         this.player.mute()
       } else {
         this.player.unmute()
-        if (nextProps.volume !== null) {
+        if (this.props.volume !== null) {
           // Set volume next tick to fix a bug with DailyMotion
-          setTimeout(() => this.player.setVolume(nextProps.volume))
+          setTimeout(() => this.player.setVolume(this.props.volume))
         }
       }
     }
-    if (playbackRate !== nextProps.playbackRate && this.player.setPlaybackRate) {
-      this.player.setPlaybackRate(nextProps.playbackRate)
+    if (playbackRate !== this.props.playbackRate && this.player.setPlaybackRate) {
+      this.player.setPlaybackRate(this.props.playbackRate)
     }
-    if (loop !== nextProps.loop && this.player.setLoop) {
-      this.player.setLoop(nextProps.loop)
+    if (loop !== this.props.loop && this.player.setLoop) {
+      this.player.setLoop(this.props.loop)
     }
   }
   getDuration () {
