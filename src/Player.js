@@ -33,7 +33,7 @@ export default class Player extends Component {
     }
     this.mounted = false
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     // Invoke player methods based on incoming props
     const { url, playing, volume, muted, playbackRate, pip, loop, activePlayer } = prevProps
     if (!isEqual(url, this.props.url)) {
