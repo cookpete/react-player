@@ -54,36 +54,47 @@ export class Facebook extends Component {
       })
     })
   }
+
   play () {
     this.callPlayer('play')
   }
+
   pause () {
     this.callPlayer('pause')
   }
+
   stop () {
     // Nothing to do
   }
+
   seekTo (seconds) {
     this.callPlayer('seek', seconds)
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }
+
   mute = () => {
     this.callPlayer('mute')
   }
+
   unmute = () => {
     this.callPlayer('unmute')
   }
+
   getDuration () {
     return this.callPlayer('getDuration')
   }
+
   getCurrentTime () {
     return this.callPlayer('getCurrentPosition')
   }
+
   getSecondsLoaded () {
     return null
   }
+
   render () {
     const style = {
       width: '100%',

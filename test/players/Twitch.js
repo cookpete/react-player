@@ -42,6 +42,7 @@ test('load()', t => {
     constructor (id, options) {
       t.true(id === 'mock-player-id')
     }
+
     addEventListener = (event, fn) => {
       if (event === 'READY') setTimeout(fn, 100)
     }

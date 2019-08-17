@@ -42,41 +42,53 @@ export class SoundCloud extends Component {
       })
     })
   }
+
   play () {
     this.callPlayer('play')
   }
+
   pause () {
     this.callPlayer('pause')
   }
+
   stop () {
     // Nothing to do
   }
+
   seekTo (seconds) {
     this.callPlayer('seekTo', seconds * 1000)
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
   }
+
   mute = () => {
     this.setVolume(0)
   }
+
   unmute = () => {
     if (this.props.volume !== null) {
       this.setVolume(this.props.volume)
     }
   }
+
   getDuration () {
     return this.duration
   }
+
   getCurrentTime () {
     return this.currentTime
   }
+
   getSecondsLoaded () {
     return this.fractionLoaded * this.duration
   }
+
   ref = iframe => {
     this.iframe = iframe
   }
+
   render () {
     const { display } = this.props
     const style = {

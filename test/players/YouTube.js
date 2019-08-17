@@ -107,6 +107,7 @@ test('onStateChange() - buffer', async t => {
 test('onStateChange() - ended', async t => {
   const onEnded = () => t.pass()
   const instance = shallow(<YouTube url={TEST_URL} onEnded={onEnded} />).instance()
+  instance.player = { getPlaylist: () => {} }
   instance.onStateChange({ data: 'ENDED' })
 })
 

@@ -72,6 +72,7 @@ export class YouTube extends Component {
       })
     }, onError)
   }
+
   onStateChange = ({ data }) => {
     const { onPlay, onPause, onBuffer, onBufferEnd, onEnded, onReady, loop } = this.props
     const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
@@ -90,49 +91,63 @@ export class YouTube extends Component {
     }
     if (data === CUED) onReady()
   }
+
   play () {
     this.callPlayer('playVideo')
   }
+
   pause () {
     this.callPlayer('pauseVideo')
   }
+
   stop () {
     if (!document.body.contains(this.callPlayer('getIframe'))) return
     this.callPlayer('stopVideo')
   }
+
   seekTo (amount) {
     this.callPlayer('seekTo', amount)
     if (!this.props.playing) {
       this.pause()
     }
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
   }
+
   mute = () => {
     this.callPlayer('mute')
   }
+
   unmute = () => {
     this.callPlayer('unMute')
   }
+
   setPlaybackRate (rate) {
     this.callPlayer('setPlaybackRate', rate)
   }
+
   setLoop (loop) {
     this.callPlayer('setLoop', loop)
   }
+
   getDuration () {
     return this.callPlayer('getDuration')
   }
+
   getCurrentTime () {
     return this.callPlayer('getCurrentTime')
   }
+
   getSecondsLoaded () {
     return this.callPlayer('getVideoLoadedFraction') * this.getDuration()
   }
+
   ref = container => {
     this.container = container
   }
+
   render () {
     const { display } = this.props
     const style = {

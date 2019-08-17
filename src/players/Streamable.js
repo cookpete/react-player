@@ -40,42 +40,55 @@ export class Streamable extends Component {
       }
     }, this.props.onError)
   }
+
   play () {
     this.callPlayer('play')
   }
+
   pause () {
     this.callPlayer('pause')
   }
+
   stop () {
     // Nothing to do
   }
+
   seekTo (seconds) {
     this.callPlayer('setCurrentTime', seconds)
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
   }
+
   setLoop (loop) {
     this.callPlayer('setLoop', loop)
   }
+
   mute = () => {
     this.callPlayer('mute')
   }
+
   unmute = () => {
     this.callPlayer('unmute')
   }
+
   getDuration () {
     return this.duration
   }
+
   getCurrentTime () {
     return this.currentTime
   }
+
   getSecondsLoaded () {
     return this.secondsLoaded
   }
+
   ref = iframe => {
     this.iframe = iframe
   }
+
   render () {
     const id = this.props.url.match(MATCH_URL)[1]
     const style = {

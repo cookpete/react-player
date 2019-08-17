@@ -7,19 +7,23 @@ export default class Preview extends Component {
   state = {
     image: null
   }
+
   componentDidMount () {
     this.mounted = true
     this.fetchImage(this.props)
   }
+
   componentWillReceiveProps (nextProps) {
     const { url, light } = this.props
     if (url !== nextProps.url || light !== nextProps.light) {
       this.fetchImage(nextProps)
     }
   }
+
   componentWillUnmount () {
     this.mounted = false
   }
+
   fetchImage ({ url, light }) {
     if (typeof light === 'string') {
       this.setState({ image: light })
@@ -35,6 +39,7 @@ export default class Preview extends Component {
         }
       })
   }
+
   render () {
     const { onClick } = this.props
     const { image } = this.state

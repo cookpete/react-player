@@ -101,6 +101,7 @@ test('onError - hls', t => {
       on = (event, cb) => {
         setTimeout(cb, 100)
       }
+
       loadSource = () => null
       attachMedia = () => null
     }
@@ -157,10 +158,14 @@ test('load - MediaStream (srcObject not supported)', t => {
 
 test('forceVideo', t => {
   const wrapper = shallow(
-    <FilePlayer url='file.mp3' config={{ file: {
-      ...config.file,
-      forceVideo: true
-    }}} />
+    <FilePlayer
+      url='file.mp3' config={{
+        file: {
+          ...config.file,
+          forceVideo: true
+        }
+      }}
+    />
   )
   t.true(wrapper.containsMatchingElement(
     <video src='file.mp3'>{false}{[]}</video>
@@ -169,10 +174,14 @@ test('forceVideo', t => {
 
 test('forceAudio', t => {
   const wrapper = shallow(
-    <FilePlayer url='file.mp4' config={{ file: {
-      ...config.file,
-      forceAudio: true
-    }}} />
+    <FilePlayer
+      url='file.mp4' config={{
+        file: {
+          ...config.file,
+          forceAudio: true
+        }
+      }}
+    />
   )
   t.true(wrapper.containsMatchingElement(
     <audio src='file.mp4'>{false}{[]}</audio>
@@ -181,10 +190,14 @@ test('forceAudio', t => {
 
 test('render video poster', t => {
   const wrapper = shallow(
-    <FilePlayer url='file.mp3' config={{ file: {
-      ...config.file,
-      attributes: { poster: 'poster.png' }
-    }}} />
+    <FilePlayer
+      url='file.mp3' config={{
+        file: {
+          ...config.file,
+          attributes: { poster: 'poster.png' }
+        }
+      }}
+    />
   )
   t.true(wrapper.containsMatchingElement(
     <video src='file.mp3' poster='poster.png'>{false}{[]}</video>
@@ -358,13 +371,17 @@ test('render - object array', t => {
 
 test.skip('render tracks', t => {
   const wrapper = shallow(
-    <FilePlayer url='file.mp4' config={{ file: {
-      ...config.file,
-      tracks: [
-        { kind: 'subtitles', src: 'subtitles.en.vtt', srcLang: 'en', default: true },
-        { kind: 'subtitles', src: 'subtitles.ja.vtt', srcLang: 'ja' }
-      ]
-    }}} />
+    <FilePlayer
+      url='file.mp4' config={{
+        file: {
+          ...config.file,
+          tracks: [
+            { kind: 'subtitles', src: 'subtitles.en.vtt', srcLang: 'en', default: true },
+            { kind: 'subtitles', src: 'subtitles.ja.vtt', srcLang: 'ja' }
+          ]
+        }
+      }}
+    />
   )
   t.true(wrapper.containsMatchingElement(
     <video src='file.mp4'>

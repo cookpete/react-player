@@ -3,20 +3,20 @@ import PropTypes from 'prop-types'
 const { string, bool, number, array, oneOfType, shape, object, func } = PropTypes
 
 export const propTypes = {
-  url: oneOfType([ string, array, object ]),
+  url: oneOfType([string, array, object]),
   playing: bool,
   loop: bool,
   controls: bool,
   volume: number,
   muted: bool,
   playbackRate: number,
-  width: oneOfType([ string, number ]),
-  height: oneOfType([ string, number ]),
+  width: oneOfType([string, number]),
+  height: oneOfType([string, number]),
   style: object,
   progressInterval: number,
   playsinline: bool,
   pip: bool,
-  light: oneOfType([ bool, string ]),
+  light: oneOfType([bool, string]),
   wrapper: oneOfType([
     string,
     func,

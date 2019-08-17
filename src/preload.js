@@ -32,7 +32,7 @@ const PRELOAD_PLAYERS = [
 export default function renderPreloadPlayers (url, controls, config) {
   const players = []
 
-  for (let player of PRELOAD_PLAYERS) {
+  for (const player of PRELOAD_PLAYERS) {
     if (!player.Player.canPlay(url) && config[player.configKey].preload) {
       players.push(
         <Player

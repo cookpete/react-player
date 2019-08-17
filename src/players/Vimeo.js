@@ -59,55 +59,70 @@ export class Vimeo extends Component {
       })
     }, this.props.onError)
   }
+
   refreshDuration () {
     this.player.getDuration().then(duration => {
       this.duration = duration
     })
   }
+
   play () {
     const promise = this.callPlayer('play')
     if (promise) {
       promise.catch(this.props.onError)
     }
   }
+
   pause () {
     this.callPlayer('pause')
   }
+
   stop () {
     this.callPlayer('unload')
   }
+
   seekTo (seconds) {
     this.callPlayer('setCurrentTime', seconds)
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }
+
   setLoop (loop) {
     this.callPlayer('setLoop', loop)
   }
+
   setPlaybackRate (rate) {
     this.callPlayer('setPlaybackRate', rate)
   }
+
   mute = () => {
     this.setVolume(0)
   }
+
   unmute = () => {
     if (this.props.volume !== null) {
       this.setVolume(this.props.volume)
     }
   }
+
   getDuration () {
     return this.duration
   }
+
   getCurrentTime () {
     return this.currentTime
   }
+
   getSecondsLoaded () {
     return this.secondsLoaded
   }
+
   ref = container => {
     this.container = container
   }
+
   render () {
     const { display } = this.props
     const style = {

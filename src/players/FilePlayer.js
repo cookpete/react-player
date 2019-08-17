@@ -16,7 +16,7 @@ const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 
 function canPlay (url) {
   if (url instanceof Array) {
-    for (let item of url) {
+    for (const item of url) {
       if (typeof item === 'string' && canPlay(item)) {
         return true
       }
@@ -52,19 +52,23 @@ export class FilePlayer extends Component {
       this.player.load()
     }
   }
+
   componentWillReceiveProps (nextProps) {
     if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(nextProps)) {
       this.removeListeners()
     }
   }
+
   componentDidUpdate (prevProps) {
     if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(prevProps)) {
       this.addListeners()
     }
   }
+
   componentWillUnmount () {
     this.removeListeners()
   }
+
   addListeners () {
     const { onReady, onPlay, onBuffer, onBufferEnd, onPause, onEnded, onError, playsinline, onEnablePIP } = this.props
     this.player.addEventListener('canplay', onReady)
@@ -83,6 +87,7 @@ export class FilePlayer extends Component {
       this.player.setAttribute('x5-playsinline', '')
     }
   }
+
   removeListeners () {
     const { onReady, onPlay, onBuffer, onBufferEnd, onPause, onEnded, onError, onEnablePIP } = this.props
     this.player.removeEventListener('canplay', onReady)
@@ -96,6 +101,7 @@ export class FilePlayer extends Component {
     this.player.removeEventListener('enterpictureinpicture', onEnablePIP)
     this.player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
   }
+
   onDisablePIP = e => {
     const { onDisablePIP, playing } = this.props
     onDisablePIP(e)
@@ -103,9 +109,11 @@ export class FilePlayer extends Component {
       this.play()
     }
   }
+
   onSeek = e => {
     this.props.onSeek(e.target.currentTime)
   }
+
   shouldUseAudio (props) {
     if (props.config.file.forceVideo) {
       return false
@@ -115,12 +123,15 @@ export class FilePlayer extends Component {
     }
     return AUDIO_EXTENSIONS.test(props.url) || props.config.file.forceAudio
   }
+
   shouldUseHLS (url) {
     return (HLS_EXTENSIONS.test(url) && !IOS) || this.props.config.file.forceHLS
   }
+
   shouldUseDASH (url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
   }
+
   load (url) {
     const { hlsVersion, dashVersion } = this.props.config.file
     if (this.shouldUseHLS(url)) {
@@ -155,15 +166,18 @@ export class FilePlayer extends Component {
       }
     }
   }
+
   play () {
     const promise = this.player.play()
     if (promise) {
       promise.catch(this.props.onError)
     }
   }
+
   pause () {
     this.player.pause()
   }
+
   stop () {
     this.player.removeAttribute('src')
     if (this.hls) {
@@ -173,31 +187,39 @@ export class FilePlayer extends Component {
       this.dash.reset()
     }
   }
+
   seekTo (seconds) {
     this.player.currentTime = seconds
   }
+
   setVolume (fraction) {
     this.player.volume = fraction
   }
+
   mute = () => {
     this.player.muted = true
   }
+
   unmute = () => {
     this.player.muted = false
   }
+
   enablePIP () {
     if (this.player.requestPictureInPicture && document.pictureInPictureElement !== this.player) {
       this.player.requestPictureInPicture()
     }
   }
+
   disablePIP () {
     if (document.exitPictureInPicture && document.pictureInPictureElement === this.player) {
       document.exitPictureInPicture()
     }
   }
+
   setPlaybackRate (rate) {
     this.player.playbackRate = rate
   }
+
   getDuration () {
     if (!this.player) return null
     const { duration, seekable } = this.player
@@ -208,10 +230,12 @@ export class FilePlayer extends Component {
     }
     return duration
   }
+
   getCurrentTime () {
     if (!this.player) return null
     return this.player.currentTime
   }
+
   getSecondsLoaded () {
     if (!this.player) return null
     const { buffered } = this.player
@@ -225,6 +249,7 @@ export class FilePlayer extends Component {
     }
     return end
   }
+
   getSource (url) {
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
@@ -236,18 +261,22 @@ export class FilePlayer extends Component {
     }
     return url
   }
+
   renderSourceElement = (source, index) => {
     if (typeof source === 'string') {
       return <source key={index} src={source} />
     }
     return <source key={index} {...source} />
   }
+
   renderTrack = (track, index) => {
     return <track key={index} {...track} />
   }
+
   ref = player => {
     this.player = player
   }
+
   render () {
     const { url, playing, loop, controls, muted, config, width, height } = this.props
     const useAudio = this.shouldUseAudio(this.props)
@@ -266,10 +295,10 @@ export class FilePlayer extends Component {
         controls={controls}
         muted={muted}
         loop={loop}
-        {...config.file.attributes}>
+        {...config.file.attributes}
+      >
         {url instanceof Array &&
-          url.map(this.renderSourceElement)
-        }
+          url.map(this.renderSourceElement)}
         {config.file.tracks.map(this.renderTrack)}
       </Element>
     )

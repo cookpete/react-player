@@ -26,7 +26,7 @@ test('render', t => {
 test('fallback player', t => {
   const wrapper = shallow(<ReactPlayer url='http://example.com/random/path' />)
   t.true(wrapper.childAt(0).matchesElement(
-    <Player activePlayer={FilePlayer} onReady={wrapper.instance().onReady} />
+    <Player activePlayer={FilePlayer} onReady={wrapper.instance().handleReady} />
   ))
 })
 

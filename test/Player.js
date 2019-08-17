@@ -49,7 +49,7 @@ test('player.load()', t => {
 
 test('set loadOnReady', t => {
   const stub = sinon.stub(console, 'warn')
-  const wrapper = shallow(<Player url='file.mp4' activePlayer={{}} />)
+  const wrapper = shallow(<Player url='file.mp4' activePlayer={() => null} />)
   const instance = wrapper.instance()
   const fake = sinon.fake()
   instance.ref({ load: fake })
@@ -202,9 +202,9 @@ test('onReady()', t => {
   const play = sinon.fake()
   const instance = shallow(<Player onReady={onReady} playing volume={1} />).instance()
   instance.ref({ setVolume, play })
-  instance.onDurationCheck = sinon.fake()
+  instance.handleDurationCheck = sinon.fake()
   instance.isReady = true
-  instance.onReady()
+  instance.handleReady()
   t.true(setVolume.calledOnceWith(1))
   t.true(play.calledOnce)
 })
@@ -214,9 +214,9 @@ test('loadOnReady', t => {
   const play = sinon.fake()
   const instance = shallow(<Player />).instance()
   instance.ref({ load, play })
-  instance.onDurationCheck = sinon.fake()
+  instance.handleDurationCheck = sinon.fake()
   instance.loadOnReady = 'file.mp4'
-  instance.onReady()
+  instance.handleReady()
   t.true(load.calledOnceWith('file.mp4'))
   t.true(play.notCalled)
 })
@@ -224,8 +224,8 @@ test('loadOnReady', t => {
 test('onPlay()', t => {
   const onPlay = sinon.fake()
   const instance = shallow(<Player onPlay={onPlay} />).instance()
-  instance.onDurationCheck = sinon.fake()
-  instance.onPlay()
+  instance.handleDurationCheck = sinon.fake()
+  instance.handlePlay()
   t.true(onPlay.calledOnce)
   t.true(instance.isPlaying)
   t.false(instance.isLoading)
@@ -236,9 +236,9 @@ test('onStart()', t => {
   const setPlaybackRate = sinon.fake()
   const instance = shallow(<Player onStart={onStart} />).instance()
   instance.ref({ setPlaybackRate })
-  instance.onDurationCheck = sinon.fake()
+  instance.handleDurationCheck = sinon.fake()
   instance.startOnPlay = true
-  instance.onPlay()
+  instance.handlePlay()
   t.true(onStart.calledOnce)
   t.true(setPlaybackRate.calledOnceWith(1))
   t.false(instance.startOnPlay)
@@ -247,9 +247,9 @@ test('onStart()', t => {
 test('seekOnPlay', t => {
   const seekTo = sinon.stub(Player.prototype, 'seekTo')
   const instance = shallow(<Player />).instance()
-  instance.onDurationCheck = sinon.fake()
+  instance.handleDurationCheck = sinon.fake()
   instance.seekOnPlay = 10
-  instance.onPlay()
+  instance.handlePlay()
   t.true(seekTo.calledOnceWith(10))
   t.true(instance.seekOnPlay === null)
   seekTo.restore()
@@ -259,7 +259,7 @@ test('onPause()', t => {
   const onPause = sinon.fake()
   const instance = shallow(<Player onPause={onPause} />).instance()
   instance.isLoading = false
-  instance.onPause()
+  instance.handlePause()
   t.true(onPause.calledOnce)
   t.false(instance.isPlaying)
 })
@@ -268,7 +268,7 @@ test('onPause() - isLoading', t => {
   const onPause = sinon.fake()
   const instance = shallow(<Player onPause={onPause} />).instance()
   instance.isLoading = true
-  instance.onPause()
+  instance.handlePause()
   t.true(onPause.notCalled)
 })
 
@@ -277,7 +277,7 @@ test('onEnded()', t => {
   const onEnded = sinon.fake()
   const instance = shallow(<Player activePlayer={activePlayer} onEnded={onEnded} />).instance()
   instance.isPlaying = true
-  instance.onEnded()
+  instance.handleEnded()
   t.true(onEnded.calledOnce)
   t.false(instance.isPlaying)
 })
@@ -288,18 +288,18 @@ test('loopOnEnded', t => {
   const seekTo = sinon.stub(Player.prototype, 'seekTo')
   const instance = shallow(<Player loop activePlayer={activePlayer} />).instance()
   instance.isPlaying = true
-  instance.onEnded()
+  instance.handleEnded()
   t.true(seekTo.calledOnceWith(0))
   t.true(instance.isPlaying)
   seekTo.restore()
 })
 
-test('onDurationCheck', t => {
+test('handleDurationCheck', t => {
   const onDuration = sinon.fake()
   const instance = shallow(<Player onDuration={onDuration} />).instance()
   instance.getDuration = sinon.fake.returns(10)
-  instance.onDurationCheck()
-  instance.onDurationCheck() // Call twice to ensure onDuration is not called again
+  instance.handleDurationCheck()
+  instance.handleDurationCheck() // Call twice to ensure onDuration is not called again
   t.true(onDuration.calledOnceWith(10))
   t.true(instance.onDurationCalled)
 })
@@ -309,7 +309,7 @@ test('durationCheckTimeout', t => {
   const instance = shallow(<Player onDuration={onDuration} />).instance()
   instance.getDuration = sinon.fake.returns(null)
   instance.durationCheckTimeout = null
-  instance.onDurationCheck()
+  instance.handleDurationCheck()
   t.true(onDuration.notCalled)
   t.truthy(instance.durationCheckTimeout)
 })

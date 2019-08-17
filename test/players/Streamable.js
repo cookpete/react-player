@@ -31,9 +31,11 @@ test('load()', t => {
     constructor (iframe) {
       t.true(iframe === 'mock-iframe')
     }
+
     on = (event, fn) => {
       if (event === 'ready') setTimeout(fn, 100)
     }
+
     setLoop = () => null
   }
   const getSDK = sinon.stub(utils, 'getSDK').resolves({ Player })

@@ -94,7 +94,7 @@ export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, 
 
 export function getConfig (props, defaultProps, showWarning) {
   let config = merge(defaultProps.config, props.config)
-  for (let p of DEPRECATED_CONFIG_PROPS) {
+  for (const p of DEPRECATED_CONFIG_PROPS) {
     if (props[p]) {
       const key = p.replace(/Config$/, '')
       config = merge(config, { [key]: props[p] })
@@ -112,7 +112,7 @@ export function omit (object, ...arrays) {
   const omitKeys = [].concat(...arrays)
   const output = {}
   const keys = Object.keys(object)
-  for (let key of keys) {
+  for (const key of keys) {
     if (omitKeys.indexOf(key) === -1) {
       output[key] = object[key]
     }
@@ -161,7 +161,7 @@ export function isEqual (a, b) {
     if (Object.keys(a).length !== Object.keys(b).length) {
       return false
     }
-    for (let key of Object.keys(a)) {
+    for (const key of Object.keys(a)) {
       if (!isEqual(a[key], b[key])) {
         return false
       }

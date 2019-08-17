@@ -50,36 +50,47 @@ export class Twitch extends Component {
       this.player.addEventListener(OFFLINE, this.props.onLoaded)
     }, onError)
   }
+
   play () {
     this.callPlayer('play')
   }
+
   pause () {
     this.callPlayer('pause')
   }
+
   stop () {
     this.callPlayer('pause')
   }
+
   seekTo (seconds) {
     this.callPlayer('seek', seconds)
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }
+
   mute = () => {
     this.callPlayer('setMuted', true)
   }
+
   unmute = () => {
     this.callPlayer('setMuted', false)
   }
+
   getDuration () {
     return this.callPlayer('getDuration')
   }
+
   getCurrentTime () {
     return this.callPlayer('getCurrentTime')
   }
+
   getSecondsLoaded () {
     return null
   }
+
   render () {
     const style = {
       width: '100%',

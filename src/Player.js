@@ -22,6 +22,7 @@ export default class Player extends Component {
     this.player.load(this.props.url)
     this.progress()
   }
+
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
     clearTimeout(this.durationCheckTimeout)
@@ -33,6 +34,7 @@ export default class Player extends Component {
     }
     this.mounted = false
   }
+
   componentWillReceiveProps (nextProps) {
     // Invoke player methods based on incoming props
     const { url, playing, volume, muted, playbackRate, pip, loop, activePlayer } = this.props
@@ -79,22 +81,27 @@ export default class Player extends Component {
       this.player.setLoop(nextProps.loop)
     }
   }
+
   getDuration () {
     if (!this.isReady) return null
     return this.player.getDuration()
   }
+
   getCurrentTime () {
     if (!this.isReady) return null
     return this.player.getCurrentTime()
   }
+
   getSecondsLoaded () {
     if (!this.isReady) return null
     return this.player.getSecondsLoaded()
   }
+
   getInternalPlayer = (key) => {
     if (!this.player) return null
     return this.player[key]
   }
+
   progress = () => {
     if (this.props.url && this.player && this.isReady) {
       const playedSeconds = this.getCurrentTime() || 0
@@ -119,6 +126,7 @@ export default class Player extends Component {
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency || this.props.progressInterval)
   }
+
   seekTo (amount, type) {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && amount !== 0) {
@@ -139,7 +147,8 @@ export default class Player extends Component {
     }
     this.player.seekTo(amount)
   }
-  onReady = () => {
+
+  handleReady = () => {
     if (!this.mounted) return
     this.isReady = true
     this.isLoading = false
@@ -154,9 +163,10 @@ export default class Player extends Component {
     } else if (playing) {
       this.player.play()
     }
-    this.onDurationCheck()
+    this.handleDurationCheck()
   }
-  onPlay = () => {
+
+  handlePlay = () => {
     this.isPlaying = true
     this.isLoading = false
     const { onStart, onPlay, playbackRate } = this.props
@@ -172,15 +182,17 @@ export default class Player extends Component {
       this.seekTo(this.seekOnPlay)
       this.seekOnPlay = null
     }
-    this.onDurationCheck()
+    this.handleDurationCheck()
   }
-  onPause = (e) => {
+
+  handlePause = (e) => {
     this.isPlaying = false
     if (!this.isLoading) {
       this.props.onPause(e)
     }
   }
-  onEnded = () => {
+
+  handleEnded = () => {
     const { activePlayer, loop, onEnded } = this.props
     if (activePlayer.loopOnEnded && loop) {
       this.seekTo(0)
@@ -190,11 +202,13 @@ export default class Player extends Component {
       onEnded()
     }
   }
-  onError = (...args) => {
+
+  handleError = (...args) => {
     this.isLoading = false
     this.props.onError(...args)
   }
-  onDurationCheck = () => {
+
+  handleDurationCheck = () => {
     clearTimeout(this.durationCheckTimeout)
     const duration = this.getDuration()
     if (duration) {
@@ -203,19 +217,22 @@ export default class Player extends Component {
         this.onDurationCalled = true
       }
     } else {
-      this.durationCheckTimeout = setTimeout(this.onDurationCheck, 100)
+      this.durationCheckTimeout = setTimeout(this.handleDurationCheck, 100)
     }
   }
-  onLoaded = () => {
+
+  handleLoaded = () => {
     // Sometimes we know loading has stopped but onReady/onPlay are never called
     // so this provides a way for players to avoid getting stuck
     this.isLoading = false
   }
+
   ref = player => {
     if (player) {
       this.player = player
     }
   }
+
   render () {
     const Player = this.props.activePlayer
     if (!Player) {
@@ -225,12 +242,12 @@ export default class Player extends Component {
       <Player
         {...this.props}
         ref={this.ref}
-        onReady={this.onReady}
-        onPlay={this.onPlay}
-        onPause={this.onPause}
-        onEnded={this.onEnded}
-        onLoaded={this.onLoaded}
-        onError={this.onError}
+        onReady={this.handleReady}
+        onPlay={this.handlePlay}
+        onPause={this.handlePause}
+        onEnded={this.handleEnded}
+        onLoaded={this.handleLoaded}
+        onError={this.handleError}
       />
     )
   }

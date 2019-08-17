@@ -46,7 +46,7 @@ test('seekTo() - null', t => {
 test('onReady()', t => {
   const onReady = sinon.fake()
   const instance = shallow(<ReactPlayer onReady={onReady} />).instance()
-  instance.onReady()
+  instance.handleReady()
   t.true(onReady.calledWith(instance))
 })
 

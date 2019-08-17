@@ -16,6 +16,7 @@ export class Wistia extends Component {
   getID (url) {
     return url && url.match(MATCH_URL)[1]
   }
+
   load (url) {
     const { playing, muted, controls, onReady, onPlay, onPause, onSeek, onEnded, config, onError } = this.props
     getSDK(SDK_URL, SDK_GLOBAL).then(() => {
@@ -41,12 +42,15 @@ export class Wistia extends Component {
       })
     }, onError)
   }
+
   play () {
     this.callPlayer('play')
   }
+
   pause () {
     this.callPlayer('pause')
   }
+
   unbind () {
     const { onPlay, onPause, onSeek, onEnded } = this.props
     this.player.unbind('play', onPlay)
@@ -54,34 +58,44 @@ export class Wistia extends Component {
     this.player.unbind('seek', onSeek)
     this.player.unbind('end', onEnded)
   }
+
   stop () {
     this.unbind()
     this.callPlayer('remove')
   }
+
   seekTo (seconds) {
     this.callPlayer('time', seconds)
   }
+
   setVolume (fraction) {
     this.callPlayer('volume', fraction)
   }
+
   mute = () => {
     this.callPlayer('mute')
   }
+
   unmute = () => {
     this.callPlayer('unmute')
   }
+
   setPlaybackRate (rate) {
     this.callPlayer('playbackRate', rate)
   }
+
   getDuration () {
     return this.callPlayer('duration')
   }
+
   getCurrentTime () {
     return this.callPlayer('time')
   }
+
   getSecondsLoaded () {
     return null
   }
+
   render () {
     const id = this.getID(this.props.url)
     const className = `wistia_embed wistia_async_${id}`
