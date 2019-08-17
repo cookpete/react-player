@@ -233,14 +233,11 @@ test('onPlay()', t => {
 
 test('onStart()', t => {
   const onStart = sinon.fake()
-  const setPlaybackRate = sinon.fake()
   const instance = shallow(<Player onStart={onStart} />).instance()
-  instance.ref({ setPlaybackRate })
   instance.handleDurationCheck = sinon.fake()
   instance.startOnPlay = true
   instance.handlePlay()
   t.true(onStart.calledOnce)
-  t.true(setPlaybackRate.calledOnceWith(1))
   t.false(instance.startOnPlay)
 })
 

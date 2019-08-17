@@ -171,7 +171,7 @@ export default class Player extends Component {
     this.isLoading = false
     const { onStart, onPlay, playbackRate } = this.props
     if (this.startOnPlay) {
-      if (this.player.setPlaybackRate) {
+      if (this.player.setPlaybackRate && playbackRate !== 1) {
         this.player.setPlaybackRate(playbackRate)
       }
       onStart()
