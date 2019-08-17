@@ -1,17 +1,17 @@
-import path from 'path'
-import config, { minifyPlugins } from './webpack.demo.babel'
+import { PATH_REACT_PLAYER, PATH_DIST } from './config.babel'
+import config from './production.babel'
 
 export default {
   ...config,
-  entry: './src/ReactPlayer',
+  entry: PATH_REACT_PLAYER,
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: PATH_DIST,
     filename: 'ReactPlayer.js',
     library: 'ReactPlayer',
     libraryExport: 'default'
   },
   externals: {
-    'react': 'React'
+    react: 'React'
   },
   module: {
     rules: [
@@ -21,5 +21,5 @@ export default {
       }
     ]
   },
-  plugins: minifyPlugins
+  plugins: []
 }

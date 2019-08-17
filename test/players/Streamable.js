@@ -23,10 +23,7 @@ testPlayerMethods(Streamable, {
   seekTo: 'setCurrentTime',
   setVolume: 'setVolume',
   mute: 'mute',
-  unmute: 'unmute',
-  getDuration: null,
-  getCurrentTime: null,
-  getSecondsLoaded: null
+  unmute: 'unmute'
 }, { url: 'https://streamable.com/moo' })
 
 test('load()', t => {

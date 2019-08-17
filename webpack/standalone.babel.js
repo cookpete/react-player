@@ -1,11 +1,11 @@
-import path from 'path'
-import config, { minifyPlugins } from './webpack.demo.babel'
+import { PATH_STANDALONE, PATH_DIST } from './config.babel'
+import config from './production.babel'
 
 export default {
   ...config,
-  entry: './src/standalone.js',
+  entry: PATH_STANDALONE,
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: PATH_DIST,
     filename: 'ReactPlayer.standalone.js',
     library: 'renderReactPlayer',
     libraryExport: 'default'
@@ -18,5 +18,5 @@ export default {
       }
     ]
   },
-  plugins: minifyPlugins
+  plugins: []
 }

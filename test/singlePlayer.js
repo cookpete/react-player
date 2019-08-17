@@ -85,7 +85,12 @@ test('render - null', t => {
 })
 
 test('render - force via config', t => {
-  const wrapper = shallow(<SinglePlayer url='http://example.com/not-a-file-path' config={{ file: { forceVideo: true } }} />)
+  const wrapper = shallow(
+    <SinglePlayer
+      url='http://example.com/not-a-file-path'
+      config={{ file: { forceVideo: true } }}
+    />
+  )
   const player = wrapper.childAt(0)
   t.true(player.is(Player))
   t.true(player.prop('activePlayer') === FilePlayer)

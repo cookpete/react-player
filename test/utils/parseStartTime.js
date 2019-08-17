@@ -26,11 +26,6 @@ test('parses using a hash', t => {
   t.is(parseStartTime(YOUTUBE_URL + '#start=32'), 32)
 })
 
-test('parses using a hash', t => {
-  t.is(parseStartTime(YOUTUBE_URL + '#t=32'), 32)
-  t.is(parseStartTime(YOUTUBE_URL + '#start=32'), 32)
-})
-
 test('returns undefined for invalid stamps', t => {
   t.is(parseStartTime(YOUTUBE_URL), undefined)
   t.is(parseStartTime(YOUTUBE_URL + '?start='), undefined)
