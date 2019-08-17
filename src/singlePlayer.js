@@ -18,8 +18,8 @@ export default function createSinglePlayer (activePlayer) {
       return !isEqual(this.props, nextProps)
     }
 
-    componentWillUpdate (nextProps) {
-      this.config = getConfig(nextProps, defaultProps)
+    componentDidUpdate () {
+      this.config = getConfig(this.props, defaultProps)
     }
 
     getDuration = () => {

@@ -62,6 +62,7 @@ test('listeners', t => {
   )
   t.true(addListeners.calledOnce)
   t.true(removeListeners.notCalled)
+  wrapper.instance().prevPlayer = { removeEventListener: () => null }
   wrapper.setProps({ url: 'file.mp3' })
   t.true(addListeners.calledTwice)
   wrapper.unmount()

@@ -58,13 +58,13 @@ export default class ReactPlayer extends Component {
     return !isEqual(this.props, nextProps) || !isEqual(this.state, nextState)
   }
 
-  componentWillUpdate (nextProps) {
+  componentDidUpdate (prevProps) {
     const { light } = this.props
-    this.config = getConfig(nextProps, defaultProps)
-    if (!light && nextProps.light) {
+    this.config = getConfig(this.props, defaultProps)
+    if (!prevProps.light && light) {
       this.setState({ showPreview: true })
     }
-    if (light && !nextProps.light) {
+    if (prevProps.light && !light) {
       this.setState({ showPreview: false })
     }
   }
