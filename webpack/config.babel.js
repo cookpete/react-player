@@ -6,7 +6,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 const PORT = 3000
 const PRODUCTION = process.env.NODE_ENV === 'production'
 // const LOCAL_IDENT_NAME = PRODUCTION ? '[hash:base64:5]' : '[name]__[local]__[hash:base64:5]'
-const PUBLIC_PATH = PRODUCTION ? '/' : `http://localhost:${PORT}/`
+const PUBLIC_PATH = PRODUCTION ? '' : `http://localhost:${PORT}/`
 const STYLE_LOADER = PRODUCTION ? MiniCssExtractPlugin.loader : 'style-loader'
 
 const PATH_ROOT = join(__dirname, '..')
