@@ -63,7 +63,7 @@
     "@hot-loader/react-dom": "^16.9.0",
     "auto-changelog": "^1.15.0",
     "autoprefixer": "^9.6.1",
-    "ava": "^2.2.0",
+    "ava": "^2.3.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-istanbul": "^5.2.0",
@@ -88,17 +88,17 @@
     "screenfull": "^4.2.1",
     "sinon": "^7.4.1",
     "snazzy": "^8.0.0",
-    "standard": "^14.0.0-1",
+    "standard": "^14.0.0",
     "style-loader": "^1.0.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.6",
+    "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
     "deepmerge": "^4.0.0",
     "load-script": "^1.0.0",
-    "prop-types": "^15.5.6"
+    "prop-types": "^15.7.2"
   },
   "babel": {
     "presets": [
