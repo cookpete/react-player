@@ -94,7 +94,9 @@ export class Vimeo extends Component {
   }
 
   setPlaybackRate (rate) {
-    this.callPlayer('setPlaybackRate', rate)
+    if (rate) {
+      this.callPlayer('setPlaybackRate', rate)
+    }
   }
 
   mute = () => {
