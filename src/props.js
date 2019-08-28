@@ -65,7 +65,7 @@ export const propTypes = {
     }),
     tencent: shape({
       options: object
-    }),
+    })
   }),
   onReady: func,
   onStart: func,
@@ -159,6 +159,9 @@ export const defaultProps = {
       }
     },
     twitch: {
+      options: {}
+    },
+    tencent: {
       options: {}
     }
   },

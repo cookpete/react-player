@@ -8,7 +8,7 @@ import { Twitch } from './Twitch'
 import { DailyMotion } from './DailyMotion'
 import { Mixcloud } from './Mixcloud'
 import { FilePlayer } from './FilePlayer'
-import {Tencent} from './Tencent'
+import { Tencent } from './Tencent'
 
 export default [
   YouTube,
@@ -20,6 +20,6 @@ export default [
   Twitch,
   DailyMotion,
   Mixcloud,
-  FilePlayer,
-  Tencent
+  Tencent,
+  FilePlayer
 ]

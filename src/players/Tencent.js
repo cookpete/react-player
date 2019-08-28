@@ -21,7 +21,7 @@ export class Tencent extends Component {
     const isList = MATCH_LIST_URL.test(url)
     const id = isList ? url.match(MATCH_LIST_URL)[1] : url.match(MATCH_VIDEO_URL)[1]
     if (isReady) {
-      this.callPlayer('play', {vid: id})
+      this.callPlayer('play', { vid: id })
       this.props.onPlay()
       return
     }
@@ -31,7 +31,7 @@ export class Tencent extends Component {
         this.props.onReady()
       } else {
         window.Tencent = {
-          Txplayer: Txplayer
+          Txplayer: window.Txplayer
         }
         Tencent = window.Tencent
       }
@@ -43,17 +43,16 @@ export class Tencent extends Component {
         playsinline: playsinline,
         autoplay: this.props.playing,
         muted: this.props.muted,
-        ...config.twitch.options
+        ...config.tencent.options
       })
 
       this.player.on('ready', this.props.onReady)
       this.player.on('playStateChange', ({ state, vid }) => {
-        if (state == 1) {
-          console.log('start play')
+        if (state === 1) {
           this.props.onPlay()
-        } else if (state == 2) {
+        } else if (state === 2) {
           this.props.onPause()
-        } 
+        }
       })
       this.player.on('timeupdate', ({ duration, seconds }) => {
         this.duration = duration
