@@ -341,6 +341,14 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Tencent</th>
+                <td>
+                  {this.renderLoadButton('https://v.qq.com/x/page/b0919nc8tex.html', 'Test A')}
+                  {this.renderLoadButton('https://v.qq.com/x/page/z00321rylgv.html', 'Test B')}
+                  {this.renderLoadButton('https://v.qq.com/x/cover/mzc0020025uh2wp/i00324tujuu.html', 'Test C')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}

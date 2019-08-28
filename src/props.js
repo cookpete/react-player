@@ -62,7 +62,10 @@ export const propTypes = {
     }),
     twitch: shape({
       options: object
-    })
+    }),
+    tencent: shape({
+      options: object
+    }),
   }),
   onReady: func,
   onStart: func,
