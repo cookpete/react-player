@@ -59,22 +59,22 @@ export function queryString (object) {
 
 // Util function to load an external SDK
 // or return the SDK if it is already loaded
-const resolves = {}
+const requests = {}
 export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, fetchScript = loadScript) {
   if (window[sdkGlobal] && isLoaded(window[sdkGlobal])) {
     return Promise.resolve(window[sdkGlobal])
   }
   return new Promise((resolve, reject) => {
-    // If we are already loading the SDK, add the resolve
-    // function to the existing array of resolve functions
-    if (resolves[url]) {
-      resolves[url].push(resolve)
+    // If we are already loading the SDK, add the resolve and reject
+    // functions to the existing array of requests
+    if (requests[url]) {
+      requests[url].push({ resolve: resolve, reject: reject })
       return
     }
-    resolves[url] = [resolve]
+    requests[url] = [{ resolve: resolve, reject: reject }]
     const onLoaded = sdk => {
-      // When loaded, resolve all pending promises
-      resolves[url].forEach(resolve => resolve(sdk))
+      // When loaded, resolve all pending request promises
+      requests[url].forEach(request => request.resolve(sdk))
     }
     if (sdkReady) {
       const previousOnReady = window[sdkReady]
@@ -84,8 +84,12 @@ export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, 
       }
     }
     fetchScript(url, err => {
-      if (err) reject(err)
-      if (!sdkReady) {
+      if (err) {
+        // Loading the SDK failed, reject all requests and delete
+        // the array of requests for this SDK
+        requests[url].forEach(request => request.reject(err))
+        delete requests[url]
+      } else if (!sdkReady) {
         onLoaded(window[sdkGlobal])
       }
     })
