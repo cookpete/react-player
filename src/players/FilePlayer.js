@@ -30,10 +30,10 @@ function canPlay (url) {
     return true
   }
   return (
-    AUDIO_EXTENSIONS.test(url) ||
-    VIDEO_EXTENSIONS.test(url) ||
-    HLS_EXTENSIONS.test(url) ||
-    DASH_EXTENSIONS.test(url)
+      AUDIO_EXTENSIONS.test(url) ||
+      VIDEO_EXTENSIONS.test(url) ||
+      HLS_EXTENSIONS.test(url) ||
+      DASH_EXTENSIONS.test(url)
   )
 }
 
@@ -128,7 +128,7 @@ export class FilePlayer extends Component {
   }
 
   load (url) {
-    const { hlsVersion, dashVersion } = this.props.config.file
+    const { hlsVersion, dashVersion, dashProtectionData } = this.props.config.file
     if (this.shouldUseHLS(url)) {
       getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
         this.hls = new Hls(this.props.config.file.hlsOptions)
@@ -143,6 +143,7 @@ export class FilePlayer extends Component {
       getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
+        if (Object.keys(dashProtectionData).length) this.dash.setProtectionData(dashProtectionData)
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
@@ -285,21 +286,21 @@ export class FilePlayer extends Component {
       height: height === 'auto' ? height : '100%'
     }
     return (
-      <Element
-        ref={this.ref}
-        src={this.getSource(url)}
-        style={style}
-        preload='auto'
-        autoPlay={playing || undefined}
-        controls={controls}
-        muted={muted}
-        loop={loop}
-        {...config.file.attributes}
-      >
-        {url instanceof Array &&
+        <Element
+            ref={this.ref}
+            src={this.getSource(url)}
+            style={style}
+            preload='auto'
+            autoPlay={playing || undefined}
+            controls={controls}
+            muted={muted}
+            loop={loop}
+            {...config.file.attributes}
+        >
+          {url instanceof Array &&
           url.map(this.renderSourceElement)}
-        {config.file.tracks.map(this.renderTrack)}
-      </Element>
+          {config.file.tracks.map(this.renderTrack)}
+        </Element>
     )
   }
 }

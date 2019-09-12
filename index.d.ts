@@ -56,6 +56,7 @@ export interface FileConfig {
   hlsOptions?: Object;
   hlsVersion?: string;
   dashVersion?: string;
+  dashProtectionData?: Object;
 }
 
 export interface Config {
