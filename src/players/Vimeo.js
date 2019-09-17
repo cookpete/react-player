@@ -32,6 +32,7 @@ export class Vimeo extends Component {
         muted: this.props.muted,
         loop: this.props.loop,
         playsinline: this.props.playsinline,
+        controls: this.props.controls,
         ...this.props.config.vimeo.playerOptions
       })
       this.player.ready().then(() => {

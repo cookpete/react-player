@@ -37,6 +37,7 @@ export class Twitch extends Component {
         playsinline: playsinline,
         autoplay: this.props.playing,
         muted: this.props.muted,
+        controls: this.props.controls,
         ...config.twitch.options
       })
       const { READY, PLAYING, PAUSE, ENDED, ONLINE, OFFLINE } = Twitch.Player
