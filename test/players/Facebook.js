@@ -84,8 +84,7 @@ test('load() when ready', async t => {
 test('render()', t => {
   const style = {
     width: '100%',
-    height: '100%',
-    backgroundColor: 'black'
+    height: '100%'
   }
   const wrapper = shallow(<Facebook url={TEST_URL} />)
   t.true(wrapper.contains(

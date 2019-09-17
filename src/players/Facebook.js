@@ -98,8 +98,7 @@ export class Facebook extends Component {
   render () {
     const style = {
       width: '100%',
-      height: '100%',
-      backgroundColor: 'black'
+      height: '100%'
     }
     return (
       <div

@@ -106,7 +106,6 @@ test('render()', t => {
   const style = {
     width: '100%',
     height: '100%',
-    backgroundColor: 'black',
     display: undefined
   }
   const wrapper = shallow(<DailyMotion config={TEST_CONFIG} />)
