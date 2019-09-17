@@ -4,7 +4,7 @@ import { callPlayer, getSDK, randomString } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = '//vm.gtimg.cn/tencentvideo/txp/js/txplayer.js'
-const SDK_GLOBAL = 'Tencent'
+const SDK_GLOBAL = 'Txplayer'
 const MATCH_VIDEO_URL = /v\.qq\.com\/x\/page\/([0-9a-z]+)/
 const MATCH_LIST_URL = /v\.qq\.com\/x\/cover\/[0-9a-z]+\/([0-9a-z]+)/
 const PLAYER_ID_PREFIX = 'tencent-player-'
@@ -25,17 +25,8 @@ export class Tencent extends Component {
       this.props.onPlay()
       return
     }
-    getSDK(SDK_URL, SDK_GLOBAL).then((Tencent) => {
-      // Mount the player on `window.Tencent`.
-      if (Tencent) {
-        this.props.onReady()
-      } else {
-        window.Tencent = {
-          Txplayer: window.Txplayer
-        }
-        Tencent = window.Tencent
-      }
-      this.player = new Tencent.Txplayer({
+    getSDK(SDK_URL, SDK_GLOBAL).then(Txplayer => {
+      this.player = new Txplayer({
         containerId: this.playerID,
         vid: id,
         height: '100%',
@@ -45,9 +36,8 @@ export class Tencent extends Component {
         muted: this.props.muted,
         ...config.tencent.options
       })
-
       this.player.on('ready', this.props.onReady)
-      this.player.on('playStateChange', ({ state, vid }) => {
+      this.player.on('playStateChange', ({ state }) => {
         if (state === 1) {
           this.props.onPlay()
         } else if (state === 2) {
@@ -70,7 +60,7 @@ export class Tencent extends Component {
   }
 
   stop () {
-    // no stop support
+    // Nothing to do
   }
 
   seekTo (seconds) {

@@ -45,7 +45,7 @@ test('load()', t => {
 
     setLoop = () => null
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves({ Txplayer })
+  const getSDK = sinon.stub(utils, 'getSDK').resolves(Txplayer)
   return new Promise(resolve => {
     const onReady = () => {
       t.pass()
