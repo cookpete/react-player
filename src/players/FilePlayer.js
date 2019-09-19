@@ -65,16 +65,16 @@ export class FilePlayer extends Component {
   }
 
   addListeners (player) {
-    const { onReady, onPlay, onBuffer, onBufferEnd, onPause, onEnded, onError, playsinline, onEnablePIP } = this.props
-    player.addEventListener('canplay', onReady)
-    player.addEventListener('play', onPlay)
-    player.addEventListener('waiting', onBuffer)
-    player.addEventListener('playing', onBufferEnd)
-    player.addEventListener('pause', onPause)
+    const { playsinline } = this.props
+    player.addEventListener('canplay', this.onReady)
+    player.addEventListener('play', this.onPlay)
+    player.addEventListener('waiting', this.onBuffer)
+    player.addEventListener('playing', this.onBufferEnd)
+    player.addEventListener('pause', this.onPause)
     player.addEventListener('seeked', this.onSeek)
-    player.addEventListener('ended', onEnded)
-    player.addEventListener('error', onError)
-    player.addEventListener('enterpictureinpicture', onEnablePIP)
+    player.addEventListener('ended', this.onEnded)
+    player.addEventListener('error', this.onError)
+    player.addEventListener('enterpictureinpicture', this.onEnablePIP)
     player.addEventListener('leavepictureinpicture', this.onDisablePIP)
     if (playsinline) {
       player.setAttribute('playsinline', '')
@@ -84,18 +84,27 @@ export class FilePlayer extends Component {
   }
 
   removeListeners (player) {
-    const { onReady, onPlay, onBuffer, onBufferEnd, onPause, onEnded, onError, onEnablePIP } = this.props
-    player.removeEventListener('canplay', onReady)
-    player.removeEventListener('play', onPlay)
-    player.removeEventListener('waiting', onBuffer)
-    player.removeEventListener('playing', onBufferEnd)
-    player.removeEventListener('pause', onPause)
+    player.removeEventListener('canplay', this.onReady)
+    player.removeEventListener('play', this.onPlay)
+    player.removeEventListener('waiting', this.onBuffer)
+    player.removeEventListener('playing', this.onBufferEnd)
+    player.removeEventListener('pause', this.onPause)
     player.removeEventListener('seeked', this.onSeek)
-    player.removeEventListener('ended', onEnded)
-    player.removeEventListener('error', onError)
-    player.removeEventListener('enterpictureinpicture', onEnablePIP)
+    player.removeEventListener('ended', this.onEnded)
+    player.removeEventListener('error', this.onError)
+    player.removeEventListener('enterpictureinpicture', this.onEnablePIP)
     player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
   }
+
+  // Proxy methods to prevent listener leaks
+  onReady = (...args) => this.props.onReady(...args)
+  onPlay = (...args) => this.props.onPlay(...args)
+  onBuffer = (...args) => this.props.onBuffer(...args)
+  onBufferEnd = (...args) => this.props.onBufferEnd(...args)
+  onPause = (...args) => this.props.onPause(...args)
+  onEnded = (...args) => this.props.onEnded(...args)
+  onError = (...args) => this.props.onError(...args)
+  onEnablePIP = (...args) => this.props.onEnablePIP(...args)
 
   onDisablePIP = e => {
     const { onDisablePIP, playing } = this.props
