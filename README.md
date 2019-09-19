@@ -215,6 +215,10 @@ class ResponsivePlayer extends Component {
 
 See [`jsFiddle` example](https://jsfiddle.net/e6w3rtj1/)
 
+#### SDK Overrides
+
+You can use your own version of any player SDK, assuming the correct `window` global is set before the player mounts. For example, to use a local version of [`hls.js`](https://cdnjs.com/libraries/hls.js), add `<script src='/path/hls.js'></script>` to your app. If `window.Hls` is available when ReactPlayer mounts, it will use that instead of loading `hls.js` from `cdnjs`. See [#605](https://github.com/CookPete/react-player/issues/605#issuecomment-492561909) for more information.
+
 #### Single player imports
 
 If you are only ever playing a single type of URL, you can import individual players to keep your bundle size down:
