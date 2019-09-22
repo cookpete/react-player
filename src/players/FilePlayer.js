@@ -122,8 +122,8 @@ export class FilePlayer extends Component {
   }
 
   onPresentationModeChange = e => {
-    const { webkitPresentationMode } = this.player
     if (this.player && supportsWebKitPresentationMode(this.player)) {
+      const { webkitPresentationMode } = this.player
       if (webkitPresentationMode === 'picture-in-picture') {
         this.onEnablePIP(e)
       } else if (webkitPresentationMode === 'inline') {
