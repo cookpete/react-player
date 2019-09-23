@@ -54,6 +54,23 @@ test.serial('does not fetch again when loading', async t => {
   t.true(loadScriptOverride.calledOnce)
 })
 
+test.serial('does fetch again after fetch error', async t => {
+  const loadScriptOverrideError = sinon.fake(async (url, cb) => {
+    await delay(100)
+    cb(new Error('Load error'))
+  })
+  const loadScriptOverride = sinon.fake(async (url, cb) => {
+    await delay(100)
+    window.SDK = 'sdk'
+    cb()
+  })
+  await t.throwsAsync(getSDK('http://example.com/pqr.js', 'SDK', undefined, undefined, loadScriptOverrideError))
+  const sdk = await getSDK('http://example.com/pqr.js', 'SDK', undefined, undefined, loadScriptOverride)
+  t.is(sdk, 'sdk')
+  t.true(loadScriptOverrideError.calledOnce)
+  t.true(loadScriptOverride.calledOnce)
+})
+
 test.serial('waits for sdkReady callback', async t => {
   const loadScriptOverride = sinon.fake(async (url, cb) => {
     cb()
