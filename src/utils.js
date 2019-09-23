@@ -88,7 +88,7 @@ export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, 
         // Loading the SDK failed – reject all requests and
         // reset the array of requests for this SDK
         requests[url].forEach(request => request.reject(err))
-        requests[url] = []
+        requests[url] = null
       } else if (!sdkReady) {
         onLoaded(window[sdkGlobal])
       }

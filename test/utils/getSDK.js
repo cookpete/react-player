@@ -11,7 +11,7 @@ test.beforeEach(t => {
   window.SDKReady = null
 })
 
-test('loads script', async t => {
+test.serial('loads script', async t => {
   const loadScriptOverride = sinon.fake(async (url, cb) => {
     await delay(100)
     window.SDK = 'sdk'
@@ -22,7 +22,7 @@ test('loads script', async t => {
   t.true(loadScriptOverride.calledOnce)
 })
 
-test('throws on error', async t => {
+test.serial('throws on error', async t => {
   const loadScriptOverride = sinon.fake(async (url, cb) => {
     await delay(100)
     cb(new Error('Load error'))
@@ -31,7 +31,7 @@ test('throws on error', async t => {
   t.true(loadScriptOverride.calledOnce)
 })
 
-test.skip('does not fetch again when loaded', async t => {
+test.serial('does not fetch again when loaded', async t => {
   const loadScriptOverride = sinon.fake()
   window.SDK = 'sdk'
   const sdk = await getSDK('http://example.com/def.js', 'SDK', undefined, undefined, loadScriptOverride)
@@ -39,7 +39,7 @@ test.skip('does not fetch again when loaded', async t => {
   t.true(loadScriptOverride.notCalled)
 })
 
-test.skip('does not fetch again when loading', async t => {
+test.serial('does not fetch again when loading', async t => {
   const loadScriptOverride = sinon.fake(async (url, cb) => {
     await delay(100)
     window.SDK = 'sdk'
@@ -54,7 +54,24 @@ test.skip('does not fetch again when loading', async t => {
   t.true(loadScriptOverride.calledOnce)
 })
 
-test.skip('waits for sdkReady callback', async t => {
+test.serial('does fetch again after fetch error', async t => {
+  const loadScriptOverrideError = sinon.fake(async (url, cb) => {
+    await delay(100)
+    cb(new Error('Load error'))
+  })
+  const loadScriptOverride = sinon.fake(async (url, cb) => {
+    await delay(100)
+    window.SDK = 'sdk'
+    cb()
+  })
+  await t.throwsAsync(getSDK('http://example.com/pqr.js', 'SDK', undefined, undefined, loadScriptOverrideError))
+  const sdk = await getSDK('http://example.com/pqr.js', 'SDK', undefined, undefined, loadScriptOverride)
+  t.is(sdk, 'sdk')
+  t.true(loadScriptOverrideError.calledOnce)
+  t.true(loadScriptOverride.calledOnce)
+})
+
+test.serial('waits for sdkReady callback', async t => {
   const loadScriptOverride = sinon.fake(async (url, cb) => {
     cb()
     await delay(100)
@@ -66,7 +83,7 @@ test.skip('waits for sdkReady callback', async t => {
   t.true(loadScriptOverride.calledOnce)
 })
 
-test.skip('multiple sdkReady callbacks', async t => {
+test.serial('multiple sdkReady callbacks', async t => {
   const loadScriptOverride = sinon.fake(async (url, cb) => {
     cb()
     await delay(100)
