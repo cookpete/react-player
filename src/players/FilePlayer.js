@@ -39,7 +39,9 @@ function canPlay (url) {
 
 function supportsWebKitPresentationMode (video) {
   if (!video) video = document.createElement('video')
-  return video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function'
+  // Check if Safari supports PiP, and is not on mobile (other than iPad)
+  // iPhone safari appears to "support" PiP through the check, however PiP does not function
+  return video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' && !/iPhone|iPod/.test(navigator.userAgent)
 }
 
 function canEnablePIP (url) {
