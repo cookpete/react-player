@@ -231,7 +231,7 @@ export class FilePlayer extends Component {
   enablePIP () {
     if (this.player.requestPictureInPicture && document.pictureInPictureElement !== this.player) {
       this.player.requestPictureInPicture()
-    } else if (supportsWebKitPresentationMode(this.player)) {
+    } else if (supportsWebKitPresentationMode(this.player) && this.player.webkitPresentationMode !== 'picture-in-picture') {
       this.player.webkitSetPresentationMode('picture-in-picture')
     }
   }
@@ -239,7 +239,7 @@ export class FilePlayer extends Component {
   disablePIP () {
     if (document.exitPictureInPicture && document.pictureInPictureElement === this.player) {
       document.exitPictureInPicture()
-    } else if (supportsWebKitPresentationMode(this.player)) {
+    } else if (supportsWebKitPresentationMode(this.player) && this.player.webkitPresentationMode !== 'inline') {
       this.player.webkitSetPresentationMode('inline')
     }
   }
