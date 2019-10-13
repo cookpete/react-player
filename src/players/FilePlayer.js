@@ -37,8 +37,15 @@ function canPlay (url) {
   )
 }
 
+function supportsWebKitPresentationMode (video) {
+  if (!video) video = document.createElement('video')
+  // Check if Safari supports PiP, and is not on mobile (other than iPad)
+  // iPhone safari appears to "support" PiP through the check, however PiP does not function
+  return video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' && !/iPhone|iPod/.test(navigator.userAgent)
+}
+
 function canEnablePIP (url) {
-  return canPlay(url) && !!document.pictureInPictureEnabled && !AUDIO_EXTENSIONS.test(url)
+  return canPlay(url) && (!!document.pictureInPictureEnabled || supportsWebKitPresentationMode()) && !AUDIO_EXTENSIONS.test(url)
 }
 
 export class FilePlayer extends Component {
@@ -76,6 +83,7 @@ export class FilePlayer extends Component {
     player.addEventListener('error', this.onError)
     player.addEventListener('enterpictureinpicture', this.onEnablePIP)
     player.addEventListener('leavepictureinpicture', this.onDisablePIP)
+    player.addEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
     if (playsinline) {
       player.setAttribute('playsinline', '')
       player.setAttribute('webkit-playsinline', '')
@@ -94,6 +102,7 @@ export class FilePlayer extends Component {
     player.removeEventListener('error', this.onError)
     player.removeEventListener('enterpictureinpicture', this.onEnablePIP)
     player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
+    player.removeEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
   }
 
   // Proxy methods to prevent listener leaks
@@ -111,6 +120,17 @@ export class FilePlayer extends Component {
     onDisablePIP(e)
     if (playing) {
       this.play()
+    }
+  }
+
+  onPresentationModeChange = e => {
+    if (this.player && supportsWebKitPresentationMode(this.player)) {
+      const { webkitPresentationMode } = this.player
+      if (webkitPresentationMode === 'picture-in-picture') {
+        this.onEnablePIP(e)
+      } else if (webkitPresentationMode === 'inline') {
+        this.onDisablePIP(e)
+      }
     }
   }
 
@@ -211,12 +231,16 @@ export class FilePlayer extends Component {
   enablePIP () {
     if (this.player.requestPictureInPicture && document.pictureInPictureElement !== this.player) {
       this.player.requestPictureInPicture()
+    } else if (supportsWebKitPresentationMode(this.player) && this.player.webkitPresentationMode !== 'picture-in-picture') {
+      this.player.webkitSetPresentationMode('picture-in-picture')
     }
   }
 
   disablePIP () {
     if (document.exitPictureInPicture && document.pictureInPictureElement === this.player) {
       document.exitPictureInPicture()
+    } else if (supportsWebKitPresentationMode(this.player) && this.player.webkitPresentationMode !== 'inline') {
+      this.player.webkitSetPresentationMode('inline')
     }
   }
 
