@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const { string, bool, number, array, oneOfType, shape, object, func } = PropTypes
+const { string, bool, number, array, oneOfType, shape, object, func, node } = PropTypes
 
 export const propTypes = {
   url: oneOfType([string, array, object]),
@@ -17,6 +17,7 @@ export const propTypes = {
   playsinline: bool,
   pip: bool,
   light: oneOfType([bool, string]),
+  playIcon: node,
   wrapper: oneOfType([
     string,
     func,

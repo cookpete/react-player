@@ -41,7 +41,7 @@ export default class Preview extends Component {
   }
 
   render () {
-    const { onClick } = this.props
+    const { onClick, playIcon } = this.props
     const { image } = this.state
     const flexCenter = {
       display: 'flex',
@@ -72,11 +72,14 @@ export default class Preview extends Component {
         marginLeft: '7px'
       }
     }
+    const defaultPlayIcon = (
+      <div style={styles.shadow} className='react-player__shadow'>
+        <div style={styles.playIcon} className='react-player__play-icon' />
+      </div>
+    )
     return (
       <div style={styles.preview} className='react-player__preview' onClick={onClick}>
-        <div style={styles.shadow} className='react-player__shadow'>
-          <div style={styles.playIcon} className='react-player__play-icon' />
-        </div>
+        {playIcon || defaultPlayIcon}
       </div>
     )
   }
