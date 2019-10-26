@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
-const SDK_URL = '//fast.wistia.com/assets/external/E-v1.js'
+const SDK_URL = 'https://fast.wistia.com/assets/external/E-v1.js'
 const SDK_GLOBAL = 'Wistia'
 const MATCH_URL = /(?:wistia\.com|wi\.st)\/(?:medias|embed)\/(.*)$/
 

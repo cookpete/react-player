@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK, randomString } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
-const SDK_URL = '//connect.facebook.net/en_US/sdk.js'
+const SDK_URL = 'https://connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
 const SDK_GLOBAL_READY = 'fbAsyncInit'
 const MATCH_URL = /facebook\.com\/([^/?].+\/)?video(s|\.php)[/?].*$/

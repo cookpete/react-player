@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK, queryString } from '../utils'
 import createSinglePlayer from '../singlePlayer'
 
-const SDK_URL = '//widget.mixcloud.com/media/js/widgetApi.js'
+const SDK_URL = 'https://widget.mixcloud.com/media/js/widgetApi.js'
 const SDK_GLOBAL = 'Mixcloud'
 const MATCH_URL = /mixcloud\.com\/([^/]+\/[^/]+)/
 
