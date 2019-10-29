@@ -185,6 +185,15 @@ class App extends Component {
               onError={e => console.log('onError', e)}
               onProgress={this.handleProgress}
               onDuration={this.handleDuration}
+              config={{
+                file: {
+                  dashProtectionData: {
+                    "com.widevine.alpha": {
+                      "serverURL": "https://api2.wecast.tv/widevine/get_license?t=NzU5YWI1YzkzYWI5NGI2N2Y1NjE0YWYyNmZlMjA5NDNmNjdhNDYzNjQ3MDExODkwZGM0ZGJlZjc0MjUyODcyMay15oJSFVnMRFV5As9AFaxqg7rtNKNxlRScSqPfIEX9s6Og6agNVtqeU22J6nux5UZiVDuIuG%2FTj%2FXARlTMA4ctKQyC9w0bMUZCkdVw%2Bp88fhv2R7qoWJaLLegUlPHDuskwDXAIO2%2FIIIH6o%2B1fkpfGKi4sp%2FO5FV9e9oiRxiY8BSE%2FRuxHWXCvkNRzv2P7ddx1IPaaQv3h3XEZz2yEj0VYIBWUxGpMM%2BjeyLOhfzroKaBBWvHNzc9APYL%2F8Zieokp0tke%2BfAHZ0NFL7d5VWx591NQBiulz5F6WuQvn%2FKBTbqlbSLAzIjkW%2BH708lyhtA%3D%3D"
+                    }
+                  }
+                }
+              }}
             />
           </div>
 

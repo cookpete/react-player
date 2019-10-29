@@ -47,6 +47,7 @@ export class FilePlayer extends Component {
   static canEnablePIP = canEnablePIP
 
   componentDidMount () {
+    console.log("MOUNTED")
     this.addListeners(this.player)
     if (IOS) {
       this.player.load()
@@ -128,6 +129,7 @@ export class FilePlayer extends Component {
   }
 
   load (url) {
+    console.log("LOAD URL");
     const { hlsVersion, dashVersion, dashProtectionData } = this.props.config.file
     if (this.shouldUseHLS(url)) {
       getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
@@ -140,10 +142,21 @@ export class FilePlayer extends Component {
       })
     }
     if (this.shouldUseDASH(url)) {
+      console.log("USE DASH STREAM");
       getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
-        if (Object.keys(dashProtectionData).length) this.dash.setProtectionData(dashProtectionData)
+        console.log("SHOULD SET DASH")
+        if (Object.keys(dashProtectionData).length) {
+          console.log("SET IT", dashProtectionData)
+          /*
+          this.dash.setProtectionData({
+            "com.widevine.alpha": {
+              "serverURL": "https://api.wecastdemo.com/widevine/get_license?t=ZGM3ZDcyYTU2ZmYxM2M4YjA1MWRkZDljMWZjYzZjODhjNjAyY2UzZTI2Y2JiZjM0YzliNTk3ZmNmMzM5NGMzZFXuK7TI%2FMzugggITXDPcjFR8xONxvwNNJB3NkNLyDv%2B0Jqoo7b3hkBizb2RHNE8Rj5Rdu5qccq49alKyBXu2z0RcnNEPALn3tTvAv%2BEz2vKQHze%2BD0jvI2v9MpwmMQkk688v5YntGAHmHJ7FEpfTiZllx9GBs%2BjR1WIbGTxUcAyFHILm%2Bx4s9ZmlxtjseANG6H2GoaOsC7F1KtAiTKybooPo4CiekQuIAReG4Q5JjuH%2Bi3JjtXWi9H1iSuyZ0pU0KS2%2FA61QOaCTIG25qHTm%2B81LLP3ceeYz7TbNGBUsKQDNYFoN6Dz2UlJDHu0L2wrJw%3D%3D"
+            }
+          })
+          */
+        }
         this.dash.getDebug().setLogToBrowserConsole(false)
       })
     }
