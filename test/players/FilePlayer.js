@@ -120,6 +120,7 @@ test('load - dash', async t => {
   const dashjs = {
     MediaPlayer: () => ({
       create: () => ({
+        on: () => null,
         initialize: () => null,
         getDebug: () => ({
           setLogToBrowserConsole: () => t.pass()
