@@ -17,7 +17,7 @@ export class Twitch extends Component {
   callPlayer = callPlayer
   playerID = PLAYER_ID_PREFIX + randomString()
   load (url, isReady) {
-    const { playsinline, onError, config } = this.props
+    const { playsinline, onError, config, controls } = this.props
     const isChannel = MATCH_CHANNEL_URL.test(url)
     const id = isChannel ? url.match(MATCH_CHANNEL_URL)[1] : url.match(MATCH_VIDEO_URL)[1]
     if (isReady) {
@@ -37,8 +37,8 @@ export class Twitch extends Component {
         playsinline: playsinline,
         autoplay: this.props.playing,
         muted: this.props.muted,
-        // controls property must be true if url is for channel. See #733
-        controls: isChannel ? true : this.props.controls,
+        // https://github.com/CookPete/react-player/issues/733#issuecomment-549085859
+        controls: isChannel ? true : controls,
         ...config.twitch.options
       })
       const { READY, PLAYING, PAUSE, ENDED, ONLINE, OFFLINE } = Twitch.Player
