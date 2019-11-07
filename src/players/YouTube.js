@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
-import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
@@ -20,11 +19,16 @@ function parsePlaylist (url) {
   return {}
 }
 
-export class YouTube extends Component {
+export default class YouTube extends Component {
   static displayName = 'YouTube'
   static canPlay = url => MATCH_URL.test(url)
 
   callPlayer = callPlayer
+
+  componentDidMount () {
+    this.props.didMount && this.props.didMount(this)
+  }
+
   load (url, isReady) {
     const { playing, muted, playsinline, controls, loop, config, onError } = this.props
     const { playerVars, embedOptions } = config.youtube
@@ -162,5 +166,3 @@ export class YouTube extends Component {
     )
   }
 }
-
-export default createSinglePlayer(YouTube)

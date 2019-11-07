@@ -3,7 +3,7 @@ import test from 'ava'
 import sinon from 'sinon'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import { FilePlayer } from '../../src/players/FilePlayer'
+import FilePlayer from '../../src/players/FilePlayer'
 import { defaultProps } from '../../src/props'
 import * as utils from '../../src/utils'
 

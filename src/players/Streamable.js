@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
-import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://cdn.embed.ly/player-0.1.0.min.js'
 const SDK_GLOBAL = 'playerjs'
 const MATCH_URL = /streamable\.com\/([a-z0-9]+)$/
 
-export class Streamable extends Component {
+export default class Streamable extends Component {
   static displayName = 'Streamable'
   static canPlay = url => MATCH_URL.test(url)
 
@@ -15,6 +14,11 @@ export class Streamable extends Component {
   duration = null
   currentTime = null
   secondsLoaded = null
+
+  componentDidMount () {
+    this.props.didMount && this.props.didMount(this)
+  }
+
   load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(playerjs => {
       if (!this.iframe) return
@@ -107,5 +111,3 @@ export class Streamable extends Component {
     )
   }
 }
-
-export default createSinglePlayer(Streamable)

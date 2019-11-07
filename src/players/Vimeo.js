@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
-import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
 const MATCH_URL = /vimeo\.com\/.+/
 const MATCH_FILE_URL = /vimeo\.com\/external\/[0-9]+\..+/
 
-export class Vimeo extends Component {
+export default class Vimeo extends Component {
   static displayName = 'Vimeo'
   static forceLoad = true // Prevent checking isLoading when URL changes
   static canPlay = url => {
@@ -22,6 +21,11 @@ export class Vimeo extends Component {
   duration = null
   currentTime = null
   secondsLoaded = null
+
+  componentDidMount () {
+    this.props.didMount && this.props.didMount(this)
+  }
+
   load (url) {
     this.duration = null
     getSDK(SDK_URL, SDK_GLOBAL).then(Vimeo => {
@@ -141,5 +145,3 @@ export class Vimeo extends Component {
     )
   }
 }
-
-export default createSinglePlayer(Vimeo)

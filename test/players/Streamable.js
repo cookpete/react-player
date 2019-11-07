@@ -5,7 +5,7 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import { Streamable } from '../../src/players/Streamable'
+import Streamable from '../../src/players/Streamable'
 
 configure({ adapter: new Adapter() })
 

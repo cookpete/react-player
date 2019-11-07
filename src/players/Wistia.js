@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
-import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://fast.wistia.com/assets/external/E-v1.js'
 const SDK_GLOBAL = 'Wistia'
 const MATCH_URL = /(?:wistia\.com|wi\.st)\/(?:medias|embed)\/(.*)$/
 
-export class Wistia extends Component {
+export default class Wistia extends Component {
   static displayName = 'Wistia'
   static canPlay = url => MATCH_URL.test(url)
   static loopOnEnded = true
 
   callPlayer = callPlayer
+
+  componentDidMount () {
+    this.props.didMount && this.props.didMount(this)
+  }
 
   getID (url) {
     return url && url.match(MATCH_URL)[1]
@@ -114,5 +117,3 @@ export class Wistia extends Component {
     )
   }
 }
-
-export default createSinglePlayer(Wistia)

@@ -50,7 +50,7 @@
   },
   "homepage": "https://github.com/CookPete/react-player",
   "peerDependencies": {
-    "react": "*"
+    "react": ">=16.6.0"
   },
   "devDependencies": {
     "@ava/babel": "^1.0.1",

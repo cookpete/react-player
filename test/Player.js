@@ -8,7 +8,7 @@ import Player from '../src/Player'
 configure({ adapter: new Adapter() })
 
 Player.prototype.componentWillMount = function () {
-  this.ref({ load: () => null })
+  this.playerDidMount({ load: () => null })
 }
 
 test('componentWillUnmount()', t => {
@@ -36,12 +36,14 @@ test('player.load()', t => {
   const wrapper = shallow(<Player url='file.mp4' />)
   const instance = wrapper.instance()
   const fake = sinon.fake()
-  instance.ref({ load: fake })
+  instance.playerDidMount({ load: fake })
   instance.isLoading = false
   instance.startOnPlay = false
   instance.onDurationCalled = true
   wrapper.setProps({ url: 'another-file.mp4' })
-  t.true(fake.calledOnceWith('another-file.mp4'))
+  t.true(fake.calledTwice)
+  t.true(fake.calledWith('file.mp4'))
+  t.true(fake.calledWith('another-file.mp4'))
   t.true(instance.isLoading)
   t.true(instance.startOnPlay)
   t.false(instance.onDurationCalled)
@@ -51,68 +53,71 @@ test('set loadOnReady', t => {
   const stub = sinon.stub(console, 'warn')
   const wrapper = shallow(<Player url='file.mp4' activePlayer={() => null} />)
   const instance = wrapper.instance()
-  const fake = sinon.fake()
-  instance.ref({ load: fake })
   instance.isLoading = true
   wrapper.setProps({ url: 'another-file.mp4' })
   t.true(stub.calledOnce)
-  t.true(fake.notCalled)
   t.true(instance.loadOnReady === 'another-file.mp4')
   stub.restore()
 })
 
 test('player.play()', t => {
   const wrapper = shallow(<Player />)
-  const spy = sinon.fake()
-  wrapper.instance().ref({ play: spy })
+  const load = sinon.fake()
+  const play = sinon.fake()
+  wrapper.instance().playerDidMount({ load, play })
   wrapper.setProps({ playing: true })
-  t.true(spy.calledOnce)
+  t.true(play.calledOnce)
 })
 
 test('player.pause()', t => {
   const wrapper = shallow(<Player playing />)
-  const spy = sinon.fake()
-  wrapper.instance().ref({ pause: spy })
+  const load = sinon.fake()
+  const pause = sinon.fake()
+  wrapper.instance().playerDidMount({ load, pause })
   wrapper.instance().isPlaying = true
   wrapper.setProps({ playing: false })
-  t.true(spy.calledOnce)
+  t.true(pause.calledOnce)
 })
 
 test('player.setVolume()', t => {
   const wrapper = shallow(<Player volume={0.5} />)
-  const spy = sinon.fake()
-  wrapper.instance().ref({ setVolume: spy })
+  const load = sinon.fake()
+  const setVolume = sinon.fake()
+  wrapper.instance().playerDidMount({ load, setVolume })
   wrapper.setProps({ volume: 0.4 })
-  t.true(spy.calledOnce)
+  t.true(setVolume.calledOnce)
 })
 
 test('player.mute()', t => {
   const wrapper = shallow(<Player muted={false} />)
-  const spy = sinon.fake()
-  wrapper.instance().ref({ mute: spy })
+  const load = sinon.fake()
+  const mute = sinon.fake()
+  wrapper.instance().playerDidMount({ load, mute })
   wrapper.setProps({ muted: true })
-  t.true(spy.calledOnce)
+  t.true(mute.calledOnce)
 })
 
 test('player.unmute()', t => {
   const wrapper = shallow(<Player muted volume={0.8} />)
-  const spy = sinon.fake()
-  const volumeSpy = sinon.fake()
-  wrapper.instance().ref({ unmute: spy, setVolume: volumeSpy })
+  const load = sinon.fake()
+  const unmute = sinon.fake()
+  const setVolume = sinon.fake()
+  wrapper.instance().playerDidMount({ load, unmute, setVolume })
   wrapper.setProps({ muted: false })
-  t.true(spy.calledOnce)
+  t.true(unmute.calledOnce)
   return new Promise(resolve => setTimeout(() => {
-    t.true(volumeSpy.calledOnceWith(0.8))
+    t.true(setVolume.calledOnceWith(0.8))
     resolve()
   }))
 })
 
 test('player.setPlaybackRate()', t => {
   const wrapper = shallow(<Player playbackRate={1} />)
-  const spy = sinon.fake()
-  wrapper.instance().ref({ setPlaybackRate: spy })
+  const load = sinon.fake()
+  const setPlaybackRate = sinon.fake()
+  wrapper.instance().playerDidMount({ load, setPlaybackRate })
   wrapper.setProps({ playbackRate: 0.5 })
-  t.true(spy.calledOnce)
+  t.true(setPlaybackRate.calledOnce)
 })
 
 const COMMON_METHODS = ['getDuration', 'getCurrentTime', 'getSecondsLoaded']
@@ -132,9 +137,11 @@ for (const method of COMMON_METHODS) {
 }
 
 test('progress()', t => {
+  const load = sinon.fake()
   const onProgress = sinon.fake()
   const instance = shallow(<Player url='file.mp4' onProgress={onProgress} />).instance()
-  instance.ref({
+  instance.playerDidMount({
+    load,
     getCurrentTime: sinon.fake.returns(10),
     getSecondsLoaded: sinon.fake.returns(20),
     getDuration: sinon.fake.returns(40)
@@ -151,18 +158,21 @@ test('progress()', t => {
 })
 
 test('seekTo() - seconds', t => {
+  const load = sinon.fake()
   const seekTo = sinon.fake()
   const instance = shallow(<Player />).instance()
-  instance.ref({ seekTo })
+  instance.playerDidMount({ load, seekTo })
   instance.isReady = true
   instance.seekTo(10)
   t.true(seekTo.calledOnceWith(10))
 })
 
 test('seekTo() - fraction', t => {
+  const load = sinon.fake()
   const seekTo = sinon.fake()
   const instance = shallow(<Player />).instance()
-  instance.ref({
+  instance.playerDidMount({
+    load,
     seekTo,
     getDuration: sinon.fake.returns(10)
   })
@@ -173,9 +183,11 @@ test('seekTo() - fraction', t => {
 
 test('seekTo() - warning', t => {
   const stub = sinon.stub(console, 'warn')
+  const load = sinon.fake()
   const seekTo = sinon.fake()
   const instance = shallow(<Player />).instance()
-  instance.ref({
+  instance.playerDidMount({
+    load,
     seekTo,
     getDuration: sinon.fake.returns(null)
   })
@@ -187,9 +199,10 @@ test('seekTo() - warning', t => {
 })
 
 test('seekTo() - set seekOnPlay', t => {
+  const load = sinon.fake()
   const seekTo = sinon.fake()
   const instance = shallow(<Player />).instance()
-  instance.ref({ seekTo })
+  instance.playerDidMount({ load, seekTo })
   instance.isReady = false
   instance.seekTo(10)
   t.true(seekTo.notCalled)
@@ -198,10 +211,11 @@ test('seekTo() - set seekOnPlay', t => {
 
 test('onReady()', t => {
   const onReady = sinon.fake()
+  const load = sinon.fake()
   const setVolume = sinon.fake()
   const play = sinon.fake()
   const instance = shallow(<Player onReady={onReady} playing volume={1} />).instance()
-  instance.ref({ setVolume, play })
+  instance.playerDidMount({ load, setVolume, play })
   instance.handleDurationCheck = sinon.fake()
   instance.isReady = true
   instance.handleReady()
@@ -213,11 +227,11 @@ test('loadOnReady', t => {
   const load = sinon.fake()
   const play = sinon.fake()
   const instance = shallow(<Player />).instance()
-  instance.ref({ load, play })
+  instance.playerDidMount({ load, play })
   instance.handleDurationCheck = sinon.fake()
   instance.loadOnReady = 'file.mp4'
   instance.handleReady()
-  t.true(load.calledOnceWith('file.mp4'))
+  t.true(load.calledWith('file.mp4'))
   t.true(play.notCalled)
 })
 

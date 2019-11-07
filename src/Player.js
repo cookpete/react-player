@@ -9,6 +9,7 @@ export default class Player extends Component {
   static displayName = 'Player'
   static propTypes = propTypes
   static defaultProps = defaultProps
+
   mounted = false
   isReady = false
   isPlaying = false // Track playing state internally to prevent bugs
@@ -17,10 +18,9 @@ export default class Player extends Component {
   startOnPlay = true
   seekOnPlay = null
   onDurationCalled = false
+
   componentDidMount () {
     this.mounted = true
-    this.player.load(this.props.url)
-    this.progress()
   }
 
   componentWillUnmount () {
@@ -81,6 +81,12 @@ export default class Player extends Component {
     if (prevProps.loop !== loop && this.player.setLoop) {
       this.player.setLoop(loop)
     }
+  }
+
+  playerDidMount = player => {
+    this.player = player
+    this.player.load(this.props.url)
+    this.progress()
   }
 
   getDuration () {
@@ -228,12 +234,6 @@ export default class Player extends Component {
     this.isLoading = false
   }
 
-  ref = player => {
-    if (player) {
-      this.player = player
-    }
-  }
-
   render () {
     const Player = this.props.activePlayer
     if (!Player) {
@@ -242,7 +242,7 @@ export default class Player extends Component {
     return (
       <Player
         {...this.props}
-        ref={this.ref}
+        didMount={this.playerDidMount}
         onReady={this.handleReady}
         onPlay={this.handlePlay}
         onPause={this.handlePause}

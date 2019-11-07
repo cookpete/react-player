@@ -1,18 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense, lazy } from 'react'
 
 import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
 import { getConfig, omit, isEqual } from './utils'
 import players from './players'
 import Player from './Player'
-import Preview from './Preview'
-import { FilePlayer } from './players/FilePlayer'
 import renderPreloadPlayers from './preload'
 
-const SUPPORTED_PROPS = Object.keys(propTypes)
+const FilePlayer = lazy(() => import('./players/FilePlayer'))
+const Preview = lazy(() => import('./Preview'))
 
+const SUPPORTED_PROPS = Object.keys(propTypes)
 let customPlayers = []
 
 export default class ReactPlayer extends Component {
+  static displayName = 'ReactPlayer'
+  static propTypes = propTypes
+  static defaultProps = defaultProps
+
   static addCustomPlayer = player => {
     customPlayers.push(player)
   }
@@ -21,9 +25,6 @@ export default class ReactPlayer extends Component {
     customPlayers = []
   }
 
-  static displayName = 'ReactPlayer'
-  static propTypes = propTypes
-  static defaultProps = defaultProps
   static canPlay = url => {
     for (const Player of [...customPlayers, ...players]) {
       if (Player.canPlay(url)) {
@@ -109,7 +110,7 @@ export default class ReactPlayer extends Component {
   getActivePlayer (url) {
     for (const Player of [...customPlayers, ...players]) {
       if (Player.canPlay(url)) {
-        return Player
+        return Player.Player || Player
       }
     }
     // Fall back to FilePlayer if nothing else can play the URL
@@ -129,7 +130,7 @@ export default class ReactPlayer extends Component {
     return (
       <Player
         {...this.props}
-        key={activePlayer.displayName}
+        key={url}
         ref={this.activePlayerRef}
         config={this.config}
         activePlayer={activePlayer}
@@ -157,19 +158,10 @@ export default class ReactPlayer extends Component {
     const preview = <Preview url={url} light={light} playIcon={playIcon} onClick={this.handleClickPreview} />
     return (
       <Wrapper ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
-        {showPreview ? preview : players}
+        <Suspense fallback={null}>
+          {showPreview ? preview : players}
+        </Suspense>
       </Wrapper>
     )
   }
 }
-
-export { default as YouTube } from './players/YouTube'
-export { default as SoundCloud } from './players/SoundCloud'
-export { default as Vimeo } from './players/Vimeo'
-export { default as Facebook } from './players/Facebook'
-export { default as Streamable } from './players/Streamable'
-export { default as Wistia } from './players/Wistia'
-export { default as Twitch } from './players/Twitch'
-export { default as DailyMotion } from './players/DailyMotion'
-export { default as Mixcloud } from './players/Mixcloud'
-export { default as FilePlayer } from './players/FilePlayer'

@@ -102,7 +102,7 @@ Prop | Description
 
 #### Config prop
 
-As of version `0.24`, there is a single `config` prop to override the settings for the various players. If you are migrating from an earlier version, you must move all the old config props inside `config`:
+There is a single `config` prop to override settings for each type of player:
 
 ```jsx
 <ReactPlayer
@@ -219,23 +219,6 @@ See [`jsFiddle` example](https://jsfiddle.net/e6w3rtj1/)
 #### SDK Overrides
 
 You can use your own version of any player SDK, assuming the correct `window` global is set before the player mounts. For example, to use a local version of [`hls.js`](https://cdnjs.com/libraries/hls.js), add `<script src='/path/hls.js'></script>` to your app. If `window.Hls` is available when ReactPlayer mounts, it will use that instead of loading `hls.js` from `cdnjs`. See [#605](https://github.com/CookPete/react-player/issues/605#issuecomment-492561909) for more information.
-
-#### Single player imports
-
-If you are only ever playing a single type of URL, you can import individual players to keep your bundle size down:
-
-```jsx
-import YouTubePlayer from 'react-player/lib/players/YouTube'
-
-<YouTubePlayer
-  url='https://www.youtube.com/watch?v=d46Azg3Pm4c'
-  playing
-  controls
-  // Other ReactPlayer props will work here
-/>
-```
-
-See a list of available players [here](https://github.com/CookPete/react-player/tree/master/src/players).
 
 #### Standalone player
 

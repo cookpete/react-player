@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, queryString } from '../utils'
-import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://widget.mixcloud.com/media/js/widgetApi.js'
 const SDK_GLOBAL = 'Mixcloud'
 const MATCH_URL = /mixcloud\.com\/([^/]+\/[^/]+)/
 
-export class Mixcloud extends Component {
+export default class Mixcloud extends Component {
   static displayName = 'Mixcloud'
   static canPlay = url => MATCH_URL.test(url)
   static loopOnEnded = true
@@ -16,6 +15,11 @@ export class Mixcloud extends Component {
   duration = null
   currentTime = null
   secondsLoaded = null
+
+  componentDidMount () {
+    this.props.didMount && this.props.didMount(this)
+  }
+
   load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(Mixcloud => {
       this.player = Mixcloud.PlayerWidget(this.iframe)
@@ -101,5 +105,3 @@ export class Mixcloud extends Component {
     )
   }
 }
-
-export default createSinglePlayer(Mixcloud)

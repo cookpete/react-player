@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
-import createSinglePlayer from '../singlePlayer'
 
 const SDK_URL = 'https://w.soundcloud.com/player/api.js'
 const SDK_GLOBAL = 'SC'
 const MATCH_URL = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/
 
-export class SoundCloud extends Component {
+export default class SoundCloud extends Component {
   static displayName = 'SoundCloud'
   static canPlay = url => MATCH_URL.test(url)
   static loopOnEnded = true
@@ -16,6 +15,11 @@ export class SoundCloud extends Component {
   duration = null
   currentTime = null
   fractionLoaded = null
+
+  componentDidMount () {
+    this.props.didMount && this.props.didMount(this)
+  }
+
   load (url, isReady) {
     getSDK(SDK_URL, SDK_GLOBAL).then(SC => {
       if (!this.iframe) return
@@ -107,5 +111,3 @@ export class SoundCloud extends Component {
     )
   }
 }
-
-export default createSinglePlayer(SoundCloud)

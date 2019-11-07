@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 
 import { getSDK, isMediaStream } from '../utils'
-import createSinglePlayer from '../singlePlayer'
 
 const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
@@ -48,12 +47,13 @@ function canEnablePIP (url) {
   return canPlay(url) && (!!document.pictureInPictureEnabled || supportsWebKitPresentationMode()) && !AUDIO_EXTENSIONS.test(url)
 }
 
-export class FilePlayer extends Component {
+export default class FilePlayer extends Component {
   static displayName = 'FilePlayer'
   static canPlay = canPlay
   static canEnablePIP = canEnablePIP
 
   componentDidMount () {
+    this.props.didMount && this.props.didMount(this)
     this.addListeners(this.player)
     if (IOS) {
       this.player.load()
@@ -337,5 +337,3 @@ export class FilePlayer extends Component {
     )
   }
 }
-
-export default createSinglePlayer(FilePlayer)
