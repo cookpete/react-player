@@ -1,3 +1,4 @@
+import { isValidElement } from 'react'
 import loadScript from 'load-script'
 import merge from 'deepmerge'
 
@@ -144,10 +145,13 @@ export function isObject (val) {
   return val !== null && typeof val === 'object'
 }
 
-// Deep comparison of two objects but ignoring
-// functions, for use in shouldComponentUpdate
+// Deep comparison of two objects, but ignoring functions
+// and React elements, for use in shouldComponentUpdate
 export function isEqual (a, b) {
   if (typeof a === 'function' && typeof b === 'function') {
+    return true
+  }
+  if (isValidElement(a) && isValidElement(b)) {
     return true
   }
   if (a instanceof Array && b instanceof Array) {
