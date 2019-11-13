@@ -120,8 +120,8 @@ export const defaultProps = {
       preload: false
     },
     facebook: {
-      appId: '1309697205772819'
-      version: 'v2.5'
+      appId: '1309697205772819',
+      version: 'v3.3'
     },
     dailymotion: {
       params: {
