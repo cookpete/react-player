@@ -25,7 +25,7 @@ export class Facebook extends Component {
       FB.init({
         appId: this.props.config.facebook.appId,
         xfbml: true,
-        version: this.props.config.facebook.version,
+        version: this.props.config.facebook.version
       })
       FB.Event.subscribe('xfbml.render', msg => {
         // Here we know the SDK has loaded, even if onReady/onPlay
