@@ -34,7 +34,8 @@ export const propTypes = {
       preload: bool
     }),
     facebook: shape({
-      appId: string
+      appId: string,
+      version: string
     }),
     dailymotion: shape({
       params: object,
@@ -120,6 +121,7 @@ export const defaultProps = {
     },
     facebook: {
       appId: '1309697205772819'
+      version: 'v2.5'
     },
     dailymotion: {
       params: {
