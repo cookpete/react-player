@@ -118,4 +118,5 @@ export default class ReactPlayer extends React.Component<ReactPlayerProps, any> 
   getCurrentTime(): number;
   getDuration(): number;
   getInternalPlayer(key?: string): Object;
+  showPreview(): void;
 }
