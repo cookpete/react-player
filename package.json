@@ -63,19 +63,19 @@
     "@hot-loader/react-dom": "^16.9.0",
     "auto-changelog": "^1.15.0",
     "autoprefixer": "^9.6.1",
-    "ava": "^2.3.0",
+    "ava": "^3.0.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
-    "babel-plugin-istanbul": "^5.2.0",
+    "babel-plugin-istanbul": "^6.0.0",
     "codecov": "^3.5.0",
     "cross-env": "^6.0.0",
     "css-loader": "^3.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "file-loader": "^4.2.0",
+    "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.8.0",
-    "nyc": "^14.1.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "nyc": "^15.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-advanced-variables": "^3.0.0",
     "postcss-loader": "^3.0.0",
@@ -86,7 +86,7 @@
     "rimraf": "^3.0.0",
     "sanitize.css": "^11.0.0",
     "screenfull": "^5.0.0",
-    "sinon": "^7.4.1",
+    "sinon": "^8.1.1",
     "snazzy": "^8.0.0",
     "standard": "^14.0.0",
     "style-loader": "^1.0.0",
@@ -96,6 +96,7 @@
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
+    "@ava/babel": "^1.0.0",
     "deepmerge": "^4.0.0",
     "load-script": "^1.0.0",
     "prop-types": "^15.7.2"
@@ -131,13 +132,19 @@
     ]
   },
   "ava": {
+    "files": [
+      "test/**/*",
+      "!test/helpers"
+    ],
     "require": [
       "@babel/register",
       "@babel/polyfill"
     ],
-    "helpers": [
-      "test/helpers/*"
-    ]
+    "babel": {
+      "compileAsTests": [
+        "test/helpers/*"
+      ]
+    }
   },
   "nyc": {
     "all": true,
