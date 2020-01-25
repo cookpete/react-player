@@ -1,5 +1,5 @@
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import UglifyJsPlugin from 'uglifyjs-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import config, { plugins } from './config.babel'
 
@@ -15,15 +15,9 @@ export default {
     })
   ],
   optimization: {
+    minimize: true,
     minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: true,
-        uglifyOptions: {
-          output: {
-            comments: false
-          }
-        }
-      }),
+      new TerserPlugin({ sourceMap: true }),
       new OptimizeCSSAssetsPlugin({})
     ]
   }
