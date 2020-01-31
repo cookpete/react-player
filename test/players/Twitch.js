@@ -31,7 +31,7 @@ testPlayerMethods(Twitch, {
   getDuration: 'getDuration',
   getCurrentTime: 'getCurrentTime',
   getSecondsLoaded: null
-})
+}, { config: TEST_CONFIG })
 
 test('load()', t => {
   class Player {
@@ -64,7 +64,7 @@ test('load()', t => {
 
 test('render()', t => {
   const style = { width: '100%', height: '100%' }
-  const wrapper = shallow(<Twitch url={TEST_URL} />)
+  const wrapper = shallow(<Twitch url={TEST_URL} config={TEST_CONFIG} />)
   t.true(wrapper.contains(
     <div style={style} id='mock-player-id' />
   ))

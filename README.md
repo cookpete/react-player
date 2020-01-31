@@ -133,13 +133,13 @@ Settings for each player live under different keys:
 Key | Options
 --- | -------
 `youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`embedOptions`: Override the [default embed options](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player)<br />`preload`: Used for [preloading](#preloading)
-`facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)
+`facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)<br />`version`: Facebook SDK version<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)<br />`preload`: Used for [preloading](#preloading)
 `vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters)<br />`preload`: Used for [preloading](#preloading)
 `wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)
 `mixcloud` | `options`: Override the [default player options](https://www.mixcloud.com/developers/widget/#methods)
 `dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)<br />`preload`: Used for [preloading](#preloading)
-`twitch` | `options`: Override the [default player options](https://dev.twitch.tv/docs/embed)
+`twitch` | `options`: Override the [default player options](https://dev.twitch.tv/docs/embed)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `file` | `attributes`: Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)<br />`forceVideo`: Always render a `<video>` element<br />`forceAudio`: Always render an `<audio>` element<br />`forceHLS`: Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams<br />`forceDASH`: Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams<br />`hlsOptions`: Override the [default `hls.js` options](https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning)<br />`hlsVersion`: Override the [`hls.js`](https://github.com/video-dev/hls.js) version loaded from [`cdnjs`](https://cdnjs.com/libraries/hls.js), default: `0.10.1`<br />`dashVersion`: Override the [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js) version loaded from [`cdnjs`](https://cdnjs.com/libraries/dashjs), default: `2.9.2`
 
 ##### Preloading

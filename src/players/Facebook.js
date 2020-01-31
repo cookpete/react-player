@@ -15,7 +15,8 @@ export class Facebook extends Component {
   static loopOnEnded = true
 
   callPlayer = callPlayer
-  playerID = PLAYER_ID_PREFIX + randomString()
+  playerID = this.props.config.facebook.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
+
   load (url, isReady) {
     if (isReady) {
       getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY).then(FB => FB.XFBML.parse())

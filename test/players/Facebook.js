@@ -39,7 +39,7 @@ testPlayerMethods(Facebook, {
   getDuration: 'getDuration',
   getCurrentTime: 'getCurrentPosition',
   getSecondsLoaded: null
-})
+}, { config: TEST_CONFIG })
 
 test('load()', async t => {
   const FB = {
@@ -86,7 +86,7 @@ test('render()', t => {
     width: '100%',
     height: '100%'
   }
-  const wrapper = shallow(<Facebook url={TEST_URL} />)
+  const wrapper = shallow(<Facebook url={TEST_URL} config={TEST_CONFIG} />)
   t.true(wrapper.contains(
     <div
       style={style}

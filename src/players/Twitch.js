@@ -15,7 +15,8 @@ export class Twitch extends Component {
   static loopOnEnded = true
 
   callPlayer = callPlayer
-  playerID = PLAYER_ID_PREFIX + randomString()
+  playerID = this.props.config.twitch.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
+
   load (url, isReady) {
     const { playsinline, onError, config, controls } = this.props
     const isChannel = MATCH_CHANNEL_URL.test(url)

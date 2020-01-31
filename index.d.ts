@@ -26,6 +26,8 @@ export interface YouTubeConfig {
 
 export interface FacebookConfig {
   appId: string;
+  version: string;
+  playerId: string;
 }
 
 export interface DailyMotionConfig {
