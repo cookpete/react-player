@@ -53,6 +53,7 @@
     "react": "*"
   },
   "devDependencies": {
+    "@ava/babel": "^1.0.0",
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -63,7 +64,6 @@
     "@hot-loader/react-dom": "^16.9.0",
     "auto-changelog": "^1.15.0",
     "autoprefixer": "^9.6.1",
-    "@ava/babel": "^1.0.0",
     "ava": "^3.1.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
