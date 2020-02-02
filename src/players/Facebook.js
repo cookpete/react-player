@@ -6,7 +6,7 @@ import createSinglePlayer from '../singlePlayer'
 const SDK_URL = 'https://connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
 const SDK_GLOBAL_READY = 'fbAsyncInit'
-const MATCH_URL = /^https?:\/\/(www\.)?facebook\.com.*\/(video(s)?|watch)(\.php?|\/).+$/
+const MATCH_URL = /^https?:\/\/(www\.)?facebook\.com.*\/(video(s)?|watch|story)(\.php?|\/).+$/
 const PLAYER_ID_PREFIX = 'facebook-player-'
 
 export class Facebook extends Component {
