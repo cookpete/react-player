@@ -63,6 +63,7 @@
     "@hot-loader/react-dom": "^16.9.0",
     "auto-changelog": "^1.15.0",
     "autoprefixer": "^9.6.1",
+    "@ava/babel": "^1.0.0",
     "ava": "^3.1.0",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
@@ -95,7 +96,6 @@
     "webpack-dev-server": "^3.10.2"
   },
   "dependencies": {
-    "@ava/babel": "^1.0.0",
     "deepmerge": "^4.0.0",
     "load-script": "^1.0.0",
     "prop-types": "^15.7.2"
