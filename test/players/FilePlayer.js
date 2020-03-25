@@ -235,13 +235,6 @@ test('stop()', t => {
   t.true(instance.player.removeAttribute.calledOnceWith('src'))
 })
 
-test('stop() - hls', t => {
-  const instance = shallow(<FilePlayer url='file.m3u8' config={config} />).instance()
-  instance.hls = { destroy: sinon.fake() }
-  instance.stop()
-  t.true(instance.hls.destroy.calledOnce)
-})
-
 test('stop() - dash', t => {
   const instance = shallow(<FilePlayer url='file.mpd' config={config} />).instance()
   instance.dash = { reset: sinon.fake() }

@@ -69,6 +69,9 @@ export class FilePlayer extends Component {
 
   componentWillUnmount () {
     this.removeListeners(this.player)
+    if (this.hls) {
+      this.hls.destroy()
+    }
   }
 
   addListeners (player) {
@@ -205,9 +208,6 @@ export class FilePlayer extends Component {
 
   stop () {
     this.player.removeAttribute('src')
-    if (this.hls) {
-      this.hls.destroy()
-    }
     if (this.dash) {
       this.dash.reset()
     }
