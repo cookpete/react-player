@@ -214,7 +214,7 @@ class App extends Component {
                 <th>Seek</th>
                 <td>
                   <input
-                    type='range' min={0} max={1} step='any'
+                    type='range' min={0} max={0.999999} step='any'
                     value={played}
                     onMouseDown={this.handleSeekMouseDown}
                     onChange={this.handleSeekChange}
