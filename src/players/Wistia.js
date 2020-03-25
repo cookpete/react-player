@@ -13,12 +13,13 @@ export class Wistia extends Component {
   static loopOnEnded = true
 
   callPlayer = callPlayer
+
   getID (url) {
     return url && url.match(MATCH_URL)[1]
   }
 
   load (url) {
-    const { playing, muted, controls, onReady, onPlay, onPause, onSeek, onEnded, config, onError } = this.props
+    const { playing, muted, controls, onReady, config, onError } = this.props
     getSDK(SDK_URL, SDK_GLOBAL).then(() => {
       window._wq = window._wq || []
       window._wq.push({
@@ -33,15 +34,28 @@ export class Wistia extends Component {
         onReady: player => {
           this.player = player
           this.unbind()
-          this.player.bind('play', onPlay)
-          this.player.bind('pause', onPause)
-          this.player.bind('seek', onSeek)
-          this.player.bind('end', onEnded)
+          this.player.bind('play', this.onPlay)
+          this.player.bind('pause', this.onPause)
+          this.player.bind('seek', this.onSeek)
+          this.player.bind('end', this.onEnded)
           onReady()
         }
       })
     }, onError)
   }
+
+  unbind () {
+    this.player.unbind('play', this.onPlay)
+    this.player.unbind('pause', this.onPause)
+    this.player.unbind('seek', this.onSeek)
+    this.player.unbind('end', this.onEnded)
+  }
+
+  // Proxy methods to prevent listener leaks
+  onPlay = (...args) => this.props.onPlay(...args)
+  onPause = (...args) => this.props.onPause(...args)
+  onSeek = (...args) => this.props.onSeek(...args)
+  onEnded = (...args) => this.props.onEnded(...args)
 
   play () {
     this.callPlayer('play')
@@ -49,14 +63,6 @@ export class Wistia extends Component {
 
   pause () {
     this.callPlayer('pause')
-  }
-
-  unbind () {
-    const { onPlay, onPause, onSeek, onEnded } = this.props
-    this.player.unbind('play', onPlay)
-    this.player.unbind('pause', onPause)
-    this.player.unbind('seek', onSeek)
-    this.player.unbind('end', onEnded)
   }
 
   stop () {
