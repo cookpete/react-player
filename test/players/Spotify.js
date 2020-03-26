@@ -16,7 +16,7 @@ test('render()', t => {
   }
   t.true(wrapper.contains(
     <iframe
-      src='https://open.spotify.com/track/69kOkLUCkxIZYexIgSG8rq?si=mVt5ng3PSHar7yZETf7gOg'
+      src='https://open.spotify.com/embed/track/69kOkLUCkxIZYexIgSG8rq'
       style={style}
       frameBorder={0}
       allowtransparency='true'
