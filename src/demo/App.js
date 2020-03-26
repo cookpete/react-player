@@ -341,6 +341,14 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Spotify</th>
+                <td>
+                  {this.renderLoadButton('https://open.spotify.com/track/69kOkLUCkxIZYexIgSG8rq?si=mVt5ng3PSHar7yZETf7gOg', 'Test A')}
+                  {this.renderLoadButton('https://open.spotify.com/album/4m2880jivSbbyEGAKfITCa?si=J49Z8PGlSWG-0g1OlipguA', 'Test B')}
+                  {this.renderLoadButton('https://open.spotify.com/playlist/37i9dQZF1DX5ulsyQdTxii?si=e2pFfQMzROSzHt33417jLw', 'Test C')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}

@@ -345,6 +345,8 @@ You can also specify a `type` for each source by using objects with `src` and `t
 * Wistia videos use the [Wistia Player API](https://wistia.com/doc/player-api)
 * Twitch videos use the [Twitch Interactive Frames API](https://dev.twitch.tv/docs/embed#interactive-frames-for-live-streams-and-vods)
 * DailyMotion videos use the [DailyMotion Player API](https://developer.dailymotion.com/player)
+* Spotify tracks use the [Spotify Play Button widget](https://developer.spotify.com/documentation/widgets/generate/play-button/)
+  * Spotify does not support props, callbacks or methods except the url prop.
 * [Supported file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
   * HLS streams are played using [`hls.js`](https://github.com/video-dev/hls.js)
   * DASH streams are played using [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js)
