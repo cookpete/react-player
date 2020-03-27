@@ -108,9 +108,9 @@ export default class ReactPlayer extends Component {
   }
 
   getActivePlayer (url) {
-    for (const Player of [...customPlayers, ...players]) {
-      if (Player.canPlay(url)) {
-        return Player.Player || Player
+    for (const player of [...customPlayers, ...players]) {
+      if (player.canPlay(url)) {
+        return player.Player || player
       }
     }
     // Fall back to FilePlayer if nothing else can play the URL
