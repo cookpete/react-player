@@ -1,3 +1,4 @@
+import { optimize } from 'webpack'
 import { PATH_STANDALONE, PATH_DIST } from './config.babel'
 import config from './production.babel'
 
@@ -18,5 +19,9 @@ export default {
       }
     ]
   },
-  plugins: []
+  plugins: [
+    new optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+    })
+  ]
 }
