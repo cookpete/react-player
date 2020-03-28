@@ -16,7 +16,7 @@ export default class Streamable extends Component {
   secondsLoaded = null
 
   componentDidMount () {
-    this.props.didMount && this.props.didMount(this)
+    this.props.onMount && this.props.onMount(this)
   }
 
   load (url) {

@@ -17,7 +17,7 @@ export default class SoundCloud extends Component {
   fractionLoaded = null
 
   componentDidMount () {
-    this.props.didMount && this.props.didMount(this)
+    this.props.onMount && this.props.onMount(this)
   }
 
   load (url, isReady) {

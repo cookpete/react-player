@@ -17,7 +17,7 @@ export default class Twitch extends Component {
   playerID = this.props.config.twitch.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
 
   componentDidMount () {
-    this.props.didMount && this.props.didMount(this)
+    this.props.onMount && this.props.onMount(this)
   }
 
   load (url, isReady) {

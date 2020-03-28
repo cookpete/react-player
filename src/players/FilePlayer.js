@@ -53,7 +53,7 @@ export default class FilePlayer extends Component {
   static canEnablePIP = canEnablePIP
 
   componentDidMount () {
-    this.props.didMount && this.props.didMount(this)
+    this.props.onMount && this.props.onMount(this)
     this.addListeners(this.player)
     if (IOS) {
       this.player.load()

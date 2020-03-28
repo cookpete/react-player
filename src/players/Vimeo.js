@@ -23,7 +23,7 @@ export default class Vimeo extends Component {
   secondsLoaded = null
 
   componentDidMount () {
-    this.props.didMount && this.props.didMount(this)
+    this.props.onMount && this.props.onMount(this)
   }
 
   load (url) {

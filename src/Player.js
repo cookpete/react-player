@@ -83,7 +83,7 @@ export default class Player extends Component {
     }
   }
 
-  playerDidMount = player => {
+  handlePlayerMount = player => {
     this.player = player
     this.player.load(this.props.url)
     this.progress()
@@ -242,7 +242,7 @@ export default class Player extends Component {
     return (
       <Player
         {...this.props}
-        didMount={this.playerDidMount}
+        onMount={this.handlePlayerMount}
         onReady={this.handleReady}
         onPlay={this.handlePlay}
         onPause={this.handlePause}
