@@ -13,6 +13,7 @@ import {
   MATCH_URL_TWITCH_CHANNEL,
   MATCH_URL_DAILYMOTION,
   MATCH_URL_MIXCLOUD,
+  MATCH_URL_VIDYARD,
   AUDIO_EXTENSIONS,
   VIDEO_EXTENSIONS,
   HLS_EXTENSIONS,
@@ -91,6 +92,10 @@ export default [
   {
     canPlay: url => MATCH_URL_MIXCLOUD.test(url),
     Player: lazy(() => import('./Mixcloud'))
+  },
+  {
+    canPlay: url => MATCH_URL_VIDYARD.test(url),
+    Player: lazy(() => import('./Vidyard'))
   },
   {
     canPlay: canPlayFile,

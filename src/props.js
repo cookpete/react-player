@@ -66,6 +66,9 @@ export const propTypes = {
     twitch: shape({
       options: object,
       playerId: string
+    }),
+    vidyard: shape({
+      options: object
     })
   }),
   onReady: func,
@@ -164,6 +167,9 @@ export const defaultProps = {
     twitch: {
       options: {},
       playerId: null
+    },
+    vidyard: {
+      options: {}
     }
   },
   onReady: function () {},
