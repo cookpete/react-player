@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
+import { MATCH_URL_STREAMABLE } from '../patterns'
 
 const SDK_URL = 'https://cdn.embed.ly/player-0.1.0.min.js'
 const SDK_GLOBAL = 'playerjs'
-const MATCH_URL = /streamable\.com\/([a-z0-9]+)$/
 
 export default class Streamable extends Component {
   static displayName = 'Streamable'
-  static canPlay = url => MATCH_URL.test(url)
-
   callPlayer = callPlayer
   duration = null
   currentTime = null
@@ -94,7 +92,7 @@ export default class Streamable extends Component {
   }
 
   render () {
-    const id = this.props.url.match(MATCH_URL)[1]
+    const id = this.props.url.match(MATCH_URL_STREAMABLE)[1]
     const style = {
       width: '100%',
       height: '100%'

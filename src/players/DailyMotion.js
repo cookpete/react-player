@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, parseStartTime } from '../utils'
+import { MATCH_URL_DAILYMOTION } from '../patterns'
 
 const SDK_URL = 'https://api.dmcdn.net/all.js'
 const SDK_GLOBAL = 'DM'
 const SDK_GLOBAL_READY = 'dmAsyncInit'
-const MATCH_URL = /^(?:(?:https?):)?(?:\/\/)?(?:www\.)?(?:(?:dailymotion\.com(?:\/embed)?\/video)|dai\.ly)\/([a-zA-Z0-9]+)(?:_[\w_-]+)?$/
 
 export default class DailyMotion extends Component {
   static displayName = 'DailyMotion'
-  static canPlay = url => MATCH_URL.test(url)
   static loopOnEnded = true
-
   callPlayer = callPlayer
 
   componentDidMount () {
@@ -20,7 +18,7 @@ export default class DailyMotion extends Component {
 
   load (url) {
     const { controls, config, onError, playing } = this.props
-    const [, id] = url.match(MATCH_URL)
+    const [, id] = url.match(MATCH_URL_DAILYMOTION)
     if (this.player) {
       this.player.load(id, {
         start: parseStartTime(url),

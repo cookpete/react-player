@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
+import { MATCH_URL_VIDYARD } from '../patterns'
 
 const SDK_URL = 'https://play.vidyard.com/embed/v4.js'
 const SDK_GLOBAL = 'VidyardV4'
 const SDK_GLOBAL_READY = 'onVidyardAPI'
-const MATCH_URL = /vidyard.com\/(?:watch\/)?([a-zA-Z0-9-]+)/
 
 export default class Vidyard extends Component {
   static displayName = 'Vidyard'
-  static canPlay = url => MATCH_URL.test(url)
-
   callPlayer = callPlayer
 
   componentDidMount () {
@@ -19,7 +17,7 @@ export default class Vidyard extends Component {
 
   load (url, isReady) {
     const { config, onError, onDuration } = this.props
-    const id = url && url.match(MATCH_URL)[1]
+    const id = url && url.match(MATCH_URL_VIDYARD)[1]
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY).then(Vidyard => {
       if (!this.container) return
       Vidyard.api.addReadyListener((data, player) => {

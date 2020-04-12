@@ -172,3 +172,10 @@ export function isMediaStream (url) {
     url instanceof window.MediaStream
   )
 }
+
+export function supportsWebKitPresentationMode (video = document.createElement('video')) {
+  // Check if Safari supports PiP, and is not on mobile (other than iPad)
+  // iPhone safari appears to "support" PiP through the check, however PiP does not function
+  const notMobile = /iPhone|iPod/.test(navigator.userAgent) === false
+  return video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' && notMobile
+}

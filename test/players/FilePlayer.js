@@ -36,24 +36,6 @@ test.afterEach(t => {
   FilePlayer.prototype.componentWillMount = undefined
 })
 
-test('canPlay', t => {
-  t.true(FilePlayer.canPlay('file.mp4'))
-  t.true(FilePlayer.canPlay('file.ogg'))
-  t.true(FilePlayer.canPlay('file.webm'))
-  t.true(FilePlayer.canPlay('file.mov'))
-  t.true(FilePlayer.canPlay('file.m4v'))
-  t.true(FilePlayer.canPlay('file.mp3'))
-  t.true(FilePlayer.canPlay('file.mp3?query=param'))
-  t.true(FilePlayer.canPlay(['file.mp4', 'file.ogg']))
-  t.true(FilePlayer.canPlay([
-    { src: 'file.mp4' },
-    { src: 'file.ogg' }
-  ]))
-  t.true(FilePlayer.canPlay(new MockMediaStream()))
-
-  t.false(FilePlayer.canPlay(['random', 'strings']))
-})
-
 test('listeners', t => {
   const addListeners = sinon.spy(FilePlayer.prototype, 'addListeners')
   const removeListeners = sinon.spy(FilePlayer.prototype, 'removeListeners')

@@ -1,56 +1,17 @@
 import React, { Component } from 'react'
 
-import { getSDK, isMediaStream } from '../utils'
+import { getSDK, isMediaStream, supportsWebKitPresentationMode } from '../utils'
+import { AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS } from '../patterns'
 
 const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
-const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
-const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
-const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
 const HLS_SDK_URL = 'https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js'
 const HLS_GLOBAL = 'Hls'
-const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js'
 const DASH_GLOBAL = 'dashjs'
 const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 
-function canPlay (url) {
-  if (url instanceof Array) {
-    for (const item of url) {
-      if (typeof item === 'string' && canPlay(item)) {
-        return true
-      }
-      if (canPlay(item.src)) {
-        return true
-      }
-    }
-    return false
-  }
-  if (isMediaStream(url)) {
-    return true
-  }
-  return (
-    AUDIO_EXTENSIONS.test(url) ||
-    VIDEO_EXTENSIONS.test(url) ||
-    HLS_EXTENSIONS.test(url) ||
-    DASH_EXTENSIONS.test(url)
-  )
-}
-
-function supportsWebKitPresentationMode (video) {
-  if (!video) video = document.createElement('video')
-  // Check if Safari supports PiP, and is not on mobile (other than iPad)
-  // iPhone safari appears to "support" PiP through the check, however PiP does not function
-  return video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' && !/iPhone|iPod/.test(navigator.userAgent)
-}
-
-function canEnablePIP (url) {
-  return canPlay(url) && (!!document.pictureInPictureEnabled || supportsWebKitPresentationMode()) && !AUDIO_EXTENSIONS.test(url)
-}
-
 export default class FilePlayer extends Component {
   static displayName = 'FilePlayer'
-  static canPlay = canPlay
-  static canEnablePIP = canEnablePIP
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)

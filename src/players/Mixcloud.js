@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, queryString } from '../utils'
+import { MATCH_URL_MIXCLOUD } from '../patterns'
 
 const SDK_URL = 'https://widget.mixcloud.com/media/js/widgetApi.js'
 const SDK_GLOBAL = 'Mixcloud'
-const MATCH_URL = /mixcloud\.com\/([^/]+\/[^/]+)/
 
 export default class Mixcloud extends Component {
   static displayName = 'Mixcloud'
-  static canPlay = url => MATCH_URL.test(url)
   static loopOnEnded = true
-
   callPlayer = callPlayer
   duration = null
   currentTime = null
@@ -83,7 +81,7 @@ export default class Mixcloud extends Component {
 
   render () {
     const { url, config } = this.props
-    const id = url.match(MATCH_URL)[1]
+    const id = url.match(MATCH_URL_MIXCLOUD)[1]
     const style = {
       width: '100%',
       height: '100%'

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
+import { MATCH_URL_YOUTUBE } from '../patterns'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
-const MATCH_URL = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})|youtube\.com\/playlist\?list=/
 const MATCH_PLAYLIST = /list=([a-zA-Z0-9_-]+)/
 
 function parsePlaylist (url) {
@@ -21,8 +21,6 @@ function parsePlaylist (url) {
 
 export default class YouTube extends Component {
   static displayName = 'YouTube'
-  static canPlay = url => MATCH_URL.test(url)
-
   callPlayer = callPlayer
 
   componentDidMount () {
@@ -32,7 +30,7 @@ export default class YouTube extends Component {
   load (url, isReady) {
     const { playing, muted, playsinline, controls, loop, config, onError } = this.props
     const { playerVars, embedOptions } = config.youtube
-    const id = url && url.match(MATCH_URL)[1]
+    const id = url && url.match(MATCH_URL_YOUTUBE)[1]
     if (isReady) {
       if (MATCH_PLAYLIST.test(url)) {
         this.player.loadPlaylist(parsePlaylist(url))

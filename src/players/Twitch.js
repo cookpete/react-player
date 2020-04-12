@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, randomString } from '../utils'
+import { MATCH_URL_TWITCH_CHANNEL, MATCH_URL_TWITCH_VIDEO } from '../patterns'
 
 const SDK_URL = 'https://player.twitch.tv/js/embed/v1.js'
 const SDK_GLOBAL = 'Twitch'
-const MATCH_VIDEO_URL = /(?:www\.|go\.)?twitch\.tv\/videos\/(\d+)($|\?)/
-const MATCH_CHANNEL_URL = /(?:www\.|go\.)?twitch\.tv\/([a-z0-9_]+)($|\?)/
 const PLAYER_ID_PREFIX = 'twitch-player-'
 
 export default class Twitch extends Component {
   static displayName = 'Twitch'
-  static canPlay = url => MATCH_VIDEO_URL.test(url) || MATCH_CHANNEL_URL.test(url)
   static loopOnEnded = true
-
   callPlayer = callPlayer
   playerID = this.props.config.twitch.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
 
@@ -22,8 +19,8 @@ export default class Twitch extends Component {
 
   load (url, isReady) {
     const { playsinline, onError, config, controls } = this.props
-    const isChannel = MATCH_CHANNEL_URL.test(url)
-    const id = isChannel ? url.match(MATCH_CHANNEL_URL)[1] : url.match(MATCH_VIDEO_URL)[1]
+    const isChannel = MATCH_URL_TWITCH_CHANNEL.test(url)
+    const id = isChannel ? url.match(MATCH_URL_TWITCH_CHANNEL)[1] : url.match(MATCH_URL_TWITCH_VIDEO)[1]
     if (isReady) {
       if (isChannel) {
         this.player.setChannel(id)

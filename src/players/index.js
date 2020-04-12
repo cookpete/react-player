@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { isMediaStream } from '../utils'
+import { isMediaStream, supportsWebKitPresentationMode } from '../utils'
 
 import {
   MATCH_URL_YOUTUBE,
@@ -91,6 +91,9 @@ export default [
   },
   {
     canPlay: canPlayFile,
+    canEnablePIP: url => {
+      return canPlayFile(url) && (document.pictureInPictureEnabled || supportsWebKitPresentationMode()) && !AUDIO_EXTENSIONS.test(url)
+    },
     Player: lazy(() => import('./FilePlayer'))
   }
 ]
