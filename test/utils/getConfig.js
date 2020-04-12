@@ -9,8 +9,7 @@ test('merges configs', t => {
         playerVars: {
           autoplay: 0,
           playsinline: 1
-        },
-        preload: false
+        }
       }
     }
   }
@@ -20,8 +19,7 @@ test('merges configs', t => {
         playerVars: {
           playsinline: 0,
           showinfo: 1
-        },
-        preload: true
+        }
       }
     }
   }
@@ -32,8 +30,7 @@ test('merges configs', t => {
         autoplay: 0,
         playsinline: 0,
         showinfo: 1
-      },
-      preload: true
+      }
     }
   })
 })
@@ -46,8 +43,7 @@ test('converts old style config', t => {
       playerVars: {
         playsinline: 0,
         showinfo: 1
-      },
-      preload: true
+      }
     }
   }
   const config = getConfig(props, { config: {} }, true)
@@ -56,8 +52,7 @@ test('converts old style config', t => {
       playerVars: {
         playsinline: 0,
         showinfo: 1
-      },
-      preload: true
+      }
     }
   })
   t.true(stub.calledOnce)

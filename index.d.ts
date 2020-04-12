@@ -15,13 +15,11 @@ export interface TrackProps {
 
 export interface SoundCloudConfig {
   options?: Object;
-  preload?: boolean;
 }
 
 export interface YouTubeConfig {
   playerVars?: Object;
   embedOptions?: Object;
-  preload?: boolean;
 }
 
 export interface FacebookConfig {
@@ -32,12 +30,10 @@ export interface FacebookConfig {
 
 export interface DailyMotionConfig {
   params?: Object;
-  preload?: boolean;
 }
 
 export interface VimeoConfig {
   playerOptions?: Object;
-  preload?: boolean;
 }
 
 export interface WistiaConfig {

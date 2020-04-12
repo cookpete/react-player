@@ -25,13 +25,11 @@ export const propTypes = {
   ]),
   config: shape({
     soundcloud: shape({
-      options: object,
-      preload: bool
+      options: object
     }),
     youtube: shape({
       playerVars: object,
-      embedOptions: object,
-      preload: bool
+      embedOptions: object
     }),
     facebook: shape({
       appId: string,
@@ -39,12 +37,10 @@ export const propTypes = {
       playerId: string
     }),
     dailymotion: shape({
-      params: object,
-      preload: bool
+      params: object
     }),
     vimeo: shape({
-      playerOptions: object,
-      preload: bool
+      playerOptions: object
     }),
     file: shape({
       attributes: object,
@@ -121,8 +117,7 @@ export const defaultProps = {
         iv_load_policy: 3,
         modestbranding: 1
       },
-      embedOptions: {},
-      preload: false
+      embedOptions: {}
     },
     facebook: {
       appId: '1309697205772819',
@@ -133,8 +128,7 @@ export const defaultProps = {
       params: {
         api: 1,
         'endscreen-enable': false
-      },
-      preload: false
+      }
     },
     vimeo: {
       playerOptions: {
@@ -142,8 +136,7 @@ export const defaultProps = {
         byline: false,
         portrait: false,
         title: false
-      },
-      preload: false
+      }
     },
     file: {
       attributes: {},

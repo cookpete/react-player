@@ -46,15 +46,11 @@ const canPlayFile = url => {
 export default [
   {
     canPlay: url => MATCH_URL_YOUTUBE.test(url),
-    Player: lazy(() => import('./YouTube')),
-    configKey: 'youtube',
-    preloadUrl: 'https://www.youtube.com/watch?v=GlCmAC4MHek'
+    Player: lazy(() => import('./YouTube'))
   },
   {
     canPlay: url => MATCH_URL_SOUNDCLOUD.test(url),
-    Player: lazy(() => import('./SoundCloud')),
-    configKey: 'soundcloud',
-    preloadUrl: 'https://soundcloud.com/seucheu/john-cage-433-8-bit-version'
+    Player: lazy(() => import('./SoundCloud'))
   },
   {
     canPlay: url => {
@@ -63,9 +59,7 @@ export default [
       }
       return MATCH_URL_VIMEO.test(url)
     },
-    Player: lazy(() => import('./Vimeo')),
-    configKey: 'vimeo',
-    preloadUrl: 'https://vimeo.com/300970506'
+    Player: lazy(() => import('./Vimeo'))
   },
   {
     canPlay: url => MATCH_URL_FACEBOOK.test(url),
@@ -85,9 +79,7 @@ export default [
   },
   {
     canPlay: url => MATCH_URL_DAILYMOTION.test(url),
-    Player: lazy(() => import('./DailyMotion')),
-    configKey: 'dailymotion',
-    preloadUrl: 'http://www.dailymotion.com/video/xqdpyk'
+    Player: lazy(() => import('./DailyMotion'))
   },
   {
     canPlay: url => MATCH_URL_MIXCLOUD.test(url),
