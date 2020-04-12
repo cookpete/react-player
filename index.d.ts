@@ -89,13 +89,6 @@ export interface ReactPlayerProps {
   light?: boolean | string;
   wrapper?: any;
   config?: Config;
-  soundcloudConfig?: SoundCloudConfig;
-  youtubeConfig?: YouTubeConfig;
-  facebookConfig?: FacebookConfig;
-  dailymotionConfig?: DailyMotionConfig;
-  vimeoConfig?: VimeoConfig;
-  fileConfig?: FileConfig;
-  wistiaConfig?: WistiaConfig;
   onReady?(): void;
   onStart?(): void;
   onPlay?(): void;

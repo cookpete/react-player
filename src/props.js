@@ -179,13 +179,3 @@ export const defaultProps = {
   onEnablePIP: function () {},
   onDisablePIP: function () {}
 }
-
-export const DEPRECATED_CONFIG_PROPS = [
-  'soundcloudConfig',
-  'youtubeConfig',
-  'facebookConfig',
-  'dailymotionConfig',
-  'vimeoConfig',
-  'fileConfig',
-  'wistiaConfig'
-]

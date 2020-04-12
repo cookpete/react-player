@@ -35,15 +35,6 @@ test('progressFrequency warning', t => {
   stub.restore()
 })
 
-test('config - deprecated config', t => {
-  const stub = sinon.stub(console, 'warn')
-  const youtubeConfig = { playerVars: { showinfo: 1 } }
-  const wrapper = shallow(<ReactPlayer youtubeConfig={youtubeConfig} />)
-  t.true(wrapper.instance().config.youtube.playerVars.showinfo === 1)
-  t.true(stub.calledOnce)
-  stub.restore()
-})
-
 test('config - updates', t => {
   const config = { youtube: { playerVars: { showinfo: 1 } } }
   const wrapper = shallow(<ReactPlayer config={config} />)

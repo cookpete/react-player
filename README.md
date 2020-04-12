@@ -118,16 +118,6 @@ There is a single `config` prop to override settings for each type of player:
 />
 ```
 
-The old style [config props](https://github.com/CookPete/react-player/tree/v0.23.0#config-props) still work but will produce a console warning:
-
-```jsx
-<ReactPlayer
-  url={url}
-  youtubeConfig={{ playerVars: { showinfo: 1 } }}
-  facebookConfig={{ appId: '12345' }}
-/>
-```
-
 Settings for each player live under different keys:
 
 Key | Options
@@ -297,7 +287,7 @@ You can also specify a `type` for each source by using objects with `src` and `t
 />
 ```
 
-[`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track) elements for subtitles can be added using `fileConfig`:
+[`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track) elements for subtitles can be added using `config.file`:
 
 ```jsx
 <ReactPlayer

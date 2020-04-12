@@ -1,7 +1,8 @@
 import React, { Component, Suspense, lazy } from 'react'
+import merge from 'deepmerge'
 
-import { propTypes, defaultProps, DEPRECATED_CONFIG_PROPS } from './props'
-import { getConfig, omit, isEqual } from './utils'
+import { propTypes, defaultProps } from './props'
+import { omit, isEqual } from './utils'
 import players from './players'
 import Player from './Player'
 
@@ -10,6 +11,8 @@ const Preview = lazy(() => import('./Preview'))
 
 const SUPPORTED_PROPS = Object.keys(propTypes)
 let customPlayers = []
+
+const getConfig = props => merge(defaultProps.config, props.config)
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
@@ -42,7 +45,7 @@ export default class ReactPlayer extends Component {
     return false
   }
 
-  config = getConfig(this.props, defaultProps, true)
+  config = getConfig(this.props)
   state = {
     showPreview: !!this.props.light
   }
@@ -60,7 +63,7 @@ export default class ReactPlayer extends Component {
 
   componentDidUpdate (prevProps) {
     const { light } = this.props
-    this.config = getConfig(this.props, defaultProps)
+    this.config = getConfig(this.props)
     if (!prevProps.light && light) {
       this.setState({ showPreview: true })
     }
@@ -141,7 +144,7 @@ export default class ReactPlayer extends Component {
   render () {
     const { url, style, width, height, light, playIcon, wrapper: Wrapper } = this.props
     const showPreview = this.state.showPreview && url
-    const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
+    const otherProps = omit(this.props, SUPPORTED_PROPS)
     const activePlayer = this.getActivePlayer(url)
     const player = this.renderActivePlayer(url, activePlayer)
     const preview = <Preview url={url} light={light} playIcon={playIcon} onClick={this.handleClickPreview} />
