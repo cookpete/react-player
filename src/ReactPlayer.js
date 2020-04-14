@@ -60,7 +60,6 @@ export default class ReactPlayer extends Component {
 
   componentDidUpdate (prevProps) {
     const { light } = this.props
-    this.config = getConfig(this.props, defaultProps)
     if (!prevProps.light && light) {
       this.setState({ showPreview: true })
     }
@@ -148,6 +147,7 @@ export default class ReactPlayer extends Component {
 
   render () {
     const { url, controls, style, width, height, light, playIcon, wrapper: Wrapper } = this.props
+    this.config = getConfig(this.props, defaultProps)
     const showPreview = this.state.showPreview && url
     const otherProps = omit(this.props, SUPPORTED_PROPS, DEPRECATED_CONFIG_PROPS)
     const activePlayer = this.getActivePlayer(url)
