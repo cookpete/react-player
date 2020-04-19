@@ -1,6 +1,5 @@
 import React from 'react'
 import test from 'ava'
-import sinon from 'sinon'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import ReactPlayer from '../../src/ReactPlayer'
@@ -26,19 +25,4 @@ test('wrapper - element', t => {
   const Element = () => null
   const wrapper = shallow(<ReactPlayer wrapper={Element} />)
   t.true(wrapper.getElement().type === Element)
-})
-
-test('progressFrequency warning', t => {
-  const stub = sinon.stub(console, 'warn')
-  shallow(<ReactPlayer progressFrequency={100} />)
-  t.true(stub.calledOnce)
-  stub.restore()
-})
-
-test('config - updates', t => {
-  const config = { youtube: { playerVars: { showinfo: 1 } } }
-  const wrapper = shallow(<ReactPlayer config={config} />)
-  t.true(wrapper.instance().config.youtube.playerVars.showinfo === 1)
-  wrapper.setProps({ config: { youtube: { playerVars: { showinfo: 0 } } } })
-  t.true(wrapper.instance().config.youtube.playerVars.showinfo === 0)
 })

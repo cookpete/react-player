@@ -1,31 +1,23 @@
 import React, { Component, Suspense, lazy } from 'react'
 import merge from 'deepmerge'
+import memoize from 'memoize-one'
 
 import { propTypes, defaultProps } from './props'
 import { omit, isEqual } from './utils'
 import players from './players'
 import Player from './Player'
 
-const FilePlayer = lazy(() => import('./players/FilePlayer'))
 const Preview = lazy(() => import('./Preview'))
 
 const SUPPORTED_PROPS = Object.keys(propTypes)
-let customPlayers = []
-
-const getConfig = props => merge(defaultProps.config, props.config)
+const customPlayers = []
 
 export default class ReactPlayer extends Component {
   static displayName = 'ReactPlayer'
   static propTypes = propTypes
   static defaultProps = defaultProps
-
-  static addCustomPlayer = player => {
-    customPlayers.push(player)
-  }
-
-  static removeCustomPlayers = () => {
-    customPlayers = []
-  }
+  static addCustomPlayer = player => { customPlayers.push(player) }
+  static removeCustomPlayers = () => { customPlayers.length = 0 }
 
   static canPlay = url => {
     for (const Player of [...customPlayers, ...players]) {
@@ -45,16 +37,13 @@ export default class ReactPlayer extends Component {
     return false
   }
 
-  config = getConfig(this.props)
   state = {
     showPreview: !!this.props.light
   }
 
-  componentDidMount () {
-    if (this.props.progressFrequency) {
-      const message = 'ReactPlayer: %cprogressFrequency%c is deprecated, please use %cprogressInterval%c instead'
-      console.warn(message, 'font-weight: bold', '', 'font-weight: bold', '')
-    }
+  refs = {
+    wrapper: wrapper => { this.wrapper = wrapper },
+    player: player => { this.player = player }
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -63,7 +52,6 @@ export default class ReactPlayer extends Component {
 
   componentDidUpdate (prevProps) {
     const { light } = this.props
-    this.config = getConfig(this.props)
     if (!prevProps.light && light) {
       this.setState({ showPreview: true })
     }
@@ -109,49 +97,68 @@ export default class ReactPlayer extends Component {
     this.props.onReady(this)
   }
 
-  getActivePlayer (url) {
+  getActivePlayer = memoize(url => {
     for (const player of [...customPlayers, ...players]) {
       if (player.canPlay(url)) {
-        return player.Player || player
+        return player
       }
     }
     // Fall back to FilePlayer if nothing else can play the URL
-    return FilePlayer
-  }
+    return players[players.length - 1]
+  })
 
-  wrapperRef = wrapper => {
-    this.wrapper = wrapper
-  }
+  getConfig = memoize((url, key) => {
+    const { config } = this.props
+    return merge.all([
+      defaultProps.config,
+      config,
+      config[key] || {}
+    ])
+  })
 
-  activePlayerRef = player => {
-    this.player = player
-  }
+  getAttributes = memoize(url => {
+    return omit(this.props, SUPPORTED_PROPS)
+  })
 
-  renderActivePlayer (url, activePlayer) {
+  renderPreview (url) {
     if (!url) return null
+    const { light, playIcon } = this.props
+    return (
+      <Preview
+        url={url}
+        light={light}
+        playIcon={playIcon}
+        onClick={this.handleClickPreview}
+      />
+    )
+  }
+
+  renderActivePlayer = url => {
+    if (!url) return null
+    const player = this.getActivePlayer(url)
+    const config = this.getConfig(url, player.key)
     return (
       <Player
         {...this.props}
-        key={url}
-        ref={this.activePlayerRef}
-        config={this.config}
-        activePlayer={activePlayer}
+        key={player.key}
+        ref={this.refs.player}
+        config={config}
+        activePlayer={player.lazyPlayer || player}
         onReady={this.handleReady}
       />
     )
   }
 
   render () {
-    const { url, style, width, height, light, playIcon, wrapper: Wrapper } = this.props
-    const showPreview = this.state.showPreview && url
-    const otherProps = omit(this.props, SUPPORTED_PROPS)
-    const activePlayer = this.getActivePlayer(url)
-    const player = this.renderActivePlayer(url, activePlayer)
-    const preview = <Preview url={url} light={light} playIcon={playIcon} onClick={this.handleClickPreview} />
+    const { url, style, width, height, wrapper: Wrapper } = this.props
+    const { showPreview } = this.state
+    const attributes = this.getAttributes(url)
     return (
-      <Wrapper ref={this.wrapperRef} style={{ ...style, width, height }} {...otherProps}>
+      <Wrapper ref={this.refs.wrapper} style={{ ...style, width, height }} {...attributes}>
         <Suspense fallback={null}>
-          {showPreview && url ? preview : player}
+          {showPreview
+            ? this.renderPreview(url)
+            : this.renderActivePlayer(url)}
         </Suspense>
       </Wrapper>
     )

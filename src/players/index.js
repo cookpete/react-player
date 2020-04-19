@@ -45,55 +45,66 @@ const canPlayFile = url => {
 
 export default [
   {
+    key: 'youtube',
     canPlay: url => MATCH_URL_YOUTUBE.test(url),
-    Player: lazy(() => import('./YouTube'))
+    lazyPlayer: lazy(() => import('./YouTube'))
   },
   {
+    key: 'soundcloud',
     canPlay: url => MATCH_URL_SOUNDCLOUD.test(url),
-    Player: lazy(() => import('./SoundCloud'))
+    lazyPlayer: lazy(() => import('./SoundCloud'))
   },
   {
+    key: 'vimeo',
     canPlay: url => {
       if (MATCH_URL_VIMEO_FILE.test(url)) {
         return false
       }
       return MATCH_URL_VIMEO.test(url)
     },
-    Player: lazy(() => import('./Vimeo'))
+    lazyPlayer: lazy(() => import('./Vimeo'))
   },
   {
+    key: 'facebook',
     canPlay: url => MATCH_URL_FACEBOOK.test(url),
-    Player: lazy(() => import('./Facebook'))
+    lazyPlayer: lazy(() => import('./Facebook'))
   },
   {
+    key: 'streamable',
     canPlay: url => MATCH_URL_STREAMABLE.test(url),
-    Player: lazy(() => import('./Streamable'))
+    lazyPlayer: lazy(() => import('./Streamable'))
   },
   {
+    key: 'wistia',
     canPlay: url => MATCH_URL_WISTIA.test(url),
-    Player: lazy(() => import('./Wistia'))
+    lazyPlayer: lazy(() => import('./Wistia'))
   },
   {
+    key: 'twitch',
     canPlay: url => MATCH_URL_TWITCH_VIDEO.test(url) || MATCH_URL_TWITCH_CHANNEL.test(url),
-    Player: lazy(() => import('./Twitch'))
+    lazyPlayer: lazy(() => import('./Twitch'))
   },
   {
+    key: 'dailymotion',
     canPlay: url => MATCH_URL_DAILYMOTION.test(url),
-    Player: lazy(() => import('./DailyMotion'))
+    lazyPlayer: lazy(() => import('./DailyMotion'))
   },
   {
+    key: 'mixcloud',
     canPlay: url => MATCH_URL_MIXCLOUD.test(url),
-    Player: lazy(() => import('./Mixcloud'))
+    lazyPlayer: lazy(() => import('./Mixcloud'))
   },
   {
+    key: 'vidyard',
     canPlay: url => MATCH_URL_VIDYARD.test(url),
-    Player: lazy(() => import('./Vidyard'))
+    lazyPlayer: lazy(() => import('./Vidyard'))
   },
   {
+    key: 'file',
     canPlay: canPlayFile,
     canEnablePIP: url => {
       return canPlayFile(url) && (document.pictureInPictureEnabled || supportsWebKitPresentationMode()) && !AUDIO_EXTENSIONS.test(url)
     },
-    Player: lazy(() => import('./FilePlayer'))
+    lazyPlayer: lazy(() => import('./FilePlayer'))
   }
 ]
