@@ -99,7 +99,8 @@
     "deepmerge": "^4.0.0",
     "load-script": "^1.0.0",
     "memoize-one": "^5.1.1",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "react-fast-compare": "^3.0.1"
   },
   "babel": {
     "presets": [

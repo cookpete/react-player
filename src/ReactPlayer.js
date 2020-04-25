@@ -1,9 +1,10 @@
 import React, { Component, Suspense, lazy } from 'react'
 import merge from 'deepmerge'
 import memoize from 'memoize-one'
+import isEqual from 'react-fast-compare'
 
 import { propTypes, defaultProps } from './props'
-import { omit, isEqual } from './utils'
+import { omit } from './utils'
 import players from './players'
 import Player from './Player'
 
