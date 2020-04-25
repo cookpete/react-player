@@ -5,7 +5,6 @@ import {
   MATCH_URL_YOUTUBE,
   MATCH_URL_SOUNDCLOUD,
   MATCH_URL_VIMEO,
-  MATCH_URL_VIMEO_FILE,
   MATCH_URL_FACEBOOK,
   MATCH_URL_STREAMABLE,
   MATCH_URL_WISTIA,
@@ -51,17 +50,12 @@ export default [
   },
   {
     key: 'soundcloud',
-    canPlay: url => MATCH_URL_SOUNDCLOUD.test(url),
+    canPlay: url => MATCH_URL_SOUNDCLOUD.test(url) && !AUDIO_EXTENSIONS.test(url),
     lazyPlayer: lazy(() => import('./SoundCloud'))
   },
   {
     key: 'vimeo',
-    canPlay: url => {
-      if (MATCH_URL_VIMEO_FILE.test(url)) {
-        return false
-      }
-      return MATCH_URL_VIMEO.test(url)
-    },
+    canPlay: url => MATCH_URL_VIMEO.test(url) && !VIDEO_EXTENSIONS.test(url) && !HLS_EXTENSIONS.test(url),
     lazyPlayer: lazy(() => import('./Vimeo'))
   },
   {

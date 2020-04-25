@@ -1,7 +1,6 @@
 export const MATCH_URL_YOUTUBE = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})|youtube\.com\/playlist\?list=/
 export const MATCH_URL_SOUNDCLOUD = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/
 export const MATCH_URL_VIMEO = /vimeo\.com\/.+/
-export const MATCH_URL_VIMEO_FILE = /vimeo\.com\/external\/[0-9]+\..+/
 export const MATCH_URL_FACEBOOK = /^https?:\/\/(www\.)?facebook\.com.*\/(video(s)?|watch|story)(\.php?|\/).+$/
 export const MATCH_URL_STREAMABLE = /streamable\.com\/([a-z0-9]+)$/
 export const MATCH_URL_WISTIA = /(?:wistia\.com|wi\.st)\/(?:medias|embed)\/(.*)$/
