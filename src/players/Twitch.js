@@ -11,7 +11,7 @@ export default class Twitch extends Component {
   static displayName = 'Twitch'
   static loopOnEnded = true
   callPlayer = callPlayer
-  playerID = this.props.config.twitch.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
+  playerID = this.props.config.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
@@ -40,7 +40,7 @@ export default class Twitch extends Component {
         muted: this.props.muted,
         // https://github.com/CookPete/react-player/issues/733#issuecomment-549085859
         controls: isChannel ? true : controls,
-        ...config.twitch.options
+        ...config.options
       })
       const { READY, PLAYING, PAUSE, ENDED, ONLINE, OFFLINE } = Twitch.Player
       this.player.addEventListener(READY, this.props.onReady)

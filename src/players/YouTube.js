@@ -29,7 +29,7 @@ export default class YouTube extends Component {
 
   load (url, isReady) {
     const { playing, muted, playsinline, controls, loop, config, onError } = this.props
-    const { playerVars, embedOptions } = config.youtube
+    const { playerVars, embedOptions } = config
     const id = url && url.match(MATCH_URL_YOUTUBE)[1]
     if (isReady) {
       if (MATCH_PLAYLIST.test(url)) {

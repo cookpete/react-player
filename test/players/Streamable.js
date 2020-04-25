@@ -11,9 +11,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://streamable.com/moo'
 const TEST_CONFIG = {
-  soundcloud: {
-    options: {}
-  }
+  options: {}
 }
 
 testPlayerMethods(Streamable, {

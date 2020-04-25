@@ -31,7 +31,7 @@ export default class Vidyard extends Component {
       Vidyard.api.renderPlayer({
         uuid: id,
         container: this.container,
-        ...config.vidyard.options
+        ...config.options
       })
       Vidyard.api.getPlayerMetadata(id).then(meta => {
         this.duration = meta.length_in_seconds

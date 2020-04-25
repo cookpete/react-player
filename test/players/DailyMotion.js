@@ -15,9 +15,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.dailymotion.com/video/x5e9eog'
 const TEST_CONFIG = {
-  dailymotion: {
-    params: {}
-  }
+  params: {}
 }
 
 testPlayerMethods(DailyMotion, {

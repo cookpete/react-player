@@ -19,9 +19,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.facebook.com/facebook/videos/10153231379946729'
 const TEST_CONFIG = {
-  facebook: {
-    appId: '123'
-  }
+  appId: '123'
 }
 
 Facebook.prototype.componentWillMount = function () {

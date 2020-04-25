@@ -87,7 +87,7 @@ export default class Mixcloud extends Component {
       height: '100%'
     }
     const query = queryString({
-      ...config.mixcloud.options,
+      ...config.options,
       feed: `/${id}/`
     })
     // We have to give the iframe a key here to prevent a

@@ -11,7 +11,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.mixcloud.com/mixcloud/meet-the-curators'
 const TEST_CONFIG = {
-  mixcloud: { options: {} }
+  options: {}
 }
 
 testPlayerMethods(Mixcloud, {

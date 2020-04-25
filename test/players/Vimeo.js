@@ -11,9 +11,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://vimeo.com/90509568'
 const TEST_CONFIG = {
-  vimeo: {
-    playerOptions: {}
-  }
+  playerOptions: {}
 }
 
 testPlayerMethods(Vimeo, {

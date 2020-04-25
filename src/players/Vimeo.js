@@ -28,7 +28,7 @@ export default class Vimeo extends Component {
         loop: this.props.loop,
         playsinline: this.props.playsinline,
         controls: this.props.controls,
-        ...this.props.config.vimeo.playerOptions
+        ...this.props.config.playerOptions
       })
       this.player.ready().then(() => {
         const iframe = this.container.querySelector('iframe')

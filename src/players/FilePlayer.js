@@ -103,28 +103,28 @@ export default class FilePlayer extends Component {
   }
 
   shouldUseAudio (props) {
-    if (props.config.file.forceVideo) {
+    if (props.config.forceVideo) {
       return false
     }
-    if (props.config.file.attributes.poster) {
+    if (props.config.attributes.poster) {
       return false // Use <video> so that poster is shown
     }
-    return AUDIO_EXTENSIONS.test(props.url) || props.config.file.forceAudio
+    return AUDIO_EXTENSIONS.test(props.url) || props.config.forceAudio
   }
 
   shouldUseHLS (url) {
-    return (HLS_EXTENSIONS.test(url) && !IOS) || this.props.config.file.forceHLS
+    return (HLS_EXTENSIONS.test(url) && !IOS) || this.props.config.forceHLS
   }
 
   shouldUseDASH (url) {
-    return DASH_EXTENSIONS.test(url) || this.props.config.file.forceDASH
+    return DASH_EXTENSIONS.test(url) || this.props.config.forceDASH
   }
 
   load (url) {
-    const { hlsVersion, dashVersion } = this.props.config.file
+    const { hlsVersion, hlsOptions, dashVersion } = this.props.config
     if (this.shouldUseHLS(url)) {
       getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
-        this.hls = new Hls(this.props.config.file.hlsOptions)
+        this.hls = new Hls(hlsOptions)
         this.hls.on(Hls.Events.ERROR, (e, data) => {
           this.props.onError(e, data, this.hls, Hls)
         })
@@ -289,11 +289,11 @@ export default class FilePlayer extends Component {
         controls={controls}
         muted={muted}
         loop={loop}
-        {...config.file.attributes}
+        {...config.attributes}
       >
         {url instanceof Array &&
           url.map(this.renderSourceElement)}
-        {config.file.tracks.map(this.renderTrack)}
+        {config.tracks.map(this.renderTrack)}
       </Element>
     )
   }

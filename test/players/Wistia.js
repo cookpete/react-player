@@ -13,9 +13,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://home.wistia.com/medias/e4a27b971d'
 const TEST_CONFIG = {
-  wistia: {
-    options: {}
-  }
+  options: {}
 }
 
 testPlayerMethods(Wistia, {

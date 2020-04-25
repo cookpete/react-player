@@ -19,7 +19,7 @@ global.window = {
 
 configure({ adapter: new Adapter() })
 
-const { config } = defaultProps
+const config = defaultProps.config.file
 
 test.beforeEach(t => {
   FilePlayer.prototype.componentWillMount = function () {
@@ -144,10 +144,8 @@ test('forceVideo', t => {
   const wrapper = shallow(
     <FilePlayer
       url='file.mp3' config={{
-        file: {
-          ...config.file,
-          forceVideo: true
-        }
+        ...config,
+        forceVideo: true
       }}
     />
   )
@@ -160,10 +158,8 @@ test('forceAudio', t => {
   const wrapper = shallow(
     <FilePlayer
       url='file.mp4' config={{
-        file: {
-          ...config.file,
-          forceAudio: true
-        }
+        ...config,
+        forceAudio: true
       }}
     />
   )
@@ -176,10 +172,8 @@ test('render video poster', t => {
   const wrapper = shallow(
     <FilePlayer
       url='file.mp3' config={{
-        file: {
-          ...config.file,
-          attributes: { poster: 'poster.png' }
-        }
+        ...config,
+        attributes: { poster: 'poster.png' }
       }}
     />
   )

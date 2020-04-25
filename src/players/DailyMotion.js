@@ -39,7 +39,7 @@ export default class DailyMotion extends Component {
           mute: this.props.muted,
           start: parseStartTime(url),
           origin: window.location.origin,
-          ...config.dailymotion.params
+          ...config.params
         },
         events: {
           apiready: this.props.onReady,

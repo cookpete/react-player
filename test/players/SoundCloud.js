@@ -11,9 +11,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://soundcloud.com/miami-nights-1984/accelerated'
 const TEST_CONFIG = {
-  soundcloud: {
-    options: {}
-  }
+  options: {}
 }
 
 testPlayerMethods(SoundCloud, {

@@ -11,9 +11,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.twitch.tv/videos/106400740'
 const TEST_CONFIG = {
-  twitch: {
-    options: {}
-  }
+  options: {}
 }
 
 Twitch.prototype.componentWillMount = function () {

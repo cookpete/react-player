@@ -30,7 +30,7 @@ export default class Wistia extends Component {
           silentAutoPlay: 'allow',
           muted: muted,
           controlsVisibleOnLoad: controls,
-          ...config.wistia.options
+          ...config.options
         },
         onReady: player => {
           this.player = player

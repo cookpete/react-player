@@ -11,7 +11,7 @@ export default class Facebook extends Component {
   static displayName = 'Facebook'
   static loopOnEnded = true
   callPlayer = callPlayer
-  playerID = this.props.config.facebook.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
+  playerID = this.props.config.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
@@ -24,9 +24,9 @@ export default class Facebook extends Component {
     }
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY).then(FB => {
       FB.init({
-        appId: this.props.config.facebook.appId,
+        appId: this.props.config.appId,
         xfbml: true,
-        version: this.props.config.facebook.version
+        version: this.props.config.version
       })
       FB.Event.subscribe('xfbml.render', msg => {
         // Here we know the SDK has loaded, even if onReady/onPlay
