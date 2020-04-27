@@ -46,8 +46,7 @@ export const propTypes = {
     }),
     file: shape({
       attributes: object,
-      tracks: 
-      ,
+      tracks: array,
       forceVideo: bool,
       forceAudio: bool,
       forceHLS: bool,
