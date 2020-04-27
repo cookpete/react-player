@@ -96,7 +96,8 @@ export const defaultProps = {
   playsinline: false,
   pip: false,
   light: false,
-  wrapper: 'div',
+  wrapper: 'div',  
+  tracks: [],
   config: {
     soundcloud: {
       options: {
