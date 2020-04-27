@@ -17,6 +17,8 @@ export const propTypes = {
   playsinline: bool,
   pip: bool,
   light: oneOfType([bool, string]),
+  tracks: array,
+  attributes: object,
   playIcon: node,
   wrapper: oneOfType([
     string,
@@ -44,7 +46,8 @@ export const propTypes = {
     }),
     file: shape({
       attributes: object,
-      tracks: array,
+      tracks: 
+      ,
       forceVideo: bool,
       forceAudio: bool,
       forceHLS: bool,
