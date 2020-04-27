@@ -111,7 +111,7 @@ export default class ReactPlayer extends Component {
   getConfig = memoize((url, key) => {
     const { config } = this.props
     return merge.all([
-      defaultProps.config,      
+      defaultProps.config,
       defaultProps.config[key] || {},
       config,
       config[key] || {}
