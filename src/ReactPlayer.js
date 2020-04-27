@@ -112,7 +112,7 @@ export default class ReactPlayer extends Component {
     const { config } = this.props
     return merge.all([
       defaultProps.config,      
-      defaultProps.config[key],
+      defaultProps.config[key] || {},
       config,
       config[key] || {}
     ])
