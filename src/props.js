@@ -98,6 +98,7 @@ export const defaultProps = {
   light: false,
   wrapper: 'div',  
   tracks: [],
+  attributes: {},
   config: {
     soundcloud: {
       options: {
