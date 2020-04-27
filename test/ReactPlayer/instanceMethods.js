@@ -12,7 +12,7 @@ const COMMON_METHODS = ['getDuration', 'getCurrentTime', 'getSecondsLoaded', 'ge
 for (const method of COMMON_METHODS) {
   test(`${method}()`, t => {
     const instance = shallow(<ReactPlayer />).instance()
-    instance.refs.player({ [method]: () => 123 })
+    instance.elementRefs.player({ [method]: () => 123 })
     t.true(instance[method]() === 123)
   })
 
@@ -25,14 +25,14 @@ for (const method of COMMON_METHODS) {
 test('getInternalPlayer() - default', t => {
   const instance = shallow(<ReactPlayer />).instance()
   const getInternalPlayer = sinon.fake.returns('abc')
-  instance.refs.player({ getInternalPlayer })
+  instance.elementRefs.player({ getInternalPlayer })
   t.true(instance.getInternalPlayer() === 'abc')
   t.true(getInternalPlayer.calledOnceWith('player'))
 })
 
 test('seekTo()', t => {
   const instance = shallow(<ReactPlayer />).instance()
-  instance.refs.player({ seekTo: sinon.fake() })
+  instance.elementRefs.player({ seekTo: sinon.fake() })
   instance.seekTo(5)
   t.true(instance.player.seekTo.calledOnce)
   t.true(instance.player.seekTo.calledWith(5))
@@ -50,10 +50,10 @@ test('onReady()', t => {
   t.true(onReady.calledWith(instance))
 })
 
-test('refs', t => {
+test('elementRefs', t => {
   const instance = shallow(<ReactPlayer />).instance()
-  instance.refs.player('abc')
-  instance.refs.wrapper('def')
+  instance.elementRefs.player('abc')
+  instance.elementRefs.wrapper('def')
   t.true(instance.player === 'abc')
   t.true(instance.wrapper === 'def')
 })
