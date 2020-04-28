@@ -28,9 +28,10 @@ export default class Player extends Component {
     clearTimeout(this.durationCheckTimeout)
     if (this.isReady) {
       this.player.stop()
-    }
-    if (this.player.disablePIP) {
-      this.player.disablePIP()
+
+      if (this.player.disablePIP) {
+        this.player.disablePIP()
+      }
     }
     this.mounted = false
   }
