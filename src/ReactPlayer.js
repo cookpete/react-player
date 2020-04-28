@@ -10,7 +10,13 @@ import Player from './Player'
 
 const Preview = lazy(() => import('./Preview'))
 
+const IS_BROWSER = typeof window !== 'undefined' && window.document
 const SUPPORTED_PROPS = Object.keys(propTypes)
+
+// Return null when rendering on the server
+// as Suspense is not supported yet
+const UniversalSuspense = IS_BROWSER ? Suspense : () => null
+
 const customPlayers = []
 
 export default class ReactPlayer extends Component {
@@ -158,11 +164,11 @@ export default class ReactPlayer extends Component {
     const attributes = this.getAttributes(url)
     return (
       <Wrapper ref={this.references.wrapper} style={{ ...style, width, height }} {...attributes}>
-        <Suspense fallback={null}>
+        <UniversalSuspense fallback={null}>
           {showPreview
             ? this.renderPreview(url)
             : this.renderActivePlayer(url)}
-        </Suspense>
+        </UniversalSuspense>
       </Wrapper>
     )
   }
