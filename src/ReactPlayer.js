@@ -42,7 +42,8 @@ export default class ReactPlayer extends Component {
     showPreview: !!this.props.light
   }
 
-  refs = {
+  // Use references, as refs is used by React
+  references = {
     wrapper: wrapper => { this.wrapper = wrapper },
     player: player => { this.player = player }
   }
@@ -143,7 +144,7 @@ export default class ReactPlayer extends Component {
       <Player
         {...this.props}
         key={player.key}
-        ref={this.refs.player}
+        ref={this.references.player}
         config={config}
         activePlayer={player.lazyPlayer || player}
         onReady={this.handleReady}
@@ -156,7 +157,7 @@ export default class ReactPlayer extends Component {
     const { showPreview } = this.state
     const attributes = this.getAttributes(url)
     return (
-      <Wrapper ref={this.refs.wrapper} style={{ ...style, width, height }} {...attributes}>
+      <Wrapper ref={this.references.wrapper} style={{ ...style, width, height }} {...attributes}>
         <Suspense fallback={null}>
           {showPreview
             ? this.renderPreview(url)
