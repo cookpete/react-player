@@ -375,3 +375,20 @@ test('auto width/height', t => {
     </video>
   ))
 })
+
+test('load - hls. Change source', async t => {
+  class Hls {
+    static Events = { ERROR: 'ERROR' }
+    on = () => null
+    loadSource = () => null
+    attachMedia = () => t.pass()
+  }
+  const url = 'file.m3u8'
+  const getSDK = sinon.stub(utils, 'getSDK').resolves(Hls)
+  const instance = shallow(<FilePlayer url={url} config={config} />).instance()
+  const destroy = sinon.fake()
+  instance.hls = { destroy }
+  await instance.load ( url )
+  t.true ( destroy.calledOnce )
+  getSDK.restore()  
+})

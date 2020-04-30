@@ -16,6 +16,7 @@ export default class FilePlayer extends Component {
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
     this.addListeners(this.player)
+    this.hls=null
     if (IOS) {
       this.player.load()
     }
@@ -32,6 +33,7 @@ export default class FilePlayer extends Component {
     this.removeListeners(this.player)
     if (this.hls) {
       this.hls.destroy()
+      this.hls=null
     }
   }
 
@@ -124,6 +126,9 @@ export default class FilePlayer extends Component {
     const { hlsVersion, hlsOptions, dashVersion } = this.props.config
     if (this.shouldUseHLS(url)) {
       getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
+        if (this.hls != null ) {
+          this.hls.destroy()
+        }
         this.hls = new Hls(hlsOptions)
         this.hls.on(Hls.Events.ERROR, (e, data) => {
           this.props.onError(e, data, this.hls, Hls)
