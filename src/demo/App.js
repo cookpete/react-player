@@ -112,17 +112,16 @@ class App extends Component {
   }
 
   handleSkipXSecs = (isForward, secondsEllapse) => {
-    const { duration, played } = this.state;
+    const { duration, played } = this.state
 
-    const direction = isForward ? 1 : -1;
-    const progressEllapse = direction * (secondsEllapse / duration);
-    let newPosition = this.state.played + progressEllapse;
-    newPosition = newPosition < 0 ? 0 : newPosition;
-    newPosition = newPosition >= 1 ? 0.999 : newPosition;
+    const direction = isForward ? 1 : -1
+    const progressEllapse = direction * (secondsEllapse / duration)
+    let newPosition = played + progressEllapse
+    newPosition = newPosition < 0 ? 0 : newPosition
+    newPosition = newPosition >= 1 ? 0.999 : newPosition
 
-    this.player.seekTo(newPosition);
+    this.player.seekTo(newPosition)
   };
-
 
   handleSeekMouseUp = e => {
     this.setState({ seeking: false })
@@ -163,7 +162,7 @@ class App extends Component {
     this.player = player
   }
 
-  render() {
+  render () {
     const { url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
     const SEPARATOR = ' · '
 
