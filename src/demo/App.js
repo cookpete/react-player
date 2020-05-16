@@ -243,11 +243,11 @@ class App extends Component {
                       {pip ? "Disable PiP" : "Enable PiP"}
                     </button>
                   )}
-                  <button onClick={(e) => this.handleSkipXSecs(false, 30)}>
-                    30s back
+                  <button onClick={(e) => this.handleSkipXSecs(false, 15)}>
+                    15s back
                   </button>
-                  <button onClick={(e) => this.handleSkipXSecs(true, 30)}>
-                    30s fwd
+                  <button onClick={(e) => this.handleSkipXSecs(true, 15)}>
+                    15s fwd
                   </button>
                 </td>
               </tr>
