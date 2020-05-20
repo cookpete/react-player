@@ -104,7 +104,14 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-env",
+      [
+        "@babel/preset-env",
+        {
+          "exclude": [
+            "@babel/plugin-proposal-dynamic-import"
+          ]
+        }
+      ],
       "@babel/preset-react"
     ],
     "plugins": [
