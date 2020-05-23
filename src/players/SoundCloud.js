@@ -24,7 +24,14 @@ export default class SoundCloud extends Component {
       if (!isReady) {
         this.player = SC.Widget(this.iframe)
         this.player.bind(PLAY, this.props.onPlay)
-        this.player.bind(PAUSE, this.props.onPause)
+        this.player.bind(PAUSE, () => {
+          const remaining = this.duration - this.currentTime
+          if (remaining < 0.05) {
+            // Prevent onPause firing right before onEnded
+            return
+          }
+          this.props.onPause()
+        })
         this.player.bind(PLAY_PROGRESS, e => {
           this.currentTime = e.currentPosition / 1000
           this.fractionLoaded = e.loadedProgress
