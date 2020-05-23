@@ -20,6 +20,7 @@ export interface SoundCloudConfig {
 export interface YouTubeConfig {
   playerVars?: Object;
   embedOptions?: Object;
+  onUnstarted?(): void;
 }
 
 export interface FacebookConfig {

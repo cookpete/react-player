@@ -29,7 +29,8 @@ export const propTypes = {
     }),
     youtube: shape({
       playerVars: object,
-      embedOptions: object
+      embedOptions: object,
+      onUnstarted: func
     }),
     facebook: shape({
       appId: string,
@@ -82,6 +83,8 @@ export const propTypes = {
   onDisablePIP: func
 }
 
+const noop = () => {}
+
 export const defaultProps = {
   playing: false,
   loop: false,
@@ -117,7 +120,8 @@ export const defaultProps = {
         iv_load_policy: 3,
         modestbranding: 1
       },
-      embedOptions: {}
+      embedOptions: {},
+      onUnstarted: noop
     },
     facebook: {
       appId: '1309697205772819',
@@ -165,17 +169,17 @@ export const defaultProps = {
       options: {}
     }
   },
-  onReady: function () {},
-  onStart: function () {},
-  onPlay: function () {},
-  onPause: function () {},
-  onBuffer: function () {},
-  onBufferEnd: function () {},
-  onEnded: function () {},
-  onError: function () {},
-  onDuration: function () {},
-  onSeek: function () {},
-  onProgress: function () {},
-  onEnablePIP: function () {},
-  onDisablePIP: function () {}
+  onReady: noop,
+  onStart: noop,
+  onPlay: noop,
+  onPause: noop,
+  onBuffer: noop,
+  onBufferEnd: noop,
+  onEnded: noop,
+  onError: noop,
+  onDuration: noop,
+  onSeek: noop,
+  onProgress: noop,
+  onEnablePIP: noop,
+  onDisablePIP: noop
 }

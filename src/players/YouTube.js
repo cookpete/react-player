@@ -85,9 +85,11 @@ export default class YouTube extends Component {
     }, onError)
   }
 
-  onStateChange = ({ data }) => {
-    const { onPlay, onPause, onBuffer, onBufferEnd, onEnded, onReady, loop, config: { playerVars } } = this.props
-    const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
+  onStateChange = (event) => {
+    const { data } = event
+    const { onPlay, onPause, onBuffer, onBufferEnd, onEnded, onReady, loop, config: { playerVars, onUnstarted } } = this.props
+    const { UNSTARTED, PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
+    if (data === UNSTARTED) onUnstarted()
     if (data === PLAYING) {
       onPlay()
       onBufferEnd()
