@@ -15,9 +15,12 @@ export default class Vidyard extends Component {
     this.props.onMount && this.props.onMount(this)
   }
 
-  load (url, isReady) {
+  load (url) {
     const { config, onError, onDuration } = this.props
     const id = url && url.match(MATCH_URL_VIDYARD)[1]
+    if (this.player) {
+      this.stop()
+    }
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY).then(Vidyard => {
       if (!this.container) return
       Vidyard.api.addReadyListener((data, player) => {
