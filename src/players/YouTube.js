@@ -83,7 +83,7 @@ export default class YouTube extends Component {
   }
 
   onStateChange = ({ data }) => {
-    const { onPlay, onPause, onBuffer, onBufferEnd, onEnded, onReady, loop } = this.props
+    const { onPlay, onPause, onBuffer, onBufferEnd, onEnded, onReady, loop, config: { playerVars } } = this.props
     const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
     if (data === PLAYING) {
       onPlay()
@@ -93,8 +93,13 @@ export default class YouTube extends Component {
     if (data === BUFFERING) onBuffer()
     if (data === ENDED) {
       const isPlaylist = !!this.callPlayer('getPlaylist')
+      // Only loop manually if not playing a playlist
       if (loop && !isPlaylist) {
-        this.play() // Only loop manually if not playing a playlist
+        if (playerVars.start) {
+          this.seekTo(playerVars.start)
+        } else {
+          this.play()
+        }
       }
       onEnded()
     }

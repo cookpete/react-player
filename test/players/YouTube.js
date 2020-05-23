@@ -85,33 +85,33 @@ test('onStateChange() - play', t => {
   const called = {}
   const onPlay = () => { called.onPlay = true }
   const onBufferEnd = () => { called.onBufferEnd = true }
-  const instance = shallow(<YouTube url={TEST_URL} onPlay={onPlay} onBufferEnd={onBufferEnd} />).instance()
+  const instance = shallow(<YouTube url={TEST_URL} onPlay={onPlay} onBufferEnd={onBufferEnd} config={{}} />).instance()
   instance.onStateChange({ data: 'PLAYING' })
   t.true(called.onPlay && called.onBufferEnd)
 })
 
 test('onStateChange() - pause', async t => {
   const onPause = () => t.pass()
-  const instance = shallow(<YouTube url={TEST_URL} onPause={onPause} />).instance()
+  const instance = shallow(<YouTube url={TEST_URL} onPause={onPause} config={{}} />).instance()
   instance.onStateChange({ data: 'PAUSED' })
 })
 
 test('onStateChange() - buffer', async t => {
   const onBuffer = () => t.pass()
-  const instance = shallow(<YouTube url={TEST_URL} onBuffer={onBuffer} />).instance()
+  const instance = shallow(<YouTube url={TEST_URL} onBuffer={onBuffer} config={{}} />).instance()
   instance.onStateChange({ data: 'BUFFERING' })
 })
 
 test('onStateChange() - ended', async t => {
   const onEnded = () => t.pass()
-  const instance = shallow(<YouTube url={TEST_URL} onEnded={onEnded} />).instance()
+  const instance = shallow(<YouTube url={TEST_URL} onEnded={onEnded} config={{}} />).instance()
   instance.player = { getPlaylist: () => {} }
   instance.onStateChange({ data: 'ENDED' })
 })
 
 test('onStateChange() - ready', async t => {
   const onReady = () => t.pass()
-  const instance = shallow(<YouTube url={TEST_URL} onReady={onReady} />).instance()
+  const instance = shallow(<YouTube url={TEST_URL} onReady={onReady} config={{}} />).instance()
   instance.onStateChange({ data: 'CUED' })
 })
 
