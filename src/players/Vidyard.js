@@ -53,7 +53,6 @@ export default class Vidyard extends Component {
 
   stop () {
     window.VidyardV4.api.destroyPlayer(this.player)
-    delete this.player
   }
 
   seekTo (amount) {
