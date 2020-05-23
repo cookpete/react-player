@@ -8,6 +8,8 @@ const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
 const MATCH_PLAYLIST = /list=([a-zA-Z0-9_-]+)/
 const MATCH_USER_UPLOADS = /user\/([a-zA-Z0-9_-]+)\/?/
+const MATCH_NOCOOKIE = /youtube-nocookie\.com/
+const NOCOOKIE_HOST = 'https://www.youtube-nocookie.com'
 
 function parsePlaylist (url) {
   if (MATCH_PLAYLIST.test(url)) {
@@ -77,6 +79,7 @@ export default class YouTube extends Component {
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
         },
+        host: MATCH_NOCOOKIE.test(url) ? NOCOOKIE_HOST : undefined,
         ...embedOptions
       })
     }, onError)
