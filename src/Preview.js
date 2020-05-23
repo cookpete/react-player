@@ -40,6 +40,12 @@ export default class Preview extends Component {
       })
   }
 
+  handleKeyPress = e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      this.props.onClick()
+    }
+  }
+
   render () {
     const { onClick, playIcon } = this.props
     const { image } = this.state
@@ -78,7 +84,13 @@ export default class Preview extends Component {
       </div>
     )
     return (
-      <div style={styles.preview} className='react-player__preview' onClick={onClick}>
+      <div
+        style={styles.preview}
+        className='react-player__preview'
+        onClick={onClick}
+        tabIndex={0}
+        onKeyPress={this.handleKeyPress}
+      >
         {playIcon || defaultPlayIcon}
       </div>
     )
