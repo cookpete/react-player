@@ -16,7 +16,7 @@ export default class Vidyard extends Component {
   }
 
   load (url) {
-    const { config, onError, onDuration } = this.props
+    const { playing, config, onError, onDuration } = this.props
     const id = url && url.match(MATCH_URL_VIDYARD)[1]
     if (this.player) {
       this.stop()
@@ -34,6 +34,7 @@ export default class Vidyard extends Component {
       Vidyard.api.renderPlayer({
         uuid: id,
         container: this.container,
+        autoplay: playing ? 1 : 0,
         ...config.options
       })
       Vidyard.api.getPlayerMetadata(id).then(meta => {
