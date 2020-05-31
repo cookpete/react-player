@@ -9,14 +9,11 @@
   <a href='https://travis-ci.org/CookPete/react-player'>
     <img src='https://img.shields.io/travis/CookPete/react-player/master.svg' alt='Build Status'>
   </a>
-  <a href='https://david-dm.org/CookPete/react-player'>
-    <img src='https://img.shields.io/david/CookPete/react-player.svg' alt='Dependency Status'>
-  </a>
   <a href='https://codecov.io/gh/CookPete/react-player'>
     <img src='https://img.shields.io/codecov/c/github/cookpete/react-player.svg' alt='Test Coverage'>
   </a>
-  <a href='https://paypal.me/ckpt'>
-    <img src='https://img.shields.io/badge/donate-PayPal-blue.svg' alt='Donate'>
+  <a href='https://www.patreon.com/cookpete'>
+    <img src='https://img.shields.io/badge/sponsor-patreon-fa6854.svg' alt='Become a sponsor on Patreon'>
   </a>
 </p>
 
@@ -329,5 +326,13 @@ See the [contribution guidelines](https://github.com/CookPete/react-player/blob/
 
 ### Thanks
 
-- Many thanks to [Kostya Luchankin](https://github.com/phationmationion) for help overhauling the player inheritance patterns.
 - Thanks to anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors).
+- Huge thanks to my Patreon sponsors:
+
+<table>
+  <tr>
+    <td align='center'>
+      <a href='https://github.com/josephfung'><img src='https://avatars3.githubusercontent.com/u/114566?s=120&v=4' /><br />Joseph Fung</a>
+    </td>
+  </tr>
+</table>
