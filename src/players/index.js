@@ -46,52 +46,52 @@ export default [
   {
     key: 'youtube',
     canPlay: url => MATCH_URL_YOUTUBE.test(url),
-    lazyPlayer: lazy(() => import('./YouTube'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerYouTube' */'./YouTube'))
   },
   {
     key: 'soundcloud',
     canPlay: url => MATCH_URL_SOUNDCLOUD.test(url) && !AUDIO_EXTENSIONS.test(url),
-    lazyPlayer: lazy(() => import('./SoundCloud'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerSoundCloud' */'./SoundCloud'))
   },
   {
     key: 'vimeo',
     canPlay: url => MATCH_URL_VIMEO.test(url) && !VIDEO_EXTENSIONS.test(url) && !HLS_EXTENSIONS.test(url),
-    lazyPlayer: lazy(() => import('./Vimeo'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerVimeo' */'./Vimeo'))
   },
   {
     key: 'facebook',
     canPlay: url => MATCH_URL_FACEBOOK.test(url),
-    lazyPlayer: lazy(() => import('./Facebook'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerFacebook' */'./Facebook'))
   },
   {
     key: 'streamable',
     canPlay: url => MATCH_URL_STREAMABLE.test(url),
-    lazyPlayer: lazy(() => import('./Streamable'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerStreamable' */'./Streamable'))
   },
   {
     key: 'wistia',
     canPlay: url => MATCH_URL_WISTIA.test(url),
-    lazyPlayer: lazy(() => import('./Wistia'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerWistia' */'./Wistia'))
   },
   {
     key: 'twitch',
     canPlay: url => MATCH_URL_TWITCH_VIDEO.test(url) || MATCH_URL_TWITCH_CHANNEL.test(url),
-    lazyPlayer: lazy(() => import('./Twitch'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerTwitch' */'./Twitch'))
   },
   {
     key: 'dailymotion',
     canPlay: url => MATCH_URL_DAILYMOTION.test(url),
-    lazyPlayer: lazy(() => import('./DailyMotion'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerDailyMotion' */'./DailyMotion'))
   },
   {
     key: 'mixcloud',
     canPlay: url => MATCH_URL_MIXCLOUD.test(url),
-    lazyPlayer: lazy(() => import('./Mixcloud'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerMixcloud' */'./Mixcloud'))
   },
   {
     key: 'vidyard',
     canPlay: url => MATCH_URL_VIDYARD.test(url),
-    lazyPlayer: lazy(() => import('./Vidyard'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerVidyard' */'./Vidyard'))
   },
   {
     key: 'file',
@@ -99,6 +99,6 @@ export default [
     canEnablePIP: url => {
       return canPlayFile(url) && (document.pictureInPictureEnabled || supportsWebKitPresentationMode()) && !AUDIO_EXTENSIONS.test(url)
     },
-    lazyPlayer: lazy(() => import('./FilePlayer'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerFilePlayer' */'./FilePlayer'))
   }
 ]
