@@ -90,7 +90,7 @@ export interface ReactPlayerProps {
   light?: boolean | string;
   wrapper?: any;
   config?: Config;
-  onReady?(): void;
+  onReady?(player: ReactPlayer): void;
   onStart?(): void;
   onPlay?(): void;
   onPause?(): void;
