@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK } from '../utils'
+import { callPlayer, getSDK, randomString } from '../utils'
 import { canPlay, MATCH_URL_WISTIA } from '../patterns'
 
 const SDK_URL = 'https://fast.wistia.com/assets/external/E-v1.js'
 const SDK_GLOBAL = 'Wistia'
+const PLAYER_ID_PREFIX = 'wistia-player-'
 
 export default class Wistia extends Component {
   static displayName = 'Wistia'
   static canPlay = canPlay.wistia
   static loopOnEnded = true
+  playerID = `${PLAYER_ID_PREFIX}${randomString()}`
   callPlayer = callPlayer
 
   componentDidMount () {
@@ -25,7 +27,7 @@ export default class Wistia extends Component {
     getSDK(SDK_URL, SDK_GLOBAL).then(() => {
       window._wq = window._wq || []
       window._wq.push({
-        id: this.getID(url),
+        id: this.playerID,
         options: {
           autoPlay: playing,
           silentAutoPlay: 'allow',
@@ -112,7 +114,7 @@ export default class Wistia extends Component {
       height: '100%'
     }
     return (
-      <div key={id} className={className} style={style} />
+      <div id={this.playerID} key={id} className={className} style={style} />
     )
   }
 }
