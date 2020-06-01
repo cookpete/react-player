@@ -11,23 +11,6 @@ const MATCH_USER_UPLOADS = /user\/([a-zA-Z0-9_-]+)\/?/
 const MATCH_NOCOOKIE = /youtube-nocookie\.com/
 const NOCOOKIE_HOST = 'https://www.youtube-nocookie.com'
 
-function parsePlaylist (url) {
-  if (MATCH_PLAYLIST.test(url)) {
-    const [, playlistId] = url.match(MATCH_PLAYLIST)
-    return {
-      listType: 'playlist',
-      list: playlistId
-    }
-  } else if (MATCH_USER_UPLOADS.test(url)) {
-    const [, username] = url.match(MATCH_USER_UPLOADS)
-    return {
-      listType: 'user_uploads',
-      list: username
-    }
-  }
-  return {}
-}
-
 export default class YouTube extends Component {
   static displayName = 'YouTube'
   callPlayer = callPlayer
@@ -36,13 +19,20 @@ export default class YouTube extends Component {
     this.props.onMount && this.props.onMount(this)
   }
 
+  getID (url) {
+    if (!url || url instanceof Array) {
+      return null
+    }
+    return url.match(MATCH_URL_YOUTUBE)[1]
+  }
+
   load (url, isReady) {
     const { playing, muted, playsinline, controls, loop, config, onError } = this.props
     const { playerVars, embedOptions } = config
-    const id = url && url.match(MATCH_URL_YOUTUBE)[1]
+    const id = this.getID(url)
     if (isReady) {
-      if (MATCH_PLAYLIST.test(url) || MATCH_USER_UPLOADS.test(url)) {
-        this.player.loadPlaylist(parsePlaylist(url))
+      if (MATCH_PLAYLIST.test(url) || MATCH_USER_UPLOADS.test(url) || url instanceof Array) {
+        this.player.loadPlaylist(this.parsePlaylist(url))
         return
       }
       this.player.cueVideoById({
@@ -66,7 +56,7 @@ export default class YouTube extends Component {
           end: parseEndTime(url),
           origin: window.location.origin,
           playsinline: playsinline,
-          ...parsePlaylist(url),
+          ...this.parsePlaylist(url),
           ...playerVars
         },
         events: {
@@ -83,6 +73,29 @@ export default class YouTube extends Component {
         ...embedOptions
       })
     }, onError)
+  }
+
+  parsePlaylist = (url) => {
+    if (url instanceof Array) {
+      return {
+        listType: 'playlist',
+        playlist: url.map(this.getID).join(',')
+      }
+    }
+    if (MATCH_PLAYLIST.test(url)) {
+      const [, playlistId] = url.match(MATCH_PLAYLIST)
+      return {
+        listType: 'playlist',
+        list: playlistId
+      }
+    } else if (MATCH_USER_UPLOADS.test(url)) {
+      const [, username] = url.match(MATCH_USER_UPLOADS)
+      return {
+        listType: 'user_uploads',
+        list: username
+      }
+    }
+    return {}
   }
 
   onStateChange = (event) => {

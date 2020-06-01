@@ -9,6 +9,9 @@ const MATCH_NUMERIC = /^\d+$/
 // Parse YouTube URL for a start time param, ie ?t=1h14m30s
 // and return the start time in seconds
 function parseTimeParam (url, pattern) {
+  if (url instanceof Array) {
+    return undefined
+  }
   const match = url.match(pattern)
   if (match) {
     const stamp = match[1]

@@ -45,7 +45,12 @@ const canPlayFile = url => {
 export default [
   {
     key: 'youtube',
-    canPlay: url => MATCH_URL_YOUTUBE.test(url),
+    canPlay: url => {
+      if (url instanceof Array) {
+        return url.every(item => MATCH_URL_YOUTUBE.test(item))
+      }
+      return MATCH_URL_YOUTUBE.test(url)
+    },
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerYouTube' */'./YouTube'))
   },
   {

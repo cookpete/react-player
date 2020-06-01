@@ -270,6 +270,17 @@ Due to various restrictions, `ReactPlayer` is not guaranteed to function properl
 
 #### Multiple Sources and Tracks
 
+Passing an array of YouTube URLs to the `url` prop will load them as an untitled playlist.
+
+```jsx
+<ReactPlayer
+  url={[
+    'https://www.youtube.com/watch?v=oUFJJNQGwhk',
+    'https://www.youtube.com/watch?v=jNgP6d9HraI'
+  ]}
+/>
+```
+
 When playing file paths, an array of sources can be passed to the `url` prop to render multiple `<source>` tags.
 
 ```jsx
