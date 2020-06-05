@@ -27,20 +27,17 @@ ReactPlayer `v2.0` removes single player imports in favour of lazy loading playe
 
 ### Usage
 
-```bash
-npm install react-player --save
+```sh
+npm i react-player
 # or
 yarn add react-player
 ```
 
-```js
-import React, { Component } from 'react'
+```jsx
 import ReactPlayer from 'react-player'
 
-class App extends Component {
-  render () {
-    return <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
-  }
+export function App() {
+  return <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
 }
 ```
 
