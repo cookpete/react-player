@@ -95,6 +95,11 @@ export default class Player extends Component {
     return this.player.getDuration()
   }
 
+  getIsMuted () {
+    if (!this.isReady) return null
+    return this.player.getIsMuted()
+  }
+
   getCurrentTime () {
     if (!this.isReady) return null
     return this.player.getCurrentTime()
@@ -115,10 +120,12 @@ export default class Player extends Component {
       const playedSeconds = this.getCurrentTime() || 0
       const loadedSeconds = this.getSecondsLoaded()
       const duration = this.getDuration()
+      const isMuted = this.getIsMuted()
       if (duration) {
         const progress = {
           playedSeconds,
-          played: playedSeconds / duration
+          played: playedSeconds / duration,
+          isMuted
         }
         if (loadedSeconds !== null) {
           progress.loadedSeconds = loadedSeconds

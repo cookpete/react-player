@@ -144,7 +144,8 @@ test('progress()', t => {
     load,
     getCurrentTime: sinon.fake.returns(10),
     getSecondsLoaded: sinon.fake.returns(20),
-    getDuration: sinon.fake.returns(40)
+    getDuration: sinon.fake.returns(40),
+    getIsMuted: sinon.fake.returns(false)
   })
   instance.isReady = true
   instance.progress()
@@ -153,7 +154,8 @@ test('progress()', t => {
     loaded: 0.5,
     loadedSeconds: 20,
     played: 0.25,
-    playedSeconds: 10
+    playedSeconds: 10,
+    isMuted: false
   }))
 })
 

@@ -114,6 +114,7 @@ export default class ReactPlayer extends React.Component<ReactPlayerProps, any> 
   seekTo(amount: number, type?: 'seconds' | 'fraction'): void;
   getCurrentTime(): number;
   getDuration(): number;
+  getIsMuted(): boolean;
   getInternalPlayer(key?: string): Object;
   showPreview(): void;
 }

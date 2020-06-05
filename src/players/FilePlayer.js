@@ -188,6 +188,10 @@ export default class FilePlayer extends Component {
     this.player.volume = fraction
   }
 
+  getIsMuted = () => {
+    return this.player.muted
+  }
+
   mute = () => {
     this.player.muted = true
   }

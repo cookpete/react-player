@@ -81,6 +81,11 @@ export default class ReactPlayer extends Component {
     return this.player.getDuration()
   }
 
+  getIsMuted () {
+    if (!this.player) return null
+    return this.player.getIsMuted()
+  }
+
   getCurrentTime = () => {
     if (!this.player) return null
     return this.player.getCurrentTime()
