@@ -4,5 +4,6 @@ yarn-error.log
 package-lock.json
 .DS_Store
 /lib
+/lazy
 /demo
 /coverage

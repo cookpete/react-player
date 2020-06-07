@@ -5,7 +5,7 @@
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
   "scripts": {
-    "clean": "rimraf lib demo coverage",
+    "clean": "rimraf lib lazy demo coverage",
     "start": "webpack-dev-server --config webpack/config.babel.js",
     "lint": "standard --verbose | snazzy",
     "lint:fix": "standard --fix",
@@ -13,12 +13,13 @@
     "test:coverage": "cross-env NODE_ENV=test nyc ava",
     "test:codecov": "nyc report --reporter=json && codecov -f coverage/coverage-final.json",
     "build:lib": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
+    "build:lazy": "cross-env NODE_ENV=production LAZY=true babel src -d lazy --ignore src/demo",
     "build:demo": "cross-env NODE_ENV=production webpack --config webpack/production.babel.js",
     "build:dist": "cross-env NODE_ENV=production webpack --config webpack/dist.babel.js",
     "build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:dist",
+    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist",
     "postpublish": "npm run clean"
   },
   "repository": {
@@ -101,30 +102,6 @@
     "memoize-one": "^5.1.1",
     "prop-types": "^15.7.2",
     "react-fast-compare": "^3.0.1"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "exclude": [
-            "@babel/plugin-proposal-dynamic-import"
-          ]
-        }
-      ],
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "react-hot-loader/babel",
-      "@babel/plugin-proposal-class-properties"
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
   },
   "postcss": {
     "plugins": {

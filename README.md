@@ -28,20 +28,28 @@ ReactPlayer `v2.0` removes single player imports in favour of lazy loading playe
 ### Usage
 
 ```bash
-npm install react-player --save
-# or
-yarn add react-player
+npm install react-player
 ```
 
-```js
-import React, { Component } from 'react'
+```jsx
+import React from 'react'
 import ReactPlayer from 'react-player'
 
-class App extends Component {
-  render () {
-    return <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
-  }
-}
+const App = () => (
+  <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+)
+```
+
+If your build system supports `import()` statements, use `react-player/lazy` to lazy load the appropriate player for the `url` you pass in. This will add several `reactPlayer` chunks to your bundle, but reduce your main bundle size.
+
+```jsx
+import React from 'react'
+import ReactPlayer from 'react-player/lazy'
+
+// Only loads the YouTube player
+const App = () => (
+  <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+)
 ```
 
 Demo page: [`https://cookpete.com/react-player`](https://cookpete.com/react-player)
