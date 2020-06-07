@@ -17,7 +17,7 @@ const PATH_ASSETS = join(PATH_ROOT, 'assets')
 const PATH_INDEX = join(PATH_SRC, 'demo', 'index.html')
 
 export const PATH_DIST = join(PATH_ROOT, 'dist')
-export const PATH_REACT_PLAYER = join(PATH_SRC, 'ReactPlayer.js')
+export const PATH_REACT_PLAYER = join(PATH_SRC, 'index.js')
 export const PATH_STANDALONE = join(PATH_SRC, 'standalone.js')
 
 export const plugins = [

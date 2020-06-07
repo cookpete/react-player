@@ -23,33 +23,40 @@
 
 ### Migrating to ReactPlayer `v2.0`
 
-ReactPlayer `v2.0` removes single player imports in favour of lazy loading players. Support for `preload` has also been removed, plus some other changes. See [`MIGRATING.md`](/MIGRATING.md) for information.
+ReactPlayer `v2.0` changes single player imports and adds lazy loading players. Support for `preload` has also been removed, plus some other changes. See [`MIGRATING.md`](/MIGRATING.md) for information.
 
 ### Usage
 
 ```bash
-npm install react-player
+npm install react-player # or yarn add react-player
 ```
 
 ```jsx
 import React from 'react'
 import ReactPlayer from 'react-player'
 
-const App = () => (
-  <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
-)
+// Render a YouTube video player
+<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
 ```
 
-If your build system supports `import()` statements, use `react-player/lazy` to lazy load the appropriate player for the `url` you pass in. This will add several `reactPlayer` chunks to your bundle, but reduce your main bundle size.
+By default, ReactPlayer supports [many different types](#supported-media) of `url`. If you only ever use one type, use imports such as `react-player/youtube` to reduce your bundle size. See [config keys](#config-prop) for all player keys.
+
+```jsx
+import React from 'react'
+import ReactPlayer from 'react-player/youtube'
+
+// Only loads the YouTube player
+<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+```
+
+If your build system supports `import()` statements, use `react-player/lazy` to lazy load the appropriate player for the `url` you pass in. This adds several `reactPlayer` chunks to your output, but reduces your main bundle size.
 
 ```jsx
 import React from 'react'
 import ReactPlayer from 'react-player/lazy'
 
-// Only loads the YouTube player
-const App = () => (
-  <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
-)
+// Lazy load the YouTube player
+<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
 ```
 
 Demo page: [`https://cookpete.com/react-player`](https://cookpete.com/react-player)

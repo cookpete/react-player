@@ -4,19 +4,31 @@ Breaking changes are in 🔥 __bold and on fire__.
 
 ### Lazy players
 
-ReactPlayer v2.0 uses [React lazy loading](https://reactjs.org/docs/code-splitting.html#reactlazy) to only load the players required based on the `url` prop passed in. Previous versions of ReactPlayer would include the code for all players, regardless of what type of player is used.
+As of `v2.2`, if your build system supports `import()` statements, use `react-player/lazy` to [lazy load](https://reactjs.org/docs/code-splitting.html#reactlazy) the appropriate player for the `url` you pass in. This adds several `reactPlayer` chunks to your output, but reduces your main bundle size.
 
-Because of this, 🔥 __single player imports are now redundant, and have been removed__. Instead of importing single players, you can safely import from `react-player` and only the relevant player will be loaded if you only use one type of `url`.
+Due to the use of `lazy` and `Suspense`, 🔥 __React 16.6 or later is now required__.
 
 ```jsx
 // Before
-import YouTubePlayer from 'react-player/lib/players/YouTube'
+import ReactPlayer from 'react-player'
 
 // After
-import YouTubePlayer from 'react-player'
+import ReactPlayer from 'react-player/lazy'
 ```
 
-Due to the use of `lazy` and `Suspense`, 🔥 __React 16.6 or later is now required__.
+Lazy players were the default import in `v2.1`, but moved to `react-player/lazy` in `v2.2` to avoid causing problems with common build systems.
+
+### Single player imports
+
+As of `v2.2`, the 🔥 __location of single player imports has changed__. Single players are not available in `v2.0` and `v2.1`.
+
+```jsx
+// Before
+import ReactPlayer from 'react-player/lib/players/YouTube'
+
+// After
+import ReactPlayer from 'react-player/youtube'
+```
 
 ### Preloading
 

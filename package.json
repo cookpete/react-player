@@ -2,7 +2,7 @@
   "name": "react-player",
   "version": "2.1.1",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
-  "main": "lib/ReactPlayer.js",
+  "main": "lib/index.js",
   "typings": "index.d.ts",
   "scripts": {
     "clean": "rimraf lib lazy demo coverage",
@@ -19,8 +19,8 @@
     "build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist",
-    "postpublish": "npm run clean"
+    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && node scripts/pre-publish.js",
+    "postpublish": "node scripts/post-publish.js && npm run clean"
   },
   "repository": {
     "type": "git",
