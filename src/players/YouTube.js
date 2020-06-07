@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
-import { MATCH_URL_YOUTUBE } from '../patterns'
+import { canPlay, MATCH_URL_YOUTUBE } from '../patterns'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
@@ -13,6 +13,7 @@ const NOCOOKIE_HOST = 'https://www.youtube-nocookie.com'
 
 export default class YouTube extends Component {
   static displayName = 'YouTube'
+  static canPlay = canPlay.youtube
   callPlayer = callPlayer
 
   componentDidMount () {

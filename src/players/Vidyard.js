@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
-import { MATCH_URL_VIDYARD } from '../patterns'
+import { canPlay, MATCH_URL_VIDYARD } from '../patterns'
 
 const SDK_URL = 'https://play.vidyard.com/embed/v4.js'
 const SDK_GLOBAL = 'VidyardV4'
@@ -9,6 +9,7 @@ const SDK_GLOBAL_READY = 'onVidyardAPI'
 
 export default class Vidyard extends Component {
   static displayName = 'Vidyard'
+  static canPlay = canPlay.vidyard
   callPlayer = callPlayer
 
   componentDidMount () {

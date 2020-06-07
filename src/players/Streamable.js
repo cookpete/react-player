@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
-import { MATCH_URL_STREAMABLE } from '../patterns'
+import { canPlay, MATCH_URL_STREAMABLE } from '../patterns'
 
 const SDK_URL = 'https://cdn.embed.ly/player-0.1.0.min.js'
 const SDK_GLOBAL = 'playerjs'
 
 export default class Streamable extends Component {
   static displayName = 'Streamable'
+  static canPlay = canPlay.streamable
   callPlayer = callPlayer
   duration = null
   currentTime = null

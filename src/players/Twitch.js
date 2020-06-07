@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, randomString } from '../utils'
-import { MATCH_URL_TWITCH_CHANNEL, MATCH_URL_TWITCH_VIDEO } from '../patterns'
+import { canPlay, MATCH_URL_TWITCH_CHANNEL, MATCH_URL_TWITCH_VIDEO } from '../patterns'
 
 const SDK_URL = 'https://player.twitch.tv/js/embed/v1.js'
 const SDK_GLOBAL = 'Twitch'
@@ -9,6 +9,7 @@ const PLAYER_ID_PREFIX = 'twitch-player-'
 
 export default class Twitch extends Component {
   static displayName = 'Twitch'
+  static canPlay = canPlay.twitch
   static loopOnEnded = true
   callPlayer = callPlayer
   playerID = this.props.config.playerId || `${PLAYER_ID_PREFIX}${randomString()}`

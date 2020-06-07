@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, parseStartTime } from '../utils'
-import { MATCH_URL_DAILYMOTION } from '../patterns'
+import { canPlay, MATCH_URL_DAILYMOTION } from '../patterns'
 
 const SDK_URL = 'https://api.dmcdn.net/all.js'
 const SDK_GLOBAL = 'DM'
@@ -9,6 +9,7 @@ const SDK_GLOBAL_READY = 'dmAsyncInit'
 
 export default class DailyMotion extends Component {
   static displayName = 'DailyMotion'
+  static canPlay = canPlay.dailymotion
   static loopOnEnded = true
   callPlayer = callPlayer
 

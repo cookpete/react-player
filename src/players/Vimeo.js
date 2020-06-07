@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
+import { canPlay } from '../patterns'
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
 
 export default class Vimeo extends Component {
   static displayName = 'Vimeo'
+  static canPlay = canPlay.vimeo
   static forceLoad = true // Prevent checking isLoading when URL changes
   callPlayer = callPlayer
   duration = null

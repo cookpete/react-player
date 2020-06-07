@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, randomString } from '../utils'
+import { canPlay } from '../patterns'
 
 const SDK_URL = 'https://connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
@@ -9,6 +10,7 @@ const PLAYER_ID_PREFIX = 'facebook-player-'
 
 export default class Facebook extends Component {
   static displayName = 'Facebook'
+  static canPlay = canPlay.facebook
   static loopOnEnded = true
   callPlayer = callPlayer
   playerID = this.props.config.playerId || `${PLAYER_ID_PREFIX}${randomString()}`

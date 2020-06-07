@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { getSDK, isMediaStream, supportsWebKitPresentationMode } from '../utils'
-import { AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS } from '../patterns'
+import { canPlay, AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS } from '../patterns'
 
 const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 const HLS_SDK_URL = 'https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js'
@@ -12,6 +12,7 @@ const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 
 export default class FilePlayer extends Component {
   static displayName = 'FilePlayer'
+  static canPlay = canPlay.file
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
