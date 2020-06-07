@@ -8,7 +8,7 @@ import { omit } from './utils'
 import players from './players'
 import Player from './Player'
 
-const Preview = lazy(() => import('./Preview'))
+const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */'./Preview'))
 
 const IS_BROWSER = typeof window !== 'undefined' && window.document
 const SUPPORTED_PROPS = Object.keys(propTypes)
