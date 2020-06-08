@@ -259,24 +259,6 @@ ReactPlayer.removeCustomPlayers();
 
 It is your responsibility to ensure that custom players keep up with any internal changes to ReactPlayer in later versions.
 
-#### Using Bower
-
-```bash
-bower install react-player --save
-```
-
-```html
-<script src='bower_components/react/react.js'></script>
-<script src='bower_components/react/react-dom.js'></script>
-<script src='bower_components/react-player/dist/ReactPlayer.js'></script>
-<script>
-  ReactDOM.render(
-    <ReactPlayer url='https://www.youtube.com/watch?v=d46Azg3Pm4c' playing />,
-    document.getElementById('container')
-  )
-</script>
-```
-
 #### Mobile considerations
 
 Due to various restrictions, `ReactPlayer` is not guaranteed to function properly on mobile devices. The [YouTube player documentation](https://developers.google.com/youtube/iframe_api_reference), for example, explains that [certain mobile browsers require user interaction](https://developers.google.com/youtube/iframe_api_reference#Mobile_considerations) before playing:
