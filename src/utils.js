@@ -58,12 +58,26 @@ export function queryString (object) {
     .join('&')
 }
 
+function getGlobal (key) {
+  if (window[key]) {
+    return window[key]
+  }
+  if (window.exports && window.exports[key]) {
+    return window.exports[key]
+  }
+  if (window.module && window.module.exports && window.module.exports[key]) {
+    return window.module.exports[key]
+  }
+  return null
+}
+
 // Util function to load an external SDK
 // or return the SDK if it is already loaded
 const requests = {}
 export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, fetchScript = loadScript) {
-  if (window[sdkGlobal] && isLoaded(window[sdkGlobal])) {
-    return Promise.resolve(window[sdkGlobal])
+  const existingGlobal = getGlobal(sdkGlobal)
+  if (existingGlobal && isLoaded(existingGlobal)) {
+    return Promise.resolve(existingGlobal)
   }
   return new Promise((resolve, reject) => {
     // If we are already loading the SDK, add the resolve and reject
@@ -81,7 +95,7 @@ export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, 
       const previousOnReady = window[sdkReady]
       window[sdkReady] = function () {
         if (previousOnReady) previousOnReady()
-        onLoaded(window[sdkGlobal])
+        onLoaded(getGlobal(sdkGlobal))
       }
     }
     fetchScript(url, err => {
@@ -91,7 +105,7 @@ export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, 
         requests[url].forEach(request => request.reject(err))
         requests[url] = null
       } else if (!sdkReady) {
-        onLoaded(window[sdkGlobal])
+        onLoaded(getGlobal(sdkGlobal))
       }
     })
   })
