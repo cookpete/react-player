@@ -16,6 +16,10 @@ const TEST_CONFIG = {
   options: {}
 }
 
+Wistia.prototype.componentWillMount = function () {
+  this.playerID = 'mock-player-id'
+}
+
 testPlayerMethods(Wistia, {
   play: 'play',
   pause: 'pause',
@@ -59,6 +63,7 @@ test('render()', t => {
   const style = { width: '100%', height: '100%' }
   t.true(wrapper.contains(
     <div
+      id='mock-player-id'
       key='e4a27b971d'
       style={style}
       className='wistia_embed wistia_async_e4a27b971d'
