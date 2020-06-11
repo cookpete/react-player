@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 const ICON_SIZE = '64px'
 
+const cache = {}
+
 export default class Preview extends Component {
   mounted = false
   state = {
@@ -29,6 +31,10 @@ export default class Preview extends Component {
       this.setState({ image: light })
       return
     }
+    if (cache[url]) {
+      this.setState({ image: cache[url] })
+      return
+    }
     this.setState({ image: null })
     return window.fetch(`https://noembed.com/embed?url=${url}`)
       .then(response => response.json())
@@ -36,6 +42,7 @@ export default class Preview extends Component {
         if (data.thumbnail_url && this.mounted) {
           const image = data.thumbnail_url.replace('height=100', 'height=480')
           this.setState({ image })
+          cache[url] = image
         }
       })
   }
