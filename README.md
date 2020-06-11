@@ -142,7 +142,7 @@ Key | Options
 `facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)<br />`version`: Facebook SDK version<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)
 `vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/sdk/embed)
-`wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)
+`wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `mixcloud` | `options`: Override the [default player options](https://www.mixcloud.com/developers/widget/#methods)
 `dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)
 `twitch` | `options`: Override the [default player options](https://dev.twitch.tv/docs/embed)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))

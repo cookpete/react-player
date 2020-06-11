@@ -11,15 +11,11 @@ export default class Wistia extends Component {
   static displayName = 'Wistia'
   static canPlay = canPlay.wistia
   static loopOnEnded = true
-  playerID = `${PLAYER_ID_PREFIX}${randomString()}`
   callPlayer = callPlayer
+  playerID = this.props.config.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
-  }
-
-  getID (url) {
-    return url && url.match(MATCH_URL_WISTIA)[1]
   }
 
   load (url) {
@@ -107,14 +103,15 @@ export default class Wistia extends Component {
   }
 
   render () {
-    const id = this.getID(this.props.url)
-    const className = `wistia_embed wistia_async_${id}`
+    const { url } = this.props
+    const videoID = url.match(MATCH_URL_WISTIA)[1]
+    const className = `wistia_embed wistia_async_${videoID}`
     const style = {
       width: '100%',
       height: '100%'
     }
     return (
-      <div id={this.playerID} key={id} className={className} style={style} />
+      <div id={this.playerID} key={videoID} className={className} style={style} />
     )
   }
 }
