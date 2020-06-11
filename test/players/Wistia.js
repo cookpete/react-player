@@ -32,7 +32,7 @@ testPlayerMethods(Wistia, {
   getCurrentTime: 'time',
   getSecondsLoaded: null,
   setPlaybackRate: 'playbackRate'
-})
+}, { config: TEST_CONFIG })
 
 test('load()', t => {
   const getSDK = sinon.stub(utils, 'getSDK').resolves()
@@ -59,7 +59,7 @@ test('load()', t => {
 })
 
 test('render()', t => {
-  const wrapper = shallow(<Wistia url={TEST_URL} />)
+  const wrapper = shallow(<Wistia url={TEST_URL} config={TEST_CONFIG} />)
   const style = { width: '100%', height: '100%' }
   t.true(wrapper.contains(
     <div

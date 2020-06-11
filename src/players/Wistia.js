@@ -104,7 +104,7 @@ export default class Wistia extends Component {
 
   render () {
     const { url } = this.props
-    const videoID = url.match(MATCH_URL_WISTIA)[1]
+    const videoID = url && url.match(MATCH_URL_WISTIA)[1]
     const className = `wistia_embed wistia_async_${videoID}`
     const style = {
       width: '100%',
