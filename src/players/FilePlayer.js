@@ -144,7 +144,11 @@ export default class FilePlayer extends Component {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
         this.dash.on('error', this.props.onError)
-        this.dash.getDebug().setLogToBrowserConsole(false)
+        if (parseInt(dashVersion) < 3) {
+          this.dash.getDebug().setLogToBrowserConsole(false)
+        } else {
+          this.dash.updateSettings({ debug: { logLevel: dashjs.Debug.LOG_LEVEL_NONE } })
+        }
       })
     }
 
