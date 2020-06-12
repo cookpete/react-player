@@ -106,7 +106,8 @@ test('load - dash', async t => {
         initialize: () => null,
         getDebug: () => ({
           setLogToBrowserConsole: () => t.pass()
-        })
+        }),
+        updateSettings: () => t.pass()
       })
     })
   }
