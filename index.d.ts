@@ -39,6 +39,7 @@ export interface VimeoConfig {
 
 export interface WistiaConfig {
   options?: Object;
+  playerId?: string;
 }
 
 export interface MixcloudConfig {
