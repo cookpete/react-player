@@ -34,7 +34,6 @@ export default class Wistia extends Component {
           playbackRateControl: controls,
           qualityControl: controls,
           volumeControl: controls,
-          playButton: controls,
           settingsControl: controls,
           smallPlayButton: controls,
           ...config.options
