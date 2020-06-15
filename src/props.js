@@ -55,7 +55,8 @@ export const propTypes = {
       dashVersion: string
     }),
     wistia: shape({
-      options: object
+      options: object,
+      playerId: string
     }),
     mixcloud: shape({
       options: object
@@ -154,7 +155,8 @@ export const defaultProps = {
       dashVersion: '2.9.2'
     },
     wistia: {
-      options: {}
+      options: {},
+      playerId: null
     },
     mixcloud: {
       options: {
