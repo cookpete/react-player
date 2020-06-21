@@ -348,6 +348,12 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Cloudflare Stream</th>
+                <td>
+                  {this.renderLoadButton('https://watch.cloudflarestream.com/5d5bc37ffcf54c9b82e996823bffbb81', 'Test A')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}

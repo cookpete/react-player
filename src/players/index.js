@@ -64,6 +64,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerVidyard' */'./Vidyard'))
   },
   {
+    key: 'cloudflareStream',
+    name: 'Cloudflare Stream',
+    canPlay: canPlay.cloudflareStream,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerCloudflareStream' */'./CloudflareStream'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,
