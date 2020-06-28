@@ -7,3 +7,5 @@ package-lock.json
 /lazy
 /demo
 /coverage
+.idea/
+.vscode/
