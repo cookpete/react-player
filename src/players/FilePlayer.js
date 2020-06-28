@@ -9,6 +9,8 @@ const HLS_GLOBAL = 'Hls'
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js'
 const DASH_GLOBAL = 'dashjs'
 const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
+const MATCH_CLOUDFLARE_STREAM = /https:\/\/watch\.cloudflarestream\.com\/([a-z0-9]+)/
+const REPLACE_CLOUDFLARE_STREAM = 'https://videodelivery.net/{id}/manifest/video.m3u8'
 
 export default class FilePlayer extends Component {
   static displayName = 'FilePlayer'
@@ -114,7 +116,13 @@ export default class FilePlayer extends Component {
   }
 
   shouldUseHLS (url) {
-    return (HLS_EXTENSIONS.test(url) && !IOS) || this.props.config.forceHLS
+    if (this.props.config.forceHLS) {
+      return true
+    }
+    if (IOS) {
+      return false
+    }
+    return HLS_EXTENSIONS.test(url) || MATCH_CLOUDFLARE_STREAM.test(url)
   }
 
   shouldUseDASH (url) {
@@ -135,7 +143,13 @@ export default class FilePlayer extends Component {
         this.hls.on(Hls.Events.ERROR, (e, data) => {
           this.props.onError(e, data, this.hls, Hls)
         })
-        this.hls.loadSource(url)
+        if (MATCH_CLOUDFLARE_STREAM.test(url)) {
+          const id = url.match(MATCH_CLOUDFLARE_STREAM)[1]
+          console.log(REPLACE_CLOUDFLARE_STREAM.replace('{id}', id))
+          this.hls.loadSource(REPLACE_CLOUDFLARE_STREAM.replace('{id}', id))
+        } else {
+          this.hls.loadSource(url)
+        }
         this.hls.attachMedia(this.player)
       })
     }
