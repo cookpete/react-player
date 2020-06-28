@@ -12,12 +12,6 @@ import { version } from '../../package.json'
 import ReactPlayer from '../index'
 import Duration from './Duration'
 
-const MULTIPLE_SOURCES = [
-  { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', type: 'video/mp4' },
-  { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', type: 'video/ogv' },
-  { src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', type: 'video/webm' }
-]
-
 class App extends Component {
   state = {
     url: null,
@@ -324,6 +318,7 @@ class App extends Component {
                 <td>
                   {this.renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}
                   {this.renderLoadButton('https://home.wistia.com/medias/29b0fbf547', 'Test B')}
+                  {this.renderLoadButton('https://home.wistia.com/medias/bq6epni33s', 'Test C')}
                 </td>
               </tr>
               <tr>
@@ -350,11 +345,11 @@ class App extends Component {
               <tr>
                 <th>Files</th>
                 <td>
-                  {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'mp4')}
-                  {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.ogv', 'ogv')}
-                  {this.renderLoadButton('http://clips.vorwaerts-gmbh.de/big_buck_bunny.webm', 'webm')}
+                  {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4', 'mp4')}
+                  {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/webm/vp8/360/Big_Buck_Bunny_360_10s_1MB.webm', 'webm')}
+                  {this.renderLoadButton('https://filesamples.com/samples/video/ogv/sample_640x360.ogv', 'ogv')}
                   {this.renderLoadButton('https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3', 'mp3')}
-                  {this.renderLoadButton(MULTIPLE_SOURCES, 'Multiple')}
+                  <br />
                   {this.renderLoadButton('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8', 'HLS (m3u8)')}
                   {this.renderLoadButton('http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd', 'DASH (mpd)')}
                 </td>
