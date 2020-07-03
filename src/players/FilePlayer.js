@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 
 import { getSDK, isMediaStream, supportsWebKitPresentationMode } from '../utils'
-import { canPlay, AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS } from '../patterns'
+import { canPlay, AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS, FLV_EXTENSIONS } from '../patterns'
 
 const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 const HLS_SDK_URL = 'https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js'
 const HLS_GLOBAL = 'Hls'
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js'
 const DASH_GLOBAL = 'dashjs'
+const FLV_SDK_URL = 'https://cdn.jsdelivr.net/npm/flv.js@VERSION/dist/flv.min.js'
+const FLV_GLOBAL = 'flvjs'
 const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 const MATCH_CLOUDFLARE_STREAM = /https:\/\/watch\.cloudflarestream\.com\/([a-z0-9]+)/
 const REPLACE_CLOUDFLARE_STREAM = 'https://videodelivery.net/{id}/manifest/video.m3u8'
@@ -129,8 +131,12 @@ export default class FilePlayer extends Component {
     return DASH_EXTENSIONS.test(url) || this.props.config.forceDASH
   }
 
+  shouldUseFLV (url) {
+    return FLV_EXTENSIONS.test(url) || this.props.config.forceFLV
+  }
+
   load (url) {
-    const { hlsVersion, hlsOptions, dashVersion } = this.props.config
+    const { hlsVersion, hlsOptions, dashVersion, flvVersion } = this.props.config
     if (this.hls) {
       this.hls.destroy()
     }
@@ -145,7 +151,6 @@ export default class FilePlayer extends Component {
         })
         if (MATCH_CLOUDFLARE_STREAM.test(url)) {
           const id = url.match(MATCH_CLOUDFLARE_STREAM)[1]
-          console.log(REPLACE_CLOUDFLARE_STREAM.replace('{id}', id))
           this.hls.loadSource(REPLACE_CLOUDFLARE_STREAM.replace('{id}', id))
         } else {
           this.hls.loadSource(url)
@@ -163,6 +168,13 @@ export default class FilePlayer extends Component {
         } else {
           this.dash.updateSettings({ debug: { logLevel: dashjs.Debug.LOG_LEVEL_NONE } })
         }
+      })
+    }
+    if (this.shouldUseFLV(url)) {
+      getSDK(FLV_SDK_URL.replace('VERSION', flvVersion), FLV_GLOBAL).then(flvjs => {
+        this.flv = flvjs.createPlayer({ type: 'flv', url })
+        this.flv.attachMediaElement(this.player)
+        this.flv.load()
       })
     }
 
@@ -268,7 +280,8 @@ export default class FilePlayer extends Component {
   getSource (url) {
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
-    if (url instanceof Array || isMediaStream(url) || useHLS || useDASH) {
+    const useFLV = this.shouldUseFLV(url)
+    if (url instanceof Array || isMediaStream(url) || useHLS || useDASH || useFLV) {
       return undefined
     }
     if (MATCH_DROPBOX_URL.test(url)) {

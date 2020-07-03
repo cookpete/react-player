@@ -50,9 +50,11 @@ export const propTypes = {
       forceAudio: bool,
       forceHLS: bool,
       forceDASH: bool,
+      forceFLV: bool,
       hlsOptions: object,
       hlsVersion: string,
-      dashVersion: string
+      dashVersion: string,
+      flvVersion: string
     }),
     wistia: shape({
       options: object,
@@ -150,9 +152,11 @@ export const defaultProps = {
       forceAudio: false,
       forceHLS: false,
       forceDASH: false,
+      forceFLV: false,
       hlsOptions: {},
       hlsVersion: '0.13.1',
-      dashVersion: '2.9.2'
+      dashVersion: '2.9.2',
+      flvVersion: '1.5.0'
     },
     wistia: {
       options: {},

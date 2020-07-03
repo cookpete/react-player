@@ -15,6 +15,7 @@ export const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|
 export const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 export const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
 export const DASH_EXTENSIONS = /\.(mpd)($|\?)/i
+export const FLV_EXTENSIONS = /\.(flv)($|\?)/i
 
 const canPlayFile = url => {
   if (url instanceof Array) {
@@ -35,7 +36,8 @@ const canPlayFile = url => {
     AUDIO_EXTENSIONS.test(url) ||
     VIDEO_EXTENSIONS.test(url) ||
     HLS_EXTENSIONS.test(url) ||
-    DASH_EXTENSIONS.test(url)
+    DASH_EXTENSIONS.test(url) ||
+    FLV_EXTENSIONS.test(url)
   )
 }
 
