@@ -88,6 +88,7 @@ export interface ReactPlayerProps {
   progressInterval?: number;
   playsinline?: boolean;
   pip?: boolean;
+  stopOnUnmount?: boolean;
   light?: boolean | string;
   wrapper?: any;
   config?: Config;

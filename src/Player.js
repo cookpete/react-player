@@ -26,7 +26,7 @@ export default class Player extends Component {
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
     clearTimeout(this.durationCheckTimeout)
-    if (this.isReady && this.props.disablePIPOnUnmount) {
+    if (this.isReady && this.props.stopOnUnmount) {
       this.player.stop()
 
       if (this.player.disablePIP) {
