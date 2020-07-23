@@ -55,6 +55,8 @@ export default class Vimeo extends Component {
       this.player.on('progress', ({ seconds }) => {
         this.secondsLoaded = seconds
       })
+      this.player.on('bufferstart', this.props.onBuffer)
+      this.player.on('bufferend', this.props.onBufferEnd)
     }, this.props.onError)
   }
 
