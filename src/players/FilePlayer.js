@@ -156,6 +156,7 @@ export default class FilePlayer extends Component {
           this.hls.loadSource(url)
         }
         this.hls.attachMedia(this.player)
+        this.props.onLoaded()
       })
     }
     if (this.shouldUseDASH(url)) {
@@ -168,6 +169,7 @@ export default class FilePlayer extends Component {
         } else {
           this.dash.updateSettings({ debug: { logLevel: dashjs.Debug.LOG_LEVEL_NONE } })
         }
+        this.props.onLoaded()
       })
     }
     if (this.shouldUseFLV(url)) {
@@ -175,6 +177,7 @@ export default class FilePlayer extends Component {
         this.flv = flvjs.createPlayer({ type: 'flv', url })
         this.flv.attachMediaElement(this.player)
         this.flv.load()
+        this.props.onLoaded()
       })
     }
 

@@ -63,11 +63,12 @@ test('load - hls', async t => {
     static Events = { ERROR: 'ERROR' }
     on = () => null
     loadSource = () => null
-    attachMedia = () => t.pass()
+    attachMedia = () => null
   }
   const url = 'file.m3u8'
   const getSDK = sinon.stub(utils, 'getSDK').resolves(Hls)
-  const instance = shallow(<FilePlayer url={url} config={config} />).instance()
+  const onLoaded = () => t.pass()
+  const instance = shallow(<FilePlayer url={url} config={config} onLoaded={onLoaded} />).instance()
   instance.load(url)
   t.true(getSDK.calledOnce)
   getSDK.restore()
@@ -90,8 +91,9 @@ test('onError - hls', t => {
     }
     const url = 'file.m3u8'
     const getSDK = sinon.stub(utils, 'getSDK').resolves(Hls)
+    const onLoaded = () => null
     const instance = shallow(
-      <FilePlayer url={url} config={config} onError={onError} />
+      <FilePlayer url={url} config={config} onLoaded={onLoaded} onError={onError} />
     ).instance()
     instance.load(url)
     getSDK.restore()
@@ -105,15 +107,16 @@ test('load - dash', async t => {
         on: () => null,
         initialize: () => null,
         getDebug: () => ({
-          setLogToBrowserConsole: () => t.pass()
+          setLogToBrowserConsole: () => null
         }),
-        updateSettings: () => t.pass()
+        updateSettings: () => null
       })
     })
   }
   const url = 'file.mpd'
   const getSDK = sinon.stub(utils, 'getSDK').resolves(dashjs)
-  const instance = shallow(<FilePlayer url={url} config={config} />).instance()
+  const onLoaded = () => t.pass()
+  const instance = shallow(<FilePlayer url={url} config={config} onLoaded={onLoaded} />).instance()
   instance.load(url)
   t.true(getSDK.calledOnce)
   getSDK.restore()
