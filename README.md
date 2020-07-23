@@ -1,3 +1,10 @@
+<div align='center'>
+  <sub>I hate ads as much as you, but maintaining this takes time and life is short. Click below to support the library.</sub>
+  <a href='https://tracking.gitads.io/?repo=react-player'>
+    <img src='https://images.gitads.io/react-player' alt='GitAds' />
+  </a>
+</div>
+
 <h1 align='center'>
   ReactPlayer
 </h1>
