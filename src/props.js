@@ -16,6 +16,7 @@ export const propTypes = {
   progressInterval: number,
   playsinline: bool,
   pip: bool,
+  stopOnUnmount: bool,
   light: oneOfType([bool, string]),
   playIcon: node,
   wrapper: oneOfType([
@@ -101,6 +102,7 @@ export const defaultProps = {
   progressInterval: 1000,
   playsinline: false,
   pip: false,
+  stopOnUnmount: true,
   light: false,
   wrapper: 'div',
   config: {
