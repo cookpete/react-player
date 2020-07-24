@@ -1,5 +1,5 @@
 <div align='center'>
-  <sub>I hate ads as much as you, but maintaining this takes time and life is short. Click below to support the library.</sub>
+  <sub>ReactPlayer is being sponsored by the following tool; please support it by taking a look and signing up to a free trial.</sub>
   <a href='https://tracking.gitads.io/?repo=react-player'>
     <img src='https://images.gitads.io/react-player' alt='GitAds' />
   </a>
