@@ -115,6 +115,7 @@ export default class ReactPlayer extends React.Component<ReactPlayerProps, any> 
   static removeCustomPlayers(): void;
   seekTo(amount: number, type?: 'seconds' | 'fraction'): void;
   getCurrentTime(): number;
+  getSecondsLoaded(): number;
   getDuration(): number;
   getInternalPlayer(key?: string): Object;
   showPreview(): void;
