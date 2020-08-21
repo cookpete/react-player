@@ -7,7 +7,11 @@ const generateSinglePlayers = async () => {
     const file = `
       const createReactPlayer = require('./lib/ReactPlayer').createReactPlayer
       const Player = require('./lib/players/${name}').default
-      module.exports = createReactPlayer([Player])
+      module.exports = createReactPlayer([{
+        key: '${key}',
+        canPlay: Player.canPlay,
+        lazyPlayer: Player
+      }])
     `
     await writeFile(join('.', `${key}.js`), file)
   }
