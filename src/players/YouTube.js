@@ -56,7 +56,7 @@ export default class YouTube extends Component {
           start: parseStartTime(url),
           end: parseEndTime(url),
           origin: window.location.origin,
-          playsinline: playsinline,
+          playsinline: playsinline ? 1 : 0,
           ...this.parsePlaylist(url),
           ...playerVars
         },
