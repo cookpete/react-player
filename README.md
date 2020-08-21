@@ -1,10 +1,3 @@
-<div align='center'>
-  <sub>ReactPlayer is being sponsored by the following tool; please support it by taking a look and signing up to a free trial.</sub>
-  <a href='https://tracking.gitads.io/?repo=react-player'>
-    <img src='https://images.gitads.io/react-player' alt='GitAds' />
-  </a>
-</div>
-
 <h1 align='center'>
   ReactPlayer
 </h1>
