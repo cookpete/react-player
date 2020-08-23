@@ -62,6 +62,11 @@ export interface FileConfig {
   dashVersion?: string;
 }
 
+export interface TwitchConfig {
+  options?: Object;
+  playerId?: string;
+}
+
 export interface Config {
   soundcloud?: SoundCloudConfig;
   youtube?: YouTubeConfig;
@@ -72,6 +77,7 @@ export interface Config {
   wistia?: WistiaConfig;
   mixcloud?: MixcloudConfig;
   vidyard?: VidyardConfig;
+  twitch?: TwitchConfig;
 }
 
 export interface ReactPlayerProps {
