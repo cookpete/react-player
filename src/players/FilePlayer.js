@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { getSDK, isMediaStream, supportsWebKitPresentationMode } from '../utils'
 import { canPlay, AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS, FLV_EXTENSIONS } from '../patterns'
 
-const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+const IOS = typeof navigator !== 'undefined' && (/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream
 const HLS_SDK_URL = 'https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js'
 const HLS_GLOBAL = 'Hls'
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js'
@@ -18,7 +18,7 @@ export default class FilePlayer extends Component {
   static displayName = 'FilePlayer'
   static canPlay = canPlay.file
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.onMount && this.props.onMount(this)
     this.addListeners(this.player)
     if (IOS) {
@@ -26,21 +26,21 @@ export default class FilePlayer extends Component {
     }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(prevProps)) {
       this.removeListeners(this.prevPlayer)
       this.addListeners(this.player)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.removeListeners(this.player)
     if (this.hls) {
       this.hls.destroy()
     }
   }
 
-  addListeners (player) {
+  addListeners(player) {
     const { playsinline } = this.props
     player.addEventListener('canplay', this.onReady)
     player.addEventListener('play', this.onPlay)
@@ -60,7 +60,7 @@ export default class FilePlayer extends Component {
     }
   }
 
-  removeListeners (player) {
+  removeListeners(player) {
     player.removeEventListener('canplay', this.onReady)
     player.removeEventListener('play', this.onPlay)
     player.removeEventListener('waiting', this.onBuffer)
@@ -107,7 +107,7 @@ export default class FilePlayer extends Component {
     this.props.onSeek(e.target.currentTime)
   }
 
-  shouldUseAudio (props) {
+  shouldUseAudio(props) {
     if (props.config.forceVideo) {
       return false
     }
@@ -117,7 +117,7 @@ export default class FilePlayer extends Component {
     return AUDIO_EXTENSIONS.test(props.url) || props.config.forceAudio
   }
 
-  shouldUseHLS (url) {
+  shouldUseHLS(url) {
     if (this.props.config.forceHLS) {
       return true
     }
@@ -127,15 +127,15 @@ export default class FilePlayer extends Component {
     return HLS_EXTENSIONS.test(url) || MATCH_CLOUDFLARE_STREAM.test(url)
   }
 
-  shouldUseDASH (url) {
+  shouldUseDASH(url) {
     return DASH_EXTENSIONS.test(url) || this.props.config.forceDASH
   }
 
-  shouldUseFLV (url) {
+  shouldUseFLV(url) {
     return FLV_EXTENSIONS.test(url) || this.props.config.forceFLV
   }
 
-  load (url) {
+  load(url) {
     const { hlsVersion, hlsOptions, dashVersion, flvVersion } = this.props.config
     if (this.hls) {
       this.hls.destroy()
@@ -196,29 +196,29 @@ export default class FilePlayer extends Component {
     }
   }
 
-  play () {
+  play() {
     const promise = this.player.play()
     if (promise) {
       promise.catch(this.props.onError)
     }
   }
 
-  pause () {
+  pause() {
     this.player.pause()
   }
 
-  stop () {
+  stop() {
     this.player.removeAttribute('src')
     if (this.dash) {
       this.dash.reset()
     }
   }
 
-  seekTo (seconds) {
+  seekTo(seconds) {
     this.player.currentTime = seconds
   }
 
-  setVolume (fraction) {
+  setVolume(fraction) {
     this.player.volume = fraction
   }
 
@@ -230,7 +230,7 @@ export default class FilePlayer extends Component {
     this.player.muted = false
   }
 
-  enablePIP () {
+  enablePIP() {
     if (this.player.requestPictureInPicture && document.pictureInPictureElement !== this.player) {
       this.player.requestPictureInPicture()
     } else if (supportsWebKitPresentationMode(this.player) && this.player.webkitPresentationMode !== 'picture-in-picture') {
@@ -238,7 +238,7 @@ export default class FilePlayer extends Component {
     }
   }
 
-  disablePIP () {
+  disablePIP() {
     if (document.exitPictureInPicture && document.pictureInPictureElement === this.player) {
       document.exitPictureInPicture()
     } else if (supportsWebKitPresentationMode(this.player) && this.player.webkitPresentationMode !== 'inline') {
@@ -246,11 +246,11 @@ export default class FilePlayer extends Component {
     }
   }
 
-  setPlaybackRate (rate) {
+  setPlaybackRate(rate) {
     this.player.playbackRate = rate
   }
 
-  getDuration () {
+  getDuration() {
     if (!this.player) return null
     const { duration, seekable } = this.player
     // on iOS, live streams return Infinity for the duration
@@ -261,12 +261,12 @@ export default class FilePlayer extends Component {
     return duration
   }
 
-  getCurrentTime () {
+  getCurrentTime() {
     if (!this.player) return null
     return this.player.currentTime
   }
 
-  getSecondsLoaded () {
+  getSecondsLoaded() {
     if (!this.player) return null
     const { buffered } = this.player
     if (buffered.length === 0) {
@@ -280,7 +280,7 @@ export default class FilePlayer extends Component {
     return end
   }
 
-  getSource (url) {
+  getSource(url) {
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
     const useFLV = this.shouldUseFLV(url)
@@ -312,7 +312,7 @@ export default class FilePlayer extends Component {
     this.player = player
   }
 
-  render () {
+  render() {
     const { url, playing, loop, controls, muted, config, width, height } = this.props
     const useAudio = this.shouldUseAudio(this.props)
     const Element = useAudio ? 'audio' : 'video'
