@@ -1,6 +1,6 @@
 {
-  "name": "react-player-temp-fork",
-  "version": "2.6.1",
+  "name": "react-player",
+  "version": "2.6.2",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/index.js",
   "typings": "index.d.ts",
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/taitems/react-player.git"
+    "url": "https://github.com/CookPete/react-player.git"
   },
   "keywords": [
     "react",
@@ -44,12 +44,12 @@
     "dash",
     "react-component"
   ],
-  "author": "Tait Brown <taitbrown@gmail.com> (http://github.com/taitems)",
+  "author": "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/taitems/react-player/issues"
+    "url": "https://github.com/CookPete/react-player/issues"
   },
-  "homepage": "https://github.com/taitems/react-player",
+  "homepage": "https://github.com/CookPete/react-player",
   "peerDependencies": {
     "react": ">=16.6.0"
   },
