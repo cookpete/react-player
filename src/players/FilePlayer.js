@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 import { getSDK, isMediaStream, supportsWebKitPresentationMode } from '../utils'
 import { canPlay, AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS, FLV_EXTENSIONS } from '../patterns'
 
-const IOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+const HAS_NAVIGATOR = typeof navigator !== 'undefined'
+const IS_IPAD_PRO = HAS_NAVIGATOR && navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
+const IS_IOS = HAS_NAVIGATOR && (/iPad|iPhone|iPod/.test(navigator.userAgent) || IS_IPAD_PRO) && !window.MSStream
 const HLS_SDK_URL = 'https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js'
 const HLS_GLOBAL = 'Hls'
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js'
@@ -21,7 +23,7 @@ export default class FilePlayer extends Component {
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
     this.addListeners(this.player)
-    if (IOS) {
+    if (IS_IOS) {
       this.player.load()
     }
   }
@@ -121,7 +123,7 @@ export default class FilePlayer extends Component {
     if (this.props.config.forceHLS) {
       return true
     }
-    if (IOS) {
+    if (IS_IOS) {
       return false
     }
     return HLS_EXTENSIONS.test(url) || MATCH_CLOUDFLARE_STREAM.test(url)
