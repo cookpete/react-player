@@ -14,7 +14,7 @@ open http://localhost:3000
 
 ## `dist` files
 
-There is **no need** to build or commit files in `dist` after making changes. The `dist` files are only there for [bower](http://bower.io) support, and there is very little point in polluting every commit or pull request with the changes. The `dist` files will be automatically built and commmited when new versions are released, so your changes will be included then.
+There is **no need** to build or commit files in `dist` after making changes. The `dist` files are only there for [bower](http://bower.io) support, and there is very little point in polluting every commit or pull request with the changes. The `dist` files will be automatically built and committed when new versions are released, so your changes will be included then.
 
 ## Linting
 
