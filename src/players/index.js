@@ -70,6 +70,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
   },
   {
+    key: 'audius',
+    name: 'Audius',
+    canPlay: canPlay.audius,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerAudius' */'./Audius'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,
