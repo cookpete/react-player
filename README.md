@@ -166,7 +166,7 @@ Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call
 
 Method | Description
 ------ | -----------
-`seekTo(amount, type)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`<br />&nbsp; ◦ &nbsp;`type` parameter lets you specify `'seconds'` or `'fraction'` to override default behaviour
+`seekTo(amount, type)` | Seek to the given number of seconds, or fraction if `amount` is between `0` and `1`<br />&nbsp; ◦ &nbsp;`type` parameter lets you specify `'seconds'` or `'fraction'` to override default behavior
 `getCurrentTime()` | Returns the number of seconds that have been played<br />&nbsp; ◦ &nbsp;Returns `null` if unavailable
 `getSecondsLoaded()` | Returns the number of seconds that have been loaded<br />&nbsp; ◦ &nbsp;Returns `null` if unavailable or unsupported
 `getDuration()` | Returns the duration (in seconds) of the currently playing media<br />&nbsp; ◦ &nbsp;Returns `null` if duration is unavailable
