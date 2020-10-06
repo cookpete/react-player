@@ -144,6 +144,15 @@ test('load - MediaStream (srcObject not supported)', t => {
   t.falsy(instance.player.srcObject)
 })
 
+test('load - Blob URI', t => {
+  const url = 'blob:http://example.com:ceeed153-91f1-4456-a4a7-cb4085810cc4"'
+  const wrapper = shallow(<FilePlayer url={url} config={config} />)
+
+  t.true(wrapper.containsMatchingElement(
+    <video src={url}>{false}{[]}</video>
+  ))
+})
+
 test('forceVideo', t => {
   const wrapper = shallow(
     <FilePlayer

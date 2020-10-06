@@ -1,4 +1,4 @@
-import { isMediaStream } from './utils'
+import { isMediaStream, isBlobUri } from './utils'
 
 export const MATCH_URL_YOUTUBE = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//
 export const MATCH_URL_SOUNDCLOUD = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/
@@ -29,7 +29,7 @@ const canPlayFile = url => {
     }
     return false
   }
-  if (isMediaStream(url)) {
+  if (isMediaStream(url) || isBlobUri(url)) {
     return true
   }
   return (
