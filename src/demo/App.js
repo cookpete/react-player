@@ -288,10 +288,8 @@ class App extends Component {
               <tr>
                 <th>Audius</th>
                 <td>
-                  {/* {this.renderLoadButton('https://audius.co/embed/track?id=548&ownerId=275&flavor=card', 'Test A')}
-                  {this.renderLoadButton('https://audius.co/embed/track?id=5650&ownerId=294&flavor=card', 'Test B')} */}
-                  {this.renderLoadButton('http://0.0.0.0:8080/track?id=548&ownerId=275&flavor=card', 'Test A')}
-                  {this.renderLoadButton('http://0.0.0.0:8080/track?id=5650&ownerId=294&flavor=card', 'Test B')}
+                  {this.renderLoadButton('https://audius.co/embed/track?id=548&ownerId=275&flavor=card', 'Test A')}
+                  {this.renderLoadButton('https://audius.co/embed/track?id=5650&ownerId=294&flavor=card', 'Test B')}
                 </td>
               </tr>
               <tr>

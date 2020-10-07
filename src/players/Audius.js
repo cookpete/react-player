@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK } from '../utils'
 import { canPlay } from '../patterns'
 
-const SDK_URL = 'http://localhost:8082/js/api.js'
+const SDK_URL = 'https://audius.co/embed/api.js'
 const SDK_GLOBAL = 'Audius'
 
 export default class Audius extends Component {
