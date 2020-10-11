@@ -43,8 +43,8 @@ export default class Audius extends Component {
         })
         this.player.bind(FINISH, () => this.props.onEnded())
         this.player.bind(ERROR, () => this.props.onError())
-        this.props.onReady()
       }
+      this.props.onReady()
     })
   }
 
@@ -98,8 +98,7 @@ export default class Audius extends Component {
     const { display } = this.props
     const style = {
       width: '100%',
-      height: '100%',
-      display
+      height: '100%'
     }
     return (
       <iframe
