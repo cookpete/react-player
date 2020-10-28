@@ -356,6 +356,13 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Youku</th>
+                <td>
+                  {this.renderLoadButton('https://v.youku.com/v_show/id_XNTg4NjExNzY3Ng==.html', 'Test A')}
+                  {this.renderLoadButton('https://v.youku.com/v_show/id_XNDQ4MDEzMzE3Ng==.html', 'Test B')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4', 'mp4')}
