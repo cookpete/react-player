@@ -74,6 +74,9 @@ export default class YouTube extends Component {
         ...embedOptions
       })
     }, onError)
+    if (embedOptions.events) {
+      console.warn('Using `embedOptions.events` will likely break things. Use ReactPlayer’s callback props instead, eg onReady, onPlay, onPause')
+    }
   }
 
   parsePlaylist = (url) => {
