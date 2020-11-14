@@ -111,7 +111,10 @@ test('load - dash', async t => {
         }),
         updateSettings: () => null
       })
-    })
+    }),
+    Debug: {
+      LOG_LEVEL_NONE: 0
+    }
   }
   const url = 'file.mpd'
   const getSDK = sinon.stub(utils, 'getSDK').resolves(dashjs)

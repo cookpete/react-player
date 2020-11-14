@@ -25,7 +25,8 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.youtube.com/watch?v=oUFJJNQGwhk'
 const TEST_CONFIG = {
-  playerVars: {}
+  playerVars: {},
+  embedOptions: {}
 }
 
 testPlayerMethods(YouTube, {
