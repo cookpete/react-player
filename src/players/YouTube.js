@@ -6,7 +6,7 @@ import { canPlay, MATCH_URL_YOUTUBE } from '../patterns'
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
-const MATCH_PLAYLIST = /list=([a-zA-Z0-9_-]+)/
+const MATCH_PLAYLIST = /(?:list|channel)=([a-zA-Z0-9_-]+)/
 const MATCH_USER_UPLOADS = /user\/([a-zA-Z0-9_-]+)\/?/
 const MATCH_NOCOOKIE = /youtube-nocookie\.com/
 const NOCOOKIE_HOST = 'https://www.youtube-nocookie.com'
@@ -21,7 +21,7 @@ export default class YouTube extends Component {
   }
 
   getID (url) {
-    if (!url || url instanceof Array) {
+    if (!url || url instanceof Array || MATCH_PLAYLIST.test(url)) {
       return null
     }
     return url.match(MATCH_URL_YOUTUBE)[1]
@@ -90,9 +90,10 @@ export default class YouTube extends Component {
       const [, playlistId] = url.match(MATCH_PLAYLIST)
       return {
         listType: 'playlist',
-        list: playlistId
+        list: playlistId.replace(/^UC/, 'UU')
       }
-    } else if (MATCH_USER_UPLOADS.test(url)) {
+    }
+    if (MATCH_USER_UPLOADS.test(url)) {
       const [, username] = url.match(MATCH_USER_UPLOADS)
       return {
         listType: 'user_uploads',
