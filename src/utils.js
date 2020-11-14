@@ -151,8 +151,8 @@ export function isMediaStream (url) {
   )
 }
 
-export function isBlobUri (url) {
-  return url.startsWith('blob:')
+export function isBlobUrl (url) {
+  return /^blob:/.test(url)
 }
 
 export function supportsWebKitPresentationMode (video = document.createElement('video')) {
