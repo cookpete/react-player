@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, randomString } from '../utils'
+import { callPlayer, getSDK, parseStartTime, randomString } from '../utils'
 import { canPlay, MATCH_URL_TWITCH_CHANNEL, MATCH_URL_TWITCH_VIDEO } from '../patterns'
 
 const SDK_URL = 'https://player.twitch.tv/js/embed/v1.js'
@@ -41,6 +41,7 @@ export default class Twitch extends Component {
         muted: this.props.muted,
         // https://github.com/CookPete/react-player/issues/733#issuecomment-549085859
         controls: isChannel ? true : controls,
+        time: parseStartTime(url),
         ...config.options
       })
       const { READY, PLAYING, PAUSE, ENDED, ONLINE, OFFLINE } = Twitch.Player
