@@ -151,6 +151,10 @@ export function isMediaStream (url) {
   )
 }
 
+export function isBlobUri (url) {
+  return url.startsWith('blob:')
+}
+
 export function supportsWebKitPresentationMode (video = document.createElement('video')) {
   // Check if Safari supports PiP, and is not on mobile (other than iPad)
   // iPhone safari appears to "support" PiP through the check, however PiP does not function
