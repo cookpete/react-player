@@ -37,6 +37,10 @@ export default class Player extends Component {
   }
 
   componentDidUpdate (prevProps) {
+    // If there isn’t a player available, don’t do anything
+    if (!this.player) {
+      return
+    }
     // Invoke player methods based on changed props
     const { url, playing, volume, muted, playbackRate, pip, loop, activePlayer } = this.props
     if (!isEqual(prevProps.url, url)) {
