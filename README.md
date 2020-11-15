@@ -140,7 +140,7 @@ Settings for each player live under different keys:
 Key | Options
 --- | -------
 `youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`embedOptions`: Override the [default embed options](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player)<br />`onUnstarted`: Called when state changes to `unstarted` (usually when video fails to autoplay)
-`facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)<br />`version`: Facebook SDK version<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
+`facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)<br />`version`: Facebook SDK version<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))<br />`attributes`: Extra data attributes to pass to the `fb-video` element
 `soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)
 `vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/sdk/embed)
 `wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))

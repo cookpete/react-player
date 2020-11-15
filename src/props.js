@@ -36,7 +36,8 @@ export const propTypes = {
     facebook: shape({
       appId: string,
       version: string,
-      playerId: string
+      playerId: string,
+      attributes: object
     }),
     dailymotion: shape({
       params: object
@@ -131,7 +132,8 @@ export const defaultProps = {
     facebook: {
       appId: '1309697205772819',
       version: 'v3.3',
-      playerId: null
+      playerId: null,
+      attributes: {}
     },
     dailymotion: {
       params: {

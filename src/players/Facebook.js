@@ -99,6 +99,7 @@ export default class Facebook extends Component {
   }
 
   render () {
+    const { attributes } = this.props.config
     const style = {
       width: '100%',
       height: '100%'
@@ -112,6 +113,7 @@ export default class Facebook extends Component {
         data-autoplay={this.props.playing ? 'true' : 'false'}
         data-allowfullscreen='true'
         data-controls={this.props.controls ? 'true' : 'false'}
+        {...attributes}
       />
     )
   }
