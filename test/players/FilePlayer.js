@@ -83,7 +83,9 @@ test('onError - hls', t => {
     class Hls {
       static Events = { ERROR: 'ERROR' }
       on = (event, cb) => {
-        setTimeout(cb, 100)
+        if (event === 'ERROR') {
+          setTimeout(cb, 100)
+        }
       }
 
       loadSource = () => null

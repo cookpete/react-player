@@ -30,7 +30,7 @@ export default class FilePlayer extends Component {
 
   componentDidUpdate (prevProps) {
     if (this.shouldUseAudio(this.props) !== this.shouldUseAudio(prevProps)) {
-      this.removeListeners(this.prevPlayer)
+      this.removeListeners(this.prevPlayer, prevProps.url)
       this.addListeners(this.player)
     }
   }
@@ -43,8 +43,7 @@ export default class FilePlayer extends Component {
   }
 
   addListeners (player) {
-    const { playsinline } = this.props
-    player.addEventListener('canplay', this.onReady)
+    const { url, playsinline } = this.props
     player.addEventListener('play', this.onPlay)
     player.addEventListener('waiting', this.onBuffer)
     player.addEventListener('playing', this.onBufferEnd)
@@ -55,6 +54,9 @@ export default class FilePlayer extends Component {
     player.addEventListener('enterpictureinpicture', this.onEnablePIP)
     player.addEventListener('leavepictureinpicture', this.onDisablePIP)
     player.addEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
+    if (!this.shouldUseHLS(url)) { // onReady is handled by hls.js
+      player.addEventListener('canplay', this.onReady)
+    }
     if (playsinline) {
       player.setAttribute('playsinline', '')
       player.setAttribute('webkit-playsinline', '')
@@ -62,7 +64,7 @@ export default class FilePlayer extends Component {
     }
   }
 
-  removeListeners (player) {
+  removeListeners (player, url) {
     player.removeEventListener('canplay', this.onReady)
     player.removeEventListener('play', this.onPlay)
     player.removeEventListener('waiting', this.onBuffer)
@@ -74,6 +76,9 @@ export default class FilePlayer extends Component {
     player.removeEventListener('enterpictureinpicture', this.onEnablePIP)
     player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
     player.removeEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
+    if (!this.shouldUseHLS(url)) { // onReady is handled by hls.js
+      player.removeEventListener('canplay', this.onReady)
+    }
   }
 
   // Proxy methods to prevent listener leaks
@@ -148,6 +153,9 @@ export default class FilePlayer extends Component {
     if (this.shouldUseHLS(url)) {
       getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
         this.hls = new Hls(hlsOptions)
+        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          this.props.onReady()
+        })
         this.hls.on(Hls.Events.ERROR, (e, data) => {
           this.props.onError(e, data, this.hls, Hls)
         })
