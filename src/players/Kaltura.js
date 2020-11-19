@@ -22,18 +22,18 @@ export default class Kaltura extends Component {
   load (url, isReady) {
     getSDK(SDK_URL, SDK_GLOBAL).then(kWidget => {
       if (!this.iframe) {
-	  return
+	return
       }
       this.props.onReady()
     })
   }
 
   play () {
-      console.log('play() - to be implemented');
+    console.log('play() - to be implemented')
   }
 
   pause () {
-      console.log('pause() - to be implemented');
+    console.log('pause() - to be implemented')
   }
 
   stop () {
@@ -41,32 +41,30 @@ export default class Kaltura extends Component {
   }
 
   seekTo (seconds) {
-      console.log('seekTo() - to be implemented');
+    console.log('seekTo() - to be implemented')
   }
 
   setVolume (fraction) {
-      console.log('setVolume() - to be implemented');
+    console.log('setVolume() - to be implemented')
   }
 
   mute = () => {
-      console.log('mute() - to be implemented');
+    console.log('mute() - to be implemented')
   }
 
   unmute = () => {
-      console.log('unmute() - to be implemented');
+    console.log('unmute() - to be implemented')
   }
 
   getDuration () {
-      console.log('getDuration() - to be implemented');
+    console.log('getDuration() - to be implemented')
   }
-
 
   ref = iframe => {
     this.iframe = iframe
   }
 
   render () {
-    const { display } = this.props
     const style = {
       width: '100%',
       height: '100%'
@@ -79,7 +77,7 @@ export default class Kaltura extends Component {
         frameBorder={0}
         width="100%"
         allow='encrypted-media'
-	referrerPolicy="no-referrer-when-downgrade"
+	referrerPolicy='no-referrer-when-downgrade'
       />
     )
   }

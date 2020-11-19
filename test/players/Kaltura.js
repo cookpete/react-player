@@ -1,10 +1,8 @@
 import React from 'react'
 import test from 'ava'
-import sinon from 'sinon'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
-import * as utils from '../../src/utils'
 import Kaltura from '../../src/players/Kaltura'
 
 configure({ adapter: new Adapter() })
@@ -18,10 +16,11 @@ testPlayerMethods(Kaltura, {
   play: 'play',
   pause: 'pause',
   stop: null,
-  seekTo: 'seekTo',
-  setVolume: 'setVolume',
-  mute: 'setVolume',
-  unmute: 'setVolume'
+  seekTo: 'seek',
+  setVolume: null,
+  mute: null,
+  unmute: null,
+  getSecondsLoaded: null
 })
 
 test('load()', t => {
@@ -41,8 +40,6 @@ test('load()', t => {
     const instance = shallow(<Kaltura onReady={onReady} config={TEST_CONFIG} />).instance()
     instance.iframe = 'mock-iframe'
     instance.load(TEST_URL)
-    t.true(getSDK.calledOnce)
-    getSDK.restore()
   })
 })
 
