@@ -22,7 +22,7 @@ export default class Kaltura extends Component {
   load (url, isReady) {
     getSDK(SDK_URL, SDK_GLOBAL).then(kWidget => {
       if (!this.iframe) {
-	return
+        return
       }
       this.props.onReady()
     })
@@ -75,9 +75,9 @@ export default class Kaltura extends Component {
         src={this.props.url}
         style={style}
         frameBorder={0}
-        width="100%"
+        width='100%'
         allow='encrypted-media'
-	referrerPolicy='no-referrer-when-downgrade'
+        referrerPolicy='no-referrer-when-downgrade'
       />
     )
   }

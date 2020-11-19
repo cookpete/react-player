@@ -24,14 +24,6 @@ testPlayerMethods(Kaltura, {
 })
 
 test('load()', t => {
-  const Embed = iframe => {
-    t.true(iframe === 'mock-iframe')
-    return {
-      bind: () => null,
-      getDuration: fn => fn(1000),
-      load: (url, options) => options.callback()
-    }
-  }
   return new Promise(resolve => {
     const onReady = () => {
       t.pass()
@@ -44,18 +36,17 @@ test('load()', t => {
 })
 
 test('getDuration()', t => {
-    // to be implemeneted
+  // to be implemeneted
 })
 
 test('getCurrentTime()', t => {
-    // to be implemeneted
+  // to be implemeneted
 })
-
 
 test('render()', t => {
   const style = {
     width: '100%',
-    height: '100%',
+    height: '100%'
   }
   const wrapper = shallow(<Kaltura url={TEST_URL} />)
   t.true(wrapper.contains(
@@ -63,9 +54,9 @@ test('render()', t => {
       src={TEST_URL}
       style={style}
       frameBorder={0}
-      width="100%"
+      width='100%'
       allow='encrypted-media'
-      referrerPolicy="no-referrer-when-downgrade"
+      referrerPolicy='no-referrer-when-downgrade'
     />
   ))
 })
