@@ -6,7 +6,7 @@ import { canPlay, MATCH_URL_YOUTUBE } from '../patterns'
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
-const MATCH_PLAYLIST = /(?:list|channel)=([a-zA-Z0-9_-]+)/
+const MATCH_PLAYLIST = /[?&](?:list|channel)=([a-zA-Z0-9_-]+)/
 const MATCH_USER_UPLOADS = /user\/([a-zA-Z0-9_-]+)\/?/
 const MATCH_NOCOOKIE = /youtube-nocookie\.com/
 const NOCOOKIE_HOST = 'https://www.youtube-nocookie.com'
