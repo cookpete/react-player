@@ -93,6 +93,7 @@ export interface ReactPlayerProps {
   style?: Object;
   progressInterval?: number;
   playsinline?: boolean;
+  playIcon?: React.ReactElement;
   pip?: boolean;
   stopOnUnmount?: boolean;
   light?: boolean | string;
