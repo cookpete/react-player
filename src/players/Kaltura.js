@@ -3,13 +3,13 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK } from '../utils'
 import { canPlay } from '../patterns'
 
-const SDK_URL = 'https://cdnapisec.kaltura.com/html5/html5lib/v2.83.2/kWidget/kWidget.js'
-const SDK_GLOBAL = 'Kaltura'
+// const SDK_URL = 'https://demo.kaltura.me/player-0.0.11.js'
+const SDK_URL = 'https://cdn.embed.ly/player-0.1.0.min.js'
+const SDK_GLOBAL = 'playerjs'
 
 export default class Kaltura extends Component {
   static displayName = 'Kaltura'
   static canPlay = canPlay.kaltura
-  static loopOnEnded = true
   callPlayer = callPlayer
   duration = null
   currentTime = null
@@ -19,21 +19,42 @@ export default class Kaltura extends Component {
     this.props.onMount && this.props.onMount(this)
   }
 
-  load (url, isReady) {
-    getSDK(SDK_URL, SDK_GLOBAL).then(kWidget => {
-      if (!this.iframe) {
-        return
+  load (url) {
+    getSDK(SDK_URL, SDK_GLOBAL).then(playerjs => {
+      if (!this.iframe) return
+      this.player = new playerjs.Player(this.iframe)
+      this.player.setLoop(this.props.loop)
+      this.player.on('ready', this.props.onReady)
+      this.player.on('ready', function () {
+        this.isReady = true
+      })
+
+      this.player.on('play', this.props.onPlay)
+      this.player.on('pause', this.props.onPause)
+      this.player.on('seeked', this.props.onSeek)
+      this.player.on('ended', this.props.onEnded)
+      this.player.on('error', this.props.onError)
+      this.player.on('timeupdate', ({ duration, seconds }) => {
+        this.duration = duration
+        this.currentTime = seconds
+      })
+      this.player.on('buffered', ({ percent }) => {
+        if (this.duration) {
+          this.secondsLoaded = this.duration * percent
+        }
+      })
+      if (this.props.muted) {
+        this.player.mute()
       }
-      this.props.onReady()
-    })
+    }, this.props.onError)
   }
 
   play () {
-    console.log('play() - to be implemented')
+    this.callPlayer('play')
   }
 
   pause () {
-    console.log('pause() - to be implemented')
+    this.callPlayer('pause')
   }
 
   stop () {
@@ -41,23 +62,35 @@ export default class Kaltura extends Component {
   }
 
   seekTo (seconds) {
-    console.log('seekTo() - to be implemented')
+    this.callPlayer('setCurrentTime', seconds)
   }
 
   setVolume (fraction) {
-    console.log('setVolume() - to be implemented')
+    this.callPlayer('setVolume', fraction * 100)
+  }
+
+  setLoop (loop) {
+    this.callPlayer('setLoop', loop)
   }
 
   mute = () => {
-    console.log('mute() - to be implemented')
+    this.callPlayer('mute')
   }
 
   unmute = () => {
-    console.log('unmute() - to be implemented')
+    this.callPlayer('unmute')
   }
 
   getDuration () {
-    console.log('getDuration() - to be implemented')
+    return this.duration
+  }
+
+  getCurrentTime () {
+    return this.currentTime
+  }
+
+  getSecondsLoaded () {
+    return this.secondsLoaded
   }
 
   ref = iframe => {
@@ -71,10 +104,13 @@ export default class Kaltura extends Component {
     }
     return (
       <iframe
+        id='kaltura_player'
         ref={this.ref}
         src={this.props.url}
+        frameBorder='0'
+        scrolling='no'
         style={style}
-        frameBorder={0}
+        allowFullScreen
         width='100%'
         allow='encrypted-media'
         referrerPolicy='no-referrer-when-downgrade'
