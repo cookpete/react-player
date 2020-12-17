@@ -64,6 +64,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerVidyard' */'./Vidyard'))
   },
   {
+    key: 'cinema8',
+    name: 'Cinema8',
+    canPlay: canPlay.cinema8,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerCinema8' */'./Cinema8'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,

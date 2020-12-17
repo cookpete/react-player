@@ -12,6 +12,7 @@ export const MATCH_URL_TWITCH_CHANNEL = /(?:www\.|go\.)?twitch\.tv\/([a-zA-Z0-9_
 export const MATCH_URL_DAILYMOTION = /^(?:(?:https?):)?(?:\/\/)?(?:www\.)?(?:(?:dailymotion\.com(?:\/embed)?\/video)|dai\.ly)\/([a-zA-Z0-9]+)(?:_[\w_-]+)?$/
 export const MATCH_URL_MIXCLOUD = /mixcloud\.com\/([^/]+\/[^/]+)/
 export const MATCH_URL_VIDYARD = /vidyard.com\/(?:watch\/)?([a-zA-Z0-9-]+)/
+export const MATCH_URL_CINEMA8 = /cinema8.com\/(?:video\/)?([a-zA-Z0-9-]+)/
 export const AUDIO_EXTENSIONS = /\.(m4a|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i
 export const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|\?)/i
 export const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i
@@ -58,5 +59,6 @@ export const canPlay = {
   dailymotion: url => MATCH_URL_DAILYMOTION.test(url),
   mixcloud: url => MATCH_URL_MIXCLOUD.test(url),
   vidyard: url => MATCH_URL_VIDYARD.test(url),
+  cinema8: url => MATCH_URL_CINEMA8.test(url),
   file: canPlayFile
 }
