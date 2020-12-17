@@ -14,22 +14,22 @@ export default class Cinema8 extends Component {
   currentTime = null
   secondsLoaded = null
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.onMount && this.props.onMount(this)
   }
 
-  getID(url) {
+  getID (url) {
     if (!url || url instanceof Array) {
       return null
     }
     return url.match(MATCH_URL_CINEMA8)[1]
   }
 
-  load(url) {        
+  load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(Cinema8Player => {
-      const id = this.getID(url);
-      var that = this;
-      if (!this.container) return;                        
+      const id = this.getID(url)
+      var that = this
+      if (!this.container) return
       this.player = new Cinema8Player(this.container, {
         id: id,
         autoplay: this.props.playing,
@@ -37,38 +37,38 @@ export default class Cinema8 extends Component {
         controls: this.props.controls,
         ...this.props.config.options,
         onready: () => {
-          that.props.onReady()          
-          this.duration = that.player.duration();
+          that.props.onReady()
+          this.duration = that.player.duration()
         },
         onplay: () => {
-          that.player.onplay = that.props.onPlay();
+          that.player.onplay = that.props.onPlay()
         },
         onpause: () => {
-          that.player.onpause = that.props.onPause();
+          that.player.onpause = that.props.onPause()
         },
         onprogress: () => {
-          this.currentTime = that.player.currentTime();
+          this.currentTime = that.player.currentTime()
         },
         onend: () => {
-          that.player.onend = that.props.onEnded();                    
+          that.player.onend = that.props.onEnded()
         }
       })
     }, this.props.onError)
   }
-  
-  play() {
+
+  play () {
     this.callPlayer('play')
   }
 
-  pause() {
+  pause () {
     this.callPlayer('pause')
   }
 
-  stop() {
+  stop () {
     this.callPlayer('unload')
   }
 
-  seekTo(seconds) {
+  seekTo (seconds) {
     this.callPlayer('currentTime', seconds)
   }
 
@@ -76,7 +76,7 @@ export default class Cinema8 extends Component {
     this.callPlayer('setLoop', loop)
   }
 
-  setVolume(fraction) {
+  setVolume (fraction) {
     this.callPlayer('volume', fraction)
   }
 
@@ -88,19 +88,19 @@ export default class Cinema8 extends Component {
     this.callPlayer('unmute')
   }
 
-  setPlaybackRate(rate) {
+  setPlaybackRate (rate) {
     this.callPlayer('setPlaybackRate', rate)
   }
 
-  getDuration() {
+  getDuration () {
     return this.duration
   }
 
-  getCurrentTime() {
+  getCurrentTime () {
     return this.currentTime
   }
 
-  getSecondsLoaded() {
+  getSecondsLoaded () {
     return this.secondsLoaded
   }
 
@@ -108,7 +108,7 @@ export default class Cinema8 extends Component {
     this.container = container
   }
 
-  render() {
+  render () {
     const { display } = this.props
     const style = {
       width: '100%',

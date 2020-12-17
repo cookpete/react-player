@@ -344,9 +344,9 @@ class App extends Component {
               </tr>
               <tr>
                 <th>Cinema8</th>
-                <td>                
+                <td>
                   {this.renderLoadButton('https://cinema8.com/video/6JMEKgJZ', 'Test A')}
-                  {this.renderLoadButton('https://cinema8.com/video/zOwZ5VJl', 'Test B')}                  
+                  {this.renderLoadButton('https://cinema8.com/video/zOwZ5VJl', 'Test B')}
                 </td>
               </tr>
               <tr>
