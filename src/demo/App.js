@@ -282,6 +282,7 @@ class App extends Component {
                 <td>
                   {this.renderLoadButton('https://soundcloud.com/miami-nights-1984/accelerated', 'Test A')}
                   {this.renderLoadButton('https://soundcloud.com/tycho/tycho-awake', 'Test B')}
+                  {this.renderLoadButton('https://soundcloud.com/yunghog/sets/doperaptraxxx', 'Playlist')}
                 </td>
               </tr>
               <tr>
