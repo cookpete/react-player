@@ -33,6 +33,13 @@ export default class FilePlayer extends Component {
       this.removeListeners(this.prevPlayer, prevProps.url)
       this.addListeners(this.player)
     }
+
+    if (
+      this.props.url !== prevProps.url &&
+      !isMediaStream(this.props.url)
+    ) {
+      this.player.removeAttribute('srcObject')
+    }
   }
 
   componentWillUnmount () {
