@@ -57,9 +57,11 @@ export interface FileConfig {
   forceAudio?: boolean;
   forceHLS?: boolean;
   forceDASH?: boolean;
+  forceFLV?: boolean;
   hlsOptions?: Object;
   hlsVersion?: string;
   dashVersion?: string;
+  flvVersion?: string;
 }
 
 export interface TwitchConfig {
