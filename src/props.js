@@ -85,7 +85,8 @@ export const propTypes = {
   onSeek: func,
   onProgress: func,
   onEnablePIP: func,
-  onDisablePIP: func
+  onDisablePIP: func,
+  handleClickPreview: func,
 }
 
 const noop = () => {}
@@ -191,5 +192,6 @@ export const defaultProps = {
   onSeek: noop,
   onProgress: noop,
   onEnablePIP: noop,
-  onDisablePIP: noop
+  onDisablePIP: noop,
+  handleClickPreview: noop,
 }
