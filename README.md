@@ -55,8 +55,8 @@ If your build system supports `import()` statements, use `react-player/lazy` to 
 import React from 'react'
 import ReactPlayer from 'react-player/lazy'
 
-// Lazy load the YouTube player
-<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+// Lazy load the YouTube player with custom fallback
+<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' fallback={<>Loading...</>} />
 ```
 
 Demo page: [`https://cookpete.com/react-player`](https://cookpete.com/react-player)
@@ -93,6 +93,7 @@ Prop | Description | Default
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
 `pip` | Set to `true` or `false` to enable or disable [picture-in-picture mode](https://developers.google.com/web/updates/2018/10/watch-video-using-picture-in-picture)<br/>&nbsp; ◦ &nbsp;Only available when playing file URLs in [certain browsers](https://caniuse.com/#feat=picture-in-picture) | `false`
 `stopOnUnmount` | If you are using `pip` you may want to use `stopOnUnmount={false}` to continue playing in picture-in-picture mode even after ReactPlayer unmounts | `true`
+`fallback` | Element or component to use as a fallback if you are using lazy loading
 `wrapper` | Element or component to use as the container element | `div`
 `playIcon` | Element or component to use as the play icon in light mode
 `config` | Override options for the various players, see [config prop](#config-prop)

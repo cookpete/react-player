@@ -19,6 +19,7 @@ export const propTypes = {
   stopOnUnmount: bool,
   light: oneOfType([bool, string]),
   playIcon: node,
+  fallback: node,
   wrapper: oneOfType([
     string,
     func,
@@ -105,6 +106,7 @@ export const defaultProps = {
   pip: false,
   stopOnUnmount: true,
   light: false,
+  fallback: null,
   wrapper: 'div',
   config: {
     soundcloud: {

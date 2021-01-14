@@ -179,6 +179,7 @@ class App extends Component {
               onError={e => console.log('onError', e)}
               onProgress={this.handleProgress}
               onDuration={this.handleDuration}
+              fallback={<div className="loader">Loading...</div>}
             />
           </div>
 
