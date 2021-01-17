@@ -52,7 +52,6 @@ export default class Kaltura extends Component {
 
   pause () {
     this.callPlayer('pause')
-    console.log('pause!')
   }
 
   stop () {
@@ -60,7 +59,6 @@ export default class Kaltura extends Component {
   }
 
   seekTo (seconds) {
-    console.log('seek?')
     this.callPlayer('setCurrentTime', seconds)
   }
 
