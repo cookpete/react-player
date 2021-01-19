@@ -33,10 +33,3 @@ $gutter-width: 20px;
 .footer {
   margin: $gutter-width;
 }
-
-.loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}

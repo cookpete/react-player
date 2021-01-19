@@ -55,8 +55,8 @@ If your build system supports `import()` statements, use `react-player/lazy` to 
 import React from 'react'
 import ReactPlayer from 'react-player/lazy'
 
-// Lazy load the YouTube player with custom fallback
-<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' fallback={<>Loading...</>} />
+// Lazy load the YouTube player
+<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
 ```
 
 Demo page: [`https://cookpete.com/react-player`](https://cookpete.com/react-player)
