@@ -98,6 +98,7 @@ export interface ReactPlayerProps {
   pip?: boolean;
   stopOnUnmount?: boolean;
   light?: boolean | string;
+  fallback?: React.ReactNode;
   wrapper?: any;
   config?: Config;
   onReady?(player: ReactPlayer): void;

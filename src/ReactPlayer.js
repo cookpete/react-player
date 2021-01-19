@@ -162,12 +162,12 @@ export const createReactPlayer = (players, fallback) => {
     }
 
     render () {
-      const { url, style, width, height, wrapper: Wrapper } = this.props
+      const { url, style, width, height, fallback, wrapper: Wrapper } = this.props
       const { showPreview } = this.state
       const attributes = this.getAttributes(url)
       return (
         <Wrapper ref={this.references.wrapper} style={{ ...style, width, height }} {...attributes}>
-          <UniversalSuspense fallback={null}>
+          <UniversalSuspense fallback={fallback}>
             {showPreview
               ? this.renderPreview(url)
               : this.renderActivePlayer(url)}
