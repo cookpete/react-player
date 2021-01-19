@@ -60,7 +60,8 @@ export const propTypes = {
     }),
     wistia: shape({
       options: object,
-      playerId: string
+      playerId: string,
+      customControls: array
     }),
     mixcloud: shape({
       options: object
@@ -164,7 +165,8 @@ export const defaultProps = {
     },
     wistia: {
       options: {},
-      playerId: null
+      playerId: null,
+      customControls: null
     },
     mixcloud: {
       options: {

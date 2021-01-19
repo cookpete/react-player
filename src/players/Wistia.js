@@ -20,7 +20,10 @@ export default class Wistia extends Component {
 
   load (url) {
     const { playing, muted, controls, onReady, config, onError } = this.props
-    getSDK(SDK_URL, SDK_GLOBAL).then(() => {
+    getSDK(SDK_URL, SDK_GLOBAL).then(Wistia => {
+      if (config.customControls) {
+        config.customControls.forEach(control => Wistia.defineControl(control))
+      }
       window._wq = window._wq || []
       window._wq.push({
         id: this.playerID,
