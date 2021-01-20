@@ -115,6 +115,7 @@ Prop | Description
 `onSeek` | Called when media seeks with `seconds` parameter
 `onEnded` | Called when media finishes playing<br />&nbsp; ◦ &nbsp;Does not fire when `loop` is set to `true`
 `onError` | Called when an error occurs whilst attempting to play media
+`onClickPreview` | Called when user clicks the `light` mode preview
 `onEnablePIP` | Called when picture-in-picture mode is enabled
 `onDisablePIP` | Called when picture-in-picture mode is disabled
 

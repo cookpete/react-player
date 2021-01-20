@@ -31,9 +31,10 @@ export interface BaseReactPlayerProps {
   onBuffer?: () => void
   onBufferEnd?: () => void
   onEnded?: () => void
+  onClickPreview?: (event: any) => void
   onEnablePIP?: () => void
   onDisablePIP?: () => void
-  onError?: ( error: any, data?: any, hlsInstance?: any, hlsGlobal?: any) => void
+  onError?: (error: any, data?: any, hlsInstance?: any, hlsGlobal?: any) => void
   onDuration?: (duration: number) => void
   onSeek?: (seconds: number) => void
   onProgress?: (state: {
