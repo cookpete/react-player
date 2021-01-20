@@ -393,3 +393,13 @@ test('auto width/height', t => {
     </video>
   ))
 })
+
+test('clear srcObject on url change', t => {
+  const url = new MockMediaStream()
+  const wrapper = shallow(<FilePlayer url={url} config={config} />)
+  const instance = wrapper.instance()
+  instance.player.removeAttribute = sinon.fake()
+  instance.load(url)
+  wrapper.setProps({ url: 'file.mpv' })
+  t.true(instance.player.removeAttribute.calledOnceWith('srcObject'))
+})
