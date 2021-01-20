@@ -23,6 +23,7 @@ export interface BaseReactPlayerProps {
   pip?: boolean
   stopOnUnmount?: boolean
   light?: boolean | string
+  fallback?: ReactElement;
   wrapper?: any
   onReady?: (player: ReactPlayer) => void
   onStart?: () => void
