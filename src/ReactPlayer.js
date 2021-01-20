@@ -68,8 +68,9 @@ export const createReactPlayer = (players, fallback) => {
       }
     }
 
-    handleClickPreview = () => {
+    handleClickPreview = (e) => {
       this.setState({ showPreview: false })
+      this.props.onClickPreview(e)
     }
 
     showPreview = () => {
