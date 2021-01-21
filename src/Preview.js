@@ -95,7 +95,6 @@ export default class Preview extends Component {
         style={styles.preview}
         className='react-player__preview'
         onClick={onClick}
-        tabIndex={0}
         onKeyPress={this.handleKeyPress}
       >
         {playIcon || defaultPlayIcon}
