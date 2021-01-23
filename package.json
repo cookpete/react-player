@@ -21,7 +21,7 @@
     "build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && node scripts/pre-publish.js && cp types/*.d.ts . && cp types/lib/index.d.ts lib && cp types/lazy/index.d.ts lazy",
+    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && node scripts/pre-publish.js && cp -r types/* .",
     "postpublish": "node scripts/post-publish.js && npm run clean"
   },
   "repository": {
