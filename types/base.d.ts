@@ -1,5 +1,5 @@
 import { Component, ReactElement, CSSProperties } from 'react'
-import ReactPlayer from './index'
+import ReactPlayer from './lib'
 
 interface SourceProps {
   src: string
