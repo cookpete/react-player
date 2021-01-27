@@ -19,6 +19,7 @@ export const propTypes = {
   stopOnUnmount: bool,
   light: oneOfType([bool, string]),
   playIcon: node,
+  fallback: node,
   wrapper: oneOfType([
     string,
     func,
@@ -60,7 +61,8 @@ export const propTypes = {
     }),
     wistia: shape({
       options: object,
-      playerId: string
+      playerId: string,
+      customControls: array
     }),
     mixcloud: shape({
       options: object
@@ -98,6 +100,7 @@ export const propTypes = {
   onDuration: func,
   onSeek: func,
   onProgress: func,
+  onClickPreview: func,
   onEnablePIP: func,
   onDisablePIP: func
 }
@@ -119,6 +122,7 @@ export const defaultProps = {
   pip: false,
   stopOnUnmount: true,
   light: false,
+  fallback: null,
   wrapper: 'div',
   config: {
     soundcloud: {
@@ -178,7 +182,8 @@ export const defaultProps = {
     },
     wistia: {
       options: {},
-      playerId: null
+      playerId: null,
+      customControls: null
     },
     mixcloud: {
       options: {
@@ -218,6 +223,7 @@ export const defaultProps = {
   onDuration: noop,
   onSeek: noop,
   onProgress: noop,
+  onClickPreview: noop,
   onEnablePIP: noop,
   onDisablePIP: noop
 }

@@ -93,6 +93,7 @@ Prop | Description | Default
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
 `pip` | Set to `true` or `false` to enable or disable [picture-in-picture mode](https://developers.google.com/web/updates/2018/10/watch-video-using-picture-in-picture)<br/>&nbsp; ◦ &nbsp;Only available when playing file URLs in [certain browsers](https://caniuse.com/#feat=picture-in-picture) | `false`
 `stopOnUnmount` | If you are using `pip` you may want to use `stopOnUnmount={false}` to continue playing in picture-in-picture mode even after ReactPlayer unmounts | `true`
+`fallback` | Element or component to use as a fallback if you are using lazy loading | `null`
 `wrapper` | Element or component to use as the container element | `div`
 `playIcon` | Element or component to use as the play icon in light mode
 `config` | Override options for the various players, see [config prop](#config-prop)
@@ -114,6 +115,7 @@ Prop | Description
 `onSeek` | Called when media seeks with `seconds` parameter
 `onEnded` | Called when media finishes playing<br />&nbsp; ◦ &nbsp;Does not fire when `loop` is set to `true`
 `onError` | Called when an error occurs whilst attempting to play media
+`onClickPreview` | Called when user clicks the `light` mode preview
 `onEnablePIP` | Called when picture-in-picture mode is enabled
 `onDisablePIP` | Called when picture-in-picture mode is disabled
 
