@@ -75,13 +75,11 @@ test('render()', t => {
   const wrapper = shallow(<Kaltura url={TEST_URL} />)
   t.true(wrapper.contains(
     <iframe
-      id='kaltura_player'
       src={TEST_URL}
       frameBorder='0'
       scrolling='no'
       style={style}
       allowFullScreen
-      width='100%'
       allow='encrypted-media'
       referrerPolicy='no-referrer-when-downgrade'
     />

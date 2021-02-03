@@ -22,27 +22,30 @@ export default class Kaltura extends Component {
     getSDK(SDK_URL, SDK_GLOBAL).then(playerjs => {
       if (!this.iframe) return
       this.player = new playerjs.Player(this.iframe)
-      this.player.setLoop(this.props.loop)
-      this.player.on('ready', this.props.onReady)
       this.player.on('ready', () => {
         this.player.isReady = true
         this.player.on('play', this.props.onPlay)
         this.player.on('pause', this.props.onPause)
+        this.player.on('seeked', this.props.onSeek)
         this.player.on('ended', this.props.onEnded)
         this.player.on('error', this.props.onError)
+        this.player.on('timeupdate', ({ duration, seconds }) => {
+          this.duration = duration
+          this.currentTime = seconds
+        })
         this.player.on('buffered', ({ percent }) => {
           if (this.duration) {
             this.secondsLoaded = this.duration * percent
           }
         })
-        this.player.on('timeupdate', ({ duration, seconds }) => {
-          this.duration = duration
-          this.currentTime = seconds
+        this.player.setLoop(this.props.loop)
+        if (this.props.muted) {
+          this.player.mute()
+        }
+        setTimeout(() => {
+          this.props.onReady()
         })
       })
-      if (this.props.muted) {
-        this.player.mute()
-      }
     }, this.props.onError)
   }
 
@@ -101,14 +104,12 @@ export default class Kaltura extends Component {
     }
     return (
       <iframe
-        id='kaltura_player'
         ref={this.ref}
         src={this.props.url}
         frameBorder='0'
         scrolling='no'
         style={style}
         allowFullScreen
-        width='100%'
         allow='encrypted-media'
         referrerPolicy='no-referrer-when-downgrade'
       />
