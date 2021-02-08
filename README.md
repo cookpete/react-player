@@ -96,6 +96,7 @@ Prop | Description | Default
 `fallback` | Element or component to use as a fallback if you are using lazy loading | `null`
 `wrapper` | Element or component to use as the container element | `div`
 `playIcon` | Element or component to use as the play icon in light mode
+`previewTabIndex` | Set the tab index to be used on light mode | 0
 `config` | Override options for the various players, see [config prop](#config-prop)
 
 #### Callback props
