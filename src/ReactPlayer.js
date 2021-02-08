@@ -10,11 +10,12 @@ import Player from './Player'
 const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */'./Preview'))
 
 const IS_BROWSER = typeof window !== 'undefined' && window.document
+const IS_GLOBAL = typeof global !== 'undefined' && global.window && global.window.document
 const SUPPORTED_PROPS = Object.keys(propTypes)
 
 // Return null when rendering on the server
 // as Suspense is not supported yet
-const UniversalSuspense = IS_BROWSER ? Suspense : () => null
+const UniversalSuspense = IS_BROWSER || IS_GLOBAL ? Suspense : () => null
 
 const customPlayers = []
 
