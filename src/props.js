@@ -19,6 +19,7 @@ export const propTypes = {
   stopOnUnmount: bool,
   light: oneOfType([bool, string]),
   playIcon: node,
+  previewTabIndex: number,
   fallback: node,
   wrapper: oneOfType([
     string,
@@ -110,6 +111,7 @@ export const defaultProps = {
   light: false,
   fallback: null,
   wrapper: 'div',
+  previewTabIndex: 0,
   config: {
     soundcloud: {
       options: {
