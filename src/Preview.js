@@ -54,7 +54,7 @@ export default class Preview extends Component {
   }
 
   render () {
-    const { onClick, playIcon } = this.props
+    const { onClick, playIcon, previewTabIndex } = this.props
     const { image } = this.state
     const flexCenter = {
       display: 'flex',
@@ -95,7 +95,7 @@ export default class Preview extends Component {
         style={styles.preview}
         className='react-player__preview'
         onClick={onClick}
-        tabIndex={0}
+        tabIndex={previewTabIndex}
         onKeyPress={this.handleKeyPress}
       >
         {playIcon || defaultPlayIcon}

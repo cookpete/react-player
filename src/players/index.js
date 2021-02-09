@@ -63,11 +63,17 @@ export default [
     canPlay: canPlay.vidyard,
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerVidyard' */'./Vidyard'))
   },
+  {    
+    key: 'kaltura',
+    name: 'Kaltura',
+    canPlay: canPlay.kaltura,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
+  },
   {
     key: 'cinema8',
     name: 'Cinema8',
     canPlay: canPlay.cinema8,
-    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerCinema8' */'./Cinema8'))
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerCinema8' */'./Cinema8')) 
   },
   {
     key: 'file',

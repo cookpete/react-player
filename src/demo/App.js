@@ -343,6 +343,13 @@ class App extends Component {
                   {this.renderLoadButton('https://video.vidyard.com/watch/BLXgYCDGfwU62vdMWybNVJ', 'Test B')}
                 </td>
               </tr>
+              <tr>                
+                <th>Kaltura</th>
+                <td>
+                  {this.renderLoadButton('https://cdnapisec.kaltura.com/p/2507381/sp/250738100/embedIframeJs/uiconf_id/44372392/partner_id/2507381?iframeembed=true&playerId=kaltura_player_1605622074&entry_id=1_jz404fbl', 'Test A')}
+                  {this.renderLoadButton('https://cdnapisec.kaltura.com/p/2507381/sp/250738100/embedIframeJs/uiconf_id/44372392/partner_id/2507381?iframeembed=true&playerId=kaltura_player_1605622336&entry_id=1_i1jmzcn3', 'Test B')}
+                </td>
+              </tr>
               <tr>
                 <th>Cinema8</th>
                 <td>
