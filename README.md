@@ -321,7 +321,7 @@ You can also specify a `type` for each source by using objects with `src` and `t
 * YouTube videos use the [YouTube iFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
 * Facebook videos use the [Facebook Embedded Video Player API](https://developers.facebook.com/docs/plugins/embedded-video-player/api)
 * SoundCloud tracks use the [SoundCloud Widget API](https://developers.soundcloud.com/docs/api/html5-widget)
-* Audius tracks use the [Audius Embed API](https://audiusproject.github.io/api-docs/#embed-api)
+* Audius tracks use the [Audius Embed API](https://audiusproject.github.io/api-docs/#embed-sdk)
 * Streamable videos use [`Player.js`](https://github.com/embedly/player.js)
 * Vidme videos are [no longer supported](https://medium.com/vidme/goodbye-for-now-120b40becafa)
 * Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/sdk)
