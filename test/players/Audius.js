@@ -78,7 +78,7 @@ test('getSecondsLoaded()', t => {
 test('render()', t => {
   const style = {
     width: '100%',
-    height: '100%',
+    height: '100%'
   }
   const wrapper = shallow(<Audius url={TEST_URL} />)
   t.true(wrapper.contains(
@@ -86,7 +86,7 @@ test('render()', t => {
       src={TEST_URL}
       style={style}
       frameBorder={0}
-      width="100%"
+      width='100%'
       allow='encrypted-media'
     />
   ))

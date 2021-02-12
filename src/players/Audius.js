@@ -95,7 +95,6 @@ export default class Audius extends Component {
   }
 
   render () {
-    const { display } = this.props
     const style = {
       width: '100%',
       height: '100%'
@@ -106,7 +105,7 @@ export default class Audius extends Component {
         src={this.props.url}
         style={style}
         frameBorder={0}
-        width="100%"
+        width='100%'
         allow='encrypted-media'
       />
     )
