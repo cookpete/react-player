@@ -38,8 +38,11 @@ export default class Vimeo extends Component {
         iframe.style.height = '100%'
       }).catch(this.props.onError)
       this.player.on('loaded', () => {
-        this.props.onReady()
         this.refreshDuration()
+          // emit `ready` only when duration will be received. We need this
+          // because duration is required for calls like `seekTo` which users
+          // could run right again `ready` flag will be received
+          .then(() => this.props.onReady())
       })
       this.player.on('play', () => {
         this.props.onPlay()
@@ -61,7 +64,8 @@ export default class Vimeo extends Component {
   }
 
   refreshDuration () {
-    this.player.getDuration().then(duration => {
+    // we must return promise results to prevent race condition in some cases
+    return this.player.getDuration().then(duration => {
       this.duration = duration
     })
   }
@@ -116,7 +120,8 @@ export default class Vimeo extends Component {
   }
 
   getSecondsLoaded () {
-    return this.secondsLoaded
+    // for Vimeo it could be null initially
+    return this.secondsLoaded || 0
   }
 
   ref = container => {
