@@ -129,7 +129,7 @@ class App extends Component {
 
   handleClickFullscreen = () => {
     if (screenfull.isEnabled) {
-      screenfull.request(document.getElementById("player"));
+      screenfull.request(document.getElementById('player'))
     }
   }
 
@@ -155,7 +155,7 @@ class App extends Component {
           <h1>ReactPlayer Demo</h1>
           <div className='player-wrapper'>
             <ReactPlayer
-              id={"player"}
+              id='player'
               ref={this.ref}
               className='react-player'
               width='100%'
