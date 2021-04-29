@@ -128,7 +128,9 @@ class App extends Component {
   }
 
   handleClickFullscreen = () => {
-    screenfull.request(this.player)
+    if (screenfull.isEnabled) {
+      screenfull.request(document.getElementById("player"));
+    }
   }
 
   renderLoadButton = (url, label) => {
@@ -153,6 +155,7 @@ class App extends Component {
           <h1>ReactPlayer Demo</h1>
           <div className='player-wrapper'>
             <ReactPlayer
+              id={"player"}
               ref={this.ref}
               className='react-player'
               width='100%'
