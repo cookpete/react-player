@@ -1,3 +1,9 @@
 {
-  "include": ["types/*.d.ts"]
+  "include": [
+    "types/*.d.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  }
 }

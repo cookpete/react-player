@@ -17,7 +17,11 @@ export default {
   optimization: {
     minimize: true,
     minimizer: [
-      new TerserPlugin({ sourceMap: true }),
+      new TerserPlugin({
+        terserOptions: {
+          sourceMap: true
+        }
+      }),
       new OptimizeCSSAssetsPlugin({})
     ]
   }

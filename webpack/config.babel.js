@@ -32,7 +32,7 @@ export const plugins = [
 
 export default {
   mode: 'development',
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-cheap-module-source-map',
   entry: join(PATH_SRC, 'demo', 'index'),
   resolve: {
     alias: {
@@ -43,11 +43,13 @@ export default {
   module: {
     rules: [{
       test: /\.js$/,
-      loader: 'babel-loader',
       include: PATH_SRC,
-      query: {
-        presets: [['@babel/preset-env', { modules: false }]]
-      }
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          presets: [['@babel/preset-env', { modules: false }]]
+        }
+      }]
     }, {
       test: /\.css$/,
       use: [
@@ -73,7 +75,9 @@ export default {
       include: PATH_NODE_MODULES
     }, {
       test: /\.(png|jpg)$/,
-      loader: 'file-loader?name=assets/[hash].[ext]',
+      use: [{
+        loader: 'file-loader?name=assets/[hash].[ext]'
+      }],
       include: PATH_ASSETS
     }]
   },
