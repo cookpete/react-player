@@ -39,7 +39,7 @@ export default class Kaltura extends Component {
     // wait what?
   }
 
-  addListeners(player, props) {
+  addListeners (player, props) {
     player.on('play', props.onPlay)
     player.on('pause', props.onPause)
     player.on('ended', props.onEnded)
@@ -48,7 +48,6 @@ export default class Kaltura extends Component {
       this.duration = duration
       this.currentTime = seconds
     })
-
   }
 
   play () {
