@@ -16,37 +16,39 @@ export default class Kaltura extends Component {
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
-  }
-
-  load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(playerjs => {
       if (!this.iframe) return
       this.player = new playerjs.Player(this.iframe)
       this.player.on('ready', () => {
-        this.player.isReady = true
-        this.player.on('play', this.props.onPlay)
-        this.player.on('pause', this.props.onPause)
-        this.player.on('seeked', this.props.onSeek)
-        this.player.on('ended', this.props.onEnded)
-        this.player.on('error', this.props.onError)
-        this.player.on('timeupdate', ({ duration, seconds }) => {
-          this.duration = duration
-          this.currentTime = seconds
-        })
-        this.player.on('buffered', ({ percent }) => {
-          if (this.duration) {
-            this.secondsLoaded = this.duration * percent
-          }
-        })
-        this.player.setLoop(this.props.loop)
-        if (this.props.muted) {
-          this.player.mute()
-        }
+        // an arbitrary timeout is is required,
+        // otherwise the eventListeners won't work
         setTimeout(() => {
+          this.player.isReady = true
+          this.player.setLoop(this.props.loop)
+          if (this.props.muted) {
+            this.player.mute()
+          }
+          this.addListeners(this.player, this.props)
           this.props.onReady()
-        })
+        }, 500)
       })
     }, this.props.onError)
+  }
+
+  load (url) {
+    // wait what?
+  }
+
+  addListeners(player, props) {
+    player.on('play', props.onPlay)
+    player.on('pause', props.onPause)
+    player.on('ended', props.onEnded)
+    player.on('error', props.onError)
+    player.on('timeupdate', ({ duration, seconds }) => {
+      this.duration = duration
+      this.currentTime = seconds
+    })
+
   }
 
   play () {
