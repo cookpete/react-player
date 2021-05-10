@@ -36,6 +36,7 @@ export default class Vimeo extends Component {
         const iframe = this.container.querySelector('iframe')
         iframe.style.width = '100%'
         iframe.style.height = '100%'
+        iframe.title = this.props.title
       }).catch(this.props.onError)
       this.player.on('loaded', () => {
         this.props.onReady()

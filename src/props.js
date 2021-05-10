@@ -89,7 +89,8 @@ export const propTypes = {
   onProgress: func,
   onClickPreview: func,
   onEnablePIP: func,
-  onDisablePIP: func
+  onDisablePIP: func,
+  title: string
 }
 
 const noop = () => {}
@@ -199,5 +200,6 @@ export const defaultProps = {
   onProgress: noop,
   onClickPreview: noop,
   onEnablePIP: noop,
-  onDisablePIP: noop
+  onDisablePIP: noop,
+  title: ""
 }
