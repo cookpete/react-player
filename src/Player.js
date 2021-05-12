@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import isEqual from 'react-fast-compare'
 
 import { propTypes, defaultProps } from './props'
+import { isMediaStream } from './utils'
 
 const SEEK_ON_PLAY_EXPIRY = 5000
 
@@ -44,7 +45,7 @@ export default class Player extends Component {
     // Invoke player methods based on changed props
     const { url, playing, volume, muted, playbackRate, pip, loop, activePlayer } = this.props
     if (!isEqual(prevProps.url, url)) {
-      if (this.isLoading && !activePlayer.forceLoad) {
+      if (this.isLoading && !activePlayer.forceLoad && !isMediaStream(url)) {
         console.warn(`ReactPlayer: the attempt to load ${url} is being deferred until the player has loaded`)
         this.loadOnReady = url
         return
