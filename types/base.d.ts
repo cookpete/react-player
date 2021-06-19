@@ -2,8 +2,9 @@ import { Component, ReactElement, CSSProperties } from 'react'
 import ReactPlayer from './lib'
 
 interface SourceProps {
+  media?: string
   src: string
-  type: string
+  type?: string
 }
 
 export interface BaseReactPlayerProps {
