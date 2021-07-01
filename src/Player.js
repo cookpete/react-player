@@ -160,12 +160,12 @@ export default class Player extends Component {
     this.player.seekTo(amount)
   }
 
-  handleReady = () => {
+  handleReady = (event) => {
     if (!this.mounted) return
     this.isReady = true
     this.isLoading = false
     const { onReady, playing, volume, muted } = this.props
-    onReady()
+    onReady(event)
     if (!muted && volume !== null) {
       this.player.setVolume(volume)
     }

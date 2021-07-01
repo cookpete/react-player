@@ -103,8 +103,8 @@ export const createReactPlayer = (players, fallback) => {
       this.player.seekTo(fraction, type)
     }
 
-    handleReady = () => {
-      this.props.onReady(this)
+    handleReady = (event) => {
+      this.props.onReady(this, event)
     }
 
     getActivePlayer = memoize(url => {
