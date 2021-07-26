@@ -5,13 +5,13 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import { Mixcloud } from '../../src/players/Mixcloud'
+import Mixcloud from '../../src/players/Mixcloud'
 
 configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.mixcloud.com/mixcloud/meet-the-curators'
 const TEST_CONFIG = {
-  mixcloud: { options: {} }
+  options: {}
 }
 
 testPlayerMethods(Mixcloud, {

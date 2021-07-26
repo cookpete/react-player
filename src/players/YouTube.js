@@ -1,37 +1,39 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
-import createSinglePlayer from '../singlePlayer'
+import { canPlay, MATCH_URL_YOUTUBE } from '../patterns'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
 const SDK_GLOBAL_READY = 'onYouTubeIframeAPIReady'
-const MATCH_URL = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})|youtube\.com\/playlist\?list=/
-const MATCH_PLAYLIST = /list=([a-zA-Z0-9_-]+)/
+const MATCH_PLAYLIST = /[?&](?:list|channel)=([a-zA-Z0-9_-]+)/
+const MATCH_USER_UPLOADS = /user\/([a-zA-Z0-9_-]+)\/?/
+const MATCH_NOCOOKIE = /youtube-nocookie\.com/
+const NOCOOKIE_HOST = 'https://www.youtube-nocookie.com'
 
-function parsePlaylist (url) {
-  if (MATCH_PLAYLIST.test(url)) {
-    const [, playlistId] = url.match(MATCH_PLAYLIST)
-    return {
-      listType: 'playlist',
-      list: playlistId
-    }
-  }
-  return {}
-}
-
-export class YouTube extends Component {
+export default class YouTube extends Component {
   static displayName = 'YouTube'
-  static canPlay = url => MATCH_URL.test(url)
-
+  static canPlay = canPlay.youtube
   callPlayer = callPlayer
+
+  componentDidMount () {
+    this.props.onMount && this.props.onMount(this)
+  }
+
+  getID (url) {
+    if (!url || url instanceof Array || MATCH_PLAYLIST.test(url)) {
+      return null
+    }
+    return url.match(MATCH_URL_YOUTUBE)[1]
+  }
+
   load (url, isReady) {
     const { playing, muted, playsinline, controls, loop, config, onError } = this.props
-    const { playerVars, embedOptions } = config.youtube
-    const id = url && url.match(MATCH_URL)[1]
+    const { playerVars, embedOptions } = config
+    const id = this.getID(url)
     if (isReady) {
-      if (MATCH_PLAYLIST.test(url)) {
-        this.player.loadPlaylist(parsePlaylist(url))
+      if (MATCH_PLAYLIST.test(url) || MATCH_USER_UPLOADS.test(url) || url instanceof Array) {
+        this.player.loadPlaylist(this.parsePlaylist(url))
         return
       }
       this.player.cueVideoById({
@@ -54,85 +56,141 @@ export class YouTube extends Component {
           start: parseStartTime(url),
           end: parseEndTime(url),
           origin: window.location.origin,
-          playsinline: playsinline,
-          ...parsePlaylist(url),
+          playsinline: playsinline ? 1 : 0,
+          ...this.parsePlaylist(url),
           ...playerVars
         },
         events: {
-          onReady: this.props.onReady,
+          onReady: () => {
+            if (loop) {
+              this.player.setLoop(true) // Enable playlist looping
+            }
+            this.props.onReady()
+          },
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
         },
+        host: MATCH_NOCOOKIE.test(url) ? NOCOOKIE_HOST : undefined,
         ...embedOptions
       })
-      if (loop) {
-        this.player.setLoop(true) // Enable playlist looping
-      }
     }, onError)
+    if (embedOptions.events) {
+      console.warn('Using `embedOptions.events` will likely break things. Use ReactPlayer’s callback props instead, eg onReady, onPlay, onPause')
+    }
   }
-  onStateChange = ({ data }) => {
-    const { onPlay, onPause, onBuffer, onEnded, onReady, loop } = this.props
-    const { PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
-    if (data === PLAYING) onPlay()
+
+  parsePlaylist = (url) => {
+    if (url instanceof Array) {
+      return {
+        listType: 'playlist',
+        playlist: url.map(this.getID).join(',')
+      }
+    }
+    if (MATCH_PLAYLIST.test(url)) {
+      const [, playlistId] = url.match(MATCH_PLAYLIST)
+      return {
+        listType: 'playlist',
+        list: playlistId.replace(/^UC/, 'UU')
+      }
+    }
+    if (MATCH_USER_UPLOADS.test(url)) {
+      const [, username] = url.match(MATCH_USER_UPLOADS)
+      return {
+        listType: 'user_uploads',
+        list: username
+      }
+    }
+    return {}
+  }
+
+  onStateChange = (event) => {
+    const { data } = event
+    const { onPlay, onPause, onBuffer, onBufferEnd, onEnded, onReady, loop, config: { playerVars, onUnstarted } } = this.props
+    const { UNSTARTED, PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
+    if (data === UNSTARTED) onUnstarted()
+    if (data === PLAYING) {
+      onPlay()
+      onBufferEnd()
+    }
     if (data === PAUSED) onPause()
     if (data === BUFFERING) onBuffer()
     if (data === ENDED) {
       const isPlaylist = !!this.callPlayer('getPlaylist')
+      // Only loop manually if not playing a playlist
       if (loop && !isPlaylist) {
-        this.play() // Only loop manually if not playing a playlist
+        if (playerVars.start) {
+          this.seekTo(playerVars.start)
+        } else {
+          this.play()
+        }
       }
       onEnded()
     }
     if (data === CUED) onReady()
   }
+
   play () {
     this.callPlayer('playVideo')
   }
+
   pause () {
     this.callPlayer('pauseVideo')
   }
+
   stop () {
     if (!document.body.contains(this.callPlayer('getIframe'))) return
     this.callPlayer('stopVideo')
   }
+
   seekTo (amount) {
     this.callPlayer('seekTo', amount)
     if (!this.props.playing) {
       this.pause()
     }
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
   }
+
   mute = () => {
     this.callPlayer('mute')
   }
+
   unmute = () => {
     this.callPlayer('unMute')
   }
+
   setPlaybackRate (rate) {
     this.callPlayer('setPlaybackRate', rate)
   }
+
   setLoop (loop) {
     this.callPlayer('setLoop', loop)
   }
+
   getDuration () {
     return this.callPlayer('getDuration')
   }
+
   getCurrentTime () {
     return this.callPlayer('getCurrentTime')
   }
+
   getSecondsLoaded () {
     return this.callPlayer('getVideoLoadedFraction') * this.getDuration()
   }
+
   ref = container => {
     this.container = container
   }
+
   render () {
+    const { display } = this.props
     const style = {
       width: '100%',
       height: '100%',
-      ...this.props.style
+      display
     }
     return (
       <div style={style}>
@@ -141,5 +199,3 @@ export class YouTube extends Component {
     )
   }
 }
-
-export default createSinglePlayer(YouTube)

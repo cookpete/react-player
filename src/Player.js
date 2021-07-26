@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import isEqual from 'react-fast-compare'
 
 import { propTypes, defaultProps } from './props'
-import { isEqual } from './utils'
 
 const SEEK_ON_PLAY_EXPIRY = 5000
 
@@ -9,6 +9,7 @@ export default class Player extends Component {
   static displayName = 'Player'
   static propTypes = propTypes
   static defaultProps = defaultProps
+
   mounted = false
   isReady = false
   isPlaying = false // Track playing state internally to prevent bugs
@@ -17,84 +18,102 @@ export default class Player extends Component {
   startOnPlay = true
   seekOnPlay = null
   onDurationCalled = false
+
   componentDidMount () {
     this.mounted = true
-    this.player.load(this.props.url)
-    this.progress()
   }
+
   componentWillUnmount () {
     clearTimeout(this.progressTimeout)
     clearTimeout(this.durationCheckTimeout)
-    if (this.isReady) {
+    if (this.isReady && this.props.stopOnUnmount) {
       this.player.stop()
-    }
-    if (this.player.disablePIP) {
-      this.player.disablePIP()
+
+      if (this.player.disablePIP) {
+        this.player.disablePIP()
+      }
     }
     this.mounted = false
   }
-  componentWillReceiveProps (nextProps) {
-    // Invoke player methods based on incoming props
-    const { url, playing, volume, muted, playbackRate, pip, loop } = this.props
-    if (!isEqual(url, nextProps.url)) {
-      if (this.isLoading) {
-        console.warn(`ReactPlayer: the attempt to load ${nextProps.url} is being deferred until the player has loaded`)
-        this.loadOnReady = nextProps.url
+
+  componentDidUpdate (prevProps) {
+    // If there isn’t a player available, don’t do anything
+    if (!this.player) {
+      return
+    }
+    // Invoke player methods based on changed props
+    const { url, playing, volume, muted, playbackRate, pip, loop, activePlayer } = this.props
+    if (!isEqual(prevProps.url, url)) {
+      if (this.isLoading && !activePlayer.forceLoad) {
+        console.warn(`ReactPlayer: the attempt to load ${url} is being deferred until the player has loaded`)
+        this.loadOnReady = url
         return
       }
       this.isLoading = true
       this.startOnPlay = true
       this.onDurationCalled = false
-      this.player.load(nextProps.url, this.isReady)
+      this.player.load(url, this.isReady)
     }
-    if (!playing && nextProps.playing && !this.isPlaying) {
+    if (!prevProps.playing && playing && !this.isPlaying) {
       this.player.play()
     }
-    if (playing && !nextProps.playing && this.isPlaying) {
+    if (prevProps.playing && !playing && this.isPlaying) {
       this.player.pause()
     }
-    if (!pip && nextProps.pip && this.player.enablePIP) {
+    if (!prevProps.pip && pip && this.player.enablePIP) {
       this.player.enablePIP()
-    } else if (pip && !nextProps.pip && this.player.disablePIP) {
+    }
+    if (prevProps.pip && !pip && this.player.disablePIP) {
       this.player.disablePIP()
     }
-    if (volume !== nextProps.volume && nextProps.volume !== null) {
-      this.player.setVolume(nextProps.volume)
+    if (prevProps.volume !== volume && volume !== null) {
+      this.player.setVolume(volume)
     }
-    if (muted !== nextProps.muted) {
-      if (nextProps.muted) {
+    if (prevProps.muted !== muted) {
+      if (muted) {
         this.player.mute()
       } else {
         this.player.unmute()
-        if (nextProps.volume !== null) {
+        if (volume !== null) {
           // Set volume next tick to fix a bug with DailyMotion
-          setTimeout(() => this.player.setVolume(nextProps.volume))
+          setTimeout(() => this.player.setVolume(volume))
         }
       }
     }
-    if (playbackRate !== nextProps.playbackRate && this.player.setPlaybackRate) {
-      this.player.setPlaybackRate(nextProps.playbackRate)
+    if (prevProps.playbackRate !== playbackRate && this.player.setPlaybackRate) {
+      this.player.setPlaybackRate(playbackRate)
     }
-    if (loop !== nextProps.loop && this.player.setLoop) {
-      this.player.setLoop(nextProps.loop)
+    if (prevProps.loop !== loop && this.player.setLoop) {
+      this.player.setLoop(loop)
     }
   }
+
+  handlePlayerMount = player => {
+    this.player = player
+    this.player.load(this.props.url)
+    this.progress()
+  }
+
   getDuration () {
     if (!this.isReady) return null
     return this.player.getDuration()
   }
+
   getCurrentTime () {
     if (!this.isReady) return null
     return this.player.getCurrentTime()
   }
+
   getSecondsLoaded () {
     if (!this.isReady) return null
     return this.player.getSecondsLoaded()
   }
+
   getInternalPlayer = (key) => {
     if (!this.player) return null
     return this.player[key]
   }
+
   progress = () => {
     if (this.props.url && this.player && this.isReady) {
       const playedSeconds = this.getCurrentTime() || 0
@@ -110,15 +129,16 @@ export default class Player extends Component {
           progress.loaded = loadedSeconds / duration
         }
         // Only call onProgress if values have changed
-        if (progress.played !== this.prevPlayed || progress.loaded !== this.prevLoaded) {
+        if (progress.playedSeconds !== this.prevPlayed || progress.loadedSeconds !== this.prevLoaded) {
           this.props.onProgress(progress)
         }
-        this.prevPlayed = progress.played
-        this.prevLoaded = progress.loaded
+        this.prevPlayed = progress.playedSeconds
+        this.prevLoaded = progress.loadedSeconds
       }
     }
     this.progressTimeout = setTimeout(this.progress, this.props.progressFrequency || this.props.progressInterval)
   }
+
   seekTo (amount, type) {
     // When seeking before player is ready, store value and seek later
     if (!this.isReady && amount !== 0) {
@@ -139,7 +159,8 @@ export default class Player extends Component {
     }
     this.player.seekTo(amount)
   }
-  onReady = () => {
+
+  handleReady = () => {
     if (!this.mounted) return
     this.isReady = true
     this.isLoading = false
@@ -154,14 +175,15 @@ export default class Player extends Component {
     } else if (playing) {
       this.player.play()
     }
-    this.onDurationCheck()
+    this.handleDurationCheck()
   }
-  onPlay = () => {
+
+  handlePlay = () => {
     this.isPlaying = true
     this.isLoading = false
     const { onStart, onPlay, playbackRate } = this.props
     if (this.startOnPlay) {
-      if (this.player.setPlaybackRate) {
+      if (this.player.setPlaybackRate && playbackRate !== 1) {
         this.player.setPlaybackRate(playbackRate)
       }
       onStart()
@@ -172,15 +194,17 @@ export default class Player extends Component {
       this.seekTo(this.seekOnPlay)
       this.seekOnPlay = null
     }
-    this.onDurationCheck()
+    this.handleDurationCheck()
   }
-  onPause = (e) => {
+
+  handlePause = (e) => {
     this.isPlaying = false
     if (!this.isLoading) {
       this.props.onPause(e)
     }
   }
-  onEnded = () => {
+
+  handleEnded = () => {
     const { activePlayer, loop, onEnded } = this.props
     if (activePlayer.loopOnEnded && loop) {
       this.seekTo(0)
@@ -190,11 +214,13 @@ export default class Player extends Component {
       onEnded()
     }
   }
-  onError = (e) => {
+
+  handleError = (...args) => {
     this.isLoading = false
-    this.props.onError(e)
+    this.props.onError(...args)
   }
-  onDurationCheck = () => {
+
+  handleDurationCheck = () => {
     clearTimeout(this.durationCheckTimeout)
     const duration = this.getDuration()
     if (duration) {
@@ -203,19 +229,16 @@ export default class Player extends Component {
         this.onDurationCalled = true
       }
     } else {
-      this.durationCheckTimeout = setTimeout(this.onDurationCheck, 100)
+      this.durationCheckTimeout = setTimeout(this.handleDurationCheck, 100)
     }
   }
-  onLoaded = () => {
+
+  handleLoaded = () => {
     // Sometimes we know loading has stopped but onReady/onPlay are never called
     // so this provides a way for players to avoid getting stuck
     this.isLoading = false
   }
-  ref = player => {
-    if (player) {
-      this.player = player
-    }
-  }
+
   render () {
     const Player = this.props.activePlayer
     if (!Player) {
@@ -224,13 +247,13 @@ export default class Player extends Component {
     return (
       <Player
         {...this.props}
-        ref={this.ref}
-        onReady={this.onReady}
-        onPlay={this.onPlay}
-        onPause={this.onPause}
-        onEnded={this.onEnded}
-        onLoaded={this.onLoaded}
-        onError={this.onError}
+        onMount={this.handlePlayerMount}
+        onReady={this.handleReady}
+        onPlay={this.handlePlay}
+        onPause={this.handlePause}
+        onEnded={this.handleEnded}
+        onLoaded={this.handleLoaded}
+        onError={this.handleError}
       />
     )
   }

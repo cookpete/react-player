@@ -2,7 +2,7 @@ import React from 'react'
 import test from 'ava'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import ReactPlayer from '../../src/ReactPlayer'
+import ReactPlayer from '../../src/index'
 import Player from '../../src/Player'
 
 global.window = { MediaStream: Object }

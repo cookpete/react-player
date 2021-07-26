@@ -5,7 +5,7 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import { DailyMotion } from '../../src/players/DailyMotion'
+import DailyMotion from '../../src/players/DailyMotion'
 
 global.window = {
   location: { origin: 'origin' }
@@ -15,9 +15,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.dailymotion.com/video/x5e9eog'
 const TEST_CONFIG = {
-  dailymotion: {
-    params: {}
-  }
+  params: {}
 }
 
 testPlayerMethods(DailyMotion, {
@@ -28,15 +26,6 @@ testPlayerMethods(DailyMotion, {
   setVolume: 'setVolume',
   mute: 'setMuted',
   unmute: 'setMuted'
-})
-
-test('canPlay()', async t => {
-  t.true(DailyMotion.canPlay(TEST_URL))
-  t.true(DailyMotion.canPlay('http://www.dailymotion.com/embed/video/x5s5r35'))
-  t.true(DailyMotion.canPlay('https://www.dailymotion.com/video/x5s5r35'))
-  t.true(DailyMotion.canPlay('https://dai.ly/x5s5r35'))
-  t.true(DailyMotion.canPlay('https://www.dailymotion.com/video/x5s5r35_test1234'))
-  t.true(DailyMotion.canPlay('http://dailymotion.com/embed/video/xq2cmn'))
 })
 
 test('load()', async t => {
@@ -106,7 +95,7 @@ test('render()', t => {
   const style = {
     width: '100%',
     height: '100%',
-    backgroundColor: 'black'
+    display: undefined
   }
   const wrapper = shallow(<DailyMotion config={TEST_CONFIG} />)
   t.true(wrapper.contains(

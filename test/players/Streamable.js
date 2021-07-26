@@ -5,15 +5,13 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import { Streamable } from '../../src/players/Streamable'
+import Streamable from '../../src/players/Streamable'
 
 configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://streamable.com/moo'
 const TEST_CONFIG = {
-  soundcloud: {
-    options: {}
-  }
+  options: {}
 }
 
 testPlayerMethods(Streamable, {
@@ -23,10 +21,7 @@ testPlayerMethods(Streamable, {
   seekTo: 'setCurrentTime',
   setVolume: 'setVolume',
   mute: 'mute',
-  unmute: 'unmute',
-  getDuration: null,
-  getCurrentTime: null,
-  getSecondsLoaded: null
+  unmute: 'unmute'
 }, { url: 'https://streamable.com/moo' })
 
 test('load()', t => {
@@ -34,9 +29,11 @@ test('load()', t => {
     constructor (iframe) {
       t.true(iframe === 'mock-iframe')
     }
+
     on = (event, fn) => {
       if (event === 'ready') setTimeout(fn, 100)
     }
+
     setLoop = () => null
   }
   const getSDK = sinon.stub(utils, 'getSDK').resolves({ Player })

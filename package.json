@@ -1,24 +1,30 @@
 {
   "name": "react-player-cu",
-  "version": "1.1.1",
+  "version": "2.9.0",
   "description": "A React component for playing a hls and mp4 videos. It is a fork of Pete Cook's <pete@cookpete.com> (http://github.com/cookpete) react-player.",
   "main": "lib/ReactPlayer.js",
   "typings": "index.d.ts",
+  "main-backup": "lib/index.js",
+  "typings-backup": "lib/index.d.ts",
   "scripts": {
-    "clean": "rimraf lib demo coverage",
-    "start": "webpack-dev-server",
+    "clean": "rimraf lib lazy demo coverage *.d.ts",
+    "start": "webpack-dev-server --config webpack/config.babel.js",
     "lint": "standard --verbose | snazzy",
+    "lint:fix": "standard --fix",
+    "lint:ts": "ts-standard --verbose types/*.d.ts | snazzy",
+    "lint:ts:fix": "ts-standard --fix types/*.d.ts",
     "test": "cross-env NODE_ENV=test ava",
     "test:coverage": "cross-env NODE_ENV=test nyc ava",
     "test:codecov": "nyc report --reporter=json && codecov -f coverage/coverage-final.json",
     "build:lib": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
-    "build:demo": "cross-env NODE_ENV=production webpack --config webpack.demo.babel.js",
-    "build:dist": "cross-env NODE_ENV=production webpack --config webpack.dist.babel.js",
-    "build:standalone": "cross-env NODE_ENV=production webpack --config webpack.standalone.babel.js",
+    "build:lazy": "cross-env NODE_ENV=production LAZY=true babel src -d lazy --ignore src/demo",
+    "build:demo": "cross-env NODE_ENV=production webpack --config webpack/production.babel.js",
+    "build:dist": "cross-env NODE_ENV=production webpack --config webpack/dist.babel.js",
+    "build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:dist",
-    "postpublish": "npm run clean"
+    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && node scripts/pre-publish.js && cp -r types/* .",
+    "postpublish": "node scripts/post-publish.js && npm run clean"
   },
   "repository": {
     "type": "git",
@@ -49,83 +55,67 @@
   },
   "homepage": "",
   "peerDependencies": {
-    "react": "*"
+    "react": ">=16.6.0"
   },
   "devDependencies": {
-    "auto-changelog": "^1.11.0",
-    "ava": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.16.0",
-    "babel-eslint": "^8.2.1",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-istanbul": "^4.1.4",
-    "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
-    "babel-plugin-transform-es3-property-literals": "^6.8.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.16.0",
-    "babel-preset-stage-0": "^6.16.0",
-    "codecov": "^3.0.0",
-    "cross-env": "^5.1.3",
-    "css-loader": "^0.28.9",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "exports-loader": "^0.6.3",
-    "extract-text-webpack-plugin": "^3.0.2",
-    "html-webpack-plugin": "^2.30.1",
-    "nyc": "^11.7.1",
-    "postcss-automath": "^1.0.1",
-    "postcss-loader": "^2.0.10",
-    "postcss-nested": "^3.0.0",
-    "postcss-sassy-mixins": "^2.1.0",
-    "postcss-simple-vars": "^4.1.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-hot-loader": "^4.0.0-beta.15",
-    "rimraf": "^2.5.4",
-    "screenfull": "^4.0.0",
-    "sinon": "^5.0.3",
-    "snazzy": "^7.0.0",
-    "standard": "^11.0.0-beta.0",
-    "style-loader": "^0.19.1",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.0",
-    "whatwg-fetch": "^2.0.1"
+    "@ava/babel": "^1.0.1",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/register": "^7.9.0",
+    "@hot-loader/react-dom": "^16.13.0",
+    "@types/node": "^14.0.24",
+    "@types/react": "^17.0.0",
+    "auto-changelog": "^2.0.0",
+    "autoprefixer": "^9.7.6",
+    "ava": "^3.6.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "codecov": "^3.6.5",
+    "cross-env": "^7.0.2",
+    "css-loader": "^3.5.2",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "nyc": "^15.0.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "postcss-advanced-variables": "^3.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-nested": "^4.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-hot-loader": "^4.12.20",
+    "rimraf": "^3.0.2",
+    "sanitize.css": "^11.0.0",
+    "screenfull": "^5.0.2",
+    "sinon": "^9.0.2",
+    "snazzy": "^8.0.0",
+    "standard": "^14.3.3",
+    "style-loader": "^1.0.0",
+    "ts-standard": "^9.0.0",
+    "typescript": "^4.1.2",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "deepmerge": "^3.0.0",
+    "deepmerge": "^4.0.0",
     "load-script": "^1.0.0",
-    "prop-types": "^15.5.6"
-  },
-  "babel": {
-    "presets": [
-      "env",
-      "stage-0",
-      "react"
-    ],
-    "plugins": [
-      "react-hot-loader/babel"
-    ],
-    "env": {
-      "production": {
-        "plugins": [
-          "transform-es3-member-expression-literals",
-          "transform-es3-property-literals"
-        ]
-      },
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
+    "memoize-one": "^5.1.1",
+    "prop-types": "^15.7.2",
+    "react-fast-compare": "^3.0.1"
   },
   "postcss": {
     "plugins": {
-      "postcss-nested": {},
-      "postcss-sassy-mixins": {},
-      "postcss-simple-vars": {},
-      "postcss-automath": {}
+      "autoprefixer": {},
+      "postcss-advanced-variables": {},
+      "postcss-nested": {}
     }
   },
   "standard": {
@@ -135,11 +125,19 @@
     ]
   },
   "ava": {
-    "babel": "inherit",
+    "files": [
+      "test/**/*",
+      "!test/helpers"
+    ],
     "require": [
-      "babel-register",
-      "babel-polyfill"
-    ]
+      "@babel/register",
+      "@babel/polyfill"
+    ],
+    "babel": {
+      "compileAsTests": [
+        "test/helpers/*"
+      ]
+    }
   },
   "nyc": {
     "all": true,
@@ -152,5 +150,8 @@
       "text",
       "html"
     ]
+  },
+  "auto-changelog": {
+    "breakingPattern": "Breaking changes:"
   }
 }

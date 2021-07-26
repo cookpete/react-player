@@ -3,7 +3,7 @@ import test from 'ava'
 import sinon from 'sinon'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import ReactPlayer from '../../src/ReactPlayer'
+import ReactPlayer from '../../src/index'
 
 configure({ adapter: new Adapter() })
 
@@ -12,7 +12,7 @@ const COMMON_METHODS = ['getDuration', 'getCurrentTime', 'getSecondsLoaded', 'ge
 for (const method of COMMON_METHODS) {
   test(`${method}()`, t => {
     const instance = shallow(<ReactPlayer />).instance()
-    instance.activePlayerRef({ [method]: () => 123 })
+    instance.references.player({ [method]: () => 123 })
     t.true(instance[method]() === 123)
   })
 
@@ -25,14 +25,14 @@ for (const method of COMMON_METHODS) {
 test('getInternalPlayer() - default', t => {
   const instance = shallow(<ReactPlayer />).instance()
   const getInternalPlayer = sinon.fake.returns('abc')
-  instance.activePlayerRef({ getInternalPlayer })
+  instance.references.player({ getInternalPlayer })
   t.true(instance.getInternalPlayer() === 'abc')
   t.true(getInternalPlayer.calledOnceWith('player'))
 })
 
 test('seekTo()', t => {
   const instance = shallow(<ReactPlayer />).instance()
-  instance.activePlayerRef({ seekTo: sinon.fake() })
+  instance.references.player({ seekTo: sinon.fake() })
   instance.seekTo(5)
   t.true(instance.player.seekTo.calledOnce)
   t.true(instance.player.seekTo.calledWith(5))
@@ -46,14 +46,14 @@ test('seekTo() - null', t => {
 test('onReady()', t => {
   const onReady = sinon.fake()
   const instance = shallow(<ReactPlayer onReady={onReady} />).instance()
-  instance.onReady()
+  instance.handleReady()
   t.true(onReady.calledWith(instance))
 })
 
 test('refs', t => {
   const instance = shallow(<ReactPlayer />).instance()
-  instance.activePlayerRef('abc')
-  instance.wrapperRef('def')
+  instance.references.player('abc')
+  instance.references.wrapper('def')
   t.true(instance.player === 'abc')
   t.true(instance.wrapper === 'def')
 })

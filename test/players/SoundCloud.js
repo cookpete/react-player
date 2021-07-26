@@ -5,15 +5,13 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import { SoundCloud } from '../../src/players/SoundCloud'
+import SoundCloud from '../../src/players/SoundCloud'
 
 configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://soundcloud.com/miami-nights-1984/accelerated'
 const TEST_CONFIG = {
-  soundcloud: {
-    options: {}
-  }
+  options: {}
 }
 
 testPlayerMethods(SoundCloud, {
@@ -79,7 +77,8 @@ test('getSecondsLoaded()', t => {
 test('render()', t => {
   const style = {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    display: undefined
   }
   const wrapper = shallow(<SoundCloud url={TEST_URL} />)
   t.true(wrapper.contains(
@@ -87,6 +86,7 @@ test('render()', t => {
       src='https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fmiami-nights-1984%2Faccelerated'
       style={style}
       frameBorder={0}
+      allow='autoplay'
     />
   ))
 })

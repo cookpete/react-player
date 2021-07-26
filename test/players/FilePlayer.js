@@ -3,7 +3,7 @@ import test from 'ava'
 import sinon from 'sinon'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import { FilePlayer } from '../../src/players/FilePlayer'
+import FilePlayer from '../../src/players/FilePlayer'
 import { defaultProps } from '../../src/props'
 import * as utils from '../../src/utils'
 
@@ -19,7 +19,7 @@ global.window = {
 
 configure({ adapter: new Adapter() })
 
-const { config } = defaultProps
+const config = defaultProps.config.file
 
 test.beforeEach(t => {
   FilePlayer.prototype.componentWillMount = function () {
@@ -36,24 +36,6 @@ test.afterEach(t => {
   FilePlayer.prototype.componentWillMount = undefined
 })
 
-test('canPlay', t => {
-  t.true(FilePlayer.canPlay('file.mp4'))
-  t.true(FilePlayer.canPlay('file.ogg'))
-  t.true(FilePlayer.canPlay('file.webm'))
-  t.true(FilePlayer.canPlay('file.mov'))
-  t.true(FilePlayer.canPlay('file.m4v'))
-  t.true(FilePlayer.canPlay('file.mp3'))
-  t.true(FilePlayer.canPlay('file.mp3?query=param'))
-  t.true(FilePlayer.canPlay(['file.mp4', 'file.ogg']))
-  t.true(FilePlayer.canPlay([
-    { src: 'file.mp4' },
-    { src: 'file.ogg' }
-  ]))
-  t.true(FilePlayer.canPlay(new MockMediaStream()))
-
-  t.false(FilePlayer.canPlay(['random', 'strings']))
-})
-
 test('listeners', t => {
   const addListeners = sinon.spy(FilePlayer.prototype, 'addListeners')
   const removeListeners = sinon.spy(FilePlayer.prototype, 'removeListeners')
@@ -62,6 +44,7 @@ test('listeners', t => {
   )
   t.true(addListeners.calledOnce)
   t.true(removeListeners.notCalled)
+  wrapper.instance().prevPlayer = { removeEventListener: () => null }
   wrapper.setProps({ url: 'file.mp3' })
   t.true(addListeners.calledTwice)
   wrapper.unmount()
@@ -80,11 +63,12 @@ test('load - hls', async t => {
     static Events = { ERROR: 'ERROR' }
     on = () => null
     loadSource = () => null
-    attachMedia = () => t.pass()
+    attachMedia = () => null
   }
   const url = 'file.m3u8'
   const getSDK = sinon.stub(utils, 'getSDK').resolves(Hls)
-  const instance = shallow(<FilePlayer url={url} config={config} />).instance()
+  const onLoaded = () => t.pass()
+  const instance = shallow(<FilePlayer url={url} config={config} onLoaded={onLoaded} />).instance()
   instance.load(url)
   t.true(getSDK.calledOnce)
   getSDK.restore()
@@ -99,15 +83,19 @@ test('onError - hls', t => {
     class Hls {
       static Events = { ERROR: 'ERROR' }
       on = (event, cb) => {
-        setTimeout(cb, 100)
+        if (event === 'ERROR') {
+          setTimeout(cb, 100)
+        }
       }
+
       loadSource = () => null
       attachMedia = () => null
     }
     const url = 'file.m3u8'
     const getSDK = sinon.stub(utils, 'getSDK').resolves(Hls)
+    const onLoaded = () => null
     const instance = shallow(
-      <FilePlayer url={url} config={config} onError={onError} />
+      <FilePlayer url={url} config={config} onLoaded={onLoaded} onError={onError} />
     ).instance()
     instance.load(url)
     getSDK.restore()
@@ -118,16 +106,22 @@ test('load - dash', async t => {
   const dashjs = {
     MediaPlayer: () => ({
       create: () => ({
+        on: () => null,
         initialize: () => null,
         getDebug: () => ({
-          setLogToBrowserConsole: () => t.pass()
-        })
+          setLogToBrowserConsole: () => null
+        }),
+        updateSettings: () => null
       })
-    })
+    }),
+    Debug: {
+      LOG_LEVEL_NONE: 0
+    }
   }
   const url = 'file.mpd'
   const getSDK = sinon.stub(utils, 'getSDK').resolves(dashjs)
-  const instance = shallow(<FilePlayer url={url} config={config} />).instance()
+  const onLoaded = () => t.pass()
+  const instance = shallow(<FilePlayer url={url} config={config} onLoaded={onLoaded} />).instance()
   instance.load(url)
   t.true(getSDK.calledOnce)
   getSDK.restore()
@@ -141,7 +135,7 @@ test('load - MediaStream', t => {
   t.falsy(instance.player.src)
 })
 
-test('load - MediaStream', t => {
+test('load - MediaStream (srcObject not supported)', t => {
   const url = new MockMediaStream()
   const instance = shallow(<FilePlayer url={url} config={config} />).instance()
   Object.defineProperty(instance.player, 'srcObject', {
@@ -155,12 +149,23 @@ test('load - MediaStream', t => {
   t.falsy(instance.player.srcObject)
 })
 
+test('load - Blob URI', t => {
+  const url = 'blob:http://example.com:ceeed153-91f1-4456-a4a7-cb4085810cc4"'
+  const wrapper = shallow(<FilePlayer url={url} config={config} />)
+
+  t.true(wrapper.containsMatchingElement(
+    <video src={url}>{false}{[]}</video>
+  ))
+})
+
 test('forceVideo', t => {
   const wrapper = shallow(
-    <FilePlayer url='file.mp3' config={{ file: {
-      ...config.file,
-      forceVideo: true
-    }}} />
+    <FilePlayer
+      url='file.mp3' config={{
+        ...config,
+        forceVideo: true
+      }}
+    />
   )
   t.true(wrapper.containsMatchingElement(
     <video src='file.mp3'>{false}{[]}</video>
@@ -169,10 +174,12 @@ test('forceVideo', t => {
 
 test('forceAudio', t => {
   const wrapper = shallow(
-    <FilePlayer url='file.mp4' config={{ file: {
-      ...config.file,
-      forceAudio: true
-    }}} />
+    <FilePlayer
+      url='file.mp4' config={{
+        ...config,
+        forceAudio: true
+      }}
+    />
   )
   t.true(wrapper.containsMatchingElement(
     <audio src='file.mp4'>{false}{[]}</audio>
@@ -181,10 +188,12 @@ test('forceAudio', t => {
 
 test('render video poster', t => {
   const wrapper = shallow(
-    <FilePlayer url='file.mp3' config={{ file: {
-      ...config.file,
-      attributes: { poster: 'poster.png' }
-    }}} />
+    <FilePlayer
+      url='file.mp3' config={{
+        ...config,
+        attributes: { poster: 'poster.png' }
+      }}
+    />
   )
   t.true(wrapper.containsMatchingElement(
     <video src='file.mp3' poster='poster.png'>{false}{[]}</video>
@@ -220,13 +229,6 @@ test('stop()', t => {
   t.true(instance.player.removeAttribute.calledOnceWith('src'))
 })
 
-test('stop() - hls', t => {
-  const instance = shallow(<FilePlayer url='file.m3u8' config={config} />).instance()
-  instance.hls = { destroy: sinon.fake() }
-  instance.stop()
-  t.true(instance.hls.destroy.calledOnce)
-})
-
 test('stop() - dash', t => {
   const instance = shallow(<FilePlayer url='file.mpd' config={config} />).instance()
   instance.dash = { reset: sinon.fake() }
@@ -258,7 +260,7 @@ test('unmute()', t => {
   t.false(instance.player.muted)
 })
 
-test('setVolume()', t => {
+test('setPlaybackRate()', t => {
   const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
   instance.setPlaybackRate(0.5)
   t.true(instance.player.playbackRate === 0.5)
@@ -356,15 +358,19 @@ test('render - object array', t => {
   ))
 })
 
-test('render tracks', t => {
+test.skip('render tracks', t => {
   const wrapper = shallow(
-    <FilePlayer url='file.mp4' config={{ file: {
-      ...config.file,
-      tracks: [
-        { kind: 'subtitles', src: 'subtitles.en.vtt', srcLang: 'en', default: true },
-        { kind: 'subtitles', src: 'subtitles.ja.vtt', srcLang: 'ja' }
-      ]
-    }}} />
+    <FilePlayer
+      url='file.mp4' config={{
+        file: {
+          ...config.file,
+          tracks: [
+            { kind: 'subtitles', src: 'subtitles.en.vtt', srcLang: 'en', default: true },
+            { kind: 'subtitles', src: 'subtitles.ja.vtt', srcLang: 'ja' }
+          ]
+        }
+      }}
+    />
   )
   t.true(wrapper.containsMatchingElement(
     <video src='file.mp4'>
@@ -386,4 +392,13 @@ test('auto width/height', t => {
       {false}{[]}
     </video>
   ))
+})
+
+test('clear srcObject on url change', t => {
+  const url = new MockMediaStream()
+  const wrapper = shallow(<FilePlayer url={url} config={config} />)
+  const instance = wrapper.instance()
+  instance.load(url)
+  wrapper.setProps({ url: 'file.mpv' })
+  t.is(instance.player.srcObject, null)
 })

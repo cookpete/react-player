@@ -21,10 +21,6 @@ test('parses using a hash', t => {
   t.is(parseEndTime(YOUTUBE_URL + '#end=32'), 32)
 })
 
-test('parses using a hash', t => {
-  t.is(parseEndTime(YOUTUBE_URL + '#end=32'), 32)
-})
-
 test('returns undefined for invalid stamps', t => {
   t.is(parseEndTime(YOUTUBE_URL), undefined)
   t.is(parseEndTime(YOUTUBE_URL + '?end='), undefined)

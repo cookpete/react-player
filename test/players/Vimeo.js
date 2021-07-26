@@ -5,15 +5,13 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import { Vimeo } from '../../src/players/Vimeo'
+import Vimeo from '../../src/players/Vimeo'
 
 configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://vimeo.com/90509568'
 const TEST_CONFIG = {
-  vimeo: {
-    playerOptions: {}
-  }
+  playerOptions: {}
 }
 
 testPlayerMethods(Vimeo, {
@@ -61,7 +59,7 @@ test('render()', t => {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
-    backgroundColor: 'black'
+    display: undefined
   }
   t.true(wrapper.contains(
     <div key={TEST_URL} style={style} />

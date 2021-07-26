@@ -1,26 +1,24 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
-import createSinglePlayer from '../singlePlayer'
+import { canPlay } from '../patterns'
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'
-const MATCH_URL = /vimeo\.com\/.+/
-const MATCH_FILE_URL = /vimeo\.com\/external\/.+\.mp4/
 
-export class Vimeo extends Component {
+export default class Vimeo extends Component {
   static displayName = 'Vimeo'
-  static canPlay = url => {
-    if (MATCH_FILE_URL.test(url)) {
-      return false
-    }
-    return MATCH_URL.test(url)
-  }
-
+  static canPlay = canPlay.vimeo
+  static forceLoad = true // Prevent checking isLoading when URL changes
   callPlayer = callPlayer
   duration = null
   currentTime = null
   secondsLoaded = null
+
+  componentDidMount () {
+    this.props.onMount && this.props.onMount(this)
+  }
+
   load (url) {
     this.duration = null
     getSDK(SDK_URL, SDK_GLOBAL).then(Vimeo => {
@@ -31,7 +29,8 @@ export class Vimeo extends Component {
         muted: this.props.muted,
         loop: this.props.loop,
         playsinline: this.props.playsinline,
-        ...this.props.config.vimeo.playerOptions
+        controls: this.props.controls,
+        ...this.props.config.playerOptions
       })
       this.player.ready().then(() => {
         const iframe = this.container.querySelector('iframe')
@@ -56,58 +55,81 @@ export class Vimeo extends Component {
       this.player.on('progress', ({ seconds }) => {
         this.secondsLoaded = seconds
       })
+      this.player.on('bufferstart', this.props.onBuffer)
+      this.player.on('bufferend', this.props.onBufferEnd)
     }, this.props.onError)
   }
+
   refreshDuration () {
     this.player.getDuration().then(duration => {
       this.duration = duration
     })
   }
+
   play () {
-    this.callPlayer('play')
+    const promise = this.callPlayer('play')
+    if (promise) {
+      promise.catch(this.props.onError)
+    }
   }
+
   pause () {
     this.callPlayer('pause')
   }
+
   stop () {
     this.callPlayer('unload')
   }
+
   seekTo (seconds) {
     this.callPlayer('setCurrentTime', seconds)
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction)
   }
+
   setLoop (loop) {
     this.callPlayer('setLoop', loop)
   }
+
+  setPlaybackRate (rate) {
+    this.callPlayer('setPlaybackRate', rate)
+  }
+
   mute = () => {
     this.setVolume(0)
   }
+
   unmute = () => {
     if (this.props.volume !== null) {
       this.setVolume(this.props.volume)
     }
   }
+
   getDuration () {
     return this.duration
   }
+
   getCurrentTime () {
     return this.currentTime
   }
+
   getSecondsLoaded () {
     return this.secondsLoaded
   }
+
   ref = container => {
     this.container = container
   }
+
   render () {
+    const { display } = this.props
     const style = {
       width: '100%',
       height: '100%',
       overflow: 'hidden',
-      backgroundColor: 'black',
-      ...this.props.style
+      display
     }
     return (
       <div
@@ -118,5 +140,3 @@ export class Vimeo extends Component {
     )
   }
 }
-
-export default createSinglePlayer(Vimeo)

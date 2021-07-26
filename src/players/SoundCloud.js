@@ -1,21 +1,24 @@
 import React, { Component } from 'react'
 
 import { callPlayer, getSDK } from '../utils'
-import createSinglePlayer from '../singlePlayer'
+import { canPlay } from '../patterns'
 
 const SDK_URL = 'https://w.soundcloud.com/player/api.js'
 const SDK_GLOBAL = 'SC'
-const MATCH_URL = /(soundcloud\.com|snd\.sc)\/.+$/
 
-export class SoundCloud extends Component {
+export default class SoundCloud extends Component {
   static displayName = 'SoundCloud'
-  static canPlay = url => MATCH_URL.test(url)
+  static canPlay = canPlay.soundcloud
   static loopOnEnded = true
-
   callPlayer = callPlayer
   duration = null
   currentTime = null
   fractionLoaded = null
+
+  componentDidMount () {
+    this.props.onMount && this.props.onMount(this)
+  }
+
   load (url, isReady) {
     getSDK(SDK_URL, SDK_GLOBAL).then(SC => {
       if (!this.iframe) return
@@ -23,7 +26,14 @@ export class SoundCloud extends Component {
       if (!isReady) {
         this.player = SC.Widget(this.iframe)
         this.player.bind(PLAY, this.props.onPlay)
-        this.player.bind(PAUSE, this.props.onPause)
+        this.player.bind(PAUSE, () => {
+          const remaining = this.duration - this.currentTime
+          if (remaining < 0.05) {
+            // Prevent onPause firing right before onEnded
+            return
+          }
+          this.props.onPause()
+        })
         this.player.bind(PLAY_PROGRESS, e => {
           this.currentTime = e.currentPosition / 1000
           this.fractionLoaded = e.loadedProgress
@@ -32,7 +42,7 @@ export class SoundCloud extends Component {
         this.player.bind(ERROR, e => this.props.onError(e))
       }
       this.player.load(url, {
-        ...this.props.config.soundcloud.options,
+        ...this.props.config.options,
         callback: () => {
           this.player.getDuration(duration => {
             this.duration = duration / 1000
@@ -42,46 +52,59 @@ export class SoundCloud extends Component {
       })
     })
   }
+
   play () {
     this.callPlayer('play')
   }
+
   pause () {
     this.callPlayer('pause')
   }
+
   stop () {
     // Nothing to do
   }
+
   seekTo (seconds) {
     this.callPlayer('seekTo', seconds * 1000)
   }
+
   setVolume (fraction) {
     this.callPlayer('setVolume', fraction * 100)
   }
+
   mute = () => {
     this.setVolume(0)
   }
+
   unmute = () => {
     if (this.props.volume !== null) {
       this.setVolume(this.props.volume)
     }
   }
+
   getDuration () {
     return this.duration
   }
+
   getCurrentTime () {
     return this.currentTime
   }
+
   getSecondsLoaded () {
     return this.fractionLoaded * this.duration
   }
+
   ref = iframe => {
     this.iframe = iframe
   }
+
   render () {
+    const { display } = this.props
     const style = {
       width: '100%',
       height: '100%',
-      ...this.props.style
+      display
     }
     return (
       <iframe
@@ -89,9 +112,8 @@ export class SoundCloud extends Component {
         src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(this.props.url)}`}
         style={style}
         frameBorder={0}
+        allow='autoplay'
       />
     )
   }
 }
-
-export default createSinglePlayer(SoundCloud)

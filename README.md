@@ -9,20 +9,21 @@
   <a href='https://travis-ci.org/CookPete/react-player'>
     <img src='https://img.shields.io/travis/CookPete/react-player/master.svg' alt='Build Status'>
   </a>
-  <a href='https://david-dm.org/CookPete/react-player'>
-    <img src='https://img.shields.io/david/CookPete/react-player.svg' alt='Dependency Status'>
-  </a>
   <a href='https://codecov.io/gh/CookPete/react-player'>
     <img src='https://img.shields.io/codecov/c/github/cookpete/react-player.svg' alt='Test Coverage'>
   </a>
-  <a href='https://paypal.me/ckpt'>
-    <img src='https://img.shields.io/badge/donate-PayPal-blue.svg' alt='Donate'>
+  <a href='https://www.patreon.com/cookpete'>
+    <img src='https://img.shields.io/badge/sponsor-patreon-fa6854.svg' alt='Become a sponsor on Patreon'>
   </a>
 </p>
 
 <p align='center'>
-  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion. Not using React? <a href='#standalone-player'>No problem.</a>
+  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
+
+### Migrating to ReactPlayer `v2.0`
+
+ReactPlayer `v2.0` changes single player imports and adds lazy loading players. Support for `preload` has also been removed, plus some other changes. See [`MIGRATING.md`](/MIGRATING.md) for information.
 
 ### Usage
 
@@ -36,18 +37,35 @@ yarn add react-player-cu
 import React, { Component } from 'react'
 import ReactPlayer from 'react-player-cu'
 
-class App extends Component {
-  render () {
-    return <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
-  }
-}
+// Render a YouTube video player
+<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+```
+
+By default, ReactPlayer supports [many different types](#supported-media) of `url`. If you only ever use one type, use imports such as `react-player/youtube` to reduce your bundle size. See [config keys](#config-prop) for all player keys.
+
+```jsx
+import React from 'react'
+import ReactPlayer from 'react-player/youtube'
+
+// Only loads the YouTube player
+<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+```
+
+If your build system supports `import()` statements, use `react-player/lazy` to lazy load the appropriate player for the `url` you pass in. This adds several `reactPlayer` chunks to your output, but reduces your main bundle size.
+
+```jsx
+import React from 'react'
+import ReactPlayer from 'react-player/lazy'
+
+// Lazy load the YouTube player
+<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
 ```
 
 Demo page: [`https://cookpete.com/react-player`](https://cookpete.com/react-player)
 
 The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending. See [the demo source](https://github.com/CookPete/react-player/blob/master/src/demo/App.js) for a full example.
 
-For platforms like [Meteor](https://www.meteor.com) without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:dist`.
+For platforms without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:dist`.
 
 #### Polyfills
 
@@ -56,7 +74,7 @@ For platforms like [Meteor](https://www.meteor.com) without direct use of `npm` 
 
 #### Autoplay
 
-As of Chrome 66, [videos must be `muted` in order to play automatically](https://www.theverge.com/2018/3/22/17150870/google-chrome-autoplay-videos-sound-mute-update). Some players, like Facebook, cannot be unmuted until the user interacts with the video, so you may want to enable `controls` to allow users to unmute videos themselves.
+As of Chrome 66, [videos must be `muted` in order to play automatically](https://www.theverge.com/2018/3/22/17150870/google-chrome-autoplay-videos-sound-mute-update). Some players, like Facebook, cannot be unmuted until the user interacts with the video, so you may want to enable `controls` to allow users to unmute videos themselves. Please set `muted={true}`.
 
 ### Props
 
@@ -65,7 +83,7 @@ Prop | Description | Default
 `url` | The url of a video or song to play<br/>&nbsp; ◦ &nbsp;Can be an [array](#multiple-sources-and-tracks) or [`MediaStream`](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream) object
 `playing` | Set to `true` or `false` to pause or play the media | `false`
 `loop` | Set to `true` or `false` to loop the media | `false`
-`controls` | Set to `true` or `false` to display native player controls<br />&nbsp; ◦ &nbsp;Vimeo, Twitch and Wistia player will always display controls | `false`
+`controls` | Set to `true` or `false` to display native player controls.<br/>&nbsp; ◦ &nbsp;For Vimeo videos, hiding controls must be enabled by the video owner. | `false`
 `light` | Set to `true` to show just the video thumbnail, which loads the full player on click<br />&nbsp; ◦ &nbsp;Pass in an image URL to override the preview image | `false`
 `volume` | Set the volume of the player, between `0` and `1`<br/>&nbsp; ◦ &nbsp;`null` uses default volume on all players [`#357`](https://github.com/CookPete/react-player/issues/357) | `null`
 `muted` | Mutes the player<br/>&nbsp; ◦ &nbsp;Only works if `volume` is set | `false`
@@ -75,8 +93,12 @@ Prop | Description | Default
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element | `{}`
 `progressInterval` | The time between `onProgress` callbacks, in milliseconds | `1000`
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
-`pip` | Set to `true` or `false` to enable or disable [picture-in-picture mode](https://developers.google.com/web/updates/2018/10/watch-video-using-picture-in-picture) | `false`
+`pip` | Set to `true` or `false` to enable or disable [picture-in-picture mode](https://developers.google.com/web/updates/2018/10/watch-video-using-picture-in-picture)<br/>&nbsp; ◦ &nbsp;Only available when playing file URLs in [certain browsers](https://caniuse.com/#feat=picture-in-picture) | `false`
+`stopOnUnmount` | If you are using `pip` you may want to use `stopOnUnmount={false}` to continue playing in picture-in-picture mode even after ReactPlayer unmounts | `true`
+`fallback` | Element or component to use as a fallback if you are using lazy loading | `null`
 `wrapper` | Element or component to use as the container element | `div`
+`playIcon` | Element or component to use as the play icon in light mode
+`previewTabIndex` | Set the tab index to be used on light mode | 0
 `config` | Override options for the various players, see [config prop](#config-prop)
 
 #### Callback props
@@ -92,15 +114,17 @@ Prop | Description
 `onDuration` | Callback containing duration of the media, in seconds
 `onPause` | Called when media is paused
 `onBuffer` | Called when media starts buffering
+`onBufferEnd` | Called when media has finished buffering<br />&nbsp; ◦ &nbsp;Works for files, YouTube and Facebook
 `onSeek` | Called when media seeks with `seconds` parameter
 `onEnded` | Called when media finishes playing<br />&nbsp; ◦ &nbsp;Does not fire when `loop` is set to `true`
 `onError` | Called when an error occurs whilst attempting to play media
+`onClickPreview` | Called when user clicks the `light` mode preview
 `onEnablePIP` | Called when picture-in-picture mode is enabled
 `onDisablePIP` | Called when picture-in-picture mode is disabled
 
 #### Config prop
 
-As of version `0.24`, there is a single `config` prop to override the settings for the various players. If you are migrating from an earlier version, you must move all the old config props inside `config`:
+There is a single `config` prop to override settings for each type of player:
 
 ```jsx
 <ReactPlayer
@@ -116,33 +140,19 @@ As of version `0.24`, there is a single `config` prop to override the settings f
 />
 ```
 
-The old style [config props](https://github.com/CookPete/react-player/tree/v0.23.0#config-props) still work but will produce a console warning:
-
-```jsx
-<ReactPlayer
-  url={url}
-  youtubeConfig={{ playerVars: { showinfo: 1 } }}
-  facebookConfig={{ appId: '12345' }}
-/>
-```
-
 Settings for each player live under different keys:
 
 Key | Options
 --- | -------
-`youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`embedOptions`: Override the [default embed options](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player)<br />`preload`: Used for [preloading](#preloading)
-`facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)
-`soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)<br />`preload`: Used for [preloading](#preloading)
-`vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/embedding#universal-parameters)<br />`preload`: Used for [preloading](#preloading)
-`wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)
+`youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`embedOptions`: Override the [default embed options](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player)<br />`onUnstarted`: Called when state changes to `unstarted` (usually when video fails to autoplay)
+`facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)<br />`version`: Facebook SDK version<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))<br />`attributes`: Extra data attributes to pass to the `fb-video` element
+`soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)
+`vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/sdk/embed)
+`wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `mixcloud` | `options`: Override the [default player options](https://www.mixcloud.com/developers/widget/#methods)
-`dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)<br />`preload`: Used for [preloading](#preloading)
-`twitch` | `options`: Override the [default player options](https://dev.twitch.tv/docs/embed)
-`file` | `attributes`: Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)<br />`forceVideo`: Always render a `<video>` element<br />`forceAudio`: Always render an `<audio>` element<br />`forceHLS`: Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams<br />`forceDASH`: Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams<br />`hlsOptions`: Override the [default `hls.js` options](https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning)<br />`hlsVersion`: Override the [`hls.js`](https://github.com/video-dev/hls.js) version loaded from [`cdnjs`](https://cdnjs.com/libraries/hls.js), default: `0.10.1`<br />`dashVersion`: Override the [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js) version loaded from [`cdnjs`](https://cdnjs.com/libraries/dashjs), default: `2.9.2`
-
-##### Preloading
-
-When `preload` is set to `true` for players that support it, a short, silent video is played in the background when `ReactPlayer` first mounts. This fixes a [bug](https://github.com/CookPete/react-player/issues/7) where videos would not play when loaded in a background browser tab.
+`dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)
+`twitch` | `options`: Override the [default player options](https://dev.twitch.tv/docs/embed)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
+`file` | `attributes`: Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)<br />`forceVideo`: Always render a `<video>` element<br />`forceAudio`: Always render an `<audio>` element<br />`forceHLS`: Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams<br />`forceDASH`: Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams<br />`forceFLV`: Always use [flv.js](https://github.com/Bilibili/flv.js)<br />`hlsOptions`: Override the [default `hls.js` options](https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning)<br />`hlsVersion`: Override the [`hls.js`](https://github.com/video-dev/hls.js) version loaded from [`jsdelivr`](https://www.jsdelivr.com/package/npm/hls.js), default: `0.13.1`<br />`dashVersion`: Override the [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js) version loaded from [`cdnjs`](https://cdnjs.com/libraries/dashjs), default: `2.9.2`<br />`flvVersion`: Override the [`flv.js`](https://github.com/Bilibili/flv.js) version loaded from [`jsdelivr`](https://www.jsdelivr.com/package/npm/flv.js), default: `1.5.0`
 
 ### Methods
 
@@ -166,6 +176,7 @@ Method | Description
 `getSecondsLoaded()` | Returns the number of seconds that have been loaded<br />&nbsp; ◦ &nbsp;Returns `null` if unavailable or unsupported
 `getDuration()` | Returns the duration (in seconds) of the currently playing media<br />&nbsp; ◦ &nbsp;Returns `null` if duration is unavailable
 `getInternalPlayer()` | Returns the internal player of whatever is currently playing<br />&nbsp; ◦ &nbsp;eg the [YouTube player instance](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player), or the [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) element when playing a video file<br />&nbsp; ◦ &nbsp;Use `getInternalPlayer('hls')` to get the [hls.js](https://github.com/video-dev/hls.js) player<br />&nbsp; ◦ &nbsp;Use `getInternalPlayer('dash')` to get the [dash.js](https://github.com/Dash-Industry-Forum/dash.js) player<br />&nbsp; ◦ &nbsp;Returns `null` if the internal player is unavailable
+`showPreview()` | When using `light` mode, returns to the preview overlay
 
 ### Advanced Usage
 
@@ -213,22 +224,9 @@ class ResponsivePlayer extends Component {
 
 See [`jsFiddle` example](https://jsfiddle.net/e6w3rtj1/)
 
-#### Single player imports
+#### SDK Overrides
 
-If you are only ever playing a single type of URL, you can import individual players to keep your bundle size down:
-
-```jsx
-import YouTubePlayer from 'react-player/lib/players/YouTube'
-
-<YouTubePlayer
-  url='https://www.youtube.com/watch?v=d46Azg3Pm4c'
-  playing
-  controls
-  // Other ReactPlayer props will work here
-/>
-```
-
-See a list of available players [here](https://github.com/CookPete/react-player/tree/master/src/players).
+You can use your own version of any player SDK, assuming the correct `window` global is set before the player mounts. For example, to use a local version of [`hls.js`](https://cdnjs.com/libraries/hls.js), add `<script src='/path/hls.js'></script>` to your app. If `window.Hls` is available when ReactPlayer mounts, it will use that instead of loading `hls.js` from `cdnjs`. See [#605](https://github.com/CookPete/react-player/issues/605#issuecomment-492561909) for more information.
 
 #### Standalone player
 
@@ -267,24 +265,6 @@ ReactPlayer.removeCustomPlayers();
 
 It is your responsibility to ensure that custom players keep up with any internal changes to ReactPlayer in later versions.
 
-#### Using Bower
-
-```bash
-bower install react-player --save
-```
-
-```html
-<script src='bower_components/react/react.js'></script>
-<script src='bower_components/react/react-dom.js'></script>
-<script src='bower_components/react-player/dist/ReactPlayer.js'></script>
-<script>
-  ReactDOM.render(
-    <ReactPlayer url='https://www.youtube.com/watch?v=d46Azg3Pm4c' playing />,
-    document.getElementById('container')
-  )
-</script>
-```
-
 #### Mobile considerations
 
 Due to various restrictions, `ReactPlayer` is not guaranteed to function properly on mobile devices. The [YouTube player documentation](https://developers.google.com/youtube/iframe_api_reference), for example, explains that [certain mobile browsers require user interaction](https://developers.google.com/youtube/iframe_api_reference#Mobile_considerations) before playing:
@@ -292,6 +272,17 @@ Due to various restrictions, `ReactPlayer` is not guaranteed to function properl
 > The HTML5 `<video>` element, in certain mobile browsers (such as Chrome and Safari), only allows playback to take place if it’s initiated by a user interaction (such as tapping on the player).
 
 #### Multiple Sources and Tracks
+
+Passing an array of YouTube URLs to the `url` prop will load them as an untitled playlist.
+
+```jsx
+<ReactPlayer
+  url={[
+    'https://www.youtube.com/watch?v=oUFJJNQGwhk',
+    'https://www.youtube.com/watch?v=jNgP6d9HraI'
+  ]}
+/>
+```
 
 When playing file paths, an array of sources can be passed to the `url` prop to render multiple `<source>` tags.
 
@@ -311,7 +302,7 @@ You can also specify a `type` for each source by using objects with `src` and `t
 />
 ```
 
-[`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track) elements for subtitles can be added using `fileConfig`:
+[`<track>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track) elements for subtitles can be added using `config.file`:
 
 ```jsx
 <ReactPlayer
@@ -334,10 +325,12 @@ You can also specify a `type` for each source by using objects with `src` and `t
 * SoundCloud tracks use the [SoundCloud Widget API](https://developers.soundcloud.com/docs/api/html5-widget)
 * Streamable videos use [`Player.js`](https://github.com/embedly/player.js)
 * Vidme videos are [no longer supported](https://medium.com/vidme/goodbye-for-now-120b40becafa)
-* Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/js-api)
+* Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/sdk)
 * Wistia videos use the [Wistia Player API](https://wistia.com/doc/player-api)
 * Twitch videos use the [Twitch Interactive Frames API](https://dev.twitch.tv/docs/embed#interactive-frames-for-live-streams-and-vods)
 * DailyMotion videos use the [DailyMotion Player API](https://developer.dailymotion.com/player)
+* Vidyard videos use the [Vidyard Player API](https://knowledge.vidyard.com/hc/en-us/articles/360019034753-Using-the-Vidyard-Player-API)
+* Kaltura's `react-player` implementation uses the embed.ly [`Player.js`](https://github.com/embedly/player.js) API but Kaltura specific APIs are also available, see [Kaltura Player API](http://player.kaltura.com/docs/index.php?path=kwidget)
 * [Supported file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
   * HLS streams are played using [`hls.js`](https://github.com/video-dev/hls.js)
   * DASH streams are played using [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js)
@@ -348,5 +341,13 @@ See the [contribution guidelines](https://github.com/CookPete/react-player/blob/
 
 ### Thanks
 
-- Many thanks to [Kostya Luchankin](https://github.com/phationmationion) for help overhauling the player inheritance patterns.
 - Thanks to anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors).
+- Huge thanks to my Patreon sponsors:
+
+<table>
+  <tr>
+    <td align='center'>
+      <a href='https://github.com/josephfung'><img src='https://avatars3.githubusercontent.com/u/114566?s=120&v=4' /><br />Joseph Fung</a>
+    </td>
+  </tr>
+</table>

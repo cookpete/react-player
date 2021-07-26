@@ -5,15 +5,13 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import { Twitch } from '../../src/players/Twitch'
+import Twitch from '../../src/players/Twitch'
 
 configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.twitch.tv/videos/106400740'
 const TEST_CONFIG = {
-  twitch: {
-    options: {}
-  }
+  options: {}
 }
 
 Twitch.prototype.componentWillMount = function () {
@@ -31,7 +29,7 @@ testPlayerMethods(Twitch, {
   getDuration: 'getDuration',
   getCurrentTime: 'getCurrentTime',
   getSecondsLoaded: null
-})
+}, { config: TEST_CONFIG })
 
 test('load()', t => {
   class Player {
@@ -42,6 +40,7 @@ test('load()', t => {
     constructor (id, options) {
       t.true(id === 'mock-player-id')
     }
+
     addEventListener = (event, fn) => {
       if (event === 'READY') setTimeout(fn, 100)
     }
@@ -63,7 +62,7 @@ test('load()', t => {
 
 test('render()', t => {
   const style = { width: '100%', height: '100%' }
-  const wrapper = shallow(<Twitch url={TEST_URL} />)
+  const wrapper = shallow(<Twitch url={TEST_URL} config={TEST_CONFIG} />)
   t.true(wrapper.contains(
     <div style={style} id='mock-player-id' />
   ))

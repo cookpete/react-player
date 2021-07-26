@@ -5,7 +5,7 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import { Facebook } from '../../src/players/Facebook'
+import Facebook from '../../src/players/Facebook'
 
 global.document = {
   getElementById: () => ({
@@ -19,9 +19,7 @@ configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.facebook.com/facebook/videos/10153231379946729'
 const TEST_CONFIG = {
-  facebook: {
-    appId: '123'
-  }
+  appId: '123'
 }
 
 Facebook.prototype.componentWillMount = function () {
@@ -39,7 +37,7 @@ testPlayerMethods(Facebook, {
   getDuration: 'getDuration',
   getCurrentTime: 'getCurrentPosition',
   getSecondsLoaded: null
-})
+}, { config: TEST_CONFIG })
 
 test('load()', async t => {
   const FB = {
@@ -84,10 +82,9 @@ test('load() when ready', async t => {
 test('render()', t => {
   const style = {
     width: '100%',
-    height: '100%',
-    backgroundColor: 'black'
+    height: '100%'
   }
-  const wrapper = shallow(<Facebook url={TEST_URL} />)
+  const wrapper = shallow(<Facebook url={TEST_URL} config={TEST_CONFIG} />)
   t.true(wrapper.contains(
     <div
       style={style}
