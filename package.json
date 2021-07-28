@@ -2,10 +2,8 @@
   "name": "react-player-cu",
   "version": "2.9.0",
   "description": "A React component for playing a hls and mp4 videos. It is a fork of Pete Cook's <pete@cookpete.com> (http://github.com/cookpete) react-player.",
-  "main-backup": "lib/index.js",
-  "typings-backup": "lib/index.d.ts",
-  "main": "lib/ReactPlayer.js",
-  "typings": "index.d.ts",
+  "main": "dist/ReactPlayer.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib lazy demo coverage *.d.ts",
     "start": "webpack-dev-server --config webpack/config.babel.js",
