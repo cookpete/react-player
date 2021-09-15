@@ -286,6 +286,12 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Spotify</th>
+                <td>
+                  {this.renderLoadButton('https://open.spotify.com/episode/0UJWGpGFwKKyKJrtgcqdQY?si=2d27b8f2851f47ac', 'Test A')}
+                </td>
+              </tr>
+              <tr>
                 <th>Facebook</th>
                 <td>
                   {this.renderLoadButton('https://www.facebook.com/facebook/videos/10153231379946729/', 'Test A')}
