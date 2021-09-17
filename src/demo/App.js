@@ -286,6 +286,16 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Spotify</th>
+                <td>
+                  {this.renderLoadButton('https://open.spotify.com/episode/0UJWGpGFwKKyKJrtgcqdQY?si=2d27b8f2851f47ac', 'Podcast')}
+                  {this.renderLoadButton('https://open.spotify.com/track/0JzrLQuylimV9QV8DIlrWk?si=129603c2cf7f4d0f', 'Track')}
+                  {this.renderLoadButton('https://open.spotify.com/album/6pOiDiuDQqrmo5DbG0ZubR?si=bxUHQWMDTfGkO9WJIcx7HQ&dl_branch=1', 'Album')}
+                  {this.renderLoadButton('https://open.spotify.com/playlist/37i9dQZF1DWSBi5svWQ9Nk?si=15d5f6d8fa954933', 'Playlist')}
+
+                </td>
+              </tr>
+              <tr>
                 <th>Facebook</th>
                 <td>
                   {this.renderLoadButton('https://www.facebook.com/facebook/videos/10153231379946729/', 'Test A')}

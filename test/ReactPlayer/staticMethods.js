@@ -12,6 +12,7 @@ configure({ adapter: new Adapter() })
 test('canPlay()', t => {
   t.true(ReactPlayer.canPlay('https://www.youtube.com/watch?v=oUFJJNQGwhk'))
   t.true(ReactPlayer.canPlay('https://soundcloud.com/miami-nights-1984/accelerated'))
+  t.true(ReactPlayer.canPlay('https://open.spotify.com/episode/0UJWGpGFwKKyKJrtgcqdQY?si=311518edaa1b4a64'))
   t.true(ReactPlayer.canPlay('https://www.facebook.com/facebook/videos/10153231379946729'))
   t.true(ReactPlayer.canPlay('https://vimeo.com/90509568'))
   t.true(ReactPlayer.canPlay('https://www.twitch.tv/videos/106400740'))

@@ -30,6 +30,9 @@ export const propTypes = {
     soundcloud: shape({
       options: object
     }),
+    spotify: shape({
+      options: object
+    }),
     youtube: shape({
       playerVars: object,
       embedOptions: object,
