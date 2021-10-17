@@ -26,7 +26,7 @@ export default class Preview extends Component {
     this.mounted = false
   }
 
-  fetchImage ({ url, light }) {
+  fetchImage ({ url, light, oEmbedUrl = 'https://noembed.com/embed' }) {
     if (typeof light === 'string') {
       this.setState({ image: light })
       return
@@ -36,7 +36,7 @@ export default class Preview extends Component {
       return
     }
     this.setState({ image: null })
-    return window.fetch(`https://noembed.com/embed?url=${url}`)
+    return window.fetch(`${oEmbedUrl}?url=${url}`)
       .then(response => response.json())
       .then(data => {
         if (data.thumbnail_url && this.mounted) {
