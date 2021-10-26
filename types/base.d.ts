@@ -1,4 +1,4 @@
-import { Component, ReactElement, CSSProperties } from 'react'
+import { Component, ReactElement, CSSProperties, ComponentType, ReactNode } from 'react'
 import ReactPlayer from './lib'
 
 interface SourceProps {
@@ -25,7 +25,7 @@ export interface BaseReactPlayerProps {
   stopOnUnmount?: boolean
   light?: boolean | string
   fallback?: ReactElement;
-  wrapper?: any
+  wrapper?: ComponentType<{children: ReactNode}>;
   onReady?: (player: ReactPlayer) => void
   onStart?: () => void
   onPlay?: () => void
