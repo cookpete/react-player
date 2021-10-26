@@ -21,7 +21,7 @@ export interface BaseReactPlayerProps {
   progressInterval?: number
   playsinline?: boolean
   playIcon?: ReactElement
-  previewTabIndex?: number
+  previewTabIndex?: number | null
   pip?: boolean
   stopOnUnmount?: boolean
   light?: boolean | string
