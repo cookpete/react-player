@@ -58,6 +58,7 @@ export default class FilePlayer extends Component {
     player.addEventListener('seeked', this.onSeek)
     player.addEventListener('ended', this.onEnded)
     player.addEventListener('error', this.onError)
+    player.addEventListener('ratechange', this.onPlayBackRateChange)
     player.addEventListener('enterpictureinpicture', this.onEnablePIP)
     player.addEventListener('leavepictureinpicture', this.onDisablePIP)
     player.addEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
@@ -80,6 +81,7 @@ export default class FilePlayer extends Component {
     player.removeEventListener('seeked', this.onSeek)
     player.removeEventListener('ended', this.onEnded)
     player.removeEventListener('error', this.onError)
+    player.removeEventListener('ratechange', this.onPlayBackRateChange)
     player.removeEventListener('enterpictureinpicture', this.onEnablePIP)
     player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
     player.removeEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
@@ -96,6 +98,7 @@ export default class FilePlayer extends Component {
   onPause = (...args) => this.props.onPause(...args)
   onEnded = (...args) => this.props.onEnded(...args)
   onError = (...args) => this.props.onError(...args)
+  onPlayBackRateChange = (event) => this.props.onPlaybackRateChange(event.target.playbackRate)
   onEnablePIP = (...args) => this.props.onEnablePIP(...args)
 
   onDisablePIP = e => {

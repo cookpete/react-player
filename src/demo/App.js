@@ -73,6 +73,10 @@ class App extends Component {
     this.setState({ playbackRate: parseFloat(e.target.value) })
   }
 
+  handleOnPlaybackRateChange = (speed) => {
+    this.setState({ playbackRate: parseFloat(speed) })
+  }
+
   handleTogglePIP = () => {
     this.setState({ pip: !this.state.pip })
   }
@@ -174,6 +178,7 @@ class App extends Component {
               onDisablePIP={this.handleDisablePIP}
               onPause={this.handlePause}
               onBuffer={() => console.log('onBuffer')}
+              onPlaybackRateChange={this.handleOnPlaybackRateChange}
               onSeek={e => console.log('onSeek', e)}
               onEnded={this.handleEnded}
               onError={e => console.log('onError', e)}
@@ -389,6 +394,10 @@ class App extends Component {
               <tr>
                 <th>volume</th>
                 <td>{volume.toFixed(3)}</td>
+              </tr>
+              <tr>
+                <th>speed</th>
+                <td>{playbackRate}</td>
               </tr>
               <tr>
                 <th>played</th>
