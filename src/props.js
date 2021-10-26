@@ -45,7 +45,8 @@ export const propTypes = {
       params: object
     }),
     vimeo: shape({
-      playerOptions: object
+      playerOptions: object,
+      title: string
     }),
     file: shape({
       attributes: object,
@@ -89,8 +90,7 @@ export const propTypes = {
   onProgress: func,
   onClickPreview: func,
   onEnablePIP: func,
-  onDisablePIP: func,
-  title: string
+  onDisablePIP: func
 }
 
 const noop = () => {}
@@ -154,7 +154,8 @@ export const defaultProps = {
         byline: false,
         portrait: false,
         title: false
-      }
+      },
+      title: null
     },
     file: {
       attributes: {},
@@ -200,6 +201,5 @@ export const defaultProps = {
   onProgress: noop,
   onClickPreview: noop,
   onEnablePIP: noop,
-  onDisablePIP: noop,
-  title: ""
+  onDisablePIP: noop
 }
