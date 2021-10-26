@@ -267,7 +267,11 @@ export default class FilePlayer extends Component {
   }
 
   setPlaybackRate (rate) {
-    this.player.playbackRate = rate
+    try {
+      this.player.playbackRate = rate
+    } catch (error) {
+      this.props.onError(error)
+    }
   }
 
   getDuration () {
