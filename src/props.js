@@ -21,6 +21,7 @@ export const propTypes = {
   playIcon: node,
   previewTabIndex: number,
   fallback: node,
+  oEmbedUrl: string,
   wrapper: oneOfType([
     string,
     func,
@@ -112,6 +113,7 @@ export const defaultProps = {
   fallback: null,
   wrapper: 'div',
   previewTabIndex: 0,
+  oEmbedUrl: 'https://noembed.com/embed?url={url}',
   config: {
     soundcloud: {
       options: {

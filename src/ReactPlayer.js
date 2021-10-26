@@ -142,8 +142,8 @@ export const createReactPlayer = (players, fallback) => {
           light={light}
           playIcon={playIcon}
           previewTabIndex={previewTabIndex}
-          onClick={this.handleClickPreview}
           oEmbedUrl={oEmbedUrl}
+          onClick={this.handleClickPreview}
         />
       )
     }
