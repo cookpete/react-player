@@ -46,7 +46,8 @@ export const propTypes = {
       params: object
     }),
     vimeo: shape({
-      playerOptions: object
+      playerOptions: object,
+      title: string
     }),
     file: shape({
       attributes: object,
@@ -155,7 +156,8 @@ export const defaultProps = {
         byline: false,
         portrait: false,
         title: false
-      }
+      },
+      title: null
     },
     file: {
       attributes: {},

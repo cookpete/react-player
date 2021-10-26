@@ -2,6 +2,7 @@ import BaseReactPlayer, { BaseReactPlayerProps } from './base'
 
 export interface VimeoConfig {
   playerOptions?: Record<string, any>
+  title?: string
 }
 
 export interface VimeoPlayerProps extends BaseReactPlayerProps {
