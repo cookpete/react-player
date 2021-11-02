@@ -16,6 +16,10 @@ export default class Kaltura extends Component {
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
+    this.load()
+  }
+
+  load (url) {
     getSDK(SDK_URL, SDK_GLOBAL).then(playerjs => {
       if (!this.iframe) return
       this.player = new playerjs.Player(this.iframe)
@@ -33,10 +37,6 @@ export default class Kaltura extends Component {
         }, 500)
       })
     }, this.props.onError)
-  }
-
-  load (url) {
-    // wait what?
   }
 
   addListeners (player, props) {
