@@ -43,6 +43,7 @@ export default class FilePlayer extends Component {
   }
 
   componentWillUnmount () {
+    this.player.src = ''
     this.removeListeners(this.player)
     if (this.hls) {
       this.hls.destroy()
