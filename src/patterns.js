@@ -2,7 +2,7 @@ import { isMediaStream, isBlobUrl } from './utils'
 
 export const MATCH_URL_YOUTUBE = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//
 export const MATCH_URL_SOUNDCLOUD = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/
-export const MATCH_URL_VIMEO = /vimeo\.com\/.+/
+export const MATCH_URL_VIMEO = /vimeo\.com\/(?!progressive_redirect).+/
 export const MATCH_URL_FACEBOOK = /^https?:\/\/(www\.)?facebook\.com.*\/(video(s)?|watch|story)(\.php?|\/).+$/
 export const MATCH_URL_FACEBOOK_WATCH = /^https?:\/\/fb\.watch\/.+$/
 export const MATCH_URL_STREAMABLE = /streamable\.com\/([a-z0-9]+)$/
