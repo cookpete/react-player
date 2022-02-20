@@ -24,8 +24,8 @@ export default class Kaltura extends Component {
       if (!this.iframe) return
       this.player = new playerjs.Player(this.iframe)
       this.player.on('ready', () => {
-        // an arbitrary timeout is is required,
-        // otherwise the eventListeners won't work
+        // An arbitrary timeout is required otherwise
+        // the event listeners won’t work
         setTimeout(() => {
           this.player.isReady = true
           this.player.setLoop(this.props.loop)
