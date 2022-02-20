@@ -16,7 +16,6 @@ export default class Kaltura extends Component {
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
-    this.load()
   }
 
   load (url) {
