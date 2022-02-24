@@ -7,7 +7,8 @@ const cache = {}
 export default class Preview extends Component {
   mounted = false
   state = {
-    image: null
+    image: null,
+    previewImage: { isComponent: false, component: false }
   }
 
   componentDidMount () {
@@ -30,6 +31,10 @@ export default class Preview extends Component {
     if (typeof light === 'string') {
       this.setState({ image: light })
       return
+    }
+    if (typeof light !== "string" && typeof light !== "boolean") {
+      this.setState({ previewImage: { isComponent: true, component: light } });
+      return;
     }
     if (cache[url]) {
       this.setState({ image: cache[url] })
@@ -55,7 +60,7 @@ export default class Preview extends Component {
 
   render () {
     const { onClick, playIcon, previewTabIndex } = this.props
-    const { image } = this.state
+    const { image, previewImage } = this.state
     const flexCenter = {
       display: 'flex',
       alignItems: 'center',
@@ -65,7 +70,7 @@ export default class Preview extends Component {
       preview: {
         width: '100%',
         height: '100%',
-        backgroundImage: image ? `url(${image})` : undefined,
+        backgroundImage: image && !previewImage.isComponent ? `url(${image})` : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         cursor: 'pointer',
@@ -76,6 +81,8 @@ export default class Preview extends Component {
         borderRadius: ICON_SIZE,
         width: ICON_SIZE,
         height: ICON_SIZE,
+        position: previewImage.isComponent && 'absolute',
+        zIndex: 10,
         ...flexCenter
       },
       playIcon: {
@@ -99,6 +106,7 @@ export default class Preview extends Component {
         onKeyPress={this.handleKeyPress}
       >
         {playIcon || defaultPlayIcon}
+        {previewImage.isComponent && previewImage.component}
       </div>
     )
   }
