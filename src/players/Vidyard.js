@@ -26,9 +26,8 @@ export default class Vidyard extends Component {
       if (!this.container) return
       Vidyard.api.addReadyListener((data, player) => {
         if (this.player) {
-          return;
+          return
         }
-        
         this.player = player
         this.player.on('ready', this.props.onReady)
         this.player.on('play', this.props.onPlay)
