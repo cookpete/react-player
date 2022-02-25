@@ -1,9 +1,10 @@
-import { Component, ReactElement, CSSProperties } from 'react'
+import { Component, ReactElement, CSSProperties, ComponentType, ReactNode } from 'react'
 import ReactPlayer from './lib'
 
 interface SourceProps {
+  media?: string
   src: string
-  type: string
+  type?: string
 }
 
 export interface BaseReactPlayerProps {
@@ -20,12 +21,12 @@ export interface BaseReactPlayerProps {
   progressInterval?: number
   playsinline?: boolean
   playIcon?: ReactElement
-  previewTabIndex?: number
+  previewTabIndex?: number | null
   pip?: boolean
   stopOnUnmount?: boolean
   light?: boolean | string
   fallback?: ReactElement;
-  wrapper?: any
+  wrapper?: ComponentType<{children: ReactNode}>;
   onReady?: (player: ReactPlayer) => void
   onStart?: () => void
   onPlay?: () => void

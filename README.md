@@ -114,6 +114,7 @@ Prop | Description
 `onBuffer` | Called when media starts buffering
 `onBufferEnd` | Called when media has finished buffering<br />&nbsp; ◦ &nbsp;Works for files, YouTube and Facebook
 `onSeek` | Called when media seeks with `seconds` parameter
+`onPlaybackRateChange` | Called when playback rate of the player changed<br />&nbsp; ◦ &nbsp;Only supported by YouTube, Wistia, and file paths
 `onEnded` | Called when media finishes playing<br />&nbsp; ◦ &nbsp;Does not fire when `loop` is set to `true`
 `onError` | Called when an error occurs whilst attempting to play media
 `onClickPreview` | Called when user clicks the `light` mode preview
@@ -145,7 +146,7 @@ Key | Options
 `youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`embedOptions`: Override the [default embed options](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player)<br />`onUnstarted`: Called when state changes to `unstarted` (usually when video fails to autoplay)
 `facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)<br />`version`: Facebook SDK version<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))<br />`attributes`: Extra data attributes to pass to the `fb-video` element
 `soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)
-`vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/sdk/embed)
+`vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/sdk/embed)<br />`title`: Set the player `iframe` title attribute
 `wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `mixcloud` | `options`: Override the [default player options](https://www.mixcloud.com/developers/widget/#methods)
 `dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)
