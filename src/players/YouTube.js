@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
+import { callPlayer, getSDK, parseStartTime, parseEndTime, isSubArrayEnd } from '../utils'
 import { canPlay, MATCH_URL_YOUTUBE } from '../patterns'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
@@ -15,6 +15,7 @@ export default class YouTube extends Component {
   static displayName = 'YouTube'
   static canPlay = canPlay.youtube
   callPlayer = callPlayer
+  _sequence = []
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
@@ -44,37 +45,37 @@ export default class YouTube extends Component {
       return
     }
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, YT => YT.loaded).then(YT => {
-      if (!this.container) return
-      this.player = new YT.Player(this.container, {
-        width: '100%',
-        height: '100%',
-        videoId: id,
-        playerVars: {
-          autoplay: playing ? 1 : 0,
-          mute: muted ? 1 : 0,
-          controls: controls ? 1 : 0,
-          start: parseStartTime(url),
-          end: parseEndTime(url),
-          origin: window.location.origin,
-          playsinline: playsinline ? 1 : 0,
-          ...this.parsePlaylist(url),
-          ...playerVars
-        },
-        events: {
-          onReady: () => {
-            if (loop) {
-              this.player.setLoop(true) // Enable playlist looping
-            }
-            this.props.onReady()
+        if (!this.container) return
+        this.player = new YT.Player(this.container, {
+          width: '100%',
+          height: '100%',
+          videoId: id,
+          playerVars: {
+            autoplay: playing ? 1 : 0,
+            mute: muted ? 1 : 0,
+            controls: controls ? 1 : 0,
+            start: parseStartTime(url),
+            end: parseEndTime(url),
+            origin: window.location.origin,
+            playsinline: playsinline ? 1 : 0,
+            ...this.parsePlaylist(url),
+            ...playerVars
           },
-          onPlaybackRateChange: event => this.props.onPlaybackRateChange(event.data),
-          onStateChange: this.onStateChange,
-          onError: event => onError(event.data)
-        },
-        host: MATCH_NOCOOKIE.test(url) ? NOCOOKIE_HOST : undefined,
-        ...embedOptions
-      })
-    }, onError)
+          events: {
+            onReady: () => {
+              if (loop) {
+                this.player.setLoop(true) // Enable playlist looping
+              }
+              this.props.onReady()
+            },
+            onPlaybackRateChange: event => this.props.onPlaybackRateChange(event.data),
+            onStateChange: this.onStateChange,
+            onError: event => onError(event.data)
+          },
+          host: MATCH_NOCOOKIE.test(url) ? NOCOOKIE_HOST : undefined,
+          ...embedOptions
+        })
+      }, onError)
     if (embedOptions.events) {
       console.warn('Using `embedOptions.events` will likely break things. Use ReactPlayer’s callback props instead, eg onReady, onPlay, onPause')
     }
@@ -106,7 +107,7 @@ export default class YouTube extends Component {
 
   onStateChange = (event) => {
     const { data } = event
-    const { onPlay, onPause, onBuffer, onBufferEnd, onEnded, onReady, loop, config: { playerVars, onUnstarted } } = this.props
+    const { onPlay, onPause, onBuffer, onBufferEnd, onEnded, onReady, onSeek, loop, config: { playerVars, onUnstarted } } = this.props
     const { UNSTARTED, PLAYING, PAUSED, BUFFERING, ENDED, CUED } = window[SDK_GLOBAL].PlayerState
     if (data === UNSTARTED) onUnstarted()
     if (data === PLAYING) {
@@ -128,6 +129,37 @@ export default class YouTube extends Component {
       onEnded()
     }
     if (data === CUED) onReady()
+
+    // onSeek
+    this.handleOnSeek(data, BUFFERING, PAUSED, onSeek)
+  };
+
+  handleOnSeek (data, BUFFERING, PAUSED, onSeek) {
+    // Update sequence with current state change event
+    this._sequence = [...this._sequence, data]
+    if (
+      data == BUFFERING &&
+      isSubArrayEnd(this._sequence, [PAUSED, BUFFERING])
+    ) {
+      onSeek(this.getCurrentTime()) // Mouse seek
+      this._sequence = [] // Reset event sequence
+    } else if (
+      data === BUFFERING &&
+      isSubArrayEnd(this._sequence, [BUFFERING])
+    ) {
+      onSeek(this.getCurrentTime()) // Arrow keys seek
+      this._sequence = [] // Reset event sequence
+    } else {
+      clearTimeout(this._timer) // Cancel previous event
+      if (data !== BUFFERING) {
+        // If we're not buffering,
+        const timeout = setTimeout(function () {
+          // Start timer
+          this._sequence = [] // Reset event sequence
+        }, 250)
+        this._timer = timeout
+      }
+    }
   }
 
   play () {
