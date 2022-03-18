@@ -159,7 +159,7 @@ export function supportsWebKitPresentationMode (video = document.createElement('
   // Check if Safari supports PiP, and is not on mobile (other than iPad)
   // iPhone safari appears to "support" PiP through the check, however PiP does not function
   const notMobile = /iPhone|iPod/.test(navigator.userAgent) === false
-  return video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' && notMobile 
+  return video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === 'function' && notMobile
 }
 
 // for onSeekEvent on Youtube player
