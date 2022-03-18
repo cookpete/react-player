@@ -45,37 +45,37 @@ export default class YouTube extends Component {
       return
     }
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, YT => YT.loaded).then(YT => {
-        if (!this.container) return
-        this.player = new YT.Player(this.container, {
-          width: '100%',
-          height: '100%',
-          videoId: id,
-          playerVars: {
-            autoplay: playing ? 1 : 0,
-            mute: muted ? 1 : 0,
-            controls: controls ? 1 : 0,
-            start: parseStartTime(url),
-            end: parseEndTime(url),
-            origin: window.location.origin,
-            playsinline: playsinline ? 1 : 0,
-            ...this.parsePlaylist(url),
-            ...playerVars
+      if (!this.container) return
+      this.player = new YT.Player(this.container, {
+        width: '100%',
+        height: '100%',
+        videoId: id,
+        playerVars: {
+          autoplay: playing ? 1 : 0,
+          mute: muted ? 1 : 0,
+          controls: controls ? 1 : 0,
+          start: parseStartTime(url),
+          end: parseEndTime(url),
+          origin: window.location.origin,
+          playsinline: playsinline ? 1 : 0,
+          ...this.parsePlaylist(url),
+          ...playerVars
+        },
+        events: {
+          onReady: () => {
+            if (loop) {
+              this.player.setLoop(true) // Enable playlist looping
+            }
+            this.props.onReady()
           },
-          events: {
-            onReady: () => {
-              if (loop) {
-                this.player.setLoop(true) // Enable playlist looping
-              }
-              this.props.onReady()
-            },
-            onPlaybackRateChange: event => this.props.onPlaybackRateChange(event.data),
-            onStateChange: this.onStateChange,
-            onError: event => onError(event.data)
-          },
-          host: MATCH_NOCOOKIE.test(url) ? NOCOOKIE_HOST : undefined,
-          ...embedOptions
-        })
-      }, onError)
+          onPlaybackRateChange: event => this.props.onPlaybackRateChange(event.data),
+          onStateChange: this.onStateChange,
+          onError: event => onError(event.data)
+        },
+        host: MATCH_NOCOOKIE.test(url) ? NOCOOKIE_HOST : undefined,
+        ...embedOptions
+      })
+    }, onError)
     if (embedOptions.events) {
       console.warn('Using `embedOptions.events` will likely break things. Use ReactPlayer’s callback props instead, eg onReady, onPlay, onPause')
     }
@@ -135,7 +135,7 @@ export default class YouTube extends Component {
   };
 
   handleOnSeek (data, onSeek) {
-    const { PLAYING, PAUSED, BUFFERING } = window[SDK_GLOBAL].PlayerState
+    const { PAUSED, BUFFERING } = window[SDK_GLOBAL].PlayerState
     // Update sequence with current state change event
     this._sequence = [...this._sequence, data]
     if (
@@ -151,9 +151,9 @@ export default class YouTube extends Component {
       onSeek(this.getCurrentTime()) // Arrow keys seek
       this._sequence = [] // Reset event sequence
     } else if (data === PAUSED) {
-      const seekTimer = setInterval(() => { // for every 750 ms check if paused and the time is changed  
-        if (                     
-          this.prevTime !== this.getCurrentTime() &&   // Paused seek
+      const seekTimer = setInterval(() => { // for every 750 ms check if paused and the time is changed
+        if (
+          this.prevTime !== this.getCurrentTime() && // Paused seek
           isSubArrayEnd(this._sequence, [PAUSED])
         ) {
           onSeek(this.getCurrentTime())
