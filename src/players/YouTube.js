@@ -138,7 +138,7 @@ export default class YouTube extends Component {
     // Update sequence with current state change event
     this._sequence = [...this._sequence, data]
     if (
-      data == BUFFERING &&
+      data === BUFFERING &&
       isSubArrayEnd(this._sequence, [PAUSED, BUFFERING])
     ) {
       onSeek(this.getCurrentTime()) // Mouse seek
@@ -149,6 +149,13 @@ export default class YouTube extends Component {
     ) {
       onSeek(this.getCurrentTime()) // Arrow keys seek
       this._sequence = [] // Reset event sequence
+    } else if (                     
+      this.prevTime !== this.getCurrentTime &&   // Paused seek
+      !isSubArrayEnd(this._sequence, [PAUSED]) &&
+      !isSubArrayEnd(this._sequence, [PLAYING])
+    ) {
+      onSeek(this.getCurrentTime())
+      this._sequence = []
     } else {
       clearTimeout(this._timer) // Cancel previous event
       if (data !== BUFFERING) {
@@ -160,6 +167,7 @@ export default class YouTube extends Component {
         this._timer = timeout
       }
     }
+    this.prevTime = this.getCurrentTime()
   }
 
   play () {
