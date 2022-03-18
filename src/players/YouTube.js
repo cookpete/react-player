@@ -131,7 +131,7 @@ export default class YouTube extends Component {
     if (data === CUED) onReady()
 
     // onSeek
-    this.handleOnSeek(data, onSeek)
+    if (onSeek) this.handleOnSeek(data, onSeek)
   };
 
   handleOnSeek (data, onSeek) {
