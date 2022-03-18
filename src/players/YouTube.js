@@ -134,11 +134,12 @@ export default class YouTube extends Component {
     this.handleOnSeek(data, BUFFERING, PAUSED, onSeek)
   };
 
-  handleOnSeek (data, BUFFERING, PAUSED, onSeek) {
+  handleOnSeek (data, onSeek) {
+    const { PLAYING, PAUSED, BUFFERING } = window[SDK_GLOBAL].PlayerState
     // Update sequence with current state change event
     this._sequence = [...this._sequence, data]
     if (
-      data === BUFFERING &&
+      data == BUFFERING &&
       isSubArrayEnd(this._sequence, [PAUSED, BUFFERING])
     ) {
       onSeek(this.getCurrentTime()) // Mouse seek
@@ -149,19 +150,20 @@ export default class YouTube extends Component {
     ) {
       onSeek(this.getCurrentTime()) // Arrow keys seek
       this._sequence = [] // Reset event sequence
-    } else if (                     
-      this.prevTime !== this.getCurrentTime &&   // Paused seek
-      !isSubArrayEnd(this._sequence, [PAUSED]) &&
-      !isSubArrayEnd(this._sequence, [PLAYING])
-    ) {
-      onSeek(this.getCurrentTime())
-      this._sequence = []
     } else {
       clearTimeout(this._timer) // Cancel previous event
       if (data !== BUFFERING) {
         // If we're not buffering,
         const timeout = setTimeout(function () {
           // Start timer
+          if (                     
+            this.prevTime !== this.getCurrentTime &&   // Paused seek
+            // !isSubArrayEnd(this._sequence, [PAUSED]) && 
+            isSubArrayEnd(this._sequence, [PLAYING])
+          ) {
+            onSeek(this.getCurrentTime())
+            this._sequence = []
+          }
           this._sequence = [] // Reset event sequence
         }, 250)
         this._timer = timeout
