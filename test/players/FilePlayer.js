@@ -102,6 +102,45 @@ test('onError - hls', t => {
   })
 })
 
+test('onError - flv', t => {
+  return new Promise(resolve => {
+    const onError = () => {
+      t.pass()
+      resolve()
+    }
+
+    class FlvPlayer {
+      attachMediaElement () {
+
+      };
+
+      on = (event, cb) => {
+        if (event === 'error') {
+          setTimeout(cb, 100)
+        }
+      };
+
+      load = () => {}
+    }
+
+    class flvjs {
+      static Events = { ERROR: 'error' }
+
+      loadSource = () => null
+      attachMedia = () => null
+      static createPlayer = () => new FlvPlayer()
+    }
+    const url = 'file.flv'
+    const getSDK = sinon.stub(utils, 'getSDK').resolves(flvjs)
+    const onLoaded = () => null
+    const instance = shallow(
+      <FilePlayer url={url} config={config} onLoaded={onLoaded} onError={onError} />
+    ).instance()
+    instance.load(url)
+    getSDK.restore()
+  })
+})
+
 test('load - dash', async t => {
   const dashjs = {
     MediaPlayer: () => ({

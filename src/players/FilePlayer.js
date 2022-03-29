@@ -196,6 +196,9 @@ export default class FilePlayer extends Component {
       getSDK(FLV_SDK_URL.replace('VERSION', flvVersion), FLV_GLOBAL).then(flvjs => {
         this.flv = flvjs.createPlayer({ type: 'flv', url })
         this.flv.attachMediaElement(this.player)
+        this.flv.on(flvjs.Events.ERROR, (e, data) => {
+          this.props.onError(e, data, this.flv, flvjs)
+        })
         this.flv.load()
         this.props.onLoaded()
       })
