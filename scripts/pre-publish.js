@@ -5,8 +5,8 @@ const { default: players } = require('../lib/players')
 const generateSinglePlayers = async () => {
   for (const { key, name } of players) {
     const file = `
-      const createReactPlayer = require('./lib/ReactPlayer').createReactPlayer
-      const Player = require('./lib/players/${name}').default
+      var createReactPlayer = require('./lib/ReactPlayer').createReactPlayer
+      var Player = require('./lib/players/${name}').default
       module.exports = createReactPlayer([{
         key: '${key}',
         canPlay: Player.canPlay,

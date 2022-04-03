@@ -80,7 +80,7 @@ test('render()', t => {
       scrolling='no'
       style={style}
       allowFullScreen
-      allow='encrypted-media'
+      allow='encrypted-media;autoplay'
       referrerPolicy='no-referrer-when-downgrade'
     />
   ))
