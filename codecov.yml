@@ -6,7 +6,7 @@ coverage:
   status:
     project:
       default:
-        enabled: false
+        informational: true
     patch:
       default:
-        enabled: false
+        informational: true
