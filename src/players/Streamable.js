@@ -105,7 +105,7 @@ export default class Streamable extends Component {
         frameBorder='0'
         scrolling='no'
         style={style}
-        allowFullScreen
+        allow='encrypted-media; autoplay; fullscreen;'
       />
     )
   }

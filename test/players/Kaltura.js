@@ -79,8 +79,7 @@ test('render()', t => {
       frameBorder='0'
       scrolling='no'
       style={style}
-      allowFullScreen
-      allow='encrypted-media;autoplay'
+      allow='encrypted-media; autoplay; fullscreen;'
       referrerPolicy='no-referrer-when-downgrade'
     />
   ))

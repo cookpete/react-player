@@ -79,7 +79,7 @@ test('render()', t => {
       frameBorder='0'
       scrolling='no'
       style={style}
-      allowFullScreen
+      allow='encrypted-media; autoplay; fullscreen;'
     />
   ))
 })
