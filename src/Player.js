@@ -53,7 +53,10 @@ export default class Player extends Component {
       this.isLoading = true
       this.startOnPlay = true
       this.onDurationCalled = false
-      this.player.load(url, this.isReady)
+      if (!this.loaded?.[url]) {
+        this.player.load(url, this.isReady)
+        this.loaded = { [url]: true }
+      }
     }
     if (!prevProps.playing && playing && !this.isPlaying) {
       this.player.play()
@@ -91,7 +94,10 @@ export default class Player extends Component {
 
   handlePlayerMount = player => {
     this.player = player
-    this.player.load(this.props.url)
+    if (!this.loaded?.[this.props.url]) {
+      this.player.load(this.props.url)
+      this.loaded = { [this.props.url]: true }
+    }
     this.progress()
   }
 
