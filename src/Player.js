@@ -90,7 +90,10 @@ export default class Player extends Component {
   }
 
   handlePlayerMount = player => {
-    if (this.player) return // Prevent loading twice in strict mode
+    if (this.player) { // Prevent loading twice in strict mode
+      this.progress()
+      return
+    }
     this.player = player
     this.player.load(this.props.url)
     this.progress()
