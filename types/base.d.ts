@@ -37,7 +37,7 @@ export interface BaseReactPlayerProps {
   previewTabIndex?: number | null
   pip?: boolean
   stopOnUnmount?: boolean
-  light?: boolean | string
+  light?: boolean | string | ReactElement
   fallback?: ReactElement
   wrapper?: ComponentType<{ children: ReactNode }>
   onReady?: (player: ReactPlayer) => void

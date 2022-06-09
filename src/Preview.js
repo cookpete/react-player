@@ -32,9 +32,9 @@ export default class Preview extends Component {
       this.setState({ image: light })
       return
     }
-    if (typeof light !== "string" && typeof light !== "boolean") {
-      this.setState({ previewImage: { isComponent: true, component: light } });
-      return;
+    if (React.isValidElement(light)) {
+      this.setState({ previewImage: { isComponent: true, component: light } })
+      return
     }
     if (cache[url]) {
       this.setState({ image: cache[url] })
@@ -82,7 +82,6 @@ export default class Preview extends Component {
         width: ICON_SIZE,
         height: ICON_SIZE,
         position: previewImage.isComponent && 'absolute',
-        zIndex: 10,
         ...flexCenter
       },
       playIcon: {
@@ -105,8 +104,8 @@ export default class Preview extends Component {
         tabIndex={previewTabIndex}
         onKeyPress={this.handleKeyPress}
       >
-        {playIcon || defaultPlayIcon}
         {previewImage.isComponent && previewImage.component}
+        {playIcon || defaultPlayIcon}
       </div>
     )
   }
