@@ -166,11 +166,11 @@ export const createReactPlayer = (players, fallback) => {
     }
 
     render () {
-      const { url, style, width, height, fallback, wrapper: Wrapper } = this.props
+      const { url, style, className, width, height, fallback, wrapper: Wrapper } = this.props
       const { showPreview } = this.state
       const attributes = this.getAttributes(url)
       return (
-        <Wrapper ref={this.references.wrapper} style={{ ...style, width, height }} {...attributes}>
+        <Wrapper ref={this.references.wrapper} style={{ ...style, width, height }} className={className} {...attributes}>
           <UniversalSuspense fallback={fallback}>
             {showPreview
               ? this.renderPreview(url)

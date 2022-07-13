@@ -18,6 +18,7 @@ export interface BaseReactPlayerProps {
   width?: string | number
   height?: string | number
   style?: CSSProperties
+  className?: string
   progressInterval?: number
   playsinline?: boolean
   playIcon?: ReactElement
@@ -25,8 +26,8 @@ export interface BaseReactPlayerProps {
   pip?: boolean
   stopOnUnmount?: boolean
   light?: boolean | string
-  fallback?: ReactElement;
-  wrapper?: ComponentType<{children: ReactNode}>;
+  fallback?: ReactElement
+  wrapper?: ComponentType<{children: ReactNode}>
   onReady?: (player: ReactPlayer) => void
   onStart?: () => void
   onPlay?: () => void

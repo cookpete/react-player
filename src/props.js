@@ -13,6 +13,7 @@ export const propTypes = {
   width: oneOfType([string, number]),
   height: oneOfType([string, number]),
   style: object,
+  className: string,
   progressInterval: number,
   playsinline: bool,
   pip: bool,
