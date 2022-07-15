@@ -7,8 +7,7 @@ const cache = {}
 export default class Preview extends Component {
   mounted = false
   state = {
-    image: null,
-    previewImage: { isComponent: false, component: false }
+    image: null
   }
 
   componentDidMount () {
@@ -28,12 +27,11 @@ export default class Preview extends Component {
   }
 
   fetchImage ({ url, light, oEmbedUrl }) {
-    if (typeof light === 'string') {
-      this.setState({ image: light })
+    if (React.isValidElement(light)) {
       return
     }
-    if (React.isValidElement(light)) {
-      this.setState({ previewImage: { isComponent: true, component: light } })
+    if (typeof light === 'string') {
+      this.setState({ image: light })
       return
     }
     if (cache[url]) {
@@ -59,8 +57,9 @@ export default class Preview extends Component {
   }
 
   render () {
-    const { onClick, playIcon, previewTabIndex } = this.props
-    const { image, previewImage } = this.state
+    const { light, onClick, playIcon, previewTabIndex } = this.props
+    const { image } = this.state
+    const isElement = React.isValidElement(light)
     const flexCenter = {
       display: 'flex',
       alignItems: 'center',
@@ -70,7 +69,7 @@ export default class Preview extends Component {
       preview: {
         width: '100%',
         height: '100%',
-        backgroundImage: image && !previewImage.isComponent ? `url(${image})` : undefined,
+        backgroundImage: image && !isElement ? `url(${image})` : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         cursor: 'pointer',
@@ -81,7 +80,7 @@ export default class Preview extends Component {
         borderRadius: ICON_SIZE,
         width: ICON_SIZE,
         height: ICON_SIZE,
-        position: previewImage.isComponent && 'absolute',
+        position: isElement ? 'absolute' : undefined,
         ...flexCenter
       },
       playIcon: {
@@ -104,7 +103,7 @@ export default class Preview extends Component {
         tabIndex={previewTabIndex}
         onKeyPress={this.handleKeyPress}
       >
-        {previewImage.isComponent && previewImage.component}
+        {isElement ? light : null}
         {playIcon || defaultPlayIcon}
       </div>
     )
