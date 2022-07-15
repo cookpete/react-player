@@ -13,7 +13,7 @@ interface SourceProps {
   type?: string
 }
 
-export interface onProgressProps {
+export interface OnProgressProps {
   played: number
   playedSeconds: number
   loaded: number
@@ -58,7 +58,7 @@ export interface BaseReactPlayerProps {
   ) => void
   onDuration?: (duration: number) => void
   onSeek?: (seconds: number) => void
-  onProgress?: (state: onProgressProps) => void
+  onProgress?: (state: OnProgressProps) => void
   [otherProps: string]: any
 }
 
