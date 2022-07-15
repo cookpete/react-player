@@ -1,10 +1,23 @@
-import { Component, ReactElement, CSSProperties, ComponentType, ReactNode } from 'react'
+import {
+  Component,
+  ReactElement,
+  CSSProperties,
+  ComponentType,
+  ReactNode
+} from 'react'
 import ReactPlayer from './lib'
 
 interface SourceProps {
   media?: string
   src: string
   type?: string
+}
+
+export interface OnProgressProps {
+  played: number
+  playedSeconds: number
+  loaded: number
+  loadedSeconds: number
 }
 
 export interface BaseReactPlayerProps {
@@ -25,8 +38,8 @@ export interface BaseReactPlayerProps {
   pip?: boolean
   stopOnUnmount?: boolean
   light?: boolean | string
-  fallback?: ReactElement;
-  wrapper?: ComponentType<{children: ReactNode}>;
+  fallback?: ReactElement
+  wrapper?: ComponentType<{ children: ReactNode }>
   onReady?: (player: ReactPlayer) => void
   onStart?: () => void
   onPlay?: () => void
@@ -37,19 +50,21 @@ export interface BaseReactPlayerProps {
   onClickPreview?: (event: any) => void
   onEnablePIP?: () => void
   onDisablePIP?: () => void
-  onError?: (error: any, data?: any, hlsInstance?: any, hlsGlobal?: any) => void
+  onError?: (
+    error: any,
+    data?: any,
+    hlsInstance?: any,
+    hlsGlobal?: any
+  ) => void
   onDuration?: (duration: number) => void
   onSeek?: (seconds: number) => void
-  onProgress?: (state: {
-    played: number
-    playedSeconds: number
-    loaded: number
-    loadedSeconds: number
-  }) => void
+  onProgress?: (state: OnProgressProps) => void
   [otherProps: string]: any
 }
 
-export default class BaseReactPlayer<T extends BaseReactPlayerProps> extends Component<T, any> {
+export default class BaseReactPlayer<
+  T extends BaseReactPlayerProps
+> extends Component<T, any> {
   static canPlay (url: string): boolean;
   static canEnablePIP (url: string): boolean;
   static addCustomPlayer (player: ReactPlayer): void;
