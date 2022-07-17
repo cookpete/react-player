@@ -154,6 +154,25 @@ test('progress()', t => {
   }))
 })
 
+test('progress() handlePlayerMount', t => {
+  const load = sinon.fake()
+  const onProgress = sinon.fake()
+  const instance = shallow(<Player url='file.mp4' onProgress={onProgress} />).instance()
+  instance.isReady = true
+  instance.handlePlayerMount({
+    load,
+    getCurrentTime: sinon.fake.returns(10),
+    getSecondsLoaded: sinon.fake.returns(20),
+    getDuration: sinon.fake.returns(40)
+  })
+  t.true(onProgress.calledWith({
+    loaded: 0.5,
+    loadedSeconds: 20,
+    played: 0.25,
+    playedSeconds: 10
+  }))
+})
+
 test('seekTo() - seconds', t => {
   const load = sinon.fake()
   const seekTo = sinon.fake()
