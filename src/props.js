@@ -17,7 +17,7 @@ export const propTypes = {
   playsinline: bool,
   pip: bool,
   stopOnUnmount: bool,
-  light: oneOfType([bool, string]),
+  light: oneOfType([bool, string, object]),
   playIcon: node,
   previewTabIndex: number,
   fallback: node,
