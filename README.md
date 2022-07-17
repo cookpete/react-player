@@ -341,8 +341,9 @@ See the [contribution guidelines](https://github.com/CookPete/react-player/blob/
 ### Thanks
 
 - Thanks to anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors).
-- Huge thanks to my Patreon sponsors:
+- Anyone who has supported me on [Patreon](https://patreon.com/cookpete)!
 
+<!--
 <table>
   <tr>
     <td align='center'>
@@ -350,3 +351,4 @@ See the [contribution guidelines](https://github.com/CookPete/react-player/blob/
     </td>
   </tr>
 </table>
+-->
