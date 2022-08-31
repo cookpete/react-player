@@ -61,6 +61,7 @@ export default class Vimeo extends Component {
       })
       this.player.on('bufferstart', this.props.onBuffer)
       this.player.on('bufferend', this.props.onBufferEnd)
+      this.player.on('playbackratechange', e=> e.playbackRate && this.props.onPlaybackRateChange(e.playbackRateplaybackRate))
     }, this.props.onError)
   }
 
