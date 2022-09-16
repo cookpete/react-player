@@ -61,7 +61,7 @@ import ReactPlayer from 'react-player/lazy'
 
 Demo page: [`https://cookpete.com/react-player`](https://cookpete.com/react-player)
 
-The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending. See [the demo source](https://github.com/CookPete/react-player/blob/master/src/demo/App.js) for a full example.
+The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending. See [the demo source](https://github.com/cookpete/react-player/blob/master/src/demo/App.js) for a full example.
 
 For platforms without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:dist`.
 
@@ -83,7 +83,7 @@ Prop | Description | Default
 `loop` | Set to `true` or `false` to loop the media | `false`
 `controls` | Set to `true` or `false` to display native player controls.<br/>&nbsp; ◦ &nbsp;For Vimeo videos, hiding controls must be enabled by the video owner. | `false`
 `light` | Set to `true` to show just the video thumbnail, which loads the full player on click<br />&nbsp; ◦ &nbsp;Pass in an image URL to override the preview image | `false`
-`volume` | Set the volume of the player, between `0` and `1`<br/>&nbsp; ◦ &nbsp;`null` uses default volume on all players [`#357`](https://github.com/CookPete/react-player/issues/357) | `null`
+`volume` | Set the volume of the player, between `0` and `1`<br/>&nbsp; ◦ &nbsp;`null` uses default volume on all players [`#357`](https://github.com/cookpete/react-player/issues/357) | `null`
 `muted` | Mutes the player<br/>&nbsp; ◦ &nbsp;Only works if `volume` is set | `false`
 `playbackRate` | Set the playback rate of the player<br />&nbsp; ◦ &nbsp;Only supported by YouTube, Wistia, and file paths | `1`
 `width` | Set the width of the player | `640px`
@@ -225,7 +225,7 @@ See [`jsFiddle` example](https://jsfiddle.net/e6w3rtj1/)
 
 #### SDK Overrides
 
-You can use your own version of any player SDK, assuming the correct `window` global is set before the player mounts. For example, to use a local version of [`hls.js`](https://cdnjs.com/libraries/hls.js), add `<script src='/path/hls.js'></script>` to your app. If `window.Hls` is available when ReactPlayer mounts, it will use that instead of loading `hls.js` from `cdnjs`. See [#605](https://github.com/CookPete/react-player/issues/605#issuecomment-492561909) for more information.
+You can use your own version of any player SDK, assuming the correct `window` global is set before the player mounts. For example, to use a local version of [`hls.js`](https://cdnjs.com/libraries/hls.js), add `<script src='/path/hls.js'></script>` to your app. If `window.Hls` is available when ReactPlayer mounts, it will use that instead of loading `hls.js` from `cdnjs`. See [#605](https://github.com/cookpete/react-player/issues/605#issuecomment-492561909) for more information.
 
 #### Standalone player
 
@@ -336,19 +336,20 @@ You can also specify a `type` for each source by using objects with `src` and `t
 
 ### Contributing
 
-See the [contribution guidelines](https://github.com/CookPete/react-player/blob/master/CONTRIBUTING.md) before creating a pull request.
+See the [contribution guidelines](https://github.com/cookpete/react-player/blob/master/CONTRIBUTING.md) before creating a pull request.
 
 ### Thanks
 
-- Thanks to anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors).
-- Anyone who has supported me on [Patreon](https://patreon.com/cookpete)!
+- Thanks to anyone who has [contributed](https://github.com/cookpete/react-player/graphs/contributors).
+- Big thanks to my [Patreon](https://patreon.com/cookpete) supporters!
 
-<!--
 <table>
   <tr>
     <td align='center'>
-      <a href='https://github.com/josephfung'><img src='https://avatars3.githubusercontent.com/u/114566?s=120&v=4' /><br />Joseph Fung</a>
+      <a href='https://the100.tv'><img src='https://the100.tv/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fthe100-tv-alone-2k.2e7c7877.png&w=384&q=75' width='120' /><br />Jackson Doherty</a>
+    </td>
+    <td align='center'>
+      <a href='https://github.com/jaxomlotus'><img src='https://avatars.githubusercontent.com/u/485706?s=120&v=4' /><br />Joseph Fung</a>
     </td>
   </tr>
 </table>
--->
