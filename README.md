@@ -185,6 +185,9 @@ The `light` prop will render a video thumbnail with simple play icon, and only l
 
 If you want to pass in your own thumbnail to use, set `light` to the image URL rather than `true`.
 
+You can now also pass a component through the `light` prop:
+```light={<img style={{position: 'relative', width: '100%', height: '100%'}} src='https://media.nationalgeographic.org/assets/photos/000/290/29094.jpg' alt='sun' />}```
+
 The styles for the preview image and play icon can be overridden by targeting the CSS classes `react-player__preview`, `react-player__shadow` and `react-player__play-icon`.
 
 #### Responsive player
