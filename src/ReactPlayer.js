@@ -107,6 +107,15 @@ export const createReactPlayer = (players, fallback) => {
       this.props.onReady(this)
     }
 
+    handleEnded = () => {
+      if (this.props.endWithPreview) {
+        this.showPreview()
+      }
+      if (this.props.onEnded) {
+        this.props.onEnded(this)
+      }
+    }
+
     getActivePlayer = memoize(url => {
       for (const player of [...customPlayers, ...players]) {
         if (player.canPlay(url)) {
@@ -161,6 +170,7 @@ export const createReactPlayer = (players, fallback) => {
           config={config}
           activePlayer={player.lazyPlayer || player}
           onReady={this.handleReady}
+          onEnded={this.handleEnded}
         />
       )
     }
