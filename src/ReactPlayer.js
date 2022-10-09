@@ -108,7 +108,6 @@ export const createReactPlayer = (players, fallback) => {
     }
 
     handleEnded = () => {
-      console.log('this.state.endWithPreview', this.state.endWithPreview)
       if (this.props.endWithPreview) {
         this.showPreview()
       }
