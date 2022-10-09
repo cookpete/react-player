@@ -70,6 +70,10 @@ class App extends Component {
     this.setState({ muted: !this.state.muted })
   }
 
+  handleToggleEndWithPreview = () => {
+    this.setState({ endWithPreview: !this.state.endWithPreview })
+  }
+
   handleSetPlaybackRate = e => {
     this.setState({ playbackRate: parseFloat(e.target.value) })
   }
@@ -150,7 +154,7 @@ class App extends Component {
   }
 
   render () {
-    const { url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
+    const { url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip, endWithPreview } = this.state
     const SEPARATOR = ' · '
 
     return (
@@ -172,6 +176,7 @@ class App extends Component {
               playbackRate={playbackRate}
               volume={volume}
               muted={muted}
+              endWithPreview={endWithPreview}
               onReady={() => console.log('onReady')}
               onStart={() => console.log('onStart')}
               onPlay={this.handlePlay}
@@ -259,6 +264,21 @@ class App extends Component {
                 </th>
                 <td>
                   <input id='light' type='checkbox' checked={light} onChange={this.handleToggleLight} />
+                </td>
+              </tr>
+              <tr>
+                <th>Custom Preview Url</th>
+                <td>
+                  <input ref={input => { this.urlPreview = input }} type='text' placeholder='Enter URL' />
+                  <button onClick={() => this.setState({ light: this.urlPreview.value })}>Load</button>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label htmlFor='endWithPreview'>End with preview</label>
+                </th>
+                <td>
+                  <input id='endWithPreview' type='checkbox' checked={endWithPreview} onChange={this.handleToggleEndWithPreview} />
                 </td>
               </tr>
               <tr>

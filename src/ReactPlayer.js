@@ -108,6 +108,7 @@ export const createReactPlayer = (players, fallback) => {
     }
 
     handleEnded = () => {
+      console.log('this.state.endWithPreview', this.state.endWithPreview)
       if (this.props.endWithPreview) {
         this.showPreview()
       }
@@ -170,6 +171,7 @@ export const createReactPlayer = (players, fallback) => {
           config={config}
           activePlayer={player.lazyPlayer || player}
           onReady={this.handleReady}
+          onEnded={this.handleEnded}
         />
       )
     }
