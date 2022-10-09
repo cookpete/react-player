@@ -98,7 +98,6 @@ Prop | Description | Default
 `playIcon` | Element or component to use as the play icon in light mode
 `previewTabIndex` | Set the tab index to be used on light mode | 0
 `config` | Override options for the various players, see [config prop]
-`config` | Override options for the various players, see [config prop]
 `endWithPrewiev`| Element to use if you want the video to end with the preview image. Please note that preview image that will be displayed at the end of the video depends on the [Noembed](https://noembed.com) library as well . If you add a URL attribute to `light` prop, it will dispplay the image you provided. Keep in mind that it will not work when the `loop` attribute is set to `true`.(#config-prop)
 
 #### Callback props

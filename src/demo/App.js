@@ -26,8 +26,7 @@ class App extends Component {
     duration: 0,
     playbackRate: 1.0,
     loop: false,
-    endWithPreview: false,
-    
+    endWithPreview: false,   
   }
 
   load = url => {
