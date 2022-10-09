@@ -20,6 +20,11 @@ export default class FilePlayer extends Component {
   static displayName = 'FilePlayer'
   static canPlay = canPlay.file
 
+  state = {
+    isMultipleVideo: this.props.url instanceof Array,
+    indexVideo: 0
+  }
+
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
     this.addListeners(this.player)
@@ -97,7 +102,11 @@ export default class FilePlayer extends Component {
   onBuffer = (...args) => this.props.onBuffer(...args)
   onBufferEnd = (...args) => this.props.onBufferEnd(...args)
   onPause = (...args) => this.props.onPause(...args)
-  onEnded = (...args) => this.props.onEnded(...args)
+  onEnded = (...args) => {
+    this.onMoreVideos()
+    return this.props.onEnded(...args)
+  }
+
   onError = (...args) => this.props.onError(...args)
   onPlayBackRateChange = (event) => this.props.onPlaybackRateChange(event.target.playbackRate)
   onEnablePIP = (...args) => this.props.onEnablePIP(...args)
@@ -123,6 +132,17 @@ export default class FilePlayer extends Component {
 
   onSeek = e => {
     this.props.onSeek(e.target.currentTime)
+  }
+
+  onMoreVideos = () => {
+    if (
+      this.state.isMultipleVideo &&
+      this.state.indexVideo < this.props.url.length - 1
+    ) {
+      this.setState({ indexVideo: this.state.indexVideo + 1 }, () =>
+        this.play()
+      )
+    }
   }
 
   shouldUseAudio (props) {
@@ -312,13 +332,17 @@ export default class FilePlayer extends Component {
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
     const useFLV = this.shouldUseFLV(url)
-    if (url instanceof Array || isMediaStream(url) || useHLS || useDASH || useFLV) {
+    if (isMediaStream(url) || useHLS || useDASH || useFLV) {
       return undefined
     }
-    if (MATCH_DROPBOX_URL.test(url)) {
-      return url.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+    let finalUrl = url
+    if (this.state.isMultipleVideo) {
+      finalUrl = url[this.state.indexVideo]
     }
-    return url
+    if (MATCH_DROPBOX_URL.test(finalUrl)) {
+      return finalUrl.replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+    }
+    return finalUrl
   }
 
   renderSourceElement = (source, index) => {
