@@ -106,6 +106,13 @@ export const createReactPlayer = (players, fallback) => {
     handleReady = () => {
       this.props.onReady(this)
     }
+    handleEnded = () => {
+      if(this.props.endWithPreview){
+        this.showPreview()
+      }
+      this.props?.onEnded(this)
+    }
+
 
     getActivePlayer = memoize(url => {
       for (const player of [...customPlayers, ...players]) {
