@@ -436,7 +436,7 @@ class App extends Component {
               </tr>
 
               <tr>
-                <th>Widevine DRM <br/>(Not work in Safari)</th>
+                <th>Widevine DRM <br />(Not work in Safari)</th>
                 <td>
                   {this.renderLoadButton('https://cdn.bitmovin.com/content/assets/art-of-motion_drm/mpds/11331.mpd', 'ShakaPlayer', {
                     ...config,
@@ -480,7 +480,7 @@ class App extends Component {
               </tr>
 
               <tr>
-                <th>Fairplay DRM <br/>(Only in Safari)</th>
+                <th>Fairplay DRM <br />(Only in Safari)</th>
                 <td>
                   {this.renderLoadButton('', 'ShakaPlayer', {
                     ...config,
@@ -488,9 +488,7 @@ class App extends Component {
                       ...config.file,
                       useShakaforHLS: true,
                       dashProtectionData: {},
-                      shakaOptions: {
-
-                      }
+                      shakaOptions: {}
                     }
                   })}
                 </td>
