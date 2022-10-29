@@ -60,7 +60,15 @@ export const propTypes = {
       hlsOptions: object,
       hlsVersion: string,
       dashVersion: string,
-      flvVersion: string
+      flvVersion: string,
+      dashOptions: object,
+      dashProtectionData: object,
+      useShakaforDASH: bool,
+      useShakaforHLS: bool,
+      shakaOptions: object,
+      shakaVersion: string,
+      shakaNetworkFilters: func,
+      debug: bool
     }),
     wistia: shape({
       options: object,
@@ -169,9 +177,17 @@ export const defaultProps = {
       forceDASH: false,
       forceFLV: false,
       hlsOptions: {},
-      hlsVersion: '1.1.4',
-      dashVersion: '3.1.3',
-      flvVersion: '1.5.0'
+      hlsVersion: '1.2.4',
+      dashVersion: '3.2.2',
+      flvVersion: '1.5.0',
+      dashOptions: {},
+      dashProtectionData: {},
+      useShakaforDASH: false,
+      useShakaforHLS: false,
+      shakaOptions: {},
+      shakaVersion: '3.3.9',
+      shakaNetworkFilters: null,
+      debug: false
     },
     wistia: {
       options: {},
