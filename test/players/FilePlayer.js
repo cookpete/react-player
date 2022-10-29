@@ -454,13 +454,13 @@ test('clear srcObject on url change', t => {
 test('load - shaka - hls', async (t) => {
   class Player {
     attach = async () => null;
+    resetConfiguration = () => null;
+    configure = () => null;
+    load = async () => null;
     getNetworkingEngine = () => ({
       clearAllResponseFilters: () => null,
       clearAllRequestFilters: () => null
     })
-
-    confgure = () => null;
-    load = async () => null;
   }
 
   const Shaka = {
@@ -495,14 +495,13 @@ test('load - shaka - hls', async (t) => {
 test('load - shaka - dash', async (t) => {
   class Player {
     attach = async () => null;
+    resetConfiguration = () => null;
+    configure = () => null;
+    load = async () => null;
     getNetworkingEngine = () => ({
       clearAllResponseFilters: () => null,
       clearAllRequestFilters: () => null
     })
-
-    resetConfiguration = () => null
-    configure = () => null;
-    load = async () => null;
   }
 
   const Shaka = {
