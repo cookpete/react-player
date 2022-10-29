@@ -25,15 +25,26 @@ class App extends Component {
     loaded: 0,
     duration: 0,
     playbackRate: 1.0,
-    loop: false
+    loop: false,
+    config: {
+      file: {
+        useShakaforHLS: false,
+        useShakaforDASH: false,
+        shakaOptions: {},
+        dashOptions: {},
+        dashProtectionData: {},
+        debug: true
+      }
+    }
   }
 
-  load = url => {
+  load = (url, config) => {
     this.setState({
       url,
       played: 0,
       loaded: 0,
-      pip: false
+      pip: false,
+      config: { ...this.state.config, ...config }
     })
   }
 
@@ -136,9 +147,21 @@ class App extends Component {
     screenfull.request(findDOMNode(this.player))
   }
 
-  renderLoadButton = (url, label) => {
+  handleToggleShakaHls = () => {
+    this.setState({ config: { ...this.state.config, file: { ...this.state.config.file, useShakaforHLS: !this.state.config.file.useShakaforHLS } } })
+  }
+
+  handleToggleShakaDash = () => {
+    this.setState({ config: { ...this.state.config, file: { ...this.state.config.file, useShakaforDASH: !this.state.config.file.useShakaforDASH } } })
+  }
+
+  handleToggleDebug = () => {
+    this.setState({ config: { ...this.state.config, file: { ...this.state.config.file, debug: !this.state.config.file.debug } } })
+  }
+
+  renderLoadButton = (url, label, config = {}) => {
     return (
-      <button onClick={() => this.load(url)}>
+      <button onClick={() => this.load(url, config)}>
         {label}
       </button>
     )
@@ -149,7 +172,9 @@ class App extends Component {
   }
 
   render () {
-    const { url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip } = this.state
+    const { url, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip, config } = this.state
+    const { file } = config
+    const { useShakaforHLS, useShakaforDASH, debug } = file
     const SEPARATOR = ' · '
 
     return (
@@ -184,6 +209,7 @@ class App extends Component {
               onError={e => console.log('onError', e)}
               onProgress={this.handleProgress}
               onDuration={this.handleDuration}
+              config={config}
             />
           </div>
 
@@ -267,6 +293,30 @@ class App extends Component {
               <tr>
                 <th>Loaded</th>
                 <td><progress max={1} value={loaded} /></td>
+              </tr>
+              <tr>
+                <th>
+                  <label htmlFor='loop'>useShakaforHLS</label>
+                </th>
+                <td>
+                  <input id='loop' type='checkbox' checked={useShakaforHLS} onChange={this.handleToggleShakaHls} />
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label htmlFor='loop'>useShakaforDASH</label>
+                </th>
+                <td>
+                  <input id='loop' type='checkbox' checked={useShakaforDASH} onChange={this.handleToggleShakaDash} />
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label htmlFor='loop'>debug</label>
+                </th>
+                <td>
+                  <input id='loop' type='checkbox' checked={debug} onChange={this.handleToggleDebug} />
+                </td>
               </tr>
             </tbody>
           </table>
@@ -355,6 +405,7 @@ class App extends Component {
                   {this.renderLoadButton('https://cdnapisec.kaltura.com/p/2507381/sp/250738100/embedIframeJs/uiconf_id/44372392/partner_id/2507381?iframeembed=true&playerId=kaltura_player_1605622336&entry_id=1_i1jmzcn3', 'Test B')}
                 </td>
               </tr>
+
               <tr>
                 <th>Files</th>
                 <td>
@@ -363,10 +414,88 @@ class App extends Component {
                   {this.renderLoadButton('https://filesamples.com/samples/video/ogv/sample_640x360.ogv', 'ogv')}
                   {this.renderLoadButton('https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3', 'mp3')}
                   <br />
-                  {this.renderLoadButton('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8', 'HLS (m3u8)')}
-                  {this.renderLoadButton('http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd', 'DASH (mpd)')}
+                  {this.renderLoadButton('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8', 'HLS (m3u8)', {
+                    ...config,
+                    file: {
+                      ...config.file,
+                      shakaOptions: {},
+                      dashOptions: {},
+                      dashProtectionData: {}
+                    }
+                  })}
+                  {this.renderLoadButton('http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd', 'DASH (mpd)', {
+                    ...config,
+                    file: {
+                      ...config.file,
+                      shakaOptions: {},
+                      dashOptions: {},
+                      dashProtectionData: {}
+                    }
+                  })}
                 </td>
               </tr>
+
+              <tr>
+                <th>Widevine DRM <br/>(Not work in Safari)</th>
+                <td>
+                  {this.renderLoadButton('https://cdn.bitmovin.com/content/assets/art-of-motion_drm/mpds/11331.mpd', 'ShakaPlayer', {
+                    ...config,
+                    file: {
+                      ...config.file,
+                      useShakaforDASH: true,
+                      dashProtectionData: {},
+                      shakaOptions: {
+                        drm: {
+                          servers: {
+                            'com.widevine.alpha': 'https://cwip-shaka-proxy.appspot.com/no_auth'
+                          },
+                          advanced: {
+                            'com.widevine.alpha': {
+                              videoRobustness: 'SW_SECURE_CRYPTO',
+                              audioRobustness: 'SW_SECURE_CRYPTO'
+                            }
+                          }
+                        }
+                      }
+                    }
+                  })}
+                  {this.renderLoadButton('https://media.axprod.net/TestVectors/v7-MultiDRM-SingleKey/Manifest_1080p.mpd', 'DASH.IF', {
+                    ...config,
+                    file: {
+                      ...config.file,
+                      useShakaforDASH: false,
+                      shakaOptions: {},
+                      dashProtectionData: {
+                        'com.widevine.alpha': {
+                          serverURL: 'https://drm-widevine-licensing.axtest.net/AcquireLicense',
+                          httpRequestHeaders: {
+                            'X-AxDRM-Message': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXJzaW9uIjoxLCJjb21fa2V5X2lkIjoiYjMzNjRlYjUtNTFmNi00YWUzLThjOTgtMzNjZWQ1ZTMxYzc4IiwibWVzc2FnZSI6eyJ0eXBlIjoiZW50aXRsZW1lbnRfbWVzc2FnZSIsImZpcnN0X3BsYXlfZXhwaXJhdGlvbiI6NjAsInBsYXlyZWFkeSI6eyJyZWFsX3RpbWVfZXhwaXJhdGlvbiI6dHJ1ZX0sImtleXMiOlt7ImlkIjoiOWViNDA1MGQtZTQ0Yi00ODAyLTkzMmUtMjdkNzUwODNlMjY2IiwiZW5jcnlwdGVkX2tleSI6ImxLM09qSExZVzI0Y3Iya3RSNzRmbnc9PSJ9XX19.FAbIiPxX8BHi9RwfzD7Yn-wugU19ghrkBFKsaCPrZmU'
+                          },
+                          priority: 0
+                        }
+                      }
+                    }
+                  })}
+                </td>
+              </tr>
+
+              <tr>
+                <th>Fairplay DRM <br/>(Only in Safari)</th>
+                <td>
+                  {this.renderLoadButton('', 'ShakaPlayer', {
+                    ...config,
+                    file: {
+                      ...config.file,
+                      useShakaforHLS: true,
+                      dashProtectionData: {},
+                      shakaOptions: {
+
+                      }
+                    }
+                  })}
+                </td>
+              </tr>
+
               <tr>
                 <th>Custom URL</th>
                 <td>
@@ -385,6 +514,12 @@ class App extends Component {
                 <th>url</th>
                 <td className={!url ? 'faded' : ''}>
                   {(url instanceof Array ? 'Multiple' : url) || 'null'}
+                </td>
+              </tr>
+              <tr>
+                <th>config</th>
+                <td className={!Object.keys(config || {}).length ? 'faded' : ''} style={{ whiteSpace: 'pre' }}>
+                  {JSON.stringify(config, null, 2)}
                 </td>
               </tr>
               <tr>
