@@ -15,6 +15,8 @@ const FLV_GLOBAL = 'flvjs'
 const MATCH_DROPBOX_URL = /www\.dropbox\.com\/.+/
 const MATCH_CLOUDFLARE_STREAM = /https:\/\/watch\.cloudflarestream\.com\/([a-z0-9]+)/
 const REPLACE_CLOUDFLARE_STREAM = 'https://videodelivery.net/{id}/manifest/video.m3u8'
+const SHAKA_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/shaka-player/VERSION/shaka-player.compiled.debug.min.js'
+const SHAKA_GLOBAL = 'shaka'
 
 export default class FilePlayer extends Component {
   static displayName = 'FilePlayer'
@@ -139,13 +141,16 @@ export default class FilePlayer extends Component {
     if (this.props.config.forceHLS) {
       return true
     }
-    if (IS_IOS) {
+    if (IS_IOS || this.props.config.useShakaforHLS) {
       return false
     }
     return HLS_EXTENSIONS.test(url) || MATCH_CLOUDFLARE_STREAM.test(url)
   }
 
   shouldUseDASH (url) {
+    if (this.props.config.useShakaforDASH) {
+      return false
+    }
     return DASH_EXTENSIONS.test(url) || this.props.config.forceDASH
   }
 
@@ -153,56 +158,132 @@ export default class FilePlayer extends Component {
     return FLV_EXTENSIONS.test(url) || this.props.config.forceFLV
   }
 
+  shouldUseShaka (url) {
+    if (this.props.config.useShakaforHLS && HLS_EXTENSIONS.test(url)) {
+      return true
+    }
+    return this.props.config.useShakaforDASH && DASH_EXTENSIONS.test(url)
+  }
+
   load (url) {
-    const { hlsVersion, hlsOptions, dashVersion, flvVersion } = this.props.config
+    const {
+      hlsVersion,
+      hlsOptions,
+      dashVersion,
+      flvVersion,
+      dashOptions,
+      dashProtectionData,
+      shakaOptions,
+      shakaVersion,
+      shakaNetworkFilters,
+      debug
+    } = this.props.config
+
     if (this.hls) {
       this.hls.destroy()
     }
+
+    if (this.shaka) {
+      const promise = this.shaka.detach()
+      if (promise) {
+        promise.catch(this.props.onError)
+      }
+    }
+
     if (this.dash) {
       this.dash.reset()
     }
+
     if (this.shouldUseHLS(url)) {
-      getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
-        this.hls = new Hls(hlsOptions)
-        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          this.props.onReady()
-        })
-        this.hls.on(Hls.Events.ERROR, (e, data) => {
-          this.props.onError(e, data, this.hls, Hls)
-        })
-        if (MATCH_CLOUDFLARE_STREAM.test(url)) {
-          const id = url.match(MATCH_CLOUDFLARE_STREAM)[1]
-          this.hls.loadSource(REPLACE_CLOUDFLARE_STREAM.replace('{id}', id))
-        } else {
-          this.hls.loadSource(url)
+      getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(
+        (Hls) => {
+          this.hls = new Hls({ ...hlsOptions, debug })
+          this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            this.props.onReady()
+          })
+          this.hls.on(Hls.Events.ERROR, (e, data) => {
+            this.props.onError(e, data, this.hls, Hls)
+          })
+          if (MATCH_CLOUDFLARE_STREAM.test(url)) {
+            const id = url.match(MATCH_CLOUDFLARE_STREAM)[1]
+            this.hls.loadSource(REPLACE_CLOUDFLARE_STREAM.replace('{id}', id))
+          } else {
+            this.hls.loadSource(url)
+          }
+          this.hls.attachMedia(this.player)
+          this.props.onLoaded()
         }
-        this.hls.attachMedia(this.player)
-        this.props.onLoaded()
-      })
+      )
     }
     if (this.shouldUseDASH(url)) {
-      getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
-        this.dash = dashjs.MediaPlayer().create()
-        this.dash.initialize(this.player, url, this.props.playing)
-        this.dash.on('error', this.props.onError)
-        if (parseInt(dashVersion) < 3) {
-          this.dash.getDebug().setLogToBrowserConsole(false)
-        } else {
-          this.dash.updateSettings({ debug: { logLevel: dashjs.Debug.LOG_LEVEL_NONE } })
+      getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(
+        (dashjs) => {
+          if (!this.dash) {
+            this.dash = dashjs.MediaPlayer().create()
+            this.dash.initialize()
+          }
+          if (dashProtectionData) {
+            this.dash.setProtectionData(dashProtectionData)
+            this.dash
+              .getProtectionController()
+              .setRobustnessLevel('SW_SECURE_CRYPTO')
+          }
+          this.dash.attachView(this.player)
+          this.dash.setAutoPlay(this.props.playing)
+          this.dash.on('error', this.props.onError)
+          if (parseInt(dashVersion) < 3) {
+            this.dash.getDebug().setLogToBrowserConsole(false)
+          } else {
+            this.dash.updateSettings({
+              debug: { logLevel: debug ? dashjs.Debug.LOG_LEVEL_DEBUG : dashjs.Debug.LOG_LEVEL_NONE }
+            })
+          }
+          this.dash.updateSettings(dashOptions)
+          this.dash.attachSource(url)
+          this.props.onLoaded()
         }
-        this.props.onLoaded()
-      })
+      )
+    }
+    if (this.shouldUseShaka(url)) {
+      getSDK(SHAKA_SDK_URL.replace('VERSION', shakaVersion), SHAKA_GLOBAL).then(
+        (Shaka) => {
+          if (!this.shaka) {
+            Shaka.polyfill.installAll()
+            this.shaka = new Shaka.Player()
+          }
+          Shaka.log.setLevel(
+            debug ? Shaka.log.Level.DEBUG : Shaka.log.Level.NONE
+          )
+          this.shaka.resetConfiguration()
+          this.shaka.getNetworkingEngine().clearAllResponseFilters()
+          this.shaka.getNetworkingEngine().clearAllRequestFilters()
+          if (shakaNetworkFilters) {
+            shakaNetworkFilters(this.shaka.getNetworkingEngine())
+          }
+          this.shaka.configure(shakaOptions)
+          const promise = this.shaka.attach(this.player)
+          if (promise) {
+            promise.catch(this.props.onError)
+          }
+          this.shaka
+            .load(url)
+            .then(() => this.props.onLoaded())
+            .catch(this.props.onError)
+        }
+      )
     }
     if (this.shouldUseFLV(url)) {
-      getSDK(FLV_SDK_URL.replace('VERSION', flvVersion), FLV_GLOBAL).then(flvjs => {
-        this.flv = flvjs.createPlayer({ type: 'flv', url })
-        this.flv.attachMediaElement(this.player)
-        this.flv.on(flvjs.Events.ERROR, (e, data) => {
-          this.props.onError(e, data, this.flv, flvjs)
-        })
-        this.flv.load()
-        this.props.onLoaded()
-      })
+      getSDK(FLV_SDK_URL.replace('VERSION', flvVersion), FLV_GLOBAL).then(
+        (flvjs) => {
+          this.flv = flvjs.createPlayer({ type: 'flv', url })
+          this.flv.attachMediaElement(this.player)
+          this.flv.on(flvjs.Events.ERROR, (e, data) => {
+            this.props.onError(e, data, this.flv, flvjs)
+          })
+          this.flv.load()
+          this.props.onLoaded()
+        }
+      )
     }
 
     if (url instanceof Array) {
@@ -233,8 +314,17 @@ export default class FilePlayer extends Component {
 
   stop () {
     this.player.removeAttribute('src')
+    if (this.hls) {
+      this.hls.destroy()
+    }
     if (this.dash) {
       this.dash.reset()
+    }
+    if (this.shaka) {
+      const promise = this.shaka.detach()
+      if (promise) {
+        promise.catch(this.props.onError)
+      }
     }
   }
 
@@ -312,7 +402,8 @@ export default class FilePlayer extends Component {
     const useHLS = this.shouldUseHLS(url)
     const useDASH = this.shouldUseDASH(url)
     const useFLV = this.shouldUseFLV(url)
-    if (url instanceof Array || isMediaStream(url) || useHLS || useDASH || useFLV) {
+    const useShaka = this.shouldUseShaka(url)
+    if (url instanceof Array || isMediaStream(url) || useHLS || useDASH || useFLV || useShaka) {
       return undefined
     }
     if (MATCH_DROPBOX_URL.test(url)) {
