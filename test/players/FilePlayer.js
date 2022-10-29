@@ -147,6 +147,13 @@ test('load - dash', async t => {
       create: () => ({
         on: () => null,
         initialize: () => null,
+        attachView: () => null,
+        setAutoPlay: () => null,
+        attachSource: () => null,
+        setProtectionData: () => null,
+        getProtectionController: () => ({
+          setRobustnessLevel: () => null
+        }),
         getDebug: () => ({
           setLogToBrowserConsole: () => null
         }),
@@ -442,4 +449,87 @@ test('clear srcObject on url change', t => {
   instance.load(url)
   wrapper.setProps({ url: 'file.mpv' })
   t.is(instance.player.srcObject, null)
+})
+
+test('load - shaka - hls', async (t) => {
+  class Player {
+    attach = async () => null;
+    getNetworkingEngine = () => ({
+      clearAllResponseFilters: () => null,
+      clearAllRequestFilters: () => null
+    })
+
+    confgure = () => null;
+    load = async () => null;
+  }
+
+  const Shaka = {
+    log: {
+      setLevel: () => null,
+      Level: {
+        NONE: null
+      }
+    },
+    polyfill: {
+      installAll: () => null
+    },
+    Player
+  }
+
+  const updatedConfig = {
+    ...config,
+    useShakaforHLS: true
+  }
+
+  const url = 'file.m3u8'
+  const getSDK = sinon.stub(utils, 'getSDK').resolves(Shaka)
+  const onLoaded = () => t.pass()
+  const instance = shallow(
+    <FilePlayer url={url} config={updatedConfig} onLoaded={onLoaded} />
+  ).instance()
+  instance.load(url)
+  t.true(getSDK.calledOnce)
+  getSDK.restore()
+})
+
+test('load - shaka - dash', async (t) => {
+  class Player {
+    attach = async () => null;
+    getNetworkingEngine = () => ({
+      clearAllResponseFilters: () => null,
+      clearAllRequestFilters: () => null
+    })
+
+    resetConfiguration = () => null
+    configure = () => null;
+    load = async () => null;
+  }
+
+  const Shaka = {
+    log: {
+      setLevel: () => null,
+      Level: {
+        NONE: null
+      }
+    },
+    polyfill: {
+      installAll: () => null
+    },
+    Player
+  }
+
+  const updatedConfig = {
+    ...config,
+    useShakaforDASH: true
+  }
+
+  const url = 'file.mpd'
+  const getSDK = sinon.stub(utils, 'getSDK').resolves(Shaka)
+  const onLoaded = () => t.pass()
+  const instance = shallow(
+    <FilePlayer url={url} config={updatedConfig} onLoaded={onLoaded} />
+  ).instance()
+  instance.load(url)
+  t.true(getSDK.calledOnce)
+  getSDK.restore()
 })
