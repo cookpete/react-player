@@ -20,6 +20,14 @@ export interface FileConfig {
   hlsVersion?: string
   dashVersion?: string
   flvVersion?: string
+  dashOptions?: Record<string, any>
+  dashProtectionData: Record<string, any>
+  useShakaforDASH?:boolean
+  useShakaforHLS?:boolean
+  shakaOptions?: Record<string, any>
+  shakaVersion?: string
+  shakaNetworkFilters?: (engine: any) => void;
+  debug: boolean
 }
 
 export interface FilePlayerProps extends BaseReactPlayerProps {
