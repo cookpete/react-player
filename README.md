@@ -18,7 +18,7 @@
 </p>
 
 <p align='center'>
-  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
+  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion, Kaltura and Niconico. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
 ### Migrating to ReactPlayer `v2.0`
@@ -181,7 +181,7 @@ Method | Description
 
 #### Light player
 
-The `light` prop will render a video thumbnail with simple play icon, and only load the full player once a user has interacted with the image. [Noembed](https://noembed.com) is used to fetch thumbnails for a video URL. Note that automatic thumbnail fetching for Facebook, Wistia, Mixcloud and file URLs are not supported, and ongoing support for other URLs is not guaranteed.
+The `light` prop will render a video thumbnail with simple play icon, and only load the full player once a user has interacted with the image. [Noembed](https://noembed.com) is used to fetch thumbnails for a video URL. Note that automatic thumbnail fetching for Facebook, Wistia, Mixcloud, Niconico and file URLs are not supported, and ongoing support for other URLs is not guaranteed.
 
 If you want to pass in your own thumbnail to use, set `light` to the image URL rather than `true`.
 

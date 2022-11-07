@@ -4,6 +4,7 @@ import { DailyMotionConfig } from '../dailymotion'
 import { FacebookConfig } from '../facebook'
 import { FileConfig } from '../file'
 import { MixcloudConfig } from '../mixcloud'
+import { NiconicoConfig } from '../niconico'
 import { SoundCloudConfig } from '../soundcloud'
 import { TwitchConfig } from '../twitch'
 import { VidyardConfig } from '../vidyard'
@@ -22,6 +23,7 @@ export interface Config {
   mixcloud?: MixcloudConfig
   vidyard?: VidyardConfig
   twitch?: TwitchConfig
+  niconico?: NiconicoConfig
 }
 
 export interface ReactPlayerProps extends BaseReactPlayerProps {

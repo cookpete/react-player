@@ -70,6 +70,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
   },
   {
+    key: 'niconico',
+    name: 'Niconico',
+    canPlay: canPlay.niconico,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerNiconico' */'./Niconico'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,

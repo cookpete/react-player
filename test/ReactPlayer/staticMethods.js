@@ -22,6 +22,8 @@ test('canPlay()', t => {
   t.true(ReactPlayer.canPlay('https://www.mixcloud.com/mixcloud/meet-the-curators'))
   t.true(ReactPlayer.canPlay('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'))
   t.true(ReactPlayer.canPlay('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4#t=1'))
+  t.true(ReactPlayer.canPlay('https://www.nicovideo.jp/watch/nl13114317?from=69'))
+  t.true(ReactPlayer.canPlay('https://nico.ms/nl13114317?from=69'))
   t.false(ReactPlayer.canPlay('http://example.com/random/path'))
 })
 

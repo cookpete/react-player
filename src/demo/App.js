@@ -356,6 +356,13 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Niconico</th>
+                <td>
+                  {this.renderLoadButton('https://www.nicovideo.jp/watch/nl13114317', 'Test A')}
+                  {this.renderLoadButton('https://www.nicovideo.jp/watch/sm1715919', 'Test B')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4', 'mp4')}

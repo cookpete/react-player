@@ -70,6 +70,10 @@ export const propTypes = {
     mixcloud: shape({
       options: object
     }),
+    niconico: shape({
+      playerId: string,
+      comment: bool
+    }),
     twitch: shape({
       options: object,
       playerId: string
@@ -182,6 +186,10 @@ export const defaultProps = {
       options: {
         hide_cover: 1
       }
+    },
+    niconico: {
+      playerId: null,
+      comment: true
     },
     twitch: {
       options: {},

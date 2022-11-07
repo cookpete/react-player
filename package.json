@@ -1,7 +1,7 @@
 {
   "name": "react-player",
   "version": "2.11.0",
-  "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
+  "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, DailyMotion and Niconico",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -42,6 +42,7 @@
     "vimeo",
     "wistia",
     "dailymotion",
+    "niconico",
     "hls",
     "dash",
     "react-component"
