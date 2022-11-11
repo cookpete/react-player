@@ -155,6 +155,10 @@ export default class FilePlayer extends Component {
 
   load (url) {
     const { hlsVersion, hlsOptions, dashVersion, flvVersion } = this.props.config
+    // In development with StrictMode enabled, component went throught his lifecycle twice
+    // But we empty src in componentWillUnmount, which called after two render methods
+    // So we need to ensure src has desired value
+    this.player.src = this.getSource(url)
     if (this.hls) {
       this.hls.destroy()
     }
