@@ -180,9 +180,9 @@ class App extends Component {
               onPlaybackQualityChange={e => console.log('onPlaybackQualityChange', e)}
               config={{
                 peertube: {
-                  controls:0,
+                  controls: 0,
                   mode: 'p2p-media-loader'
-                },
+                }
               }}
             />
           </div>
@@ -368,7 +368,7 @@ class App extends Component {
                   {this.renderLoadButton('https://peertube.stream/w/kHvWmBaDVogEHgojMSDJjV', 'Test A')}
                   {this.renderLoadButton('https://peertube.stream/w/ek2YfzbW3s1BqsAAmSMG5j', 'Test B')}
                 </td>
-              </tr>              
+              </tr>
               <tr>
                 <th>Files</th>
                 <td>
