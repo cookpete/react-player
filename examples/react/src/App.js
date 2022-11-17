@@ -365,10 +365,17 @@ class App extends Component {
               <tr>
                 <th>PeerTube</th>
                 <td>
+<<<<<<< HEAD
                   {this.renderLoadButton('https://celluloid-media.huma-num.fr/w/5GPbYsxX97Kxo8uLviWG4i', 'Test A')}
                   {this.renderLoadButton('https://celluloid-media.huma-num.fr/w/ngUWp1oYed4xHCjd3xtiem', 'Test B')}
                 </td>
               </tr>
+=======
+                  {this.renderLoadButton('https://peertube.stream/w/kHvWmBaDVogEHgojMSDJjV', 'Test A')}
+                  {this.renderLoadButton('https://peertube.stream/w/ek2YfzbW3s1BqsAAmSMG5j', 'Test B')}
+                </td>
+              </tr>              
+>>>>>>> 72c0791 (add peertube player and update demo)
               <tr>
                 <th>Files</th>
                 <td>
