@@ -1,11 +1,9 @@
 import BaseReactPlayer, { BaseReactPlayerProps } from './base'
 
-export interface PeerTubeConfig {
-  config?: Record<string, any>
-}
+export type PeerTubeConfig = Record<string, any>
 
 export interface PeerTubePlayerProps extends BaseReactPlayerProps {
-  config?: Record<string, any>
+  config?: PeerTubeConfig
 }
 
 export default class PeerTubePlayer extends BaseReactPlayer<PeerTubePlayerProps> {}
