@@ -5,6 +5,7 @@ import { callPlayer, getSDK, queryString } from '../utils'
 const SDK_URL = 'https://unpkg.com/@peertube/embed-api/build/player.min.js'
 const SDK_GLOBAL = 'PeerTubePlayer'
 
+
 export class PeerTubePlayer extends Component {
   static displayName = 'PeerTubePlayer';
   static canPlay = canPlay.peertube;
