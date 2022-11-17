@@ -10,6 +10,7 @@ import { VidyardConfig } from '../vidyard'
 import { VimeoConfig } from '../vimeo'
 import { WistiaConfig } from '../wistia'
 import { YouTubeConfig } from '../youtube'
+import { PeerTubeConfig } from '../peertube'
 
 export interface Config {
   soundcloud?: SoundCloudConfig
@@ -22,6 +23,7 @@ export interface Config {
   mixcloud?: MixcloudConfig
   vidyard?: VidyardConfig
   twitch?: TwitchConfig
+  peertube?: PeerTubeConfig
 }
 
 export interface ReactPlayerProps extends BaseReactPlayerProps {
