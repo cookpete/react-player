@@ -6,6 +6,7 @@ import { canPlay, AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS, FLV_EXTENSI
 const HAS_NAVIGATOR = typeof navigator !== 'undefined'
 const IS_IPAD_PRO = HAS_NAVIGATOR && navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
 const IS_IOS = HAS_NAVIGATOR && (/iPad|iPhone|iPod/.test(navigator.userAgent) || IS_IPAD_PRO) && !window.MSStream
+const IS_SAFARI = HAS_NAVIGATOR && (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) && !window.MSStream
 const HLS_SDK_URL = 'https://cdn.jsdelivr.net/npm/hls.js@VERSION/dist/hls.min.js'
 const HLS_GLOBAL = 'Hls'
 const DASH_SDK_URL = 'https://cdnjs.cloudflare.com/ajax/libs/dashjs/VERSION/dash.all.min.js'
@@ -139,7 +140,7 @@ export default class FilePlayer extends Component {
     if (this.props.config.forceHLS) {
       return true
     }
-    if (IS_IOS) {
+    if (IS_IOS || (this.props.config.forceAppleHLS && IS_SAFARI)) {
       return false
     }
     return HLS_EXTENSIONS.test(url) || MATCH_CLOUDFLARE_STREAM.test(url)
