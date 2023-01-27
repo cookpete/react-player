@@ -10,11 +10,12 @@ import Player from './Player'
 const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */'./Preview'))
 
 const IS_BROWSER = typeof window !== 'undefined' && window.document
+const IS_GLOBAL = typeof global !== 'undefined' && global.window && global.window.document
 const SUPPORTED_PROPS = Object.keys(propTypes)
 
 // Return null when rendering on the server
 // as Suspense is not supported yet
-const UniversalSuspense = IS_BROWSER ? Suspense : () => null
+const UniversalSuspense = IS_BROWSER || IS_GLOBAL ? Suspense : () => null
 
 const customPlayers = []
 
@@ -68,8 +69,9 @@ export const createReactPlayer = (players, fallback) => {
       }
     }
 
-    handleClickPreview = () => {
+    handleClickPreview = (e) => {
       this.setState({ showPreview: false })
+      this.props.onClickPreview(e)
     }
 
     showPreview = () => {
@@ -133,12 +135,14 @@ export const createReactPlayer = (players, fallback) => {
 
     renderPreview (url) {
       if (!url) return null
-      const { light, playIcon } = this.props
+      const { light, playIcon, previewTabIndex, oEmbedUrl } = this.props
       return (
         <Preview
           url={url}
           light={light}
           playIcon={playIcon}
+          previewTabIndex={previewTabIndex}
+          oEmbedUrl={oEmbedUrl}
           onClick={this.handleClickPreview}
         />
       )
@@ -162,12 +166,13 @@ export const createReactPlayer = (players, fallback) => {
     }
 
     render () {
-      const { url, style, width, height, wrapper: Wrapper } = this.props
+      const { url, style, width, height, fallback, wrapper: Wrapper } = this.props
       const { showPreview } = this.state
       const attributes = this.getAttributes(url)
+      const wrapperRef = typeof Wrapper === 'string' ? this.references.wrapper : undefined
       return (
-        <Wrapper ref={this.references.wrapper} style={{ ...style, width, height }} {...attributes}>
-          <UniversalSuspense fallback={null}>
+        <Wrapper ref={wrapperRef} style={{ ...style, width, height }} {...attributes}>
+          <UniversalSuspense fallback={fallback}>
             {showPreview
               ? this.renderPreview(url)
               : this.renderActivePlayer(url)}

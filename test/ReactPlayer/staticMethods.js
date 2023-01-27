@@ -11,6 +11,7 @@ configure({ adapter: new Adapter() })
 
 test('canPlay()', t => {
   t.true(ReactPlayer.canPlay('https://www.youtube.com/watch?v=oUFJJNQGwhk'))
+  t.true(ReactPlayer.canPlay('https://youtube.com/shorts/370kwJ-x5TY?feature=share'))
   t.true(ReactPlayer.canPlay('https://soundcloud.com/miami-nights-1984/accelerated'))
   t.true(ReactPlayer.canPlay('https://www.facebook.com/facebook/videos/10153231379946729'))
   t.true(ReactPlayer.canPlay('https://vimeo.com/90509568'))
@@ -20,6 +21,7 @@ test('canPlay()', t => {
   t.true(ReactPlayer.canPlay('https://www.dailymotion.com/video/x5e9eog'))
   t.true(ReactPlayer.canPlay('https://www.mixcloud.com/mixcloud/meet-the-curators'))
   t.true(ReactPlayer.canPlay('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'))
+  t.true(ReactPlayer.canPlay('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4#t=1'))
   t.false(ReactPlayer.canPlay('http://example.com/random/path'))
 })
 

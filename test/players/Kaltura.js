@@ -5,16 +5,16 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import testPlayerMethods from '../helpers/testPlayerMethods'
 import * as utils from '../../src/utils'
-import Streamable from '../../src/players/Streamable'
+import Kaltura from '../../src/players/Kaltura'
 
 configure({ adapter: new Adapter() })
 
-const TEST_URL = 'https://streamable.com/moo'
+const TEST_URL = 'https://cdnapisec.kaltura.com/p/2507381/sp/250738100/embedIframeJs/uiconf_id/44372392/partner_id/2507381?iframeembed=true&playerId=kaltura_player_1605622336&entry_id=1_i1jmzcn3'
 const TEST_CONFIG = {
   options: {}
 }
 
-testPlayerMethods(Streamable, {
+testPlayerMethods(Kaltura, {
   play: 'play',
   pause: 'pause',
   stop: null,
@@ -22,7 +22,7 @@ testPlayerMethods(Streamable, {
   setVolume: 'setVolume',
   mute: 'mute',
   unmute: 'unmute'
-}, { url: 'https://streamable.com/moo' })
+}, { url: TEST_URL })
 
 test('load()', t => {
   class Player {
@@ -43,7 +43,7 @@ test('load()', t => {
       resolve()
     }
     const instance = shallow(
-      <Streamable url={TEST_URL} onReady={onReady} config={TEST_CONFIG} />
+      <Kaltura url={TEST_URL} onReady={onReady} config={TEST_CONFIG} />
     ).instance()
     instance.iframe = 'mock-iframe'
     instance.load(TEST_URL)
@@ -53,33 +53,34 @@ test('load()', t => {
 })
 
 test('getDuration()', t => {
-  const instance = shallow(<Streamable url={TEST_URL} />).instance()
+  const instance = shallow(<Kaltura url={TEST_URL} />).instance()
   instance.duration = 10
   t.true(instance.getDuration() === 10)
 })
 
 test('getCurrentTime()', t => {
-  const instance = shallow(<Streamable url={TEST_URL} />).instance()
+  const instance = shallow(<Kaltura url={TEST_URL} />).instance()
   instance.currentTime = 5
   t.true(instance.getCurrentTime() === 5)
 })
 
 test('getSecondsLoaded()', t => {
-  const instance = shallow(<Streamable url={TEST_URL} />).instance()
+  const instance = shallow(<Kaltura url={TEST_URL} />).instance()
   instance.secondsLoaded = 5
   t.true(instance.getSecondsLoaded() === 5)
 })
 
 test('render()', t => {
   const style = { width: '100%', height: '100%' }
-  const wrapper = shallow(<Streamable url={TEST_URL} />)
+  const wrapper = shallow(<Kaltura url={TEST_URL} />)
   t.true(wrapper.contains(
     <iframe
-      src='https://streamable.com/o/moo'
+      src={TEST_URL}
       frameBorder='0'
       scrolling='no'
       style={style}
       allow='encrypted-media; autoplay; fullscreen;'
+      referrerPolicy='no-referrer-when-downgrade'
     />
   ))
 })

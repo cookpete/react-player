@@ -33,9 +33,17 @@ export default class FilePlayer extends Component {
       this.removeListeners(this.prevPlayer, prevProps.url)
       this.addListeners(this.player)
     }
+
+    if (
+      this.props.url !== prevProps.url &&
+      !isMediaStream(this.props.url)
+    ) {
+      this.player.srcObject = null
+    }
   }
 
   componentWillUnmount () {
+    this.player.src = ''
     this.removeListeners(this.player)
     if (this.hls) {
       this.hls.destroy()
@@ -51,6 +59,7 @@ export default class FilePlayer extends Component {
     player.addEventListener('seeked', this.onSeek)
     player.addEventListener('ended', this.onEnded)
     player.addEventListener('error', this.onError)
+    player.addEventListener('ratechange', this.onPlayBackRateChange)
     player.addEventListener('enterpictureinpicture', this.onEnablePIP)
     player.addEventListener('leavepictureinpicture', this.onDisablePIP)
     player.addEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
@@ -73,6 +82,7 @@ export default class FilePlayer extends Component {
     player.removeEventListener('seeked', this.onSeek)
     player.removeEventListener('ended', this.onEnded)
     player.removeEventListener('error', this.onError)
+    player.removeEventListener('ratechange', this.onPlayBackRateChange)
     player.removeEventListener('enterpictureinpicture', this.onEnablePIP)
     player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
     player.removeEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
@@ -89,6 +99,7 @@ export default class FilePlayer extends Component {
   onPause = (...args) => this.props.onPause(...args)
   onEnded = (...args) => this.props.onEnded(...args)
   onError = (...args) => this.props.onError(...args)
+  onPlayBackRateChange = (event) => this.props.onPlaybackRateChange(event.target.playbackRate)
   onEnablePIP = (...args) => this.props.onEnablePIP(...args)
 
   onDisablePIP = e => {
@@ -186,6 +197,9 @@ export default class FilePlayer extends Component {
       getSDK(FLV_SDK_URL.replace('VERSION', flvVersion), FLV_GLOBAL).then(flvjs => {
         this.flv = flvjs.createPlayer({ type: 'flv', url })
         this.flv.attachMediaElement(this.player)
+        this.flv.on(flvjs.Events.ERROR, (e, data) => {
+          this.props.onError(e, data, this.flv, flvjs)
+        })
         this.flv.load()
         this.props.onLoaded()
       })
@@ -257,7 +271,11 @@ export default class FilePlayer extends Component {
   }
 
   setPlaybackRate (rate) {
-    this.player.playbackRate = rate
+    try {
+      this.player.playbackRate = rate
+    } catch (error) {
+      this.props.onError(error)
+    }
   }
 
   getDuration () {

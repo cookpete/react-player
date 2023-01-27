@@ -71,6 +71,7 @@ test('render()', t => {
       style={style}
       src='https://www.mixcloud.com/widget/iframe/?feed=/mixcloud/meet-the-curators/'
       frameBorder='0'
+      allow='autoplay'
     />
   ))
 })

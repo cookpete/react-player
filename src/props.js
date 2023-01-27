@@ -17,8 +17,11 @@ export const propTypes = {
   playsinline: bool,
   pip: bool,
   stopOnUnmount: bool,
-  light: oneOfType([bool, string]),
+  light: oneOfType([bool, string, object]),
   playIcon: node,
+  previewTabIndex: number,
+  fallback: node,
+  oEmbedUrl: string,
   wrapper: oneOfType([
     string,
     func,
@@ -43,7 +46,8 @@ export const propTypes = {
       params: object
     }),
     vimeo: shape({
-      playerOptions: object
+      playerOptions: object,
+      title: string
     }),
     file: shape({
       attributes: object,
@@ -60,7 +64,8 @@ export const propTypes = {
     }),
     wistia: shape({
       options: object,
-      playerId: string
+      playerId: string,
+      customControls: array
     }),
     mixcloud: shape({
       options: object
@@ -83,7 +88,9 @@ export const propTypes = {
   onError: func,
   onDuration: func,
   onSeek: func,
+  onPlaybackRateChange: func,
   onProgress: func,
+  onClickPreview: func,
   onEnablePIP: func,
   onDisablePIP: func
 }
@@ -105,7 +112,10 @@ export const defaultProps = {
   pip: false,
   stopOnUnmount: true,
   light: false,
+  fallback: null,
   wrapper: 'div',
+  previewTabIndex: 0,
+  oEmbedUrl: 'https://noembed.com/embed?url={url}',
   config: {
     soundcloud: {
       options: {
@@ -147,7 +157,8 @@ export const defaultProps = {
         byline: false,
         portrait: false,
         title: false
-      }
+      },
+      title: null
     },
     file: {
       attributes: {},
@@ -158,13 +169,14 @@ export const defaultProps = {
       forceDASH: false,
       forceFLV: false,
       hlsOptions: {},
-      hlsVersion: '0.14.16',
+      hlsVersion: '1.1.4',
       dashVersion: '3.1.3',
       flvVersion: '1.5.0'
     },
     wistia: {
       options: {},
-      playerId: null
+      playerId: null,
+      customControls: null
     },
     mixcloud: {
       options: {
@@ -189,7 +201,9 @@ export const defaultProps = {
   onError: noop,
   onDuration: noop,
   onSeek: noop,
+  onPlaybackRateChange: noop,
   onProgress: noop,
+  onClickPreview: noop,
   onEnablePIP: noop,
   onDisablePIP: noop
 }

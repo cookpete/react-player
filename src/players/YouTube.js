@@ -67,6 +67,7 @@ export default class YouTube extends Component {
             }
             this.props.onReady()
           },
+          onPlaybackRateChange: event => this.props.onPlaybackRateChange(event.data),
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
         },

@@ -26,7 +26,10 @@ export default class Preview extends Component {
     this.mounted = false
   }
 
-  fetchImage ({ url, light }) {
+  fetchImage ({ url, light, oEmbedUrl }) {
+    if (React.isValidElement(light)) {
+      return
+    }
     if (typeof light === 'string') {
       this.setState({ image: light })
       return
@@ -36,7 +39,7 @@ export default class Preview extends Component {
       return
     }
     this.setState({ image: null })
-    return window.fetch(`https://noembed.com/embed?url=${url}`)
+    return window.fetch(oEmbedUrl.replace('{url}', url))
       .then(response => response.json())
       .then(data => {
         if (data.thumbnail_url && this.mounted) {
@@ -54,8 +57,9 @@ export default class Preview extends Component {
   }
 
   render () {
-    const { onClick, playIcon } = this.props
+    const { light, onClick, playIcon, previewTabIndex } = this.props
     const { image } = this.state
+    const isElement = React.isValidElement(light)
     const flexCenter = {
       display: 'flex',
       alignItems: 'center',
@@ -65,7 +69,7 @@ export default class Preview extends Component {
       preview: {
         width: '100%',
         height: '100%',
-        backgroundImage: image ? `url(${image})` : undefined,
+        backgroundImage: image && !isElement ? `url(${image})` : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         cursor: 'pointer',
@@ -76,6 +80,7 @@ export default class Preview extends Component {
         borderRadius: ICON_SIZE,
         width: ICON_SIZE,
         height: ICON_SIZE,
+        position: isElement ? 'absolute' : undefined,
         ...flexCenter
       },
       playIcon: {
@@ -95,9 +100,10 @@ export default class Preview extends Component {
         style={styles.preview}
         className='react-player__preview'
         onClick={onClick}
-        tabIndex={0}
+        tabIndex={previewTabIndex}
         onKeyPress={this.handleKeyPress}
       >
+        {isElement ? light : null}
         {playIcon || defaultPlayIcon}
       </div>
     )

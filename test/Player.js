@@ -7,10 +7,6 @@ import Player from '../src/Player'
 
 configure({ adapter: new Adapter() })
 
-Player.prototype.componentWillMount = function () {
-  this.handlePlayerMount({ load: () => null })
-}
-
 test('componentWillUnmount()', t => {
   const wrapper = shallow(<Player />)
   const fake = sinon.fake()
@@ -53,6 +49,7 @@ test('set loadOnReady', t => {
   const stub = sinon.stub(console, 'warn')
   const wrapper = shallow(<Player url='file.mp4' activePlayer={() => null} />)
   const instance = wrapper.instance()
+  instance.handlePlayerMount({ load: () => {} })
   instance.isLoading = true
   wrapper.setProps({ url: 'another-file.mp4' })
   t.true(stub.calledOnce)
@@ -157,6 +154,25 @@ test('progress()', t => {
   }))
 })
 
+test('progress() handlePlayerMount', t => {
+  const load = sinon.fake()
+  const onProgress = sinon.fake()
+  const instance = shallow(<Player url='file.mp4' onProgress={onProgress} />).instance()
+  instance.isReady = true
+  instance.handlePlayerMount({
+    load,
+    getCurrentTime: sinon.fake.returns(10),
+    getSecondsLoaded: sinon.fake.returns(20),
+    getDuration: sinon.fake.returns(40)
+  })
+  t.true(onProgress.calledWith({
+    loaded: 0.5,
+    loadedSeconds: 20,
+    played: 0.25,
+    playedSeconds: 10
+  }))
+})
+
 test('seekTo() - seconds', t => {
   const load = sinon.fake()
   const seekTo = sinon.fake()
@@ -238,6 +254,7 @@ test('loadOnReady', t => {
 test('onPlay()', t => {
   const onPlay = sinon.fake()
   const instance = shallow(<Player onPlay={onPlay} />).instance()
+  instance.handlePlayerMount({ load: () => {} })
   instance.handleDurationCheck = sinon.fake()
   instance.handlePlay()
   t.true(onPlay.calledOnce)
@@ -248,6 +265,7 @@ test('onPlay()', t => {
 test('onStart()', t => {
   const onStart = sinon.fake()
   const instance = shallow(<Player onStart={onStart} />).instance()
+  instance.handlePlayerMount({ load: () => {} })
   instance.handleDurationCheck = sinon.fake()
   instance.startOnPlay = true
   instance.handlePlay()
@@ -258,6 +276,7 @@ test('onStart()', t => {
 test('seekOnPlay', t => {
   const seekTo = sinon.stub(Player.prototype, 'seekTo')
   const instance = shallow(<Player />).instance()
+  instance.handlePlayerMount({ load: () => {} })
   instance.handleDurationCheck = sinon.fake()
   instance.seekOnPlay = 10
   instance.handlePlay()
@@ -298,6 +317,7 @@ test('loopOnEnded', t => {
   activePlayer.loopOnEnded = true
   const seekTo = sinon.stub(Player.prototype, 'seekTo')
   const instance = shallow(<Player loop activePlayer={activePlayer} />).instance()
+  instance.handlePlayerMount({ load: () => {} })
   instance.isPlaying = true
   instance.handleEnded()
   t.true(seekTo.calledOnceWith(0))

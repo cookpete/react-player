@@ -100,6 +100,7 @@ export default class Mixcloud extends Component {
         style={style}
         src={`https://www.mixcloud.com/widget/iframe/?${query}`}
         frameBorder='0'
+        allow='autoplay'
       />
     )
   }

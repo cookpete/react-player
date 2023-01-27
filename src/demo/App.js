@@ -73,6 +73,10 @@ class App extends Component {
     this.setState({ playbackRate: parseFloat(e.target.value) })
   }
 
+  handleOnPlaybackRateChange = (speed) => {
+    this.setState({ playbackRate: parseFloat(speed) })
+  }
+
   handleTogglePIP = () => {
     this.setState({ pip: !this.state.pip })
   }
@@ -174,6 +178,7 @@ class App extends Component {
               onDisablePIP={this.handleDisablePIP}
               onPause={this.handlePause}
               onBuffer={() => console.log('onBuffer')}
+              onPlaybackRateChange={this.handleOnPlaybackRateChange}
               onSeek={e => console.log('onSeek', e)}
               onEnded={this.handleEnded}
               onError={e => console.log('onError', e)}
@@ -344,6 +349,13 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Kaltura</th>
+                <td>
+                  {this.renderLoadButton('https://cdnapisec.kaltura.com/p/2507381/sp/250738100/embedIframeJs/uiconf_id/44372392/partner_id/2507381?iframeembed=true&playerId=kaltura_player_1605622074&entry_id=1_jz404fbl', 'Test A')}
+                  {this.renderLoadButton('https://cdnapisec.kaltura.com/p/2507381/sp/250738100/embedIframeJs/uiconf_id/44372392/partner_id/2507381?iframeembed=true&playerId=kaltura_player_1605622336&entry_id=1_i1jmzcn3', 'Test B')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4', 'mp4')}
@@ -382,6 +394,10 @@ class App extends Component {
               <tr>
                 <th>volume</th>
                 <td>{volume.toFixed(3)}</td>
+              </tr>
+              <tr>
+                <th>speed</th>
+                <td>{playbackRate}</td>
               </tr>
               <tr>
                 <th>played</th>

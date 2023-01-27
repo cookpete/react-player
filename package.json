@@ -1,14 +1,16 @@
 {
   "name": "react-player",
-  "version": "2.7.2",
+  "version": "2.11.0",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/index.js",
-  "typings": "index.d.ts",
+  "typings": "lib/index.d.ts",
   "scripts": {
-    "clean": "rimraf lib lazy demo coverage",
+    "clean": "rimraf lib lazy demo coverage *.d.ts",
     "start": "webpack-dev-server --config webpack/config.babel.js",
     "lint": "standard --verbose | snazzy",
     "lint:fix": "standard --fix",
+    "lint:ts": "ts-standard --verbose types/*.d.ts | snazzy",
+    "lint:ts:fix": "ts-standard --fix types/*.d.ts",
     "test": "cross-env NODE_ENV=test ava",
     "test:coverage": "cross-env NODE_ENV=test nyc ava",
     "test:codecov": "nyc report --reporter=json && codecov -f coverage/coverage-final.json",
@@ -16,10 +18,10 @@
     "build:lazy": "cross-env NODE_ENV=production LAZY=true babel src -d lazy --ignore src/demo",
     "build:demo": "cross-env NODE_ENV=production webpack --config webpack/production.babel.js",
     "build:dist": "cross-env NODE_ENV=production webpack --config webpack/dist.babel.js",
-    "build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js",
+    "build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js && node scripts/standalone-es6.js",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && node scripts/pre-publish.js && cp index.d.ts lazy",
+    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && node scripts/pre-publish.js && cp -r types/* .",
     "postpublish": "node scripts/post-publish.js && npm run clean"
   },
   "repository": {
@@ -44,7 +46,7 @@
     "dash",
     "react-component"
   ],
-  "author": "Pete Cook <pete@cookpete.com> (http://github.com/cookpete)",
+  "author": "Pete Cook (https://github.com/cookpete)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/CookPete/react-player/issues"
@@ -63,6 +65,8 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/register": "^7.9.0",
     "@hot-loader/react-dom": "^16.13.0",
+    "@types/node": "^14.0.24",
+    "@types/react": "^17.0.0",
     "auto-changelog": "^2.0.0",
     "autoprefixer": "^9.7.6",
     "ava": "^3.6.0",
@@ -92,6 +96,8 @@
     "snazzy": "^8.0.0",
     "standard": "^14.3.3",
     "style-loader": "^1.0.0",
+    "ts-standard": "^9.0.0",
+    "typescript": "^4.1.2",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"

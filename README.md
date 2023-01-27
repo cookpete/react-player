@@ -18,7 +18,7 @@
 </p>
 
 <p align='center'>
-  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, and DailyMotion. Not using React? <a href='#standalone-player'>No problem.</a>
+  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
 ### Migrating to ReactPlayer `v2.0`
@@ -61,7 +61,7 @@ import ReactPlayer from 'react-player/lazy'
 
 Demo page: [`https://cookpete.com/react-player`](https://cookpete.com/react-player)
 
-The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending. See [the demo source](https://github.com/CookPete/react-player/blob/master/src/demo/App.js) for a full example.
+The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending. See [the demo source](https://github.com/cookpete/react-player/blob/master/src/demo/App.js) for a full example.
 
 For platforms without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:dist`.
 
@@ -83,7 +83,7 @@ Prop | Description | Default
 `loop` | Set to `true` or `false` to loop the media | `false`
 `controls` | Set to `true` or `false` to display native player controls.<br/>&nbsp; ◦ &nbsp;For Vimeo videos, hiding controls must be enabled by the video owner. | `false`
 `light` | Set to `true` to show just the video thumbnail, which loads the full player on click<br />&nbsp; ◦ &nbsp;Pass in an image URL to override the preview image | `false`
-`volume` | Set the volume of the player, between `0` and `1`<br/>&nbsp; ◦ &nbsp;`null` uses default volume on all players [`#357`](https://github.com/CookPete/react-player/issues/357) | `null`
+`volume` | Set the volume of the player, between `0` and `1`<br/>&nbsp; ◦ &nbsp;`null` uses default volume on all players [`#357`](https://github.com/cookpete/react-player/issues/357) | `null`
 `muted` | Mutes the player<br/>&nbsp; ◦ &nbsp;Only works if `volume` is set | `false`
 `playbackRate` | Set the playback rate of the player<br />&nbsp; ◦ &nbsp;Only supported by YouTube, Wistia, and file paths | `1`
 `width` | Set the width of the player | `640px`
@@ -93,8 +93,10 @@ Prop | Description | Default
 `playsinline` | Applies the `playsinline` attribute where supported | `false`
 `pip` | Set to `true` or `false` to enable or disable [picture-in-picture mode](https://developers.google.com/web/updates/2018/10/watch-video-using-picture-in-picture)<br/>&nbsp; ◦ &nbsp;Only available when playing file URLs in [certain browsers](https://caniuse.com/#feat=picture-in-picture) | `false`
 `stopOnUnmount` | If you are using `pip` you may want to use `stopOnUnmount={false}` to continue playing in picture-in-picture mode even after ReactPlayer unmounts | `true`
+`fallback` | Element or component to use as a fallback if you are using lazy loading | `null`
 `wrapper` | Element or component to use as the container element | `div`
 `playIcon` | Element or component to use as the play icon in light mode
+`previewTabIndex` | Set the tab index to be used on light mode | 0
 `config` | Override options for the various players, see [config prop](#config-prop)
 
 #### Callback props
@@ -112,8 +114,10 @@ Prop | Description
 `onBuffer` | Called when media starts buffering
 `onBufferEnd` | Called when media has finished buffering<br />&nbsp; ◦ &nbsp;Works for files, YouTube and Facebook
 `onSeek` | Called when media seeks with `seconds` parameter
+`onPlaybackRateChange` | Called when playback rate of the player changed<br />&nbsp; ◦ &nbsp;Only supported by YouTube, Vimeo ([if enabled](https://developer.vimeo.com/player/sdk/reference#playbackratechange)), Wistia, and file paths
 `onEnded` | Called when media finishes playing<br />&nbsp; ◦ &nbsp;Does not fire when `loop` is set to `true`
 `onError` | Called when an error occurs whilst attempting to play media
+`onClickPreview` | Called when user clicks the `light` mode preview
 `onEnablePIP` | Called when picture-in-picture mode is enabled
 `onDisablePIP` | Called when picture-in-picture mode is disabled
 
@@ -142,7 +146,7 @@ Key | Options
 `youtube` | `playerVars`: Override the [default player vars](https://developers.google.com/youtube/player_parameters?playerVersion=HTML5)<br />`embedOptions`: Override the [default embed options](https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player)<br />`onUnstarted`: Called when state changes to `unstarted` (usually when video fails to autoplay)
 `facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)<br />`version`: Facebook SDK version<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))<br />`attributes`: Extra data attributes to pass to the `fb-video` element
 `soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)
-`vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/sdk/embed)
+`vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/sdk/embed)<br />`title`: Set the player `iframe` title attribute
 `wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `mixcloud` | `options`: Override the [default player options](https://www.mixcloud.com/developers/widget/#methods)
 `dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)
@@ -221,7 +225,7 @@ See [`jsFiddle` example](https://jsfiddle.net/e6w3rtj1/)
 
 #### SDK Overrides
 
-You can use your own version of any player SDK, assuming the correct `window` global is set before the player mounts. For example, to use a local version of [`hls.js`](https://cdnjs.com/libraries/hls.js), add `<script src='/path/hls.js'></script>` to your app. If `window.Hls` is available when ReactPlayer mounts, it will use that instead of loading `hls.js` from `cdnjs`. See [#605](https://github.com/CookPete/react-player/issues/605#issuecomment-492561909) for more information.
+You can use your own version of any player SDK, assuming the correct `window` global is set before the player mounts. For example, to use a local version of [`hls.js`](https://cdnjs.com/libraries/hls.js), add `<script src='/path/hls.js'></script>` to your app. If `window.Hls` is available when ReactPlayer mounts, it will use that instead of loading `hls.js` from `cdnjs`. See [#605](https://github.com/cookpete/react-player/issues/605#issuecomment-492561909) for more information.
 
 #### Standalone player
 
@@ -325,23 +329,27 @@ You can also specify a `type` for each source by using objects with `src` and `t
 * Twitch videos use the [Twitch Interactive Frames API](https://dev.twitch.tv/docs/embed#interactive-frames-for-live-streams-and-vods)
 * DailyMotion videos use the [DailyMotion Player API](https://developer.dailymotion.com/player)
 * Vidyard videos use the [Vidyard Player API](https://knowledge.vidyard.com/hc/en-us/articles/360019034753-Using-the-Vidyard-Player-API)
+* Kaltura's `react-player` implementation uses the embed.ly [`Player.js`](https://github.com/embedly/player.js) API but Kaltura specific APIs are also available, see [Kaltura Player API](http://player.kaltura.com/docs/index.php?path=kwidget)
 * [Supported file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
   * HLS streams are played using [`hls.js`](https://github.com/video-dev/hls.js)
   * DASH streams are played using [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js)
 
 ### Contributing
 
-See the [contribution guidelines](https://github.com/CookPete/react-player/blob/master/CONTRIBUTING.md) before creating a pull request.
+See the [contribution guidelines](https://github.com/cookpete/react-player/blob/master/CONTRIBUTING.md) before creating a pull request.
 
 ### Thanks
 
-- Thanks to anyone who has [contributed](https://github.com/CookPete/react-player/graphs/contributors).
-- Huge thanks to my Patreon sponsors:
+- Thanks to anyone who has [contributed](https://github.com/cookpete/react-player/graphs/contributors).
+- Big thanks to my [Patreon](https://patreon.com/cookpete) supporters!
 
 <table>
   <tr>
     <td align='center'>
-      <a href='https://github.com/josephfung'><img src='https://avatars3.githubusercontent.com/u/114566?s=120&v=4' /><br />Joseph Fung</a>
+      <a href='https://the100.tv'><img src='https://the100.tv/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fthe100-tv-alone-2k.2e7c7877.png&w=384&q=75' width='120' /><br />Jackson Doherty</a>
+    </td>
+    <td align='center'>
+      <a href='https://github.com/jaxomlotus'><img src='https://avatars.githubusercontent.com/u/485706?s=120&v=4' /><br />Joseph Fung</a>
     </td>
   </tr>
 </table>
