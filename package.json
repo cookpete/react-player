@@ -153,5 +153,6 @@
   },
   "auto-changelog": {
     "breakingPattern": "Breaking changes:"
-  }
+  },
+  "sideEffects": false
 }
