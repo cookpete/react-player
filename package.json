@@ -4,6 +4,7 @@
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
+  "module": "es6/index.js",
   "scripts": {
     "clean": "rimraf lib lazy demo coverage *.d.ts",
     "start": "webpack-dev-server --config webpack/config.babel.js",
@@ -19,9 +20,10 @@
     "build:demo": "cross-env NODE_ENV=production webpack --config webpack/production.babel.js",
     "build:dist": "cross-env NODE_ENV=production webpack --config webpack/dist.babel.js",
     "build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js && node scripts/standalone-es6.js",
+    "build:es6": "rsync --exclude demo -r ./src/ ./es6/ && find ./es6/ -name '*.js' -exec grep -q 'import React' {} \\; -exec mv {} {}x \\;",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && node scripts/pre-publish.js && cp -r types/* .",
+    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6 && node scripts/pre-publish.js && cp -r types/* .",
     "postpublish": "node scripts/post-publish.js && npm run clean"
   },
   "repository": {
