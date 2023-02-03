@@ -23,7 +23,7 @@
     "build:es6": "rsync --exclude demo -r ./src/ ./es6/ && find ./es6/ -name '*.js' -exec grep -q 'import React' {} \\; -exec mv {} {}x \\;",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && node scripts/pre-publish.js && cp -r types/* .",
+    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6 && node scripts/pre-publish.js && cp -r types/* .",
     "postpublish": "node scripts/post-publish.js && npm run clean"
   },
   "repository": {
