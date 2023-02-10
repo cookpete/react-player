@@ -42,7 +42,7 @@ export default {
   },
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.js|\.jsx$/,
       loader: 'babel-loader',
       include: PATH_SRC,
       query: {
