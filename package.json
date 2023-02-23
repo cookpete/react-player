@@ -153,5 +153,7 @@
   "auto-changelog": {
     "breakingPattern": "Breaking changes:"
   },
-  "sideEffects": false
+  "sideEffects": [
+    "./src/standalone.js"
+  ]
 }
