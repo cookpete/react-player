@@ -5,7 +5,6 @@ const MATCH_START_QUERY = /[?&#](?:start|t)=([0-9hms]+)/
 const MATCH_END_QUERY = /[?&#]end=([0-9hms]+)/
 const MATCH_START_STAMP = /(\d+)(h|m|s)/g
 const MATCH_NUMERIC = /^\d+$/
-
 // Parse YouTube URL for a start time param, ie ?t=1h14m30s
 // and return the start time in seconds
 function parseTimeParam (url, pattern) {
@@ -129,7 +128,6 @@ export function omit (object, ...arrays) {
 }
 
 export function callPlayer (method, ...args) {
-  console.log('hello', method, this.player)
   // Util method for calling a method on this.player
   // but guard against errors and console.warn instead
   if (!this.player || !this.player[method]) {
