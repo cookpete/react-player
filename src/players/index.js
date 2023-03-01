@@ -70,6 +70,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
   },
   {
+    key: 'tolstoy',
+    name: 'Tolstoy',
+    canPlay: canPlay.tolstoy,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerTolstoy' */'./Tolstoy'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,

@@ -74,6 +74,7 @@ function getGlobal (key) {
 // Util function to load an external SDK
 // or return the SDK if it is already loaded
 const requests = {}
+
 export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, fetchScript = loadScript) {
   const existingGlobal = getGlobal(sdkGlobal)
   if (existingGlobal && isLoaded(existingGlobal)) {
@@ -128,6 +129,7 @@ export function omit (object, ...arrays) {
 }
 
 export function callPlayer (method, ...args) {
+  console.log('hello', method, this.player)
   // Util method for calling a method on this.player
   // but guard against errors and console.warn instead
   if (!this.player || !this.player[method]) {

@@ -356,6 +356,13 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Tolstoy</th>
+                <td>
+                  {this.renderLoadButton('https://player.gotolstoy.com/a0conpaiujmdw?sneakpeek', 'Test A')}
+                  {this.renderLoadButton('https://player.gotolstoy.com/feed/8cbw6e1lpc5kk?sneakpeek', 'Test B')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4', 'mp4')}
