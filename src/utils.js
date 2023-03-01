@@ -5,6 +5,7 @@ const MATCH_START_QUERY = /[?&#](?:start|t)=([0-9hms]+)/
 const MATCH_END_QUERY = /[?&#]end=([0-9hms]+)/
 const MATCH_START_STAMP = /(\d+)(h|m|s)/g
 const MATCH_NUMERIC = /^\d+$/
+
 // Parse YouTube URL for a start time param, ie ?t=1h14m30s
 // and return the start time in seconds
 function parseTimeParam (url, pattern) {
@@ -73,7 +74,6 @@ function getGlobal (key) {
 // Util function to load an external SDK
 // or return the SDK if it is already loaded
 const requests = {}
-
 export function getSDK (url, sdkGlobal, sdkReady = null, isLoaded = () => true, fetchScript = loadScript) {
   const existingGlobal = getGlobal(sdkGlobal)
   if (existingGlobal && isLoaded(existingGlobal)) {
