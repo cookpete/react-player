@@ -110,7 +110,7 @@ export default class Tolstoy extends Component {
     this.postMessage('tolstoyPlayerMutedChange')
   }
 
-  unmute  ()  {
+  unmute () {
     this.postMessage('tolstoyPlayerMutedChange')
   }
 
