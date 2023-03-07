@@ -364,7 +364,7 @@ class App extends Component {
                   {this.renderLoadButton('https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3', 'mp3')}
                   <br />
                   {this.renderLoadButton('https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8', 'HLS (m3u8)')}
-                  {this.renderLoadButton('http://dash.edgesuite.net/envivio/EnvivioDash3/manifest.mpd', 'DASH (mpd)')}
+                  {this.renderLoadButton('https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_640x360_800k.mpd', 'DASH (mpd)')}
                 </td>
               </tr>
               <tr>
