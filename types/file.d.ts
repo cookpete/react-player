@@ -14,6 +14,7 @@ export interface FileConfig {
   forceVideo?: boolean
   forceAudio?: boolean
   forceHLS?: boolean
+  forceSafariHLS?: boolean
   forceDASH?: boolean
   forceFLV?: boolean
   hlsOptions?: Record<string, any>
