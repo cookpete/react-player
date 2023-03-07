@@ -140,7 +140,10 @@ export default class FilePlayer extends Component {
     if (this.props.config.forceHLS) {
       return true
     }
-    if (IS_IOS || (this.props.config.forceAppleHLS && IS_SAFARI)) {
+    if (IS_SAFARI && this.props.config.forceSafariHLS) {
+      return true
+    }
+    if (IS_IOS) {
       return false
     }
     return HLS_EXTENSIONS.test(url) || MATCH_CLOUDFLARE_STREAM.test(url)

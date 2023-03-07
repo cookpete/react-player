@@ -55,7 +55,7 @@ export const propTypes = {
       forceVideo: bool,
       forceAudio: bool,
       forceHLS: bool,
-      forceAppleHLS: bool,
+      forceSafariHLS: bool,
       forceDASH: bool,
       forceFLV: bool,
       hlsOptions: object,
