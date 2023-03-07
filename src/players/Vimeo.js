@@ -94,6 +94,10 @@ export default class Vimeo extends Component {
     this.callPlayer('setVolume', fraction)
   }
 
+  setMuted (muted) {
+    this.callPlayer('setMuted', muted)
+  }
+
   setLoop (loop) {
     this.callPlayer('setLoop', loop)
   }
@@ -103,13 +107,11 @@ export default class Vimeo extends Component {
   }
 
   mute = () => {
-    this.setVolume(0)
+    this.setMuted(true)
   }
 
   unmute = () => {
-    if (this.props.volume !== null) {
-      this.setVolume(this.props.volume)
-    }
+    this.setMuted(false)
   }
 
   getDuration () {
