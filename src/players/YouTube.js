@@ -29,7 +29,7 @@ export default class YouTube extends Component {
 
   load (url, isReady) {
     const { playing, muted, playsinline, controls, loop, config, onError } = this.props
-    const { playerVars, embedOptions } = config
+    const { playerVars, embedOptions, host } = config
     const id = this.getID(url)
     if (isReady) {
       if (MATCH_PLAYLIST.test(url) || MATCH_USER_UPLOADS.test(url) || url instanceof Array) {
@@ -42,6 +42,11 @@ export default class YouTube extends Component {
         endSeconds: parseEndTime(url) || playerVars.end
       })
       return
+    }
+    const getHost = () => {
+      if (host) return host
+      if (MATCH_NOCOOKIE.test(url)) return NOCOOKIE_HOST
+      return undefined
     }
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, YT => YT.loaded).then(YT => {
       if (!this.container) return
@@ -71,7 +76,7 @@ export default class YouTube extends Component {
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
         },
-        host: MATCH_NOCOOKIE.test(url) ? NOCOOKIE_HOST : undefined,
+        host: getHost(),
         ...embedOptions
       })
     }, onError)

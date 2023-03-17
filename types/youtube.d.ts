@@ -3,6 +3,7 @@ import BaseReactPlayer, { BaseReactPlayerProps } from './base'
 export interface YouTubeConfig {
   playerVars?: Record<string, any>
   embedOptions?: Record<string, any>
+  host: string
   onUnstarted?: () => void
 }
 
