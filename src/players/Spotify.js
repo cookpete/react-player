@@ -33,10 +33,6 @@ export default class Spotify extends Component {
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY)
   }
 
-  onReady () {
-    this.props.onReady()
-  }
-
   initializePlayer = (IFrameAPI, url) => {
     if (!this.container) return
 
@@ -48,7 +44,7 @@ export default class Spotify extends Component {
     const callback = (EmbedController) => {
       this.player = EmbedController
       this.player.addListener('playback_update', this.onStateChange)
-      this.player.addListener('ready', this.onReady)
+      this.player.addListener('ready', this.props.onReady)
     }
     IFrameAPI.createController(this.container, options, callback)
   }
