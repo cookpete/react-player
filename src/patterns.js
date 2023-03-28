@@ -1,6 +1,7 @@
 import { isMediaStream, isBlobUrl } from './utils'
 
 export const MATCH_URL_YOUTUBE = /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//
+export const MATCH_URL_SPOTIFY = /spotify.+$/
 export const MATCH_URL_SOUNDCLOUD = /(?:soundcloud\.com|snd\.sc)\/[^.]+$/
 export const MATCH_URL_VIMEO = /vimeo\.com\/(?!progressive_redirect).+/
 export const MATCH_URL_FACEBOOK = /^https?:\/\/(www\.)?facebook\.com.*\/(video(s)?|watch|story)(\.php?|\/).+$/
@@ -50,6 +51,7 @@ export const canPlay = {
     }
     return MATCH_URL_YOUTUBE.test(url)
   },
+  spotify: url => MATCH_URL_SPOTIFY.test(url),
   soundcloud: url => MATCH_URL_SOUNDCLOUD.test(url) && !AUDIO_EXTENSIONS.test(url),
   vimeo: url => MATCH_URL_VIMEO.test(url) && !VIDEO_EXTENSIONS.test(url) && !HLS_EXTENSIONS.test(url),
   facebook: url => MATCH_URL_FACEBOOK.test(url) || MATCH_URL_FACEBOOK_WATCH.test(url),

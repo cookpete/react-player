@@ -213,7 +213,7 @@ export default class Player extends Component {
 
   handleEnded = () => {
     const { activePlayer, loop, onEnded } = this.props
-    if (activePlayer.loopOnEnded && loop) {
+    if ((activePlayer?._result?.loopOnEnded || activePlayer?.loopOnEnded) && loop) {
       this.seekTo(0)
     }
     if (!loop) {

@@ -10,6 +10,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerYouTube' */'./YouTube'))
   },
   {
+    key: 'spotify',
+    name: 'Spotify',
+    canPlay: canPlay.spotify,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerSpotify' */'./Spotify'))
+  },
+  {
     key: 'soundcloud',
     name: 'SoundCloud',
     canPlay: canPlay.soundcloud,

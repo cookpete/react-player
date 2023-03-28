@@ -283,6 +283,13 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Spotify</th>
+                <td>
+                  {this.renderLoadButton('spotify:track:6Uwi2Qk3H7fM4b4W4ExrAp', 'Test A')}
+                  {this.renderLoadButton('spotify:track:0KhB428j00T8lxKCpHweKw', 'Test B')}
+                </td>
+              </tr>
+              <tr>
                 <th>SoundCloud</th>
                 <td>
                   {this.renderLoadButton('https://soundcloud.com/miami-nights-1984/accelerated', 'Test A')}
