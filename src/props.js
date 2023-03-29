@@ -138,7 +138,6 @@ export const defaultProps = {
         iv_load_policy: 3,
         modestbranding: 1
       },
-      host: undefined,
       embedOptions: {},
       onUnstarted: noop
     },
