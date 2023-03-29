@@ -34,7 +34,6 @@ export const propTypes = {
     youtube: shape({
       playerVars: object,
       embedOptions: object,
-      host: string,
       onUnstarted: func
     }),
     facebook: shape({
