@@ -143,9 +143,9 @@ export default class YouTube extends Component {
     this.callPlayer('stopVideo')
   }
 
-  seekTo (amount) {
+  seekTo (amount, keepPlaying) {
     this.callPlayer('seekTo', amount)
-    if (!this.props.playing) {
+    if (!keepPlaying && !this.props.playing) {
       this.pause()
     }
   }
