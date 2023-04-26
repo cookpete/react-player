@@ -24,7 +24,7 @@ export default class FilePlayer extends Component {
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
     this.addListeners(this.player)
-    this.player.src = this.getSource(this.props.url) // Ensure src is set in strict mode
+    this.player.src = this.getSource(this.props.url) || '' // Ensure src is set in strict mode
     if (IS_IOS) {
       this.player.load()
     }
