@@ -184,6 +184,7 @@ class App extends Component {
               onError={e => console.log('onError', e)}
               onProgress={this.handleProgress}
               onDuration={this.handleDuration}
+              onPlaybackQualityChange={e => console.log('onPlaybackQualityChange', e)}
             />
           </div>
 
