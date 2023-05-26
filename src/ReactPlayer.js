@@ -98,9 +98,9 @@ export const createReactPlayer = (players, fallback) => {
       return this.player.getInternalPlayer(key)
     }
 
-    seekTo = (fraction, type) => {
+    seekTo = (fraction, type, keepPlaying) => {
       if (!this.player) return null
-      this.player.seekTo(fraction, type)
+      this.player.seekTo(fraction, type, keepPlaying)
     }
 
     handleReady = () => {
