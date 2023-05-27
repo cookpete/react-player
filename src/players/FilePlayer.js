@@ -25,7 +25,7 @@ export default class FilePlayer extends Component {
     this.props.onMount && this.props.onMount(this)
     this.addListeners(this.player)
     this.player.src = this.getSource(this.props.url) // Ensure src is set in strict mode
-    if (IS_IOS) {
+    if (IS_IOS || this.props.config.forceDisableHls) {
       this.player.load()
     }
   }
@@ -138,13 +138,10 @@ export default class FilePlayer extends Component {
   }
 
   shouldUseHLS (url) {
-    if (this.props.config.forceHLS) {
+    if ((IS_SAFARI && this.props.config.forceSafariHLS) || this.props.config.forceHLS) {
       return true
     }
-    if (IS_SAFARI && this.props.config.forceSafariHLS) {
-      return true
-    }
-    if (IS_IOS) {
+    if (IS_IOS || this.props.config.forceDisableHls) {
       return false
     }
     return HLS_EXTENSIONS.test(url) || MATCH_CLOUDFLARE_STREAM.test(url)

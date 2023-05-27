@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
-import { canPlay, MATCH_URL_YOUTUBE } from '../patterns'
+import { MATCH_URL_YOUTUBE, canPlay } from '../patterns';
+import { callPlayer, getSDK, parseEndTime, parseStartTime } from '../utils';
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'
@@ -68,6 +68,7 @@ export default class YouTube extends Component {
             this.props.onReady()
           },
           onPlaybackRateChange: event => this.props.onPlaybackRateChange(event.data),
+          onPlaybackQualityChange: event => this.props.onPlaybackQualityChange(event),
           onStateChange: this.onStateChange,
           onError: event => onError(event.data)
         },

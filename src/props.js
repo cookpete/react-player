@@ -56,6 +56,7 @@ export const propTypes = {
       forceAudio: bool,
       forceHLS: bool,
       forceSafariHLS: bool,
+      forceDisableHls: bool,
       forceDASH: bool,
       forceFLV: bool,
       hlsOptions: object,
@@ -90,6 +91,7 @@ export const propTypes = {
   onDuration: func,
   onSeek: func,
   onPlaybackRateChange: func,
+  onPlaybackQualityChange: func,
   onProgress: func,
   onClickPreview: func,
   onEnablePIP: func,
@@ -172,7 +174,8 @@ export const defaultProps = {
       hlsOptions: {},
       hlsVersion: '1.1.4',
       dashVersion: '3.1.3',
-      flvVersion: '1.5.0'
+      flvVersion: '1.5.0',
+      forceDisableHls: false
     },
     wistia: {
       options: {},
@@ -203,6 +206,7 @@ export const defaultProps = {
   onDuration: noop,
   onSeek: noop,
   onPlaybackRateChange: noop,
+  onPlaybackQualityChange: noop,
   onProgress: noop,
   onClickPreview: noop,
   onEnablePIP: noop,
