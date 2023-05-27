@@ -1,0 +1,19 @@
+name: Check format && run test cases
+
+on: [push]
+jobs:
+  Run:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install all dependency
+        run: npm install
+
+      - name: Check format
+        run: npm run lint
+
+      - name: Run all testcases
+        run:  npm test
