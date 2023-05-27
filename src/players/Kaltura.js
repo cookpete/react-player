@@ -61,8 +61,11 @@ export default class Kaltura extends Component {
     // Nothing to do
   }
 
-  seekTo (seconds) {
+  seekTo (seconds, keepPlaying = true) {
     this.callPlayer('setCurrentTime', seconds)
+    if (!keepPlaying) {
+      this.pause()
+    }
   }
 
   setVolume (fraction) {

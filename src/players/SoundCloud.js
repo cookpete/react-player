@@ -65,8 +65,11 @@ export default class SoundCloud extends Component {
     // Nothing to do
   }
 
-  seekTo (seconds) {
+  seekTo (seconds, keepPlaying = true) {
     this.callPlayer('seekTo', seconds * 1000)
+    if (!keepPlaying) {
+      this.pause()
+    }
   }
 
   setVolume (fraction) {

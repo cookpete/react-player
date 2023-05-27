@@ -71,8 +71,11 @@ export default class Facebook extends Component {
     // Nothing to do
   }
 
-  seekTo (seconds) {
+  seekTo (seconds, keepPlaying = true) {
     this.callPlayer('seek', seconds)
+    if (!keepPlaying) {
+      this.pause()
+    }
   }
 
   setVolume (fraction) {

@@ -243,8 +243,11 @@ export default class FilePlayer extends Component {
     }
   }
 
-  seekTo (seconds) {
+  seekTo (seconds, keepPlaying = true) {
     this.player.currentTime = seconds
+    if (!keepPlaying) {
+      this.pause()
+    }
   }
 
   setVolume (fraction) {

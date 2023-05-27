@@ -69,8 +69,11 @@ export default class Twitch extends Component {
     this.callPlayer('pause')
   }
 
-  seekTo (seconds) {
+  seekTo (seconds, keepPlaying = true) {
     this.callPlayer('seek', seconds)
+    if (!keepPlaying) {
+      this.pause()
+    }
   }
 
   setVolume (fraction) {
