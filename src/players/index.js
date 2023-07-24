@@ -70,6 +70,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
   },
   {
+    key: 'asciinema',
+    name: 'Asciinema',
+    canPlay: canPlay.asciinema,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerAsciinema' */'./Asciinema'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,
