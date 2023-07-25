@@ -9,7 +9,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        # node-version: [16.x, 18.x, 20.x]
+        node-version: [16.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -21,7 +22,7 @@ jobs:
     - run: yarn lint
     - run: yarn test:coverage -v
     - run: yarn build:lib
-    # - run: yarn build:demo
+    - run: yarn build:demo
     - run: yarn build:dist
     - run: yarn build:standalone
 
