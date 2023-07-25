@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK } from '../utils'
 import { canPlay, MATCH_URL_ASCIINEMA } from '../patterns'
 
-const SDK_URL = 'http://localhost/asciinema-player.js'
+const SDK_URL = 'https://github.com/asciinema/asciinema-player/releases/download/v3.5.0/asciinema-player.min.js'
 const SDK_GLOBAL = 'AsciinemaPlayer'
 
 export default class Asciinema extends Component {
@@ -11,6 +11,7 @@ export default class Asciinema extends Component {
   static canPlay = canPlay.asciinema
   static loopOnEnded = true
   callPlayer = callPlayer
+  secondsLoaded = null
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
@@ -39,7 +40,9 @@ export default class Asciinema extends Component {
       }
 
       this.player = AsciinemaPlayer.create(url, this.div, {
-        loop: this.props.loop
+        loop: this.props.loop,
+        fit: 'both'
+        // terminalFontSize: 'small'
         // theme: 'solarized-dark'
       })
       this.player.addEventListener('play', this.props.onReady)
@@ -85,13 +88,17 @@ export default class Asciinema extends Component {
     return this.callPlayer('getCurrentTime')
   }
 
+  getSecondsLoaded () {
+    return this.secondsLoaded
+  }
+
   ref = div => {
     this.div = div
   }
 
   render () {
     const style = {
-      width: '73%',
+      width: '100%',
       height: '100%'
     }
     return (

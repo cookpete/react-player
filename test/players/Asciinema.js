@@ -25,7 +25,8 @@ testPlayerMethods(Asciinema, {
   stop: 'pause',
   seekTo: 'seek',
   getDuration: 'getDuration',
-  getCurrentTime: 'getCurrentTime'
+  getCurrentTime: 'getCurrentTime',
+  getSecondsLoaded: null
 }, { config: TEST_CONFIG })
 
 test('load()', async t => {
@@ -50,7 +51,7 @@ test('load()', async t => {
 
 test('render()', t => {
   const style = {
-    width: '73%',
+    width: '100%',
     height: '100%'
   }
   const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} />)

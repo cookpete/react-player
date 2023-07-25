@@ -361,7 +361,7 @@ class App extends Component {
                 <th>Asciinema</th>
                 <td>
                   {this.renderLoadButton('https://asciinema.org/a/597732', 'Test A')}
-                  {this.renderLoadButton('https://asciinema.org/a/596325.cast', 'Test B')}
+                  {this.renderLoadButton('https://asciinema.org/a/595695.cast', 'Test B')}
                 </td>
               </tr>
               <tr>
