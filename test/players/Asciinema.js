@@ -26,6 +26,8 @@ const START_AT = 7
 const FONT_SIZE = 'medium'
 // https://github.com/asciinema/asciinema-player#fit
 const FIT = 'both'
+// https://github.com/asciinema/asciinema-player#controls
+const CONTROLS = true
 
 testPlayerMethods(Asciinema, {
   play: 'play',
@@ -62,7 +64,7 @@ test('render()', t => {
     width: '100%',
     height: '100%'
   }
-  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} poster={POSTER} startAt={START_AT} fit={FIT} fontSize={FONT_SIZE} />)
+  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} poster={POSTER} startAt={START_AT} fit={FIT} fontSize={FONT_SIZE} controls={CONTROLS} />)
   t.true(wrapper.contains(
     <div style={style} />
   ))
