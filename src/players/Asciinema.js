@@ -42,8 +42,6 @@ export default class Asciinema extends Component {
       this.player = AsciinemaPlayer.create(url, this.div, {
         loop: this.props.loop,
         fit: 'both'
-        // terminalFontSize: 'small'
-        // theme: 'solarized-dark'
       })
       this.player.addEventListener('play', this.props.onReady)
       this.player.addEventListener('playing', this.props.onPlay)
