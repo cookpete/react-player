@@ -33,6 +33,7 @@ export default class Asciinema extends Component {
       if (this.player) {
         return
       }
+
       if (!url.endsWith('.cast')) {
         url = url + '.cast'
       }

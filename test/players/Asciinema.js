@@ -12,7 +12,7 @@ global.window = {}
 
 configure({ adapter: new Adapter() })
 
-const TEST_URL = 'https://asciinema.org/a/597732.cast'
+const TEST_URL = 'https://asciinema.org/a/597732'
 const TEST_CONFIG = {
   options: {}
 }
