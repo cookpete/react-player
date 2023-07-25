@@ -16,7 +16,7 @@ export default class Asciinema extends Component {
     this.props.onMount && this.props.onMount(this)
     if (this.props.url) {
       if (!this.props.id) {
-        this.playerID = 'asciinema_player'
+        this.playerID = this.props.url.match(MATCH_URL_ASCIINEMA)[1]
       } else {
         this.playerID = this.props.id
       }
@@ -24,11 +24,23 @@ export default class Asciinema extends Component {
   }
 
   load (url) {
+    if (this.player) {
+      // return
+      this.stop()
+    }
+
     getSDK(SDK_URL, SDK_GLOBAL).then(AsciinemaPlayer => {
       if (this.player) {
         return
       }
-      this.player = AsciinemaPlayer.create(url, this.div)
+      if (!url.endsWith('.cast')) {
+        url = url + '.cast'
+      }
+
+      this.player = AsciinemaPlayer.create(url, this.div, {
+        loop: this.props.loop
+        // theme: 'solarized-dark'
+      })
       this.player.addEventListener('play', this.props.onReady)
       this.player.addEventListener('playing', this.props.onPlay)
       this.player.addEventListener('pause', this.props.onPause)
@@ -46,7 +58,6 @@ export default class Asciinema extends Component {
   }
 
   stop () {
-    this.callPlayer('pause')
   }
 
   seekTo (seconds) {
@@ -54,12 +65,15 @@ export default class Asciinema extends Component {
   }
 
   setVolume (fraction) {
+    console.log('Not supported')
   }
 
   mute = () => {
+    console.log('Not supported')
   }
 
   unmute = () => {
+    console.log('Not supported')
   }
 
   getDuration () {
@@ -68,10 +82,6 @@ export default class Asciinema extends Component {
 
   getCurrentTime () {
     return this.callPlayer('getCurrentTime')
-  }
-
-  getSecondsLoaded () {
-    return null
   }
 
   ref = div => {

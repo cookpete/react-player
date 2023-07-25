@@ -8,6 +8,8 @@ import * as utils from '../../src/utils'
 import Asciinema from '../../src/players/Asciinema'
 import { MATCH_URL_ASCIINEMA } from '../../src/patterns'
 
+global.window = {}
+
 configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://asciinema.org/a/597732.cast'
@@ -23,33 +25,27 @@ testPlayerMethods(Asciinema, {
   stop: 'pause',
   seekTo: 'seek',
   getDuration: 'getDuration',
-  getCurrentTime: 'getCurrentTime',
-  getSecondsLoaded: null
+  getCurrentTime: 'getCurrentTime'
 }, { config: TEST_CONFIG })
 
-test('load()', t => {
-  class Player {
-    constructor (id, options) {
-      t.true(id === PLAYER_ID)
-    }
-
-    addEventListener = (event, fn) => {
-      if (event === 'play') setTimeout(fn, 100)
-    }
+test('load()', async t => {
+  const AsciinemaPlayer = {
+    create: () => ({
+      ready: Promise.resolve(),
+      addEventListener: (event, fn) => {
+        if (event === 'play') setTimeout(fn, 100)
+      }
+    })
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves({ Player })
-  return new Promise(resolve => {
-    const onReady = () => {
-      t.pass()
-      resolve()
-    }
-    const instance = shallow(
-      <Asciinema url={TEST_URL} onReady={onReady} config={TEST_CONFIG} />
-    ).instance()
-    instance.load(TEST_URL)
-    t.true(getSDK.calledOnce)
-    getSDK.restore()
-  })
+
+  const getSDK = sinon.stub(utils, 'getSDK').resolves(AsciinemaPlayer)
+  const onReady = () => t.pass()
+  const instance = shallow(
+    <Asciinema url={TEST_URL} id={PLAYER_ID} onReady={onReady} config={TEST_CONFIG} />
+  ).instance()
+  instance.load(TEST_URL)
+  t.true(getSDK.calledOnce)
+  getSDK.restore()
 })
 
 test('render()', t => {
@@ -57,8 +53,8 @@ test('render()', t => {
     width: '73%',
     height: '100%'
   }
-  const wrapper = shallow(<Asciinema url={TEST_URL} config={TEST_CONFIG} />)
+  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} />)
   t.true(wrapper.contains(
-    <div style={style} id={PLAYER_ID} />
+    <div style={style} />
   ))
 })

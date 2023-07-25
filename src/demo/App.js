@@ -360,7 +360,7 @@ class App extends Component {
               <tr>
                 <th>Asciinema</th>
                 <td>
-                  {this.renderLoadButton('https://asciinema.org/a/597732.cast', 'Test A')}
+                  {this.renderLoadButton('https://asciinema.org/a/597732', 'Test A')}
                   {this.renderLoadButton('https://asciinema.org/a/596325.cast', 'Test B')}
                 </td>
               </tr>

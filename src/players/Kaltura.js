@@ -106,11 +106,11 @@ export default class Kaltura extends Component {
       <iframe
         ref={this.ref}
         src={this.props.url}
-        frameBorder='0'
+        frameborder='0'
         scrolling='no'
         style={style}
         allow='encrypted-media; autoplay; fullscreen;'
-        referrerPolicy='no-referrer-when-downgrade'
+        referrerpolicy='no-referrer-when-downgrade'
       />
     )
   }
