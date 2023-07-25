@@ -18,6 +18,8 @@ const TEST_CONFIG = {
 }
 
 const PLAYER_ID = TEST_URL.match(MATCH_URL_ASCIINEMA)[1]
+const POSTER = 'npt:1:23'
+const START_AT = 7
 
 testPlayerMethods(Asciinema, {
   play: 'play',
@@ -42,7 +44,7 @@ test('load()', async t => {
   const getSDK = sinon.stub(utils, 'getSDK').resolves(AsciinemaPlayer)
   const onReady = () => t.pass()
   const instance = shallow(
-    <Asciinema url={TEST_URL} id={PLAYER_ID} onReady={onReady} config={TEST_CONFIG} />
+    <Asciinema url={TEST_URL} id={PLAYER_ID} onReady={onReady} poster={POSTER} startAt={START_AT} />
   ).instance()
   instance.load(TEST_URL)
   t.true(getSDK.calledOnce)
@@ -54,7 +56,7 @@ test('render()', t => {
     width: '100%',
     height: '100%'
   }
-  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} />)
+  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} poster={POSTER} startAt={START_AT} fit='both' fontSize='medium' />)
   t.true(wrapper.contains(
     <div style={style} />
   ))

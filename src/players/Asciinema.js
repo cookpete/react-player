@@ -16,11 +16,7 @@ export default class Asciinema extends Component {
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
     if (this.props.url) {
-      if (!this.props.id) {
-        this.playerID = this.props.url.match(MATCH_URL_ASCIINEMA)[1]
-      } else {
-        this.playerID = this.props.id
-      }
+      this.playerID = this.props.id ? this.props.id : this.props.url.match(MATCH_URL_ASCIINEMA)[1]
     }
   }
 
@@ -39,9 +35,16 @@ export default class Asciinema extends Component {
         url = url + '.cast'
       }
 
+      const poster = this.props.poster ? this.props.poster : 'npt:00:10'
+      const fit = this.props.fit ? this.props.fit : 'both'
+      const fontSize = this.props.fontSize ? this.props.fit : 'small'
+
       this.player = AsciinemaPlayer.create(url, this.div, {
         loop: this.props.loop,
-        fit: 'both'
+        fit: fit,
+        poster: poster,
+        startAt: this.props.startAt,
+        fontSize: fontSize
       })
       this.player.addEventListener('play', this.props.onReady)
       this.player.addEventListener('playing', this.props.onPlay)
