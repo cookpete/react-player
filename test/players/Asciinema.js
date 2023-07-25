@@ -18,8 +18,14 @@ const TEST_CONFIG = {
 }
 
 const PLAYER_ID = TEST_URL.match(MATCH_URL_ASCIINEMA)[1]
+// https://github.com/asciinema/asciinema-player#poster
 const POSTER = 'npt:1:23'
+// https://github.com/asciinema/asciinema-player#startat
 const START_AT = 7
+// https://github.com/asciinema/asciinema-player#terminalfontsize
+const FONT_SIZE = 'medium'
+// https://github.com/asciinema/asciinema-player#fit
+const FIT = 'both'
 
 testPlayerMethods(Asciinema, {
   play: 'play',
@@ -56,7 +62,7 @@ test('render()', t => {
     width: '100%',
     height: '100%'
   }
-  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} poster={POSTER} startAt={START_AT} fit='both' fontSize='medium' />)
+  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} poster={POSTER} startAt={START_AT} fit={FIT} fontSize={FONT_SIZE} />)
   t.true(wrapper.contains(
     <div style={style} />
   ))

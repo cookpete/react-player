@@ -37,14 +37,14 @@ export default class Asciinema extends Component {
 
       const poster = this.props.poster ? this.props.poster : 'npt:00:10'
       const fit = this.props.fit ? this.props.fit : 'both'
-      const fontSize = this.props.fontSize ? this.props.fit : 'small'
+      const fontSize = this.props.fontSize ? this.props.fontSize : 'small'
 
       this.player = AsciinemaPlayer.create(url, this.div, {
         loop: this.props.loop,
         fit: fit,
         poster: poster,
         startAt: this.props.startAt,
-        fontSize: fontSize
+        terminalFontSize: fontSize
       })
       this.player.addEventListener('play', this.props.onReady)
       this.player.addEventListener('playing', this.props.onPlay)
