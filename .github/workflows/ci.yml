@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: debian-11
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
