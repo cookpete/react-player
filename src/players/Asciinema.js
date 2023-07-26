@@ -35,19 +35,14 @@ export default class Asciinema extends Component {
         url = url + '.cast'
       }
 
-      const poster = this.props.poster ? this.props.poster : 'npt:00:10'
-      const fit = this.props.fit ? this.props.fit : 'both'
-      const fontSize = this.props.fontSize ? this.props.fontSize : 'small'
-      const controls = this.props.controls ? this.props.controls : true
-
-      this.player = AsciinemaPlayer.create(url, this.div, {
-        loop: this.props.loop,
-        fit: fit,
-        poster: poster,
-        startAt: this.props.startAt,
-        terminalFontSize: fontSize,
-        controls: controls
-      })
+      // AsciinemaPlayer config documentation: https://github.com/asciinema/asciinema-player#options
+      const playerConfig = this.props.config
+      playerConfig.loop = this.props.loop
+      playerConfig.speed = this.props.playbackRate
+      if (this.props.controls === true) {
+        playerConfig.controls = this.props.controls
+      }
+      this.player = AsciinemaPlayer.create(url, this.div, playerConfig)
       this.player.addEventListener('play', this.props.onReady)
       this.player.addEventListener('playing', this.props.onPlay)
       this.player.addEventListener('pause', this.props.onPause)

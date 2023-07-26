@@ -13,21 +13,18 @@ global.window = {}
 configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://asciinema.org/a/597732'
+const LOOP = true
+const RATE = 1.5
 const TEST_CONFIG = {
-  options: {}
+  fit: 'both',
+  poster: 'npt:1:21',
+  controls: true,
+  startAt: 7,
+  idleTimeLimit: 2,
+  terminalFontSize: 'medium'
 }
 
 const PLAYER_ID = TEST_URL.match(MATCH_URL_ASCIINEMA)[1]
-// https://github.com/asciinema/asciinema-player#poster
-const POSTER = 'npt:1:23'
-// https://github.com/asciinema/asciinema-player#startat
-const START_AT = 7
-// https://github.com/asciinema/asciinema-player#terminalfontsize
-const FONT_SIZE = 'medium'
-// https://github.com/asciinema/asciinema-player#fit
-const FIT = 'both'
-// https://github.com/asciinema/asciinema-player#controls
-const CONTROLS = true
 
 testPlayerMethods(Asciinema, {
   play: 'play',
@@ -52,7 +49,7 @@ test('load()', async t => {
   const getSDK = sinon.stub(utils, 'getSDK').resolves(AsciinemaPlayer)
   const onReady = () => t.pass()
   const instance = shallow(
-    <Asciinema url={TEST_URL} id={PLAYER_ID} onReady={onReady} poster={POSTER} startAt={START_AT} />
+    <Asciinema url={TEST_URL} id={PLAYER_ID} onReady={onReady} config={TEST_CONFIG} loop={LOOP} playbackRate={RATE} controls />
   ).instance()
   instance.load(TEST_URL)
   t.true(getSDK.calledOnce)
@@ -64,7 +61,8 @@ test('render()', t => {
     width: '100%',
     height: '100%'
   }
-  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} poster={POSTER} startAt={START_AT} fit={FIT} fontSize={FONT_SIZE} controls={CONTROLS} />)
+
+  const wrapper = shallow(<Asciinema url={TEST_URL} id={PLAYER_ID} config={TEST_CONFIG} loop={LOOP} playbackRate={RATE} controls />)
   t.true(wrapper.contains(
     <div style={style} />
   ))
