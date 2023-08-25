@@ -1,0 +1,28 @@
+name: Node.js CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # node-version: [16.x, 18.x, 20.x]
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn install
+    - run: yarn lint
+    - run: yarn test:coverage -v
+    - run: yarn build:lib
+    - run: yarn build:demo
+    - run: yarn build:dist
+    - run: yarn build:standalone
+
