@@ -36,7 +36,7 @@ import React from 'react'
 import ReactPlayer from 'react-player'
 
 // Render a YouTube video player
-<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+<ReactPlayer url='https://www.youtube.com/watch?v=LXb3EKWsInQ' />
 ```
 
 By default, ReactPlayer supports [many different types](#supported-media) of `url`. If you only ever use one type, use imports such as `react-player/youtube` to reduce your bundle size. See [config keys](#config-prop) for all player keys.
@@ -46,7 +46,7 @@ import React from 'react'
 import ReactPlayer from 'react-player/youtube'
 
 // Only loads the YouTube player
-<ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+<ReactPlayer url='https://www.youtube.com/watch?v=LXb3EKWsInQ' />
 ```
 
 If your build system supports `import()` statements, use `react-player/lazy` to lazy load the appropriate player for the `url` you pass in. This adds several `reactPlayer` chunks to your output, but reduces your main bundle size.
