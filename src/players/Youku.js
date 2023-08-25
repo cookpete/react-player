@@ -11,7 +11,7 @@ export default class Youku extends Component {
   static displayName = 'Youku'
   static canPlay = canPlay.youku
   callPlayer = callPlayer
-  playerID = this.props.config.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
+  playerId = this.props.config.playerId || `${PLAYER_ID_PREFIX}${randomString()}`
 
   componentDidMount () {
     this.props.onMount && this.props.onMount(this)
