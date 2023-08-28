@@ -83,8 +83,11 @@ export default class Wistia extends Component {
     this.callPlayer('remove')
   }
 
-  seekTo (seconds) {
+  seekTo (seconds, keepPlaying = true) {
     this.callPlayer('time', seconds)
+    if (!keepPlaying) {
+      this.pause()
+    }
   }
 
   setVolume (fraction) {

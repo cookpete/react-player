@@ -60,8 +60,11 @@ export default class Vidyard extends Component {
     window.VidyardV4.api.destroyPlayer(this.player)
   }
 
-  seekTo (amount) {
+  seekTo (amount, keepPlaying = true) {
     this.callPlayer('seek', amount)
+    if (!keepPlaying) {
+      this.pause()
+    }
   }
 
   setVolume (fraction) {

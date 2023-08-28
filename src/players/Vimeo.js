@@ -90,8 +90,11 @@ export default class Vimeo extends Component {
     this.callPlayer('unload')
   }
 
-  seekTo (seconds) {
+  seekTo (seconds, keepPlaying = true) {
     this.callPlayer('setCurrentTime', seconds)
+    if (!keepPlaying) {
+      this.pause()
+    }
   }
 
   setVolume (fraction) {
