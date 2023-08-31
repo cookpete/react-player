@@ -41,7 +41,8 @@ export default class FilePlayer extends Component {
 
     if (
       this.props.url !== prevProps.url &&
-      !isMediaStream(this.props.url)
+      !isMediaStream(this.props.url) &&
+      !(this.props.url instanceof Array) // Avoid infinite loop
     ) {
       this.player.srcObject = null
     }
