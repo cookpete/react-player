@@ -6,9 +6,6 @@
   <a href='https://www.npmjs.com/package/react-player'>
     <img src='https://img.shields.io/npm/v/react-player.svg' alt='Latest npm version'>
   </a>
-  <a href='https://travis-ci.org/CookPete/react-player'>
-    <img src='https://img.shields.io/travis/CookPete/react-player/master.svg' alt='Build Status'>
-  </a>
   <a href='https://codecov.io/gh/CookPete/react-player'>
     <img src='https://img.shields.io/codecov/c/github/cookpete/react-player.svg' alt='Test Coverage'>
   </a>
@@ -21,9 +18,11 @@
   A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
-### Migrating to ReactPlayer `v2.0`
+### ✨ The future of ReactPlayer
 
-ReactPlayer `v2.0` changes single player imports and adds lazy loading players. Support for `preload` has also been removed, plus some other changes. See [`MIGRATING.md`](/MIGRATING.md) for information.
+Maintenance of ReactPlayer is being taken over by [Mux](https://www.mux.com). The team at Mux have worked on many highly respected projects and are committed to improving video tooling for developers.
+
+ReactPlayer will remain open source, but with a higher rate of fixes and releases over time. Thanks to everyone in the community for your ongoing support.
 
 ### Usage
 
@@ -323,6 +322,10 @@ You can also specify a `type` for each source by using objects with `src` and `t
   }}}
 />
 ```
+
+### Migrating to `v2.0`
+
+ReactPlayer `v2.0` changes single player imports and adds lazy loading players. Support for `preload` has also been removed, plus some other changes. See [`MIGRATING.md`](/MIGRATING.md) for information.
 
 ### Supported media
 
