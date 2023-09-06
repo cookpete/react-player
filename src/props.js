@@ -76,6 +76,14 @@ export const propTypes = {
       options: object,
       playerId: string
     }),
+    asciinema: shape({
+      fit: string,
+      poster: string,
+      startAt: oneOfType([string, number]),
+      terminalFontSize: string,
+      idleTimeLimit: number,
+      controls: oneOfType([string, bool])
+    }),
     vidyard: shape({
       options: object
     })
@@ -190,6 +198,11 @@ export const defaultProps = {
     twitch: {
       options: {},
       playerId: null
+    },
+    asciinema: {
+      fit: 'both',
+      poster: 'npt:00:10',
+      controls: 'auto'
     },
     vidyard: {
       options: {}
