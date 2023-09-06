@@ -70,6 +70,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
   },
   {
+    key: 'youku',
+    name: 'Youku',
+    canPlay: canPlay.youku,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerYouku' */'./Youku'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,
