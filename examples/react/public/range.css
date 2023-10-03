@@ -1,0 +1,83 @@
+/*
+// Styling Cross-Browser Compatible Range Inputs with Sass
+// Github: https://github.com/darlanrod/input-range-sass
+// Author: Darlan Rod https://github.com/darlanrod
+// Version 1.4.1
+// MIT License
+*/
+/* Transformed to plain CSS and removed -ms selectors */
+
+:root {
+  --track-color: #eee;
+  --thumb-color: #666;
+  --thumb-radius: 12px;
+  --thumb-height: 12px;
+  --thumb-width: 12px;
+  --thumb-shadow-size: 0;
+  --thumb-shadow-blur: 0;
+  --thumb-shadow-color: #111;
+  --thumb-border-width: 0;
+  --thumb-border-color: #fff;
+  --track-width: 100%;
+  --track-height: 10px;
+  --track-shadow-size: 0;
+  --track-shadow-blur: 0;
+  --track-shadow-color: #222;
+  --track-border-width: 0;
+  --track-border-color: #000;
+  --track-radius: 5px;
+}
+
+[type='range'] {
+  -webkit-appearance: none;
+  margin: var(--thumb-height) / 2 0;
+  width: var(--track-width);
+}
+
+[type='range']:focus {
+  outline: 0;
+}
+
+[type='range']::-webkit-slider-runnable-track {
+  cursor: pointer;
+  height: var(--track-height);
+  transition: all 0.2s ease;
+  width: var(--track-width);
+  background: var(--track-color);
+  border: var(--track-border-width) solid var(--track-border-color);
+  border-radius: var(--track-radius);
+  box-shadow: var(--track-shadow-size) var(--track-shadow-size) var(--track-shadow-blur) var(--track-shadow-color), 0 0 var(--track-shadow-size) lighten(var(--track-shadow-color), 5%);
+}
+
+[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: var(--thumb-width);
+  height: var(--thumb-height);
+  background: var(--thumb-color);
+  border: var(--thumb-border-width) solid var(--thumb-border-color);
+  border-radius: var(--thumb-radius);
+  margin-top: calc((var(--track-border-width) * -2 + var(--track-height)) / 2 - (var(--thumb-height) / 2));
+  box-shadow: var(--thumb-shadow-size) var(--thumb-shadow-size) var(--thumb-shadow-blur) var(--thumb-shadow-color);
+}
+
+[type='range']::-moz-range-track {
+  cursor: pointer;
+  height: var(--track-height);
+  transition: all 0.2s ease;
+  width: var(--track-width);
+  background: var(--track-color);
+  border: var(--track-border-width) solid var(--track-border-color);
+  border-radius: var(--track-radius);
+  box-shadow: var(--track-shadow-size) var(--track-shadow-size) var(--track-shadow-blur) var(--track-shadow-color);
+}
+
+[type='range']::-moz-range-thumb {
+  cursor: pointer;
+  width: var(--thumb-width);
+  height: var(--thumb-height);
+  background: var(--thumb-color);
+  border: var(--thumb-border-width) solid var(--thumb-border-color);
+  border-radius: var(--thumb-radius);
+  box-shadow: var(--thumb-shadow-size) var(--thumb-shadow-size) var(--thumb-shadow-blur) var(--thumb-shadow-color);
+}

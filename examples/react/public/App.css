@@ -1,5 +1,7 @@
-$column-width: 480px;
-$gutter-width: 20px;
+:root {
+  --column-width: 480px;
+  --gutter-width: 20px;
+}
 
 .app {
   margin: auto;
@@ -10,8 +12,8 @@ $gutter-width: 20px;
 
 .section {
   display: inline-block;
-  max-width: $column-width;
-  margin: $gutter-width;
+  max-width: var(--column-width);
+  margin: var(--gutter-width);
   text-align: left;
   vertical-align: top;
 }
@@ -31,5 +33,5 @@ $gutter-width: 20px;
 }
 
 .footer {
-  margin: $gutter-width;
+  margin: var(--gutter-width);
 }

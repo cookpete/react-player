@@ -1,0 +1,121 @@
+:root {
+  /*
+   * Variables with --color-base prefix define
+   * the hue, and saturation values to be used for
+   * hsla colors.
+   *
+   * ex:
+   *
+   * --color-base-{color}: {hue}, {saturation};
+   *
+   */
+
+  --color-base-white: 0 0%;
+  --color-base-black: 240 100%;
+  --color-base-gray: 60 3%;
+
+  /*
+   * Color palettes are made using --color-base
+   * variables, along with a lightness value to
+   * define different variants.
+   *
+   */
+
+  --color-gray-5: var(--color-base-gray) 5%;
+  --color-gray-10: var(--color-base-gray) 10%;
+  --color-gray-20: var(--color-base-gray) 20%;
+  --color-gray-30: var(--color-base-gray) 30%;
+  --color-gray-40: var(--color-base-gray) 40%;
+  --color-gray-50: var(--color-base-gray) 50%;
+  --color-gray-60: var(--color-base-gray) 60%;
+  --color-gray-70: var(--color-base-gray) 70%;
+  --color-gray-80: var(--color-base-gray) 80%;
+  --color-gray-90: var(--color-base-gray) 90%;
+  --color-gray-95: var(--color-base-gray) 95%;
+}
+
+body {
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+em {
+  font-style: italic;
+}
+
+body,
+h1,
+h2,
+h3 {
+  font-weight: 300;
+  margin-bottom: 1em;
+}
+
+h1 { font-size: 20px; }
+h2 { font-size: 16px; margin-top: 1em; }
+
+table,
+progress {
+  width: 100%;
+}
+
+th,
+td,
+[type=text],
+textarea {
+  margin-right: 5px;
+  padding: 3px 6px;
+}
+
+th {
+  width: 10%;
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+[type=text],
+textarea {
+  width: 200px;
+  padding: 5px;
+  border: 1px solid hsl(var(--color-gray-70));
+  border-radius: 3px;
+  outline: 0;
+}
+
+[type=text]:focus,
+textarea:focus {
+  border-color: hsl(var(--color-gray-50));
+  box-shadow: 0 0 5px hsl(var(--color-gray-90));
+}
+
+textarea {
+  height: 100px;
+  font-family: monospace;
+  vertical-align: bottom;
+}
+
+button {
+  cursor: pointer;
+  margin: 3px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 3px;
+  outline: 0;
+  background-color: hsl(var(--color-gray-95));
+}
+
+button:focus {
+  background-color: hsl(var(--color-gray-90));
+}
+
+button:hover {
+  background-color: hsl(var(--color-gray-80));
+}
+
+button:active {
+  background-color: hsl(var(--color-gray-70));
+}

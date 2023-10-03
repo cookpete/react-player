@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util'
-import { build } from 'esbuild'
+import { build, context } from 'esbuild'
 
 const { values: args, positionals } = parseArgs({
   options: {},
@@ -31,6 +31,18 @@ const options = {
   footer: {
     js: args['footer:js'] ?? ''
   }
+}
+
+if (args.watch) {
+  context(options).then(ctx => {
+    ctx.watch().then(() => {
+      if (args.servedir) {
+        ctx.serve({
+          servedir: args.servedir
+        })
+      }
+    })
+  })
 }
 
 if (!args.watch) {
