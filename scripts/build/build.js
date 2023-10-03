@@ -8,6 +8,9 @@ const { values: args, positionals } = parseArgs({
   allowPositionals: true
 })
 
+// https://esbuild.github.io/api/#live-reload
+const livereloadJs = 'new EventSource(\'/esbuild\').addEventListener(\'change\', () => location.reload());'
+
 const options = {
   target: 'es2019',
   logLevel: 'info',
@@ -29,7 +32,8 @@ const options = {
     '.svg': 'text'
   },
   footer: {
-    js: args['footer:js'] ?? ''
+    js: (args['footer:js'] ?? '') +
+        (args.livereload ? `\n${livereloadJs}` : '')
   }
 }
 

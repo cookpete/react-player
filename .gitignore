@@ -10,5 +10,3 @@ package-lock.json
 /es6
 .idea/
 .vscode/
-/examples/react/public/index.js
-/examples/react/public/index.js.map
