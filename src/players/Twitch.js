@@ -36,7 +36,7 @@ export default class Twitch extends Component {
         channel: isChannel ? id : '',
         height: '100%',
         width: '100%',
-        playsinline: playsinline,
+        playsinline,
         autoplay: this.props.playing,
         muted: this.props.muted,
         // https://github.com/CookPete/react-player/issues/733#issuecomment-549085859

@@ -118,7 +118,7 @@ test('onError - flv', t => {
         if (event === 'error') {
           setTimeout(cb, 100)
         }
-      };
+      }
 
       load = () => {}
     }

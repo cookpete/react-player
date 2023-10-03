@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
 import screenfull from 'screenfull'
 
 import { version } from '../../../package.json'
@@ -127,7 +126,7 @@ class App extends Component {
   }
 
   handleClickFullscreen = () => {
-    screenfull.request(findDOMNode(this.player))
+    screenfull.request(document.querySelector('.react-player'))
   }
 
   renderLoadButton = (url, label) => {
