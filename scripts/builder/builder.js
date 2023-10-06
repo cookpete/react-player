@@ -22,8 +22,31 @@ export async function cliBuild () {
 }
 
 export async function build (positionals, args) {
-// https://esbuild.github.io/api/#live-reload
+  // https://esbuild.github.io/api/#live-reload
   const livereloadJs = 'new EventSource(\'/esbuild\').addEventListener(\'change\', () => location.reload());'
+
+  // Assigns external modules to global variables.
+  // https://github.com/evanw/esbuild/issues/337
+  const plugins = {
+    'global-externals': (arg) => {
+      const options = JSON.parse(arg)
+      const filter = new RegExp(`^${Object.keys(options)}$`)
+
+      return {
+        name: 'global-externals-plugin',
+        setup (build) {
+          build.onResolve({ filter }, (args) => ({
+            path: args.path,
+            namespace: 'global-externals-plugin'
+          }))
+          build.onLoad({ filter: /.*/, namespace: 'global-externals-plugin' }, (args) => {
+            const contents = `module.exports = ${options[args.path]}`
+            return { contents }
+          })
+        }
+      }
+    }
+  }
 
   const options = {
     logLevel: 'info',
@@ -40,7 +63,8 @@ export async function build (positionals, args) {
     external: argsArray(args, 'external'),
     outExtension: argsObject(args, 'out-extension'),
     banner: argsObject(args, 'banner'),
-    plugins: [],
+    plugins: Object.entries(argsObject(args, 'plugin'))
+      .map(([name, options]) => plugins[name](options)),
     define: {
       'globalThis.__TEST__': 'false',
       ...argsObject(args, 'define')
@@ -54,11 +78,6 @@ export async function build (positionals, args) {
       js: (args['footer:js'] ?? '') +
           (args.livereload ? `\n${livereloadJs}` : '')
     }
-  }
-
-  if (args.stdin) {
-    delete options.entryPoints
-    options.stdin = args.stdin
   }
 
   if (process.env.NODE_ENV) {
