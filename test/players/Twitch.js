@@ -1,13 +1,11 @@
-import React from 'react'
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import testPlayerMethods from '../helpers/testPlayerMethods'
-import * as utils from '../../src/utils'
+import React from 'react'
+import { create } from 'react-test-renderer'
+import '../helpers/server-safe-globals'
+import { testPlayerMethods } from '../helpers/helpers'
+import { getSDK as originalGetSDK } from '../../src/utils'
 import Twitch from '../../src/players/Twitch'
-
-configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.twitch.tv/videos/106400740'
 const TEST_CONFIG = {
@@ -38,32 +36,34 @@ test('load()', t => {
     static PAUSE = 'PAUSE'
     static ENDED = 'ENDED'
     constructor (id, options) {
-      t.true(id === 'mock-player-id')
+      t.ok(id === 'mock-player-id')
     }
 
     addEventListener = (event, fn) => {
       if (event === 'READY') setTimeout(fn, 100)
     }
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves({ Player })
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves({ Player })
   return new Promise(resolve => {
     const onReady = () => {
-      t.pass()
+      t.ok(true)
       resolve()
     }
-    const instance = shallow(
+    const instance = create(
       <Twitch url={TEST_URL} onReady={onReady} config={TEST_CONFIG} />
-    ).instance()
+    ).getInstance()
     instance.load(TEST_URL)
-    t.true(getSDK.calledOnce)
+    t.ok(getSDK.calledOnce)
     getSDK.restore()
   })
 })
 
 test('render()', t => {
   const style = { width: '100%', height: '100%' }
-  const wrapper = shallow(<Twitch url={TEST_URL} config={TEST_CONFIG} />)
-  t.true(wrapper.contains(
-    <div style={style} id='mock-player-id' />
-  ))
+  t.deepEqual(
+    create(<Twitch url={TEST_URL} config={TEST_CONFIG} />).toJSON(),
+    create(
+      <div style={style} id='mock-player-id' />
+    ).toJSON()
+  )
 })

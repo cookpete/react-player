@@ -1,59 +1,56 @@
-import React from 'react'
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import React from 'react'
+import { create } from 'react-test-renderer'
 import ReactPlayer from '../../src/index'
-
-configure({ adapter: new Adapter() })
 
 const COMMON_METHODS = ['getDuration', 'getCurrentTime', 'getSecondsLoaded', 'getInternalPlayer']
 
 for (const method of COMMON_METHODS) {
   test(`${method}()`, t => {
-    const instance = shallow(<ReactPlayer />).instance()
+    const instance = create(<ReactPlayer />).getInstance()
     instance.references.player({ [method]: () => 123 })
-    t.true(instance[method]() === 123)
+    t.ok(instance[method]() === 123)
   })
 
   test(`${method}() - null`, t => {
-    const instance = shallow(<ReactPlayer />).instance()
-    t.true(instance[method]() === null)
+    const instance = create(<ReactPlayer />).getInstance()
+    t.ok(instance[method]() === null)
   })
 }
 
 test('getInternalPlayer() - default', t => {
-  const instance = shallow(<ReactPlayer />).instance()
+  const instance = create(<ReactPlayer />).getInstance()
   const getInternalPlayer = sinon.fake.returns('abc')
   instance.references.player({ getInternalPlayer })
-  t.true(instance.getInternalPlayer() === 'abc')
-  t.true(getInternalPlayer.calledOnceWith('player'))
+  t.ok(instance.getInternalPlayer() === 'abc')
+  t.ok(getInternalPlayer.calledOnceWith('player'))
 })
 
 test('seekTo()', t => {
-  const instance = shallow(<ReactPlayer />).instance()
+  const instance = create(<ReactPlayer />).getInstance()
   instance.references.player({ seekTo: sinon.fake() })
   instance.seekTo(5)
-  t.true(instance.player.seekTo.calledOnce)
-  t.true(instance.player.seekTo.calledWith(5))
+  t.ok(instance.player.seekTo.calledOnce)
+  t.ok(instance.player.seekTo.calledWith(5))
 })
 
 test('seekTo() - null', t => {
-  const instance = shallow(<ReactPlayer />).instance()
-  t.true(instance.seekTo() === null)
+  const instance = create(<ReactPlayer />).getInstance()
+  t.ok(instance.seekTo() === null)
 })
 
 test('onReady()', t => {
   const onReady = sinon.fake()
-  const instance = shallow(<ReactPlayer onReady={onReady} />).instance()
+  const instance = create(<ReactPlayer onReady={onReady} />).getInstance()
   instance.handleReady()
-  t.true(onReady.calledWith(instance))
+  t.ok(onReady.calledWith(instance))
 })
 
 test('refs', t => {
-  const instance = shallow(<ReactPlayer />).instance()
+  const instance = create(<ReactPlayer />).getInstance()
   instance.references.player('abc')
   instance.references.wrapper('def')
-  t.true(instance.player === 'abc')
-  t.true(instance.wrapper === 'def')
+  t.ok(instance.player === 'abc')
+  t.ok(instance.wrapper === 'def')
 })

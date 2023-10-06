@@ -1,4 +1,4 @@
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
 import { callPlayer } from '../../src/utils'
 
@@ -20,7 +20,7 @@ test('returns null when player is not available', t => {
     player: null
   }
   t.is(callPlayer.call(fakePlayer, 'testMethod'), null)
-  t.true(stub.calledOnce)
+  t.ok(stub.calledOnce)
   stub.restore()
 })
 
@@ -35,6 +35,6 @@ test('returns null when method is not available', t => {
     }
   }
   t.is(callPlayer.call(fakePlayer, 'testMethod'), null)
-  t.true(stub.calledOnce)
+  t.ok(stub.calledOnce)
   stub.restore()
 })

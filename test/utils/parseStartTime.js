@@ -1,4 +1,4 @@
-import test from 'ava'
+import { test } from 'zora'
 import { parseStartTime } from '../../src/utils'
 
 const YOUTUBE_URL = 'http://youtu.be/12345678901'

@@ -1,13 +1,11 @@
-import React from 'react'
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import testPlayerMethods from '../helpers/testPlayerMethods'
-import * as utils from '../../src/utils'
+import React from 'react'
+import { create } from 'react-test-renderer'
+import '../helpers/server-safe-globals'
+import { testPlayerMethods } from '../helpers/helpers'
+import { getSDK as originalGetSDK } from '../../src/utils'
 import Streamable from '../../src/players/Streamable'
-
-configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://streamable.com/moo'
 const TEST_CONFIG = {
@@ -27,7 +25,7 @@ testPlayerMethods(Streamable, {
 test('load()', t => {
   class Player {
     constructor (iframe) {
-      t.true(iframe === 'mock-iframe')
+      t.ok(iframe === 'mock-iframe')
     }
 
     on = (event, fn) => {
@@ -36,50 +34,52 @@ test('load()', t => {
 
     setLoop = () => null
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves({ Player })
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves({ Player })
   return new Promise(resolve => {
     const onReady = () => {
-      t.pass()
+      t.ok(true)
       resolve()
     }
-    const instance = shallow(
+    const instance = create(
       <Streamable url={TEST_URL} onReady={onReady} config={TEST_CONFIG} />
-    ).instance()
+    ).getInstance()
     instance.iframe = 'mock-iframe'
     instance.load(TEST_URL)
-    t.true(getSDK.calledOnce)
+    t.ok(getSDK.calledOnce)
     getSDK.restore()
   })
 })
 
 test('getDuration()', t => {
-  const instance = shallow(<Streamable url={TEST_URL} />).instance()
+  const instance = create(<Streamable url={TEST_URL} />).getInstance()
   instance.duration = 10
-  t.true(instance.getDuration() === 10)
+  t.ok(instance.getDuration() === 10)
 })
 
 test('getCurrentTime()', t => {
-  const instance = shallow(<Streamable url={TEST_URL} />).instance()
+  const instance = create(<Streamable url={TEST_URL} />).getInstance()
   instance.currentTime = 5
-  t.true(instance.getCurrentTime() === 5)
+  t.ok(instance.getCurrentTime() === 5)
 })
 
 test('getSecondsLoaded()', t => {
-  const instance = shallow(<Streamable url={TEST_URL} />).instance()
+  const instance = create(<Streamable url={TEST_URL} />).getInstance()
   instance.secondsLoaded = 5
-  t.true(instance.getSecondsLoaded() === 5)
+  t.ok(instance.getSecondsLoaded() === 5)
 })
 
 test('render()', t => {
   const style = { width: '100%', height: '100%' }
-  const wrapper = shallow(<Streamable url={TEST_URL} />)
-  t.true(wrapper.contains(
-    <iframe
-      src='https://streamable.com/o/moo'
-      frameBorder='0'
-      scrolling='no'
-      style={style}
-      allow='encrypted-media; autoplay; fullscreen;'
-    />
-  ))
+  t.deepEqual(
+    create(<Streamable url={TEST_URL} />).toJSON(),
+    create(
+      <iframe
+        src='https://streamable.com/o/moo'
+        frameBorder='0'
+        scrolling='no'
+        style={style}
+        allow='encrypted-media; autoplay; fullscreen;'
+      />
+    ).toJSON()
+  )
 })
