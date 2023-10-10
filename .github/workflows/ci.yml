@@ -3,34 +3,12 @@ name: Node.js CI
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        # node-version: [16.x, 18.x, 20.x]
-        node-version: [16.x]
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: npm
-    - run: npm ci
-    - run: npm run build:lib
-    - run: npm run build:demo
-    - run: npm run build:dist
-    - run: npm run build:standalone
-
   lint:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        # node-version: [16.x, 18.x, 20.x]
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -47,8 +25,7 @@ jobs:
 
     strategy:
       matrix:
-        # node-version: [16.x, 18.x, 20.x]
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
     - uses: actions/checkout@v3
@@ -59,3 +36,23 @@ jobs:
         cache: npm
     - run: npm ci
     - run: npm run test:coverage
+
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: npm
+    - run: npm ci
+    - run: npm run build:lib
+    - run: npm run build:demo
+    - run: npm run build:dist
+    - run: npm run build:standalone
