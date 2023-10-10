@@ -166,7 +166,7 @@ Method | Description
 
 #### Instance Methods
 
-Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call instance methods on the player. See [the demo app](src/demo/App.js) for an example of this.
+Use [`ref`](https://facebook.github.io/react/docs/refs-and-the-dom.html) to call instance methods on the player. See [the demo app](examples/react/src/App.js) for an example of this.
 
 Method | Description
 ------ | -----------
