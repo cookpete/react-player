@@ -1,4 +1,4 @@
-import test from 'ava'
+import { test } from 'zora'
 import { queryString } from '../../src/utils'
 
 test('generates query string', t => {

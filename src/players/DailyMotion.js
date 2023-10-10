@@ -35,7 +35,7 @@ export default class DailyMotion extends Component {
         height: '100%',
         video: id,
         params: {
-          controls: controls,
+          controls,
           autoplay: this.props.playing,
           mute: this.props.muted,
           start: parseStartTime(url),

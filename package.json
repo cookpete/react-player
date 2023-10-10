@@ -6,20 +6,20 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib lazy demo coverage *.d.ts",
-    "start": "webpack-dev-server --config webpack/config.babel.js",
+    "start": "cp -r examples/react/public/ demo & npm run build:lib --watch=forever & builder examples/react/src/index.js --format=iife --bundle --outdir=demo --watch --servedir=demo --livereload",
     "lint": "standard --verbose | snazzy",
     "lint:fix": "standard --fix",
     "lint:ts": "ts-standard --verbose types/*.d.ts | snazzy",
     "lint:ts:fix": "ts-standard --fix types/*.d.ts",
-    "test": "cross-env NODE_ENV=test ava",
-    "test:coverage": "cross-env NODE_ENV=test nyc ava",
-    "test:codecov": "nyc report --reporter=json && codecov -f coverage/coverage-final.json",
-    "build:lib": "cross-env NODE_ENV=production babel src -d lib --ignore src/demo",
-    "build:lazy": "cross-env NODE_ENV=production LAZY=true babel src -d lazy --ignore src/demo",
-    "build:demo": "cross-env NODE_ENV=production webpack --config webpack/production.babel.js",
-    "build:dist": "cross-env NODE_ENV=production webpack --config webpack/dist.babel.js",
-    "build:standalone": "cross-env NODE_ENV=production webpack --config webpack/standalone.babel.js && node scripts/standalone-es6.js",
-    "build:es6": "rsync --exclude demo -r ./src/ ./es6/ && find ./es6/ -name '*.js' -exec grep -q 'import React' {} \\; -exec mv {} {}x \\;",
+    "test": "tester test/*.js test/*/*.js --outdir=disttest --platform=node --format=esm --bundle --external:sinon --external:zora --target=esnext --sourcemap=inline",
+    "test:coverage": "c8 --src src --exclude 'test/**' --exclude 'node_modules/**' --exclude 'scripts/**' --exclude-after-remap npm test",
+    "test:codecov": "npm run test:coverage && c8 report --reporter json && codecov -f coverage/coverage-final.json",
+    "build:demo": "cp -r examples/react/public demo && npm run build:lib && builder examples/react/src/index.js --format=iife --bundle --outdir=demo --minify --sourcemap",
+    "build:lib": "builder src/*.js src/players/*.js --outdir=lib --format=cjs",
+    "build:lazy": "builder src/*.js src/players/*.js --outdir=lazy --format=cjs",
+    "build:dist": "builder src/index.js --outfile=dist/ReactPlayer.js --format=iife --bundle --minify --sourcemap --global-name=ReactPlayer --external:react --plugin:global-externals='{\"react\":\"globalThis.React\"}' --footer:js='ReactPlayer = ReactPlayer.default;'",
+    "build:standalone": "builder src/standalone.js --outfile=dist/ReactPlayer.standalone.js --format=iife --bundle --minify --sourcemap --global-name=renderReactPlayer --footer:js='renderReactPlayer = renderReactPlayer.default;'",
+    "build:es6": "builder src/standalone.js --outfile=dist/ReactPlayer.standalone.es6.js --format=esm --bundle --minify",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
     "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6 && node scripts/pre-publish.js && cp -r types/* .",
@@ -29,6 +29,56 @@
     "type": "git",
     "url": "https://github.com/CookPete/react-player.git"
   },
+  "author": "Pete Cook (https://github.com/cookpete)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CookPete/react-player/issues"
+  },
+  "homepage": "https://github.com/CookPete/react-player",
+  "peerDependencies": {
+    "react": ">=16.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.24",
+    "@types/react": "^17.0.0",
+    "auto-changelog": "^2.0.0",
+    "builder": "file:./scripts/builder",
+    "c8": "^8.0.1",
+    "codecov": "^3.6.5",
+    "cross-env": "^7.0.2",
+    "esbuild": "^0.19.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
+    "rimraf": "^3.0.2",
+    "screenfull": "^5.0.2",
+    "sinon": "^16.0.0",
+    "snazzy": "^8.0.0",
+    "standard": "^17.1.0",
+    "tester": "file:./scripts/tester",
+    "ts-standard": "^12.0.2",
+    "typescript": "^4.1.2",
+    "zora": "^5.2.0"
+  },
+  "dependencies": {
+    "deepmerge": "^4.0.0",
+    "load-script": "^1.0.0",
+    "memoize-one": "^5.1.1",
+    "prop-types": "^15.7.2",
+    "react-fast-compare": "^3.0.1"
+  },
+  "standard": {
+    "ignore": [
+      "/dist/*"
+    ]
+  },
+  "auto-changelog": {
+    "breakingPattern": "Breaking changes:"
+  },
+  "sideEffects": [
+    "./src/standalone.js",
+    "./test/**/*"
+  ],
   "keywords": [
     "react",
     "media",
@@ -46,114 +96,5 @@
     "hls",
     "dash",
     "react-component"
-  ],
-  "author": "Pete Cook (https://github.com/cookpete)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/CookPete/react-player/issues"
-  },
-  "homepage": "https://github.com/CookPete/react-player",
-  "peerDependencies": {
-    "react": ">=16.6.0"
-  },
-  "devDependencies": {
-    "@ava/babel": "^1.0.1",
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/polyfill": "^7.8.7",
-    "@babel/preset-env": "^7.9.5",
-    "@babel/preset-react": "^7.9.4",
-    "@babel/register": "^7.9.0",
-    "@hot-loader/react-dom": "^16.13.0",
-    "@types/node": "^14.0.24",
-    "@types/react": "^17.0.0",
-    "auto-changelog": "^2.0.0",
-    "autoprefixer": "^9.7.6",
-    "ava": "^3.6.0",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
-    "babel-plugin-istanbul": "^6.0.0",
-    "codecov": "^3.6.5",
-    "cross-env": "^7.0.2",
-    "css-loader": "^3.5.2",
-    "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
-    "file-loader": "^6.0.0",
-    "html-webpack-plugin": "^4.2.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "nyc": "^15.0.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
-    "postcss-advanced-variables": "^3.0.1",
-    "postcss-loader": "^3.0.0",
-    "postcss-nested": "^4.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.12.20",
-    "rimraf": "^3.0.2",
-    "sanitize.css": "^11.0.0",
-    "screenfull": "^5.0.2",
-    "sinon": "^9.0.2",
-    "snazzy": "^8.0.0",
-    "standard": "^14.3.3",
-    "style-loader": "^1.0.0",
-    "ts-standard": "^9.0.0",
-    "typescript": "^4.1.2",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
-  },
-  "dependencies": {
-    "deepmerge": "^4.0.0",
-    "load-script": "^1.0.0",
-    "memoize-one": "^5.1.1",
-    "prop-types": "^15.7.2",
-    "react-fast-compare": "^3.0.1"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {},
-      "postcss-advanced-variables": {},
-      "postcss-nested": {}
-    }
-  },
-  "standard": {
-    "parser": "babel-eslint",
-    "ignore": [
-      "/dist/*"
-    ]
-  },
-  "ava": {
-    "files": [
-      "test/**/*",
-      "!test/helpers"
-    ],
-    "require": [
-      "@babel/register",
-      "@babel/polyfill"
-    ],
-    "babel": {
-      "compileAsTests": [
-        "test/helpers/*"
-      ]
-    }
-  },
-  "nyc": {
-    "all": true,
-    "include": "src",
-    "sourceMap": false,
-    "instrument": false,
-    "report-dir": "./coverage",
-    "temp-directory": "./coverage/.nyc_output",
-    "reporter": [
-      "text",
-      "html"
-    ]
-  },
-  "auto-changelog": {
-    "breakingPattern": "Breaking changes:"
-  },
-  "sideEffects": [
-    "./src/standalone.js"
   ]
 }

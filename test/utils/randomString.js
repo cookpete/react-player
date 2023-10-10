@@ -1,4 +1,4 @@
-import test from 'ava'
+import { test } from 'zora'
 import { randomString } from '../../src/utils'
 
 test('returns a 5 character string', t => {
@@ -10,7 +10,7 @@ test('returns different strings', t => {
   const a = randomString()
   const b = randomString()
   const c = randomString()
-  t.not(a, b)
-  t.not(a, c)
-  t.not(b, c)
+  t.isNot(a, b)
+  t.isNot(a, c)
+  t.isNot(b, c)
 })

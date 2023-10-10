@@ -1,13 +1,11 @@
-import React from 'react'
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import testPlayerMethods from '../helpers/testPlayerMethods'
-import * as utils from '../../src/utils'
+import React from 'react'
+import { create } from 'react-test-renderer'
+import '../helpers/server-safe-globals'
+import { testPlayerMethods } from '../helpers/helpers'
+import { getSDK as originalGetSDK } from '../../src/utils'
 import SoundCloud from '../../src/players/SoundCloud'
-
-configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://soundcloud.com/miami-nights-1984/accelerated'
 const TEST_CONFIG = {
@@ -26,7 +24,7 @@ testPlayerMethods(SoundCloud, {
 
 test('load()', t => {
   const Widget = iframe => {
-    t.true(iframe === 'mock-iframe')
+    t.ok(iframe === 'mock-iframe')
     return {
       bind: () => null,
       getDuration: fn => fn(1000),
@@ -41,37 +39,37 @@ test('load()', t => {
     ERROR: 'ERROR'
   }
   const SC = { Widget }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves(SC)
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves(SC)
   return new Promise(resolve => {
     const onReady = () => {
-      t.pass()
+      t.ok(true)
       resolve()
     }
-    const instance = shallow(<SoundCloud onReady={onReady} config={TEST_CONFIG} />).instance()
+    const instance = create(<SoundCloud onReady={onReady} config={TEST_CONFIG} />).getInstance()
     instance.iframe = 'mock-iframe'
     instance.load(TEST_URL)
-    t.true(getSDK.calledOnce)
+    t.ok(getSDK.calledOnce)
     getSDK.restore()
   })
 })
 
 test('getDuration()', t => {
-  const instance = shallow(<SoundCloud />).instance()
+  const instance = create(<SoundCloud />).getInstance()
   instance.duration = 10
-  t.true(instance.getDuration() === 10)
+  t.ok(instance.getDuration() === 10)
 })
 
 test('getCurrentTime()', t => {
-  const instance = shallow(<SoundCloud />).instance()
+  const instance = create(<SoundCloud />).getInstance()
   instance.currentTime = 5
-  t.true(instance.getCurrentTime() === 5)
+  t.ok(instance.getCurrentTime() === 5)
 })
 
 test('getSecondsLoaded()', t => {
-  const instance = shallow(<SoundCloud />).instance()
+  const instance = create(<SoundCloud />).getInstance()
   instance.duration = 10
   instance.fractionLoaded = 0.5
-  t.true(instance.getSecondsLoaded() === 5)
+  t.ok(instance.getSecondsLoaded() === 5)
 })
 
 test('render()', t => {
@@ -80,13 +78,15 @@ test('render()', t => {
     height: '100%',
     display: undefined
   }
-  const wrapper = shallow(<SoundCloud url={TEST_URL} />)
-  t.true(wrapper.contains(
-    <iframe
-      src='https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fmiami-nights-1984%2Faccelerated'
-      style={style}
-      frameBorder={0}
-      allow='autoplay'
-    />
-  ))
+  t.deepEqual(
+    create(<SoundCloud url={TEST_URL} />).toJSON(),
+    create(
+      <iframe
+        src='https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fmiami-nights-1984%2Faccelerated'
+        style={style}
+        frameBorder={0}
+        allow='autoplay'
+      />
+    ).toJSON()
+  )
 })

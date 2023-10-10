@@ -1,13 +1,11 @@
-import React from 'react'
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import testPlayerMethods from '../helpers/testPlayerMethods'
-import * as utils from '../../src/utils'
+import React from 'react'
+import { create } from 'react-test-renderer'
+import '../helpers/server-safe-globals'
+import { testPlayerMethods } from '../helpers/helpers'
+import { getSDK as originalGetSDK } from '../../src/utils'
 import Mixcloud from '../../src/players/Mixcloud'
-
-configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.mixcloud.com/mixcloud/meet-the-curators'
 const TEST_CONFIG = {
@@ -41,37 +39,39 @@ test('load()', async t => {
       }
     })
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves(MixcloudSDK)
-  const onReady = () => t.pass()
-  const instance = shallow(
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves(MixcloudSDK)
+  const onReady = () => t.ok(true)
+  const instance = create(
     <Mixcloud url={TEST_URL} config={TEST_CONFIG} onReady={onReady} />
-  ).instance()
+  ).getInstance()
   instance.load(TEST_URL)
-  t.true(getSDK.calledOnce)
+  t.ok(getSDK.calledOnce)
   getSDK.restore()
 })
 
 test('getDuration()', t => {
-  const instance = shallow(<Mixcloud url={TEST_URL} config={TEST_CONFIG} />).instance()
+  const instance = create(<Mixcloud url={TEST_URL} config={TEST_CONFIG} />).getInstance()
   instance.duration = 10
-  t.true(instance.getDuration() === 10)
+  t.ok(instance.getDuration() === 10)
 })
 
 test('getCurrentTime()', t => {
-  const instance = shallow(<Mixcloud url={TEST_URL} config={TEST_CONFIG} />).instance()
+  const instance = create(<Mixcloud url={TEST_URL} config={TEST_CONFIG} />).getInstance()
   instance.currentTime = 5
-  t.true(instance.getCurrentTime() === 5)
+  t.ok(instance.getCurrentTime() === 5)
 })
 
 test('render()', t => {
   const style = { width: '100%', height: '100%' }
-  const wrapper = shallow(<Mixcloud url={TEST_URL} config={TEST_CONFIG} />)
-  t.true(wrapper.contains(
-    <iframe
-      style={style}
-      src='https://www.mixcloud.com/widget/iframe/?feed=/mixcloud/meet-the-curators/'
-      frameBorder='0'
-      allow='autoplay'
-    />
-  ))
+  t.deepEqual(
+    create(<Mixcloud url={TEST_URL} config={TEST_CONFIG} />).toJSON(),
+    create(
+      <iframe
+        style={style}
+        src='https://www.mixcloud.com/widget/iframe/?feed=/mixcloud/meet-the-curators/'
+        frameBorder='0'
+        allow='autoplay'
+      />
+    ).toJSON()
+  )
 })

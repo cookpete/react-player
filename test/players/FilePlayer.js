@@ -1,61 +1,56 @@
-import React from 'react'
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import FilePlayer from '../../src/players/FilePlayer'
+import React from 'react'
+import { create } from 'react-test-renderer'
+import '../helpers/server-safe-globals'
+import { containsMatchingElement } from '../helpers/helpers'
 import { defaultProps } from '../../src/props'
-import * as utils from '../../src/utils'
+import { getSDK as originalGetSDK } from '../../src/utils'
+import FilePlayer from '../../src/players/FilePlayer'
 
-class MockMediaStream { }
-
-global.navigator = { }
-global.window = {
-  MediaStream: MockMediaStream,
-  URL: {
-    createObjectURL: url => 'mockObjectURL'
-  }
-}
-
-configure({ adapter: new Adapter() })
+test.skip = (name) => console.log(`Skipped ${name}`)
 
 const config = defaultProps.config.file
 
-test.beforeEach(t => {
-  FilePlayer.prototype.componentWillMount = function () {
-    this.ref({
+const setProps = (wrapper, props) => {
+  const current = wrapper.toTree()
+  wrapper.update(React.createElement(current.type, {
+    ...current.props,
+    ...props
+  }))
+}
+
+const render = (comp) => {
+  return create(comp, {
+    createNodeMock: () => ({
       addEventListener: () => null,
       removeEventListener: () => null,
       setAttribute: () => null,
       removeAttribute: () => null
     })
-  }
-})
-
-test.afterEach(t => {
-  FilePlayer.prototype.componentWillMount = undefined
-})
+  })
+}
 
 test('listeners', t => {
   const addListeners = sinon.spy(FilePlayer.prototype, 'addListeners')
   const removeListeners = sinon.spy(FilePlayer.prototype, 'removeListeners')
-  const wrapper = shallow(
+  const wrapper = render(
     <FilePlayer url='file.mp4' config={config} playsinline />
   )
-  t.true(addListeners.calledOnce)
-  t.true(removeListeners.notCalled)
-  wrapper.instance().prevPlayer = { removeEventListener: () => null }
-  wrapper.setProps({ url: 'file.mp3' })
-  t.true(addListeners.calledTwice)
+  t.ok(addListeners.calledOnce)
+  t.ok(removeListeners.notCalled)
+  wrapper.getInstance().prevPlayer = { removeEventListener: () => null }
+  setProps(wrapper, { url: 'file.mp3' })
+  t.ok(addListeners.calledTwice)
   wrapper.unmount()
-  t.true(removeListeners.calledTwice)
+  t.ok(removeListeners.calledTwice)
 })
 
 test('onSeek', t => {
   const onSeek = sinon.fake()
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} onSeek={onSeek} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} onSeek={onSeek} />).getInstance()
   instance.onSeek({ target: { currentTime: 10 } })
-  t.true(onSeek.calledOnceWith(10))
+  t.ok(onSeek.calledOnceWith(10))
 })
 
 test('load - hls', async t => {
@@ -66,18 +61,18 @@ test('load - hls', async t => {
     attachMedia = () => null
   }
   const url = 'file.m3u8'
-  const getSDK = sinon.stub(utils, 'getSDK').resolves(Hls)
-  const onLoaded = () => t.pass()
-  const instance = shallow(<FilePlayer url={url} config={config} onLoaded={onLoaded} />).instance()
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves(Hls)
+  const onLoaded = () => t.ok(true)
+  const instance = render(<FilePlayer url={url} config={config} onLoaded={onLoaded} />).getInstance()
   instance.load(url)
-  t.true(getSDK.calledOnce)
+  t.ok(getSDK.calledOnce)
   getSDK.restore()
 })
 
 test('onError - hls', t => {
   return new Promise(resolve => {
     const onError = () => {
-      t.pass()
+      t.ok(true)
       resolve()
     }
     class Hls {
@@ -92,11 +87,11 @@ test('onError - hls', t => {
       attachMedia = () => null
     }
     const url = 'file.m3u8'
-    const getSDK = sinon.stub(utils, 'getSDK').resolves(Hls)
+    const getSDK = sinon.stub(originalGetSDK, 'stub').resolves(Hls)
     const onLoaded = () => null
-    const instance = shallow(
+    const instance = render(
       <FilePlayer url={url} config={config} onLoaded={onLoaded} onError={onError} />
-    ).instance()
+    ).getInstance()
     instance.load(url)
     getSDK.restore()
   })
@@ -105,7 +100,7 @@ test('onError - hls', t => {
 test('onError - flv', t => {
   return new Promise(resolve => {
     const onError = () => {
-      t.pass()
+      t.ok(true)
       resolve()
     }
 
@@ -118,7 +113,7 @@ test('onError - flv', t => {
         if (event === 'error') {
           setTimeout(cb, 100)
         }
-      };
+      }
 
       load = () => {}
     }
@@ -131,11 +126,11 @@ test('onError - flv', t => {
       static createPlayer = () => new FlvPlayer()
     }
     const url = 'file.flv'
-    const getSDK = sinon.stub(utils, 'getSDK').resolves(flvjs)
+    const getSDK = sinon.stub(originalGetSDK, 'stub').resolves(flvjs)
     const onLoaded = () => null
-    const instance = shallow(
+    const instance = render(
       <FilePlayer url={url} config={config} onLoaded={onLoaded} onError={onError} />
-    ).instance()
+    ).getInstance()
     instance.load(url)
     getSDK.restore()
   })
@@ -158,25 +153,25 @@ test('load - dash', async t => {
     }
   }
   const url = 'file.mpd'
-  const getSDK = sinon.stub(utils, 'getSDK').resolves(dashjs)
-  const onLoaded = () => t.pass()
-  const instance = shallow(<FilePlayer url={url} config={config} onLoaded={onLoaded} />).instance()
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves(dashjs)
+  const onLoaded = () => t.ok(true)
+  const instance = render(<FilePlayer url={url} config={config} onLoaded={onLoaded} />).getInstance()
   instance.load(url)
-  t.true(getSDK.calledOnce)
+  t.ok(getSDK.calledOnce)
   getSDK.restore()
 })
 
 test('load - MediaStream', t => {
-  const url = new MockMediaStream()
-  const instance = shallow(<FilePlayer url={url} config={config} />).instance()
+  const url = new globalThis.MediaStream()
+  const instance = render(<FilePlayer url={url} config={config} />).getInstance()
   instance.load(url)
-  t.true(instance.player.srcObject === url)
+  t.ok(instance.player.srcObject === url)
   t.falsy(instance.player.src)
 })
 
 test('load - MediaStream (srcObject not supported)', t => {
-  const url = new MockMediaStream()
-  const instance = shallow(<FilePlayer url={url} config={config} />).instance()
+  const url = new globalThis.MediaStream()
+  const instance = render(<FilePlayer url={url} config={config} />).getInstance()
   Object.defineProperty(instance.player, 'srcObject', {
     get: () => null,
     set: () => {
@@ -184,21 +179,21 @@ test('load - MediaStream (srcObject not supported)', t => {
     }
   })
   instance.load(url)
-  t.true(instance.player.src === 'mockObjectURL')
+  t.ok(instance.player.src === 'mockObjectURL')
   t.falsy(instance.player.srcObject)
 })
 
 test('load - Blob URI', t => {
   const url = 'blob:http://example.com:ceeed153-91f1-4456-a4a7-cb4085810cc4"'
-  const wrapper = shallow(<FilePlayer url={url} config={config} />)
+  const wrapper = render(<FilePlayer url={url} config={config} />)
 
-  t.true(wrapper.containsMatchingElement(
+  t.ok(containsMatchingElement(wrapper,
     <video src={url}>{false}{[]}</video>
   ))
 })
 
 test('forceVideo', t => {
-  const wrapper = shallow(
+  const wrapper = render(
     <FilePlayer
       url='file.mp3' config={{
         ...config,
@@ -206,13 +201,13 @@ test('forceVideo', t => {
       }}
     />
   )
-  t.true(wrapper.containsMatchingElement(
+  t.ok(containsMatchingElement(wrapper,
     <video src='file.mp3'>{false}{[]}</video>
   ))
 })
 
 test('forceAudio', t => {
-  const wrapper = shallow(
+  const wrapper = render(
     <FilePlayer
       url='file.mp4' config={{
         ...config,
@@ -220,13 +215,13 @@ test('forceAudio', t => {
       }}
     />
   )
-  t.true(wrapper.containsMatchingElement(
+  t.ok(containsMatchingElement(wrapper,
     <audio src='file.mp4'>{false}{[]}</audio>
   ))
 })
 
 test('render video poster', t => {
-  const wrapper = shallow(
+  const wrapper = render(
     <FilePlayer
       url='file.mp3' config={{
         ...config,
@@ -234,132 +229,132 @@ test('render video poster', t => {
       }}
     />
   )
-  t.true(wrapper.containsMatchingElement(
+  t.ok(containsMatchingElement(wrapper,
     <video src='file.mp3' poster='poster.png'>{false}{[]}</video>
   ))
 })
 
 test('play()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.player.play = sinon.fake()
   instance.play()
-  t.true(instance.player.play.calledOnce)
+  t.ok(instance.player.play.calledOnce)
 })
 
 test('play() - promise', t => {
-  const onError = () => t.pass()
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} onError={onError} />).instance()
+  const onError = () => t.ok(true)
+  const instance = render(<FilePlayer url='file.mp4' config={config} onError={onError} />).getInstance()
   instance.player.play = sinon.fake.returns({ catch: cb => cb() })
   instance.play()
-  t.true(instance.player.play.calledOnce)
+  t.ok(instance.player.play.calledOnce)
 })
 
 test('pause()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.player.pause = sinon.fake()
   instance.pause()
-  t.true(instance.player.pause.calledOnce)
+  t.ok(instance.player.pause.calledOnce)
 })
 
 test('stop()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.player.removeAttribute = sinon.fake()
   instance.stop()
-  t.true(instance.player.removeAttribute.calledOnceWith('src'))
+  t.ok(instance.player.removeAttribute.calledOnceWith('src'))
 })
 
 test('stop() - dash', t => {
-  const instance = shallow(<FilePlayer url='file.mpd' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mpd' config={config} />).getInstance()
   instance.dash = { reset: sinon.fake() }
   instance.stop()
-  t.true(instance.dash.reset.calledOnce)
+  t.ok(instance.dash.reset.calledOnce)
 })
 
 test('seekTo()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.seekTo(10)
-  t.true(instance.player.currentTime === 10)
+  t.ok(instance.player.currentTime === 10)
 })
 
 test('setVolume()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.setVolume(0.5)
-  t.true(instance.player.volume === 0.5)
+  t.ok(instance.player.volume === 0.5)
 })
 
 test('mute()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.mute()
-  t.true(instance.player.muted)
+  t.ok(instance.player.muted)
 })
 
 test('unmute()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.unmute()
-  t.false(instance.player.muted)
+  t.notOk(instance.player.muted)
 })
 
 test('setPlaybackRate()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.setPlaybackRate(0.5)
-  t.true(instance.player.playbackRate === 0.5)
+  t.ok(instance.player.playbackRate === 0.5)
 })
 
 test('getDuration()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.player.duration = 10
-  t.true(instance.getDuration() === 10)
+  t.ok(instance.getDuration() === 10)
 })
 
 test('getCurrentTime()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.player.currentTime = 5
-  t.true(instance.getCurrentTime() === 5)
+  t.ok(instance.getCurrentTime() === 5)
 })
 
 test('getSecondsLoaded()', t => {
-  const instance = shallow(<FilePlayer url='file.mp4' config={config} />).instance()
+  const instance = render(<FilePlayer url='file.mp4' config={config} />).getInstance()
   instance.player.buffered = []
-  t.true(instance.getSecondsLoaded() === 0)
+  t.ok(instance.getSecondsLoaded() === 0)
   instance.player.buffered = { end: () => 10 }
   instance.player.duration = 20
-  t.true(instance.getSecondsLoaded() === 10)
+  t.ok(instance.getSecondsLoaded() === 10)
   instance.player.duration = 5
-  t.true(instance.getSecondsLoaded() === 5)
+  t.ok(instance.getSecondsLoaded() === 5)
 })
 
 test('render - video', t => {
-  const wrapper = shallow(<FilePlayer url='file.mp4' config={config} />)
-  t.true(wrapper.containsMatchingElement(
+  const wrapper = render(<FilePlayer url='file.mp4' config={config} />)
+  t.ok(containsMatchingElement(wrapper,
     <video src='file.mp4'>{false}{[]}</video>
   ))
 })
 
 test('render - audio', t => {
-  const wrapper = shallow(<FilePlayer url='file.mp3' config={config} />)
-  t.true(wrapper.containsMatchingElement(
+  const wrapper = render(<FilePlayer url='file.mp3' config={config} />)
+  t.ok(containsMatchingElement(wrapper,
     <audio src='file.mp3'>{false}{[]}</audio>
   ))
 })
 
 test('render - hls', t => {
-  const wrapper = shallow(<FilePlayer url='file.m3u8' config={config} />)
-  t.true(wrapper.containsMatchingElement(
+  const wrapper = render(<FilePlayer url='file.m3u8' config={config} />)
+  t.ok(containsMatchingElement(wrapper,
     <video src={undefined}>{false}{[]}</video>
   ))
 })
 
 test('render - dash', t => {
-  const wrapper = shallow(<FilePlayer url='file.mpd' config={config} />)
-  t.true(wrapper.containsMatchingElement(
+  const wrapper = render(<FilePlayer url='file.mpd' config={config} />)
+  t.ok(containsMatchingElement(wrapper,
     <video src={undefined}>{false}{[]}</video>
   ))
 })
 
 test('render - dropbox', t => {
   const url = 'https://www.dropbox.com/s/abc/file.mp4'
-  const wrapper = shallow(<FilePlayer url={url} config={config} />)
-  t.true(wrapper.containsMatchingElement(
+  const wrapper = render(<FilePlayer url={url} config={config} />)
+  t.ok(containsMatchingElement(wrapper,
     <video src='https://dl.dropboxusercontent.com/s/abc/file.mp4'>
       {false}{[]}
     </video>
@@ -368,8 +363,8 @@ test('render - dropbox', t => {
 
 test('render - string array', t => {
   const url = ['file.mp4', 'file.ogg']
-  const wrapper = shallow(<FilePlayer url={url} config={config} />)
-  t.true(wrapper.containsMatchingElement(
+  const wrapper = render(<FilePlayer url={url} config={config} />)
+  t.ok(containsMatchingElement(wrapper,
     <video src={undefined}>
       {[
         <source key={0} src='file.mp4' />,
@@ -386,8 +381,8 @@ test('render - object array', t => {
     { src: 'file.mp4', type: 'video/mp4' },
     { src: 'file.ogg', type: 'video/ogg' }
   ]
-  const wrapper = shallow(<FilePlayer url={url} config={config} />)
-  t.true(wrapper.containsMatchingElement(
+  const wrapper = render(<FilePlayer url={url} config={config} />)
+  t.ok(containsMatchingElement(wrapper,
     <video src={undefined}>
       {[
         <source key={0} src='file.mp4' type='video/mp4' media='(max-width:800px)' />,
@@ -400,7 +395,7 @@ test('render - object array', t => {
 })
 
 test.skip('render tracks', t => {
-  const wrapper = shallow(
+  const wrapper = render(
     <FilePlayer
       url='file.mp4' config={{
         file: {
@@ -413,7 +408,7 @@ test.skip('render tracks', t => {
       }}
     />
   )
-  t.true(wrapper.containsMatchingElement(
+  t.ok(containsMatchingElement(wrapper,
     <video src='file.mp4'>
       {false}
       {[
@@ -425,10 +420,10 @@ test.skip('render tracks', t => {
 })
 
 test('auto width/height', t => {
-  const wrapper = shallow(
+  const wrapper = render(
     <FilePlayer url='file.mp4' config={config} width='auto' height='auto' />
   )
-  t.true(wrapper.containsMatchingElement(
+  t.ok(containsMatchingElement(wrapper,
     <video src='file.mp4' style={{ width: 'auto', height: 'auto' }}>
       {false}{[]}
     </video>
@@ -436,10 +431,10 @@ test('auto width/height', t => {
 })
 
 test('clear srcObject on url change', t => {
-  const url = new MockMediaStream()
-  const wrapper = shallow(<FilePlayer url={url} config={config} />)
-  const instance = wrapper.instance()
+  const url = new globalThis.MediaStream()
+  const wrapper = render(<FilePlayer url={url} config={config} />)
+  const instance = wrapper.getInstance()
   instance.load(url)
-  wrapper.setProps({ url: 'file.mpv' })
+  setProps(wrapper, { url: 'file.mpv' })
   t.is(instance.player.srcObject, null)
 })

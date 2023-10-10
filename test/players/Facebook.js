@@ -1,21 +1,11 @@
-import React from 'react'
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import testPlayerMethods from '../helpers/testPlayerMethods'
-import * as utils from '../../src/utils'
+import React from 'react'
+import { create } from 'react-test-renderer'
+import '../helpers/server-safe-globals'
+import { testPlayerMethods } from '../helpers/helpers'
+import { getSDK as originalGetSDK } from '../../src/utils'
 import Facebook from '../../src/players/Facebook'
-
-global.document = {
-  getElementById: () => ({
-    querySelector: () => ({
-      style: {}
-    })
-  })
-}
-
-configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.facebook.com/facebook/videos/10153231379946729'
 const TEST_CONFIG = {
@@ -57,25 +47,25 @@ test('load()', async t => {
       }
     }
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves(FB)
-  const onReady = () => t.pass()
-  const instance = shallow(<Facebook config={TEST_CONFIG} onReady={onReady} />).instance()
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves(FB)
+  const onReady = () => t.ok(true)
+  const instance = create(<Facebook config={TEST_CONFIG} onReady={onReady} />).getInstance()
   instance.load(TEST_URL)
-  t.true(getSDK.calledOnce)
+  t.ok(getSDK.calledOnce)
   getSDK.restore()
 })
 
 test('load() when ready', async t => {
   const FB = {
     XFBML: {
-      parse: () => t.pass()
+      parse: () => t.ok(true)
     }
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves(FB)
-  const onReady = () => t.pass()
-  const instance = shallow(<Facebook config={TEST_CONFIG} onReady={onReady} />).instance()
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves(FB)
+  const onReady = () => t.ok(true)
+  const instance = create(<Facebook config={TEST_CONFIG} onReady={onReady} />).getInstance()
   instance.load(TEST_URL, true)
-  t.true(getSDK.calledOnce)
+  t.ok(getSDK.calledOnce)
   getSDK.restore()
 })
 
@@ -84,16 +74,18 @@ test('render()', t => {
     width: '100%',
     height: '100%'
   }
-  const wrapper = shallow(<Facebook url={TEST_URL} config={TEST_CONFIG} />)
-  t.true(wrapper.contains(
-    <div
-      style={style}
-      id='mock-player-id'
-      className='fb-video'
-      data-href={TEST_URL}
-      data-autoplay='false'
-      data-allowfullscreen='true'
-      data-controls='false'
-    />
-  ))
+  t.deepEqual(
+    create(<Facebook url={TEST_URL} config={TEST_CONFIG} />).toJSON(),
+    create(
+      <div
+        style={style}
+        id='mock-player-id'
+        className='fb-video'
+        data-href={TEST_URL}
+        data-autoplay='false'
+        data-allowfullscreen='true'
+        data-controls='false'
+      />
+    ).toJSON()
+  )
 })

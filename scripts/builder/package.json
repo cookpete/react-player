@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "builder",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./builder.js",
+  "bin": {
+    "builder": "./builder.js"
+  }
+}

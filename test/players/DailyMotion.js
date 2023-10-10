@@ -1,17 +1,11 @@
-import React from 'react'
-import test from 'ava'
+import { test } from 'zora'
 import sinon from 'sinon'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-import testPlayerMethods from '../helpers/testPlayerMethods'
-import * as utils from '../../src/utils'
+import React from 'react'
+import { create } from 'react-test-renderer'
+import '../helpers/server-safe-globals'
+import { testPlayerMethods } from '../helpers/helpers'
+import { getSDK as originalGetSDK } from '../../src/utils'
 import DailyMotion from '../../src/players/DailyMotion'
-
-global.window = {
-  location: { origin: 'origin' }
-}
-
-configure({ adapter: new Adapter() })
 
 const TEST_URL = 'https://www.dailymotion.com/video/x5e9eog'
 const TEST_CONFIG = {
@@ -31,16 +25,15 @@ testPlayerMethods(DailyMotion, {
 test('load()', async t => {
   class MockPlayer {
     constructor (container, options) {
-      t.true(container === 'abc')
-      t.true(options.video === 'x5e9eog')
-      t.pass()
+      t.equal(container, 'abc')
+      t.equal(options.video, 'x5e9eog')
     }
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves({ player: MockPlayer })
-  const instance = shallow(<DailyMotion config={TEST_CONFIG} />).instance()
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves({ player: MockPlayer })
+  const instance = create(<DailyMotion config={TEST_CONFIG} />).getInstance()
   instance.load(TEST_URL)
   instance.ref('abc')
-  t.true(getSDK.calledOnce)
+  t.ok(getSDK.calledOnce)
   getSDK.restore()
 })
 
@@ -50,45 +43,45 @@ test('load() - no container', async t => {
       t.fail('Player constructor was called')
     }
   }
-  const getSDK = sinon.stub(utils, 'getSDK').resolves({ player: MockPlayer })
-  const instance = shallow(<DailyMotion config={TEST_CONFIG} />).instance()
+  const getSDK = sinon.stub(originalGetSDK, 'stub').resolves({ player: MockPlayer })
+  const instance = create(<DailyMotion config={TEST_CONFIG} />).getInstance()
   instance.load(TEST_URL)
-  t.true(getSDK.calledOnce)
+  t.ok(getSDK.calledOnce)
   getSDK.restore()
 })
 
 test('load() - existing player', t => {
-  const instance = shallow(<DailyMotion config={TEST_CONFIG} />).instance()
+  const instance = create(<DailyMotion config={TEST_CONFIG} />).getInstance()
   instance.player = { load: sinon.fake() }
   instance.load(TEST_URL)
-  t.true(instance.player.load.calledOnceWith('x5e9eog'))
+  t.ok(instance.player.load.calledOnceWith('x5e9eog'))
 })
 
 test('onDurationChange()', t => {
   const onDuration = duration => {
-    t.true(duration === 10)
+    t.ok(duration === 10)
   }
-  const instance = shallow(<DailyMotion config={TEST_CONFIG} onDuration={onDuration} />).instance()
+  const instance = create(<DailyMotion config={TEST_CONFIG} onDuration={onDuration} />).getInstance()
   instance.player = { duration: 10 }
   instance.onDurationChange()
 })
 
 test('getDuration()', t => {
-  const instance = shallow(<DailyMotion config={TEST_CONFIG} />).instance()
+  const instance = create(<DailyMotion config={TEST_CONFIG} />).getInstance()
   instance.player = { duration: 10 }
-  t.true(instance.getDuration() === 10)
+  t.ok(instance.getDuration() === 10)
 })
 
 test('getCurrentTime()', t => {
-  const instance = shallow(<DailyMotion config={TEST_CONFIG} />).instance()
+  const instance = create(<DailyMotion config={TEST_CONFIG} />).getInstance()
   instance.player = { currentTime: 5 }
-  t.true(instance.getCurrentTime() === 5)
+  t.ok(instance.getCurrentTime() === 5)
 })
 
 test('getSecondsLoaded()', t => {
-  const instance = shallow(<DailyMotion config={TEST_CONFIG} />).instance()
+  const instance = create(<DailyMotion config={TEST_CONFIG} />).getInstance()
   instance.player = { bufferedTime: 5 }
-  t.true(instance.getSecondsLoaded() === 5)
+  t.ok(instance.getSecondsLoaded() === 5)
 })
 
 test('render()', t => {
@@ -97,10 +90,12 @@ test('render()', t => {
     height: '100%',
     display: undefined
   }
-  const wrapper = shallow(<DailyMotion config={TEST_CONFIG} />)
-  t.true(wrapper.contains(
-    <div style={style}>
-      <div />
-    </div>
-  ))
+  t.deepEqual(
+    create(<DailyMotion config={TEST_CONFIG} />).toJSON(),
+    create(
+      <div style={style}>
+        <div />
+      </div>
+    ).toJSON()
+  )
 })

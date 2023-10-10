@@ -1,4 +1,4 @@
-import test from 'ava'
+import { test } from 'zora'
 import { omit } from '../../src/utils'
 
 const object = {

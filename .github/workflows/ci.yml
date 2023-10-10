@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -13,16 +12,50 @@ jobs:
         node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: yarn lint
-    - run: yarn test:coverage -v
-    - run: yarn build:lib
-    - run: yarn build:demo
-    - run: yarn build:dist
-    - run: yarn build:standalone
+        cache: npm
+    - run: npm ci
+    - run: npm run build:lib
+    - run: npm run build:demo
+    - run: npm run build:dist
+    - run: npm run build:standalone
 
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # node-version: [16.x, 18.x, 20.x]
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: npm
+    - run: npm ci
+    - run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # node-version: [16.x, 18.x, 20.x]
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: npm
+    - run: npm ci
+    - run: npm run test:coverage

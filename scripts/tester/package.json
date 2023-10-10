@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "tester",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./tester.js",
+  "bin": {
+    "tester": "./tester.js"
+  }
+}
