@@ -330,11 +330,19 @@ export default class FilePlayer extends Component {
     return url
   }
 
+  // As errors on the `source` tag does not trigger the error event of the
+  // parent video/audio tag (player). We have to manully trigger
+  // the players error event.
+  handleSourceError = () => {
+    const event = new Event('error', { bubbles: true })
+    this.player.dispatchEvent(event)
+  }
+
   renderSourceElement = (source, index) => {
     if (typeof source === 'string') {
-      return <source key={index} src={source} />
+      return <source key={index} src={source} onError={this.handleSourceError} />
     }
-    return <source key={index} {...source} />
+    return <source key={index} {...source} onError={this.handleSourceError} />
   }
 
   renderTrack = (track, index) => {
