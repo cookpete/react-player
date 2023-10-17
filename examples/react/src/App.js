@@ -275,6 +275,13 @@ class App extends Component {
                   {this.renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B')}
                   {this.renderLoadButton('https://www.youtube.com/playlist?list=PLogRWNZ498ETeQNYrOlqikEML3bKJcdcx', 'Playlist')}
                 </td>
+                <tr>
+                <th>Spotify</th>
+                <td>
+                  {this.renderLoadButton('spotify:track:6Uwi2Qk3H7fM4b4W4ExrAp', 'Test A')}
+                  {this.renderLoadButton('spotify:track:0KhB428j00T8lxKCpHweKw', 'Test B')}
+                </td>
+              </tr>
               </tr>
               <tr>
                 <th>SoundCloud</th>

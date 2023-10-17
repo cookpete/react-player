@@ -1,6 +1,6 @@
 {
-  "name": "react-player",
-  "version": "2.13.0",
+  "name": "@dexaai/react-player",
+  "version": "2.13.1",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -22,19 +22,8 @@
     "build:es6": "builder src/standalone.js --outfile=dist/ReactPlayer.standalone.es6.js --format=esm --bundle --minify",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6 && node scripts/pre-publish.js && cp -r types/* .",
-    "postpublish": "node scripts/post-publish.js && npm run clean"
+    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6 && node scripts/pre-publish.js && cp -r types/* ."
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/CookPete/react-player.git"
-  },
-  "author": "Pete Cook (https://github.com/cookpete)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/CookPete/react-player/issues"
-  },
-  "homepage": "https://github.com/CookPete/react-player",
   "peerDependencies": {
     "react": ">=16.6.0"
   },
@@ -89,6 +78,7 @@
     "facebook",
     "twitch",
     "soundcloud",
+    "spotify",
     "streamable",
     "vimeo",
     "wistia",
