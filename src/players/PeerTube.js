@@ -3,7 +3,7 @@ import { canPlay, MATCH_URL_PEERTUBE } from '../patterns'
 import { callPlayer, getSDK, queryString } from '../utils'
 
 const SDK_URL = 'https://unpkg.com/@peertube/embed-api/build/player.min.js'
-const SDK_GLOBAL = 'PeerTube'
+const SDK_GLOBAL = 'PeerTubePlayer'
 
 export class PeerTubePlayer extends Component {
   static displayName = 'PeerTubePlayer';
@@ -37,9 +37,14 @@ export class PeerTubePlayer extends Component {
 
   load () {
     getSDK(SDK_URL, SDK_GLOBAL).then(() => {
-      if (!this.iframe) return
+      if (!this.iframe){
+        console.log("no iframe")
+        return
+      } 
       const PeerTubePlayer = window.PeerTubePlayer
       this.player = new PeerTubePlayer(this.iframe)
+
+      
 
       this.player.ready.then(() => {
         this.player.addEventListener('playbackStatusUpdate', (data) => {
