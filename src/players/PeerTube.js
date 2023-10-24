@@ -37,14 +37,11 @@ export class PeerTubePlayer extends Component {
 
   load () {
     getSDK(SDK_URL, SDK_GLOBAL).then(() => {
-      if (!this.iframe){
-        console.log("no iframe")
+      if (!this.iframe) {
         return
-      } 
+      }
       const PeerTubePlayer = window.PeerTubePlayer
       this.player = new PeerTubePlayer(this.iframe)
-
-      
 
       this.player.ready.then(() => {
         this.player.addEventListener('playbackStatusUpdate', (data) => {
@@ -63,23 +60,6 @@ export class PeerTubePlayer extends Component {
         this.props.onReady()
       })
     }, this.props.onError)
-
-    // new Promise((resolve, reject) => {
-    //   this.render();
-    //   resolve();
-    // })
-    //   .then(() => {
-    //     return getSDK(SDK_URL, "PeerTube");
-    //   })
-    //   .then(() => {
-    //     this.player = new window["PeerTubePlayer"](this.container);
-
-    //     this.setupEvents();
-
-    //     return this.player.ready.then(() => {
-    //       return this.props.onReady();
-    //     });
-    //   });
   }
 
   play () {
