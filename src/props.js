@@ -20,6 +20,7 @@ export const propTypes = {
   light: oneOfType([bool, string, object]),
   playIcon: node,
   previewTabIndex: number,
+  previewAriaLabel: string,
   fallback: node,
   oEmbedUrl: string,
   wrapper: oneOfType([
@@ -118,6 +119,7 @@ export const defaultProps = {
   fallback: null,
   wrapper: 'div',
   previewTabIndex: 0,
+  previewAriaLabel: '',
   oEmbedUrl: 'https://noembed.com/embed?url={url}',
   config: {
     soundcloud: {

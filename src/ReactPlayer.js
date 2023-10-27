@@ -135,13 +135,14 @@ export const createReactPlayer = (players, fallback) => {
 
     renderPreview (url) {
       if (!url) return null
-      const { light, playIcon, previewTabIndex, oEmbedUrl } = this.props
+      const { light, playIcon, previewTabIndex, oEmbedUrl, previewAriaLabel } = this.props
       return (
         <Preview
           url={url}
           light={light}
           playIcon={playIcon}
           previewTabIndex={previewTabIndex}
+          previewAriaLabel={previewAriaLabel}
           oEmbedUrl={oEmbedUrl}
           onClick={this.handleClickPreview}
         />

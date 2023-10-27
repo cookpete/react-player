@@ -57,7 +57,7 @@ export default class Preview extends Component {
   }
 
   render () {
-    const { light, onClick, playIcon, previewTabIndex } = this.props
+    const { light, onClick, playIcon, previewTabIndex, previewAriaLabel } = this.props
     const { image } = this.state
     const isElement = React.isValidElement(light)
     const flexCenter = {
@@ -102,6 +102,7 @@ export default class Preview extends Component {
         onClick={onClick}
         tabIndex={previewTabIndex}
         onKeyPress={this.handleKeyPress}
+        {...(previewAriaLabel ? { 'aria-label': previewAriaLabel } : {})}
       >
         {isElement ? light : null}
         {playIcon || defaultPlayIcon}
