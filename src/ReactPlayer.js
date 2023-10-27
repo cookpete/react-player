@@ -9,7 +9,7 @@ import Player from './Player'
 
 const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */'./Preview'))
 
-const IS_BROWSER = typeof window !== 'undefined' && window.document
+const IS_BROWSER = typeof window !== 'undefined' && window.document && typeof document !== 'undefined'
 const IS_GLOBAL = typeof global !== 'undefined' && global.window && global.window.document
 const SUPPORTED_PROPS = Object.keys(propTypes)
 
