@@ -27,14 +27,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CookPete/react-player.git"
+    "url": "git+https://github.com/cookpete/react-player.git"
   },
   "author": "Pete Cook (https://github.com/cookpete)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CookPete/react-player/issues"
+    "url": "https://github.com/cookpete/react-player/issues"
   },
-  "homepage": "https://github.com/CookPete/react-player",
+  "homepage": "https://github.com/cookpete/react-player",
   "peerDependencies": {
     "react": ">=16.6.0"
   },
