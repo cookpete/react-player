@@ -1,0 +1,56 @@
+name: CD
+
+concurrency: production
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        required: true
+        description: Version
+        options:
+        - conventional
+        - patch
+        - minor
+        - major
+        - prerelease
+      prerelease:
+        type: choice
+        required: false
+        description: Pre-release
+        options:
+        -
+        - canary
+        - beta
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+      id-token: write
+
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch all history for all tags and branches
+      - uses: actions/setup-node@v3
+        with:
+          # this line is required for the setup-node action to be able to run the npm publish below.
+          registry-url: 'https://registry.npmjs.org'
+      - uses: fregante/setup-git-user@v1
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:coverage
+      - run: npm run build:lib
+      - run: npm run build:demo
+      - run: npm run build:dist
+      - run: npm run build:standalone
+      - run: npx --yes wet-run@0.5.1 release ${{ inputs.version }} --prerelease "${{ inputs.prerelease }}" --provenance --changelog --github-release
