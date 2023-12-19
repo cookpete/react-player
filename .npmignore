@@ -7,3 +7,7 @@ src
 test
 webpack/*
 yarn-error.log
+/demo/
+/examples/
+/disttest/
+/scripts/
