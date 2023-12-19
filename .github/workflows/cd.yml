@@ -16,14 +16,20 @@ on:
         - minor
         - major
         - prerelease
+        - from-package
+        - from-git
       prerelease:
         type: choice
-        required: false
         description: Pre-release
         options:
         -
         - canary
         - beta
+      dryrun:
+        description: 'Dry-run'
+        type: boolean
+
+run-name: Deploy ${{ inputs.version }} ${{ inputs.dryrun && '--dry-run' || '' }} ${{ inputs.prerelease && format('--prerelease {0}', inputs.prerelease) || '' }}
 
 jobs:
   deploy:
@@ -38,11 +44,12 @@ jobs:
       CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Fetch all history for all tags and branches
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
+          node-version: 20
           # this line is required for the setup-node action to be able to run the npm publish below.
           registry-url: 'https://registry.npmjs.org'
       - uses: fregante/setup-git-user@v1
@@ -53,4 +60,9 @@ jobs:
       - run: npm run build:demo
       - run: npm run build:dist
       - run: npm run build:standalone
-      - run: npx --yes wet-run@0.5.1 release ${{ inputs.version }} --prerelease "${{ inputs.prerelease }}" --provenance --changelog --github-release
+      - run: npx --yes wet-run@1.0.1 release ${{ inputs.version }} ${{ inputs.dryrun && '--dry-run' || '' }} ${{ inputs.prerelease && format('--prerelease {0}', inputs.prerelease) || '' }} --provenance --changelog --github-release --verbose
+      - name: Get NPM version
+        id: npm-version
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+      - name: Released ${{ steps.npm-version.outputs.current-version}} ✨
+        run: echo ${{ steps.npm-version.outputs.current-version}}
