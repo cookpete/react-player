@@ -1,10 +1,10 @@
-import React, { Component, Suspense, lazy } from 'react'
+import React, { Component, Suspense } from 'react'
 import merge from 'deepmerge'
 import memoize from 'memoize-one'
 import isEqual from 'react-fast-compare'
 
 import { propTypes, defaultProps } from './props'
-import { omit } from './utils'
+import { omit, lazy } from './utils'
 import Player from './Player'
 
 const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */'./Preview'))
