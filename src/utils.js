@@ -1,5 +1,14 @@
+import React from 'react'
 import loadScript from 'load-script'
 import merge from 'deepmerge'
+
+/**
+ * Dynamic import is supported in CJS modules but needs interop require default logic.
+ */
+export const lazy = (componentImportFn) => React.lazy(async () => {
+  const obj = await componentImportFn()
+  return typeof obj.default === 'function' ? obj : obj.default
+})
 
 const MATCH_START_QUERY = /[?&#](?:start|t)=([0-9hms]+)/
 const MATCH_END_QUERY = /[?&#]end=([0-9hms]+)/
