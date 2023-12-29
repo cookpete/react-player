@@ -27,6 +27,26 @@ export const createReactPlayer = (players, fallback) => {
     static addCustomPlayer = player => { customPlayers.push(player) }
     static removeCustomPlayers = () => { customPlayers.length = 0 }
 
+    componentDidMount() {
+      // Add event listener for spacebar key press
+      document.addEventListener('keydown', this.handleKeyDown)
+    }
+
+    componentWillUnmount() {
+      // Remove event listener when component unmounts
+      document.removeEventListener('keydown', this.handleKeyDown)
+    }
+
+    handleKeyDown = (event) => {
+      // Check if the pressed key is the spacebar
+      if (event.code === 'Space' && this.player) {
+        // Prevent scrolling the page when spacebar is pressed
+        event.preventDefault()
+        // Toggle play/pause when spacebar is pressed
+        this.player.togglePlay()
+      }
+    }
+
     static canPlay = url => {
       for (const Player of [...customPlayers, ...players]) {
         if (Player.canPlay(url)) {
