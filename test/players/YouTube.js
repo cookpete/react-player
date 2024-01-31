@@ -118,7 +118,14 @@ test('render()', t => {
     create(<YouTube url={TEST_URL} />).toJSON(),
     create(
       <div style={style}>
-        <div />
+         <iframe
+          width="100%"
+          height="100%"
+          src="https://www.youtube.com/embed/oUFJJNQGwhk?enablejsapi=1"
+          sandbox='allow-scripts allow-same-origin allow-presentation'
+          allowFullScreen={true}
+          style={{ border: 0 }}
+        ></iframe>
       </div>
     ).toJSON()
   )

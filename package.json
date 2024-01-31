@@ -23,7 +23,8 @@
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
     "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6 && node scripts/pre-publish.js && cp -r types/* .",
-    "postpublish": "node scripts/post-publish.js && npm run clean"
+    "postpublish": "node scripts/post-publish.js && npm run clean",
+    "prepare": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6 && node scripts/pre-publish.js && cp -r types/* ."
   },
   "repository": {
     "type": "git",
