@@ -75,6 +75,10 @@ export default class YouTube extends Component {
         host: MATCH_NOCOOKIE.test(url) ? NOCOOKIE_HOST : undefined,
         ...embedOptions
       })
+
+      const iframeElement = document.getElementById("widget2")
+      iframeElement.sandbox = "allow-scripts allow-same-origin allow-presentation"
+      iframeElement.src = iframeElement.src
     }, onError)
     if (embedOptions.events) {
       console.warn('Using `embedOptions.events` will likely break things. Use ReactPlayer’s callback props instead, eg onReady, onPlay, onPause')
