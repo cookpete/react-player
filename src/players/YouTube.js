@@ -46,6 +46,9 @@ export default class YouTube extends Component {
     getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY, YT => YT.loaded).then(YT => {
       if (!this.container) return
       this.player = new YT.Player(this.container, {
+        width: '100%',
+        height: '100%',
+        videoId: id,
         playerVars: {
           autoplay: playing ? 1 : 0,
           mute: muted ? 1 : 0,
@@ -54,6 +57,7 @@ export default class YouTube extends Component {
           end: parseEndTime(url),
           origin: window.location.origin,
           playsinline: playsinline ? 1 : 0,
+          ...this.parsePlaylist(url),
           ...playerVars
         },
         events: {
@@ -72,7 +76,7 @@ export default class YouTube extends Component {
         ...embedOptions
       })
 
-      const iframeElement = document.getElementById("widget2")
+      const iframeElement = document.querySelector("#sandbox-id")
       iframeElement.sandbox = "allow-scripts allow-same-origin allow-presentation"
       iframeElement.src = iframeElement.src
     }, onError)
@@ -187,16 +191,6 @@ export default class YouTube extends Component {
     this.container = container
   }
 
-  getEmbedUrl() {
-    const { url } = this.props;
-    if (MATCH_PLAYLIST.test(url)) {
-      const [, playlistId] = url.match(MATCH_PLAYLIST);
-      return `https://www.youtube.com/embed?listType=playlist&list=${playlistId}&enablejsapi=1`;
-    }
-    const id = this.getID(url);
-    return `https://www.youtube.com/embed/${id}?enablejsapi=1`;
-  }
-
   render () {
     const { display } = this.props
     const style = {
@@ -206,15 +200,7 @@ export default class YouTube extends Component {
     }
     return (
       <div style={style}>
-         <iframe
-          ref={this.ref}
-          width={style.width}
-          height={style.height}
-          src={`${this.getEmbedUrl()}`}
-          sandbox='allow-scripts allow-same-origin allow-presentation'
-          allowFullScreen
-          style={{ border: 0 }}
-        ></iframe>
+        <div id="sandbox-id" ref={this.ref} />
       </div>
     )
   }
