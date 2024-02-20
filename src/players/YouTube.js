@@ -192,7 +192,7 @@ export default class YouTube extends Component {
     const style = {
       width: '100%',
       height: '100%',
-      display
+      ...display
     }
     return (
       <div style={style}>
