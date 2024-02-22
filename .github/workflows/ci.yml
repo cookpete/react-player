@@ -2,6 +2,18 @@ name: Node.js CI
 
 on: [push, pull_request]
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -56,3 +68,26 @@ jobs:
     - run: npm run build:demo
     - run: npm run build:dist
     - run: npm run build:standalone
+
+  deploy-preview:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build:lib
+      - run: npm run build:demo
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: './demo'
+      - uses: actions/deploy-pages@v4
+        id: deployment
