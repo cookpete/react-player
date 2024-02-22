@@ -1,5 +1,4 @@
 .github
-.travis.yml
 babel.config.js
 codecov.yml
 coverage
