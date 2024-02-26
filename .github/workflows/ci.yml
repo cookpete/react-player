@@ -71,7 +71,7 @@ jobs:
 
   deploy-preview:
     environment:
-      name: github-pages
+      name: github-preview
       url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
