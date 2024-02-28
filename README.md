@@ -233,7 +233,7 @@ You can use your own version of any player SDK, assuming the correct `window` gl
 If you aren’t using React, you can still render a player using the standalone library:
 
 ```html
-<script src='https://unpkg.com/react-player/dist/ReactPlayer.standalone.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/react-player/dist/ReactPlayer.standalone.js'></script>
 <script>
   const container = document.getElementById('container')
   const url = 'https://www.youtube.com/watch?v=d46Azg3Pm4c'
