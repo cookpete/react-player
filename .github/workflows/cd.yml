@@ -60,7 +60,7 @@ jobs:
       - run: npm run build:demo
       - run: npm run build:dist
       - run: npm run build:standalone
-      - run: npx --yes wet-run@1.0.1 release ${{ inputs.version }} ${{ inputs.dryrun && '--dry-run' || '' }} ${{ inputs.prerelease && format('--prerelease {0}', inputs.prerelease) || '' }} --provenance --changelog --github-release --verbose
+      - run: npx --yes wet-run@1.0.1 release ${{ inputs.version }} ${{ inputs.dryrun && '--dry-run' || '' }} ${{ inputs.prerelease && format('--prerelease {0}', inputs.prerelease) || '' }} --provenance --github-release --verbose
       - name: Get NPM version
         id: npm-version
         uses: martinbeentjes/npm-get-version-action@v1.3.1
