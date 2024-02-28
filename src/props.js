@@ -50,6 +50,10 @@ export const propTypes = {
       playerOptions: object,
       title: string
     }),
+    mux: shape({
+      attributes: object,
+      version: string
+    }),
     file: shape({
       attributes: object,
       tracks: array,
@@ -164,6 +168,10 @@ export const defaultProps = {
         title: false
       },
       title: null
+    },
+    mux: {
+      attributes: {},
+      version: '2'
     },
     file: {
       attributes: {},

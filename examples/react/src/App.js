@@ -299,6 +299,13 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Mux</th>
+                <td>
+                  {this.renderLoadButton('https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k', 'Test A')}
+                  {this.renderLoadButton('https://stream.mux.com/Sc89iWAyNkhJ3P1rQ02nrEdCFTnfT01CZ2KmaEcxXfB008', 'Test B')}
+                </td>
+              </tr>
+              <tr>
                 <th>Twitch</th>
                 <td>
                   {this.renderLoadButton('https://www.twitch.tv/videos/106400740', 'Test A')}
