@@ -21,6 +21,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerVimeo' */'./Vimeo'))
   },
   {
+    key: 'mux',
+    name: 'Mux',
+    canPlay: canPlay.mux,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerMux' */'./Mux'))
+  },
+  {
     key: 'facebook',
     name: 'Facebook',
     canPlay: canPlay.facebook,
