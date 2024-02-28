@@ -141,7 +141,7 @@ Key | Options
 `facebook` | `appId`: Your own [Facebook app ID](https://developers.facebook.com/docs/apps/register#app-id)<br />`version`: Facebook SDK version<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))<br />`attributes`: Extra data attributes to pass to the `fb-video` element
 `soundcloud` | `options`: Override the [default player options](https://developers.soundcloud.com/docs/api/html5-widget#params)
 `vimeo` | `playerOptions`: Override the [default params](https://developer.vimeo.com/player/sdk/embed)<br />`title`: Set the player `iframe` title attribute
-`mux` | `attributes`: Apply [element attributes](https://github.com/muxinc/elements/blob/main/packages/mux-player/REFERENCE.md#attributes)
+`mux` | `attributes`: Apply [element attributes](https://github.com/muxinc/elements/blob/main/packages/mux-player/REFERENCE.md#attributes)<br />`version`: Mux player version
 `wistia` | `options`: Override the [default player options](https://wistia.com/doc/embed-options#options_list)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `mixcloud` | `options`: Override the [default player options](https://www.mixcloud.com/developers/widget/#methods)
 `dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)

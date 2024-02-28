@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import { canPlay, MATCH_URL_MUX } from '../patterns'
 
-const SDK_URL = 'https://cdn.jsdelivr.net/npm/@mux/mux-player@2/dist/mux-player.mjs'
+const SDK_URL = 'https://cdn.jsdelivr.net/npm/@mux/mux-player@VERSION/dist/mux-player.mjs'
 
 export default class Mux extends Component {
   static displayName = 'Mux'
@@ -72,11 +72,11 @@ export default class Mux extends Component {
   }
 
   async load (url) {
-    const { onError } = this.props
+    const { onError, config } = this.props
 
     if (!globalThis.customElements?.get('mux-player')) {
       try {
-        await import(SDK_URL)
+        await import(SDK_URL.replace('VERSION', config.version))
         this.props.onLoaded()
       } catch (error) {
         onError(error)
