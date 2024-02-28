@@ -104,7 +104,7 @@ export default class Mux extends Component {
   }
 
   stop () {
-    this.player.removeAttribute('src')
+    this.player.playbackId = null
   }
 
   seekTo (seconds, keepPlaying = true) {
@@ -186,7 +186,7 @@ export default class Mux extends Component {
   }
 
   render () {
-    const { url, playing, loop, controls, muted, width, height } = this.props
+    const { url, playing, loop, controls, muted, config, width, height } = this.props
     const style = {
       width: width === 'auto' ? width : '100%',
       height: height === 'auto' ? height : '100%'
@@ -203,6 +203,7 @@ export default class Mux extends Component {
         autoPlay={playing || undefined}
         muted={muted ? '' : undefined}
         loop={loop ? '' : undefined}
+        {...config.attributes}
       />
     )
   }
