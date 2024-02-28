@@ -12,6 +12,10 @@
   A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
+---
+
+> Using Next.js and need to handle video upload/processing? Check out [next-video](https://github.com/muxinc/next-video).
+
 ### ✨ The future of ReactPlayer
 
 Maintenance of ReactPlayer is being taken over by [Mux](https://www.mux.com). The team at Mux have worked on many highly respected projects and are committed to improving video tooling for developers.
