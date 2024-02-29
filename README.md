@@ -12,6 +12,10 @@
   A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
+---
+
+> Using Next.js and need to handle video upload/processing? Check out [next-video](https://github.com/muxinc/next-video).
+
 ### ✨ The future of ReactPlayer
 
 Maintenance of ReactPlayer is being taken over by [Mux](https://www.mux.com). The team at Mux have worked on many highly respected projects and are committed to improving video tooling for developers.
@@ -57,11 +61,6 @@ Demo page: [`https://cookpete.com/react-player`](https://cookpete.com/react-play
 The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending. See [the demo source](https://github.com/cookpete/react-player/blob/master/src/demo/App.js) for a full example.
 
 For platforms without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:dist`.
-
-#### Polyfills
-
-* If you are using `npm` and need to support [browsers without `Promise`](http://caniuse.com/#feat=promises) you will need a [`Promise` polyfill](https://github.com/stefanpenner/es6-promise).
-* To support IE11 you will need to use [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill) or a similar ES2015+ polyfill.
 
 #### Autoplay
 
