@@ -14,6 +14,7 @@
     "test": "tester test/*.js test/*/*.js --outdir=disttest --platform=node --format=esm --bundle --external:sinon --external:zora --target=esnext --sourcemap=inline",
     "test:coverage": "c8 --src src --exclude 'test/**' --exclude 'node_modules/**' --exclude 'scripts/**' --exclude-after-remap npm test",
     "test:codecov": "npm run test:coverage && c8 report --reporter json && codecov -f coverage/coverage-final.json",
+    "build": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6",
     "build:demo": "cp -r examples/react/public demo && npm run build:lib && builder examples/react/src/index.js --format=iife --bundle --outdir=demo --minify --sourcemap",
     "build:lib": "builder src/*.js src/players/*.js --outdir=lib --format=cjs",
     "build:lazy": "builder src/*.js src/players/*.js --outdir=lazy --format=cjs",
@@ -22,7 +23,7 @@
     "build:es6": "builder src/standalone.js --outfile=dist/ReactPlayer.standalone.es6.js --format=esm --bundle --minify",
     "preversion": "npm run lint && npm run test",
     "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6 && node scripts/pre-publish.js && cp -r types/* .",
+    "prepublishOnly": "npm run build && node scripts/pre-publish.js && cp -r types/* .",
     "postpublish": "node scripts/post-publish.js && npm run clean"
   },
   "repository": {
@@ -69,7 +70,8 @@
   },
   "standard": {
     "ignore": [
-      "/dist/*"
+      "/dist/*",
+      "/examples/*"
     ]
   },
   "auto-changelog": {
