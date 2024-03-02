@@ -76,7 +76,8 @@ export default class Mux extends Component {
 
     if (!globalThis.customElements?.get('mux-player')) {
       try {
-        await import(SDK_URL.replace('VERSION', config.version))
+        const sdkUrl = SDK_URL.replace('VERSION', config.version)
+        await import(/* webpackIgnore: true */ `${sdkUrl}`)
         this.props.onLoaded()
       } catch (error) {
         onError(error)
