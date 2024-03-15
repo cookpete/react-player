@@ -178,6 +178,12 @@ class App extends Component {
               onProgress={this.handleProgress}
               onDuration={this.handleDuration}
               onPlaybackQualityChange={e => console.log('onPlaybackQualityChange', e)}
+              config={{
+                peertube: {
+                  controls:0,
+                  mode: 'p2p-media-loader'
+                },
+              }}
             />
           </div>
 
@@ -356,6 +362,13 @@ class App extends Component {
                   {this.renderLoadButton('https://cdnapisec.kaltura.com/p/2507381/sp/250738100/embedIframeJs/uiconf_id/44372392/partner_id/2507381?iframeembed=true&playerId=kaltura_player_1605622336&entry_id=1_i1jmzcn3', 'Test B')}
                 </td>
               </tr>
+              <tr>
+                <th>PeerTube</th>
+                <td>
+                  {this.renderLoadButton('https://peertube.stream/w/kHvWmBaDVogEHgojMSDJjV', 'Test A')}
+                  {this.renderLoadButton('https://peertube.stream/w/ek2YfzbW3s1BqsAAmSMG5j', 'Test B')}
+                </td>
+              </tr>              
               <tr>
                 <th>Files</th>
                 <td>
