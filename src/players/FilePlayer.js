@@ -70,7 +70,11 @@ export default class FilePlayer extends Component {
     player.addEventListener('leavepictureinpicture', this.onDisablePIP)
     player.addEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
     if (!this.shouldUseHLS(url)) { // onReady is handled by hls.js
-      player.addEventListener('canplay', this.onReady)
+      if (IS_IOS && !this.props.config.autoPlay) {
+        player.addEventListener('loadedmetadata', this.onReady)
+      } else {
+        player.addEventListener('canplay', this.onReady)
+      }
     }
     if (playsinline) {
       player.setAttribute('playsinline', '')
@@ -80,7 +84,6 @@ export default class FilePlayer extends Component {
   }
 
   removeListeners (player, url) {
-    player.removeEventListener('canplay', this.onReady)
     player.removeEventListener('play', this.onPlay)
     player.removeEventListener('waiting', this.onBuffer)
     player.removeEventListener('playing', this.onBufferEnd)
@@ -93,7 +96,11 @@ export default class FilePlayer extends Component {
     player.removeEventListener('leavepictureinpicture', this.onDisablePIP)
     player.removeEventListener('webkitpresentationmodechanged', this.onPresentationModeChange)
     if (!this.shouldUseHLS(url)) { // onReady is handled by hls.js
-      player.removeEventListener('canplay', this.onReady)
+      if (IS_IOS && !this.props.config.autoPlay) {
+        player.removeEventListener('loadedmetadata', this.onReady)
+      } else {
+        player.removeEventListener('canplay', this.onReady)
+      }
     }
   }
 
