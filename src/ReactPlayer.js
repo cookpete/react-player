@@ -8,15 +8,7 @@ import { omit, lazy } from './utils'
 import Player from './Player'
 
 const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */'./Preview'))
-
-const IS_BROWSER = typeof window !== 'undefined' && window.document && typeof document !== 'undefined'
-const IS_GLOBAL = typeof global !== 'undefined' && global.window && global.window.document
 const SUPPORTED_PROPS = Object.keys(propTypes)
-
-// Return null when rendering on the server
-// as Suspense is not supported yet
-const UniversalSuspense = IS_BROWSER || IS_GLOBAL ? Suspense : () => null
-
 const customPlayers = []
 
 export const createReactPlayer = (players, fallback) => {
@@ -171,6 +163,12 @@ export const createReactPlayer = (players, fallback) => {
       const { showPreview } = this.state
       const attributes = this.getAttributes(url)
       const wrapperRef = typeof Wrapper === 'string' ? this.references.wrapper : undefined
+
+      // Many React frameworks like Next.js support Suspense on the server but there are
+      // others like Fresh that don't plan to support it. Users can disable Suspense
+      // by setting the fallback prop to false.
+      const UniversalSuspense = fallback === false ? ({ children }) => children : Suspense
+
       return (
         <Wrapper ref={wrapperRef} style={{ ...style, width, height }} {...attributes}>
           <UniversalSuspense fallback={fallback}>
