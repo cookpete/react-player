@@ -2,11 +2,29 @@
   "name": "react-player",
   "version": "2.16.0",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "author": "Pete Cook (https://github.com/cookpete)",
+  "license": "MIT",
+  "homepage": "https://github.com/cookpete/react-player",
+  "bugs": {
+    "url": "https://github.com/cookpete/react-player/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cookpete/react-player.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./lazy": "./dist/lazy/index.js",
+    "./*": "./dist/*.js"
+  },
   "scripts": {
-    "clean": "rimraf lib lazy demo coverage *.d.ts",
-    "start": "cp -r examples/react/public/ demo & npm run build:lib --watch=forever & builder examples/react/src/index.js --format=iife --bundle --outdir=demo --watch --servedir=demo --livereload",
+    "clean": "rimraf dist demo coverage",
+    "start": "cp -r examples/react/public/ demo & npm run build:esm:main --watch=forever & builder examples/react/src/index.js --format=iife --bundle --outdir=demo --watch --servedir=demo --livereload",
     "lint": "standard --verbose | snazzy",
     "lint:fix": "standard --fix",
     "lint:ts": "ts-standard --verbose types/*.d.ts | snazzy",
@@ -14,28 +32,16 @@
     "test": "tester test/*.js test/*/*.js --outdir=disttest --platform=node --format=esm --bundle --external:sinon --external:zora --target=esnext --sourcemap=inline",
     "test:coverage": "c8 --src src --exclude 'test/**' --exclude 'node_modules/**' --exclude 'scripts/**' --exclude-after-remap npm test",
     "test:codecov": "npm run test:coverage && c8 report --reporter json && codecov -f coverage/coverage-final.json",
-    "build": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6",
-    "build:demo": "cp -r examples/react/public demo && npm run build:lib && builder examples/react/src/index.js --format=iife --bundle --outdir=demo --minify --sourcemap",
-    "build:lib": "builder src/*.js src/players/*.js --outdir=lib --format=cjs",
-    "build:lazy": "builder src/*.js src/players/*.js --outdir=lazy --format=cjs",
-    "build:dist": "builder src/index.js --outfile=dist/ReactPlayer.js --format=iife --bundle --minify --sourcemap --global-name=ReactPlayer --external:react --plugin:global-externals='{\"react\":\"globalThis.React\"}' --footer:js='ReactPlayer = ReactPlayer.default;'",
-    "build:standalone": "builder src/standalone.js --outfile=dist/ReactPlayer.standalone.js --format=iife --bundle --minify --sourcemap --global-name=renderReactPlayer --footer:js='renderReactPlayer = renderReactPlayer.default;'",
-    "build:es6": "builder src/standalone.js --outfile=dist/ReactPlayer.standalone.es6.js --format=esm --bundle --minify",
+    "build:demo": "cp -r examples/react/public demo && npm run build:esm:main && builder examples/react/src/index.js --format=iife --bundle --outdir=demo --minify --sourcemap",
+    "build": "run-s build:esm:*",
+    "build:esm:main": "builder src/*.js src/players/*.js --outdir=dist --format=esm",
+    "build:esm:lazy": "builder src/*.js src/players/*.js --outdir=dist/lazy --format=esm",
+    "build:esm:single": "node scripts/pre-publish.js",
     "preversion": "npm run lint && npm run test",
-    "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build && node scripts/pre-publish.js && cp -r types/* .",
-    "postpublish": "node scripts/post-publish.js && npm run clean"
+    "version": "auto-changelog -p && git add CHANGELOG.md",
+    "prepublishOnly": "npm run build && cp -r types/* dist",
+    "postpublish": "npm run clean"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cookpete/react-player.git"
-  },
-  "author": "Pete Cook (https://github.com/cookpete)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/cookpete/react-player/issues"
-  },
-  "homepage": "https://github.com/cookpete/react-player",
   "peerDependencies": {
     "react": ">=16.6.0"
   },
@@ -48,6 +54,7 @@
     "codecov": "^3.6.5",
     "cross-env": "^7.0.2",
     "esbuild": "^0.19.4",
+    "npm-run-all": "^4.1.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-test-renderer": "^16.13.1",
