@@ -1,15 +1,15 @@
-import BaseReactPlayer, { BaseReactPlayerProps } from './base'
+import BaseReactPlayer, { BaseReactPlayerProps } from './base.js'
 
-import { DailyMotionConfig } from './dailymotion'
-import { FacebookConfig } from './facebook'
-import { FileConfig } from './file'
-import { MixcloudConfig } from './mixcloud'
-import { SoundCloudConfig } from './soundcloud'
-import { TwitchConfig } from './twitch'
-import { VidyardConfig } from './vidyard'
-import { VimeoConfig } from './vimeo'
-import { WistiaConfig } from './wistia'
-import { YouTubeConfig } from './youtube'
+import { DailyMotionConfig } from './dailymotion.js'
+import { FacebookConfig } from './facebook.js'
+import { FileConfig } from './file.js'
+import { MixcloudConfig } from './mixcloud.js'
+import { SoundCloudConfig } from './soundcloud.js'
+import { TwitchConfig } from './twitch.js'
+import { VidyardConfig } from './vidyard.js'
+import { VimeoConfig } from './vimeo.js'
+import { WistiaConfig } from './wistia.js'
+import { YouTubeConfig } from './youtube.js'
 
 export interface Config {
   soundcloud?: SoundCloudConfig

@@ -1,4 +1,4 @@
-import BaseReactPlayer, { BaseReactPlayerProps } from './base'
+import BaseReactPlayer, { BaseReactPlayerProps } from './base.js'
 
 export interface TwitchConfig {
   options?: Record<string, any>

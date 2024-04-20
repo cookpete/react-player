@@ -3,11 +3,11 @@ import merge from 'deepmerge'
 import memoize from 'memoize-one'
 import isEqual from 'react-fast-compare'
 
-import { propTypes, defaultProps } from './props'
-import { omit, lazy } from './utils'
-import Player from './Player'
+import { propTypes, defaultProps } from './props.js'
+import { omit, lazy } from './utils.js'
+import Player from './Player.js'
 
-const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */'./Preview'))
+const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */'./Preview.js'))
 const SUPPORTED_PROPS = Object.keys(propTypes)
 const customPlayers = []
 
