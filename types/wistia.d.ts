@@ -1,4 +1,4 @@
-import BaseReactPlayer, { BaseReactPlayerProps } from './base'
+import BaseReactPlayer, { BaseReactPlayerProps } from './base.js'
 
 export interface WistiaConfig {
   options?: Record<string, any>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { getSDK, isMediaStream, supportsWebKitPresentationMode } from '../utils'
-import { canPlay, AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS, FLV_EXTENSIONS } from '../patterns'
+import { getSDK, isMediaStream, supportsWebKitPresentationMode } from '../utils.js'
+import { canPlay, AUDIO_EXTENSIONS, HLS_EXTENSIONS, DASH_EXTENSIONS, FLV_EXTENSIONS } from '../patterns.js'
 
 const HAS_NAVIGATOR = typeof navigator !== 'undefined'
 const IS_IPAD_PRO = HAS_NAVIGATOR && navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1

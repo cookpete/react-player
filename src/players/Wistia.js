@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, randomString } from '../utils'
-import { canPlay, MATCH_URL_WISTIA } from '../patterns'
+import { callPlayer, getSDK, randomString } from '../utils.js'
+import { canPlay, MATCH_URL_WISTIA } from '../patterns.js'
 
 const SDK_URL = 'https://fast.wistia.com/assets/external/E-v1.js'
 const SDK_GLOBAL = 'Wistia'

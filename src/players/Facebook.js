@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, randomString } from '../utils'
-import { canPlay } from '../patterns'
+import { callPlayer, getSDK, randomString } from '../utils.js'
+import { canPlay } from '../patterns.js'
 
 const SDK_URL = 'https://connect.facebook.net/en_US/sdk.js'
 const SDK_GLOBAL = 'FB'
