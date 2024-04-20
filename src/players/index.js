@@ -1,5 +1,5 @@
-import { lazy, supportsWebKitPresentationMode } from '../utils'
-import { canPlay, AUDIO_EXTENSIONS } from '../patterns'
+import { lazy, supportsWebKitPresentationMode } from '../utils.js'
+import { canPlay, AUDIO_EXTENSIONS } from '../patterns.js'
 
 export default [
   {
