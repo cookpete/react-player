@@ -19,16 +19,16 @@
   "type": "module",
   "exports": {
     ".": {
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./lazy": {
-      "default": "./dist/lazy/index.js",
-      "types": "./dist/lazy/index.d.ts"
+      "types": "./dist/lazy/index.d.ts",
+      "default": "./dist/lazy/index.js"
     },
     "./*": {
-      "default": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
     }
   },
   "scripts": {
