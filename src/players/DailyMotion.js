@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, parseStartTime } from '../utils'
-import { canPlay, MATCH_URL_DAILYMOTION } from '../patterns'
+import { callPlayer, getSDK, parseStartTime } from '../utils.js'
+import { canPlay, MATCH_URL_DAILYMOTION } from '../patterns.js'
 
 const SDK_URL = 'https://api.dmcdn.net/all.js'
 const SDK_GLOBAL = 'DM'

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils'
-import { canPlay, MATCH_URL_YOUTUBE } from '../patterns'
+import { callPlayer, getSDK, parseStartTime, parseEndTime } from '../utils.js'
+import { canPlay, MATCH_URL_YOUTUBE } from '../patterns.js'
 
 const SDK_URL = 'https://www.youtube.com/iframe_api'
 const SDK_GLOBAL = 'YT'

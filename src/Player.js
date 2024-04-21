@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import isEqual from 'react-fast-compare'
 
-import { propTypes, defaultProps } from './props'
-import { isMediaStream } from './utils'
+import { propTypes, defaultProps } from './props.js'
+import { isMediaStream } from './utils.js'
 
 const SEEK_ON_PLAY_EXPIRY = 5000
 

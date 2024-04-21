@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK } from '../utils'
-import { canPlay } from '../patterns'
+import { callPlayer, getSDK } from '../utils.js'
+import { canPlay } from '../patterns.js'
 
 const SDK_URL = 'https://player.vimeo.com/api/player.js'
 const SDK_GLOBAL = 'Vimeo'

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK, parseStartTime, randomString } from '../utils'
-import { canPlay, MATCH_URL_TWITCH_CHANNEL, MATCH_URL_TWITCH_VIDEO } from '../patterns'
+import { callPlayer, getSDK, parseStartTime, randomString } from '../utils.js'
+import { canPlay, MATCH_URL_TWITCH_CHANNEL, MATCH_URL_TWITCH_VIDEO } from '../patterns.js'
 
 const SDK_URL = 'https://player.twitch.tv/js/embed/v1.js'
 const SDK_GLOBAL = 'Twitch'
