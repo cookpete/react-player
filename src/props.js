@@ -66,8 +66,11 @@ export const propTypes = {
       forceFLV: bool,
       hlsOptions: object,
       hlsVersion: string,
+      hlsSdkUrl: string,
       dashVersion: string,
-      flvVersion: string
+      dashSdkUrl: string,
+      flvVersion: string,
+      flvSdkUrl: string
     }),
     wistia: shape({
       options: object,
@@ -103,7 +106,7 @@ export const propTypes = {
   onDisablePIP: func
 }
 
-const noop = () => {}
+const noop = () => { }
 
 export const defaultProps = {
   playing: false,
