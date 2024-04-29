@@ -160,7 +160,7 @@ export default class FilePlayer extends Component {
   }
 
   load (url) {
-    const { hlsVersion, hlsOptions, dashVersion, flvVersion } = this.props.config
+    const { hlsSdkUrl, hlsVersion, hlsOptions, dashVersion, dashSdkUrl, flvVersion, flvSdkUrl } = this.props.config
     if (this.hls) {
       this.hls.destroy()
     }
@@ -168,7 +168,7 @@ export default class FilePlayer extends Component {
       this.dash.reset()
     }
     if (this.shouldUseHLS(url)) {
-      getSDK(HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
+      getSDK(hlsSdkUrl || HLS_SDK_URL.replace('VERSION', hlsVersion), HLS_GLOBAL).then(Hls => {
         this.hls = new Hls(hlsOptions)
         this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
           this.props.onReady()
@@ -187,7 +187,7 @@ export default class FilePlayer extends Component {
       })
     }
     if (this.shouldUseDASH(url)) {
-      getSDK(DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
+      getSDK(dashSdkUrl || DASH_SDK_URL.replace('VERSION', dashVersion), DASH_GLOBAL).then(dashjs => {
         this.dash = dashjs.MediaPlayer().create()
         this.dash.initialize(this.player, url, this.props.playing)
         this.dash.on('error', this.props.onError)
@@ -200,7 +200,7 @@ export default class FilePlayer extends Component {
       })
     }
     if (this.shouldUseFLV(url)) {
-      getSDK(FLV_SDK_URL.replace('VERSION', flvVersion), FLV_GLOBAL).then(flvjs => {
+      getSDK(flvSdkUrl || FLV_SDK_URL.replace('VERSION', flvVersion), FLV_GLOBAL).then(flvjs => {
         this.flv = flvjs.createPlayer({ type: 'flv', url })
         this.flv.attachMediaElement(this.player)
         this.flv.on(flvjs.Events.ERROR, (e, data) => {

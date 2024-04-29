@@ -20,8 +20,11 @@ export interface FileConfig {
   forceFLV?: boolean
   hlsOptions?: Record<string, any>
   hlsVersion?: string
+  hlsSdkUrl?: string
   dashVersion?: string
+  dashSdkUrl?: string
   flvVersion?: string
+  flvSdkUrl?: string
 }
 
 export interface FilePlayerProps extends BaseReactPlayerProps {
