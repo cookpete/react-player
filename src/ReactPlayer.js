@@ -119,7 +119,7 @@ export const createReactPlayer = (players, fallback) => {
       return null
     })
 
-    getConfig = memoize((url, key) => {
+    getConfig = (url, key) => {
       const { config } = this.props
       return merge.all([
         defaultProps.config,
@@ -127,7 +127,7 @@ export const createReactPlayer = (players, fallback) => {
         config,
         config[key] || {}
       ])
-    })
+    }
 
     getAttributes = memoize(url => {
       return omit(this.props, SUPPORTED_PROPS)
