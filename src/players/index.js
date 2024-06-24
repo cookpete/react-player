@@ -27,6 +27,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerMux' */'./Mux'))
   },
   {
+    key: 'bluebillywig',
+    name: 'BlueBillywig',
+    canPlay: canPlay.bluebillywig,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerBlueBillywig' */'./BlueBillywig'))
+  },
+  {
     key: 'facebook',
     name: 'Facebook',
     canPlay: canPlay.facebook,

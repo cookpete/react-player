@@ -357,6 +357,13 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>BlueBillywig</th>
+                <td>
+                  {this.renderLoadButton('https://bluebillywig.bbvms.com/p/demo/c/5938172.json', 'Test A')}
+                  {this.renderLoadButton('https://bluebillywig.bbvms.com/p/demo/c/5927614.json', 'Test B')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4', 'mp4')}
