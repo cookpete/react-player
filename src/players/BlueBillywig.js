@@ -173,19 +173,20 @@ export default class BlueBillywig extends Component {
       height: height === 'auto' ? height : '100%'
     }
 
+    this.overrides = this.overrides || ''
     if (url !== this.url || loop !== this.loop || controls !== this.controls) {
       this.url = url
       this.loop = loop
       this.controls = controls
       const controlBar = controls ? 'Autohide' : 'Hide'
-      this.overrides = JSON.stringify({ autoPlay:`${playing}`, autoMute:`${muted}`, autoLoop: `${loop}`, controlBar: controlBar })
+      this.overrides = JSON.stringify({ autoPlay:`${playing}`, autoMute:`${muted}`, autoLoop:`${loop}`, controlBar })
     }
     return (
       <bb-main-player
         ref={this.ref}
+        overrides={this.overrides}
         jsonEmbedUrl={url}
         style={style}
-        overrides={this.overrides}
       ></bb-main-player>
     )
   }
