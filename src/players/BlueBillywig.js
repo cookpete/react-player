@@ -158,7 +158,7 @@ export default class BlueBillywig extends Component {
   }
 
   getPlaybackId (url) {
-    const [appId, contentIndicator, contentId] = url.match(MATCH_URL_BLUEBILLYWIG)
+    const [,,, contentId] = url.match(MATCH_URL_BLUEBILLYWIG)
     return contentId
   }
 
@@ -179,7 +179,7 @@ export default class BlueBillywig extends Component {
       this.loop = loop
       this.controls = controls
       const controlBar = controls ? 'Autohide' : 'Hide'
-      this.overrides = JSON.stringify({ autoPlay:`${playing}`, autoMute:`${muted}`, autoLoop:`${loop}`, controlBar })
+      this.overrides = JSON.stringify({ autoPlay: `${playing}`, autoMute: `${muted}`, autoLoop: `${loop}`, controlBar })
     }
     return (
       <bb-main-player
@@ -187,7 +187,7 @@ export default class BlueBillywig extends Component {
         overrides={this.overrides}
         jsonEmbedUrl={url}
         style={style}
-      ></bb-main-player>
+      />
     )
   }
 }
