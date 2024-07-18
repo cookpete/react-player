@@ -2,8 +2,8 @@
   "name": "react-player",
   "version": "2.16.0",
   "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
-  "main": "src/index.js",
-  "typings": "types/lib/index.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib lazy demo coverage *.d.ts",
     "start": "cp -r examples/react/public/ demo & npm run build:lib --watch=forever & builder examples/react/src/index.js --format=iife --bundle --outdir=demo --watch --servedir=demo --livereload",
