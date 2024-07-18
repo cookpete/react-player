@@ -357,6 +357,13 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Spotify</th>
+                <td>
+                  {this.renderLoadButton('spotify:episode:7makk4oTQel546B0PZlDM5', 'Test A')}
+                  {this.renderLoadButton('spotify:track:0KhB428j00T8lxKCpHweKw', 'Test B')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4', 'mp4')}
