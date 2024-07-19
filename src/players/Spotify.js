@@ -26,12 +26,16 @@ export default class Spotify extends Component {
       this.initializePlayer(window[SDK_GLOBAL], url)
       return
     } else if (this.player) {
-      this.callPlayer('loadUri', this.props.url)
+      this.callPlayer('loadUri', this.getProxiedUrl(this.props.url))
       return
     }
 
     window.onSpotifyIframeApiReady = (IFrameAPI) => this.initializePlayer(IFrameAPI, url)
-    getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY)
+    getSDK(CORS_PROXY + encodeURIComponent(SDK_URL), SDK_GLOBAL, SDK_GLOBAL_READY)
+  }
+
+  getProxiedUrl(url) {
+    return CORS_PROXY + encodeURIComponent(url)
   }
 
   initializePlayer = (IFrameAPI, url) => {
@@ -40,7 +44,7 @@ export default class Spotify extends Component {
     const options = {
       width: '100%',
       height: '100%',
-      uri: url
+      uri: this.getProxiedUrl(url)
     }
     const callback = (EmbedController) => {
       this.player = EmbedController
