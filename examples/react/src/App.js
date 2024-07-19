@@ -360,7 +360,7 @@ class App extends Component {
                 <th>Spotify</th>
                 <td>
                   {this.renderLoadButton('spotify:episode:7makk4oTQel546B0PZlDM5', 'Test A')}
-                  {this.renderLoadButton('spotify:track:0KhB428j00T8lxKCpHweKw', 'Test B')}
+                  {this.renderLoadButton('https://open.spotify.com/episode/3xzXYdB71VMfrnJl9LTVwC', 'Test B')}
                 </td>
               </tr>
               <tr>

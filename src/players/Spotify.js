@@ -21,7 +21,8 @@ export default class Spotify extends Component {
   }
 
   load (url) {
-    if (window[SDK_GLOBAL] && !this.player) {
+    const isValidSdk = window[SDK_GLOBAL] && !this.player && window[SDK_GLOBAL].createController && typeof window[SDK_GLOBAL].createController === 'function'
+    if (isValidSdk) {
       this.initializePlayer(window[SDK_GLOBAL], url)
       return
     } else if (this.player) {
