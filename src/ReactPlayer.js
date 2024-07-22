@@ -175,7 +175,7 @@ export const createReactPlayer = (players, fallback) => {
         <Wrapper ref={wrapperRef} style={{ ...style, width, height }} {...attributes}>
           <UniversalSuspense fallback={fallback}>
             {showPreview
-            ? this.renderPreview(url)
+              ? this.renderPreview(url)
               : this.renderActivePlayer(url)}
           </UniversalSuspense>
         </Wrapper>

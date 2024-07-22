@@ -69,6 +69,10 @@ export const propTypes = {
       dashVersion: string,
       flvVersion: string
     }),
+    spotify: shape({
+      width: oneOfType([string, number]),
+      height: oneOfType([string, number])
+    }),
     wistia: shape({
       options: object,
       playerId: string,
@@ -186,6 +190,10 @@ export const defaultProps = {
       dashVersion: '3.1.3',
       flvVersion: '1.5.0',
       forceDisableHls: false
+    },
+    spotify: {
+      width: '100%',
+      height: '100%'
     },
     wistia: {
       options: {},

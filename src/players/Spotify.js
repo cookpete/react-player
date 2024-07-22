@@ -4,7 +4,7 @@ import { canPlay } from '../patterns'
 
 const SDK_URL = 'https://open.spotify.com/embed/iframe-api/v1'
 const SDK_GLOBAL = 'SpotifyIframeApi'
-const SDK_GLOBAL_READY = 'SpotifyIframeApi'
+const SDK_GLOBAL_READY = 'SpotifyIframeApiReady'
 
 export default class Spotify extends Component {
   static displayName = 'Spotify'
@@ -21,30 +21,29 @@ export default class Spotify extends Component {
   }
 
   load (url) {
-    const isValidSdk = window[SDK_GLOBAL] && !this.player && window[SDK_GLOBAL].createController && typeof window[SDK_GLOBAL].createController === 'function'
-    if (isValidSdk) {
+    if (window[SDK_GLOBAL] && !this.player) {
       this.initializePlayer(window[SDK_GLOBAL], url)
       return
     } else if (this.player) {
-      this.callPlayer('loadUri', this.getProxiedUrl(this.props.url))
+      this.callPlayer('loadUri', this.props.url)
       return
     }
 
-    window.onSpotifyIframeApiReady = (IFrameAPI) => this.initializePlayer(IFrameAPI, url)
-    getSDK(CORS_PROXY + encodeURIComponent(SDK_URL), SDK_GLOBAL, SDK_GLOBAL_READY)
-  }
-
-  getProxiedUrl(url) {
-    return CORS_PROXY + encodeURIComponent(url)
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      window[SDK_GLOBAL] = IFrameAPI
+      this.props.onReady()
+      return this.initializePlayer(IFrameAPI, url)
+    }
+    getSDK(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY)
   }
 
   initializePlayer = (IFrameAPI, url) => {
     if (!this.container) return
 
     const options = {
-      width: '100%',
-      height: '100%',
-      uri: this.getProxiedUrl(url)
+      width: this.props.config.width ?? '100%',
+      height: this.props.config.height ?? '100%',
+      uri: url
     }
     const callback = (EmbedController) => {
       this.player = EmbedController
