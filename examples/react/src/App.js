@@ -357,6 +357,12 @@ class App extends Component {
                 </td>
               </tr>
               <tr>
+                <th>Gumlet</th>
+                <td>
+                  {this.renderLoadButton('https://play.gumlet.io/embed/64bfb0913ed6e5096d66dc1e', 'Test A')}
+                </td>
+              </tr>
+              <tr>
                 <th>Files</th>
                 <td>
                   {this.renderLoadButton('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4', 'mp4')}
