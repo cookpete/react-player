@@ -75,6 +75,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
   },
   {
+    key: 'vk',
+    name: 'VK',
+    canPlay: canPlay.vk,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerVK' */'./VK'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,

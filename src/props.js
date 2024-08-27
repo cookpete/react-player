@@ -37,6 +37,11 @@ export const propTypes = {
       embedOptions: object,
       onUnstarted: func
     }),
+    vk: shape({
+      playerVars: object,
+      embedOptions: object,
+      onUnstarted: func
+    }),
     facebook: shape({
       appId: string,
       version: string,
@@ -138,6 +143,17 @@ export const defaultProps = {
       }
     },
     youtube: {
+      playerVars: {
+        playsinline: 1,
+        showinfo: 0,
+        rel: 0,
+        iv_load_policy: 3,
+        modestbranding: 1
+      },
+      embedOptions: {},
+      onUnstarted: noop
+    },
+    vk: {
       playerVars: {
         playsinline: 1,
         showinfo: 0,
