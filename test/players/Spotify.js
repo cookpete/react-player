@@ -13,7 +13,6 @@ const TEST_CONFIG = {
   options: {}
 }
 
-
 testPlayerMethods(Spotify, {
   play: 'resume',
   pause: 'pause',
@@ -37,18 +36,16 @@ test('load()', t => {
   t.truthy(window.onSpotifyIframeApiReady)
   t.ok(getSDK.calledOnce)
   getSDK.restore()
-  
 })
-
 
 test('render()', t => {
   const style = { width: '100%', height: '100%' }
   t.deepEqual(
     create(<Spotify url={TEST_URL} />).toJSON(),
     create(
-        <div style={style}>
-          <div />
-        </div>
-      ).toJSON()
+      <div style={style}>
+        <div />
+      </div>
+    ).toJSON()
   )
 })
