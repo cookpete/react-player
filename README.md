@@ -18,7 +18,7 @@
 
 ### ✨ The future of ReactPlayer
 
-Maintenance of ReactPlayer is being taken over by [Mux](https://www.mux.com). The team at Mux have worked on many highly respected projects and are committed to improving video tooling for developers.
+Maintenance of ReactPlayer is being taken over by [Mux](https://www.mux.com). Mux is a [video api](https://www.mux.com/video-api) for developers. The team at Mux have worked on many highly respected projects and are committed to improving video tooling for developers.
 
 ReactPlayer will remain open source, but with a higher rate of fixes and releases over time. Thanks to everyone in the community for your ongoing support.
 
