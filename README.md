@@ -9,7 +9,7 @@
 </p>
 
 <p align='center'>
-  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
+  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, Spotify, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
 </p>
 
 ---
@@ -146,6 +146,7 @@ Key | Options
 `dailymotion` | `params`: Override the [default player vars](https://developer.dailymotion.com/player#player-parameters)
 `twitch` | `options`: Override the [default player options](https://dev.twitch.tv/docs/embed)<br />`playerId`: Override player ID for consistent server-side rendering (use with [`react-uid`](https://github.com/thearnica/react-uid))
 `file` | `attributes`: Apply [element attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/video#Attributes)<br />`forceVideo`: Always render a `<video>` element<br />`forceAudio`: Always render an `<audio>` element<br />`forceHLS`: Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams<br />`forceSafariHLS`: Use [hls.js](https://github.com/video-dev/hls.js) for HLS streams, [even on Safari](https://github.com/cookpete/react-player/pull/1560)<br />`forceDisableHLS`: Disable usage [hls.js](https://github.com/video-dev/hls.js) for HLS streams<br />`forceDASH`: Always use [dash.js](https://github.com/Dash-Industry-Forum/dash.js) for DASH streams<br />`forceFLV`: Always use [flv.js](https://github.com/Bilibili/flv.js)<br />`hlsOptions`: Override the [default `hls.js` options](https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning)<br />`hlsVersion`: Override the [`hls.js`](https://github.com/video-dev/hls.js) version loaded from [`jsdelivr`](https://www.jsdelivr.com/package/npm/hls.js), default: `0.13.1`<br />`dashVersion`: Override the [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js) version loaded from [`cdnjs`](https://cdnjs.com/libraries/dashjs), default: `2.9.2`<br />`flvVersion`: Override the [`flv.js`](https://github.com/Bilibili/flv.js) version loaded from [`jsdelivr`](https://www.jsdelivr.com/package/npm/flv.js), default: `1.5.0`
+`spotify` | `width`: Optionally set the width of the player, defaults to 100% <br />`height`: Set the height of the player defaults to 100%
 
 ### Methods
 
@@ -334,6 +335,7 @@ ReactPlayer `v2.0` changes single player imports and adds lazy loading players. 
 * DailyMotion videos use the [DailyMotion Player API](https://developer.dailymotion.com/player)
 * Vidyard videos use the [Vidyard Player API](https://knowledge.vidyard.com/hc/en-us/articles/360019034753-Using-the-Vidyard-Player-API)
 * Kaltura's `react-player` implementation uses the embed.ly [`Player.js`](https://github.com/embedly/player.js) API but Kaltura specific APIs are also available, see [Kaltura Player API](http://player.kaltura.com/docs/index.php?path=kwidget)
+* Spotify episodes and tracks with the spotify [iframe api](https://developer.spotify.com/documentation/embeds/tutorials/using-the-iframe-api), episodes have full control but for tracks if the user is not logged in you will only get a short preview of the song
 * [Supported file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
   * HLS streams are played using [`hls.js`](https://github.com/video-dev/hls.js)
   * DASH streams are played using [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js)

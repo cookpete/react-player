@@ -5,6 +5,7 @@ import { FacebookConfig } from '../facebook'
 import { FileConfig } from '../file'
 import { MixcloudConfig } from '../mixcloud'
 import { SoundCloudConfig } from '../soundcloud'
+import { SpotifyConfig } from '../spotify'
 import { TwitchConfig } from '../twitch'
 import { VidyardConfig } from '../vidyard'
 import { VimeoConfig } from '../vimeo'
@@ -22,6 +23,7 @@ export interface Config {
   mixcloud?: MixcloudConfig
   vidyard?: VidyardConfig
   twitch?: TwitchConfig
+  spotify?: SpotifyConfig
 }
 
 export interface ReactPlayerProps extends BaseReactPlayerProps {

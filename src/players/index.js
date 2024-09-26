@@ -75,6 +75,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
   },
   {
+    key: 'spotify',
+    name: 'Spotify',
+    canPlay: canPlay.spotify,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerSpotify' */'./Spotify'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,
