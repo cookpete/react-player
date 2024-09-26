@@ -75,6 +75,12 @@ export default [
     lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerKaltura' */'./Kaltura'))
   },
   {
+    key: 'gumlet',
+    name: 'Gumlet',
+    canPlay: canPlay.gumlet,
+    lazyPlayer: lazy(() => import(/* webpackChunkName: 'reactPlayerGumlet' */'./Gumlet'))
+  },
+  {
     key: 'file',
     name: 'FilePlayer',
     canPlay: canPlay.file,
