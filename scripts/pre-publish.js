@@ -1,19 +1,18 @@
-const { join } = require('path')
-const { writeFile } = require('fs').promises
-const { default: players } = require('../lib/players')
+import { join } from 'path'
+import { writeFile } from 'fs/promises'
+import players from '../src/players/index.js'
 
 const generateSinglePlayers = async () => {
   for (const { key, name } of players) {
-    const file = `
-      var createReactPlayer = require('./lib/ReactPlayer').createReactPlayer
-      var Player = require('./lib/players/${name}').default
-      module.exports = createReactPlayer([{
-        key: '${key}',
-        canPlay: Player.canPlay,
-        lazyPlayer: Player
-      }])
-    `
-    await writeFile(join('.', `${key}.js`), file)
+    const file = `import { createReactPlayer } from './ReactPlayer.js'
+import Player from './players/${name}.js'
+export default createReactPlayer([{
+  key: '${key}',
+  canPlay: Player.canPlay,
+  lazyPlayer: Player
+}])
+`
+    await writeFile(join('./dist', `${key}.js`), file)
   }
 }
 

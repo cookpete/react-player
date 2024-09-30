@@ -5,7 +5,7 @@ import {
   ComponentType,
   ReactNode
 } from 'react'
-import ReactPlayer from './lib'
+import ReactPlayer from './index.js'
 
 interface SourceProps {
   media?: string

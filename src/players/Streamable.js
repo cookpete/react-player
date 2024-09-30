@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK } from '../utils'
-import { canPlay, MATCH_URL_STREAMABLE } from '../patterns'
+import { callPlayer, getSDK } from '../utils.js'
+import { canPlay, MATCH_URL_STREAMABLE } from '../patterns.js'
 
 const SDK_URL = 'https://cdn.embed.ly/player-0.1.0.min.js'
 const SDK_GLOBAL = 'playerjs'

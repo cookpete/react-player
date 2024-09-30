@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { callPlayer, getSDK } from '../utils'
-import { canPlay, MATCH_URL_VIDYARD } from '../patterns'
+import { callPlayer, getSDK } from '../utils.js'
+import { canPlay, MATCH_URL_VIDYARD } from '../patterns.js'
 
 const SDK_URL = 'https://play.vidyard.com/embed/v4.js'
 const SDK_GLOBAL = 'VidyardV4'

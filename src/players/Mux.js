@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { canPlay, MATCH_URL_MUX } from '../patterns'
+import { canPlay, MATCH_URL_MUX } from '../patterns.js'
 
 const SDK_URL = 'https://cdn.jsdelivr.net/npm/@mux/mux-player@VERSION/dist/mux-player.mjs'
 
