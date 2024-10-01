@@ -28,7 +28,7 @@ export default class YouTube extends Component {
   }
 
   load (url, isReady) {
-    const { playing, muted, playsinline, controls, loop, config, onError } = this.props
+    const { playing, muted, playsinline, controls, loop, shufflePlaylist, config, onError } = this.props
     const { playerVars, embedOptions } = config
     const id = this.getID(url)
     if (isReady) {
@@ -64,6 +64,9 @@ export default class YouTube extends Component {
           onReady: () => {
             if (loop) {
               this.player.setLoop(true) // Enable playlist looping
+            }
+            if (shufflePlaylist) {
+              this.player.setShuffle(shufflePlaylist) // Enable playlist shuffling
             }
             this.props.onReady()
           },
