@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, startTransition } from 'react'
 
 const ICON_SIZE = '64px'
 
@@ -44,7 +44,9 @@ export default class Preview extends Component {
       .then(data => {
         if (data.thumbnail_url && this.mounted) {
           const image = data.thumbnail_url.replace('height=100', 'height=480').replace('-d_295x166', '-d_640')
-          this.setState({ image })
+          startTransition(() => {
+            this.setState({ image })
+          })
           cache[url] = image
         }
       })
