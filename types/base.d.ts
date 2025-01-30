@@ -35,6 +35,7 @@ export interface BaseReactPlayerProps {
   playsinline?: boolean
   playIcon?: ReactElement
   previewTabIndex?: number | null
+  previewAriaLabel?: string
   pip?: boolean
   stopOnUnmount?: boolean
   light?: boolean | string | ReactElement

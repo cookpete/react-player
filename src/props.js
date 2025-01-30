@@ -123,7 +123,7 @@ export const defaultProps = {
   fallback: null,
   wrapper: 'div',
   previewTabIndex: 0,
-  previewAriaLabel: '',
+  previewAriaLabel: 'Play Video',
   oEmbedUrl: 'https://noembed.com/embed?url={url}',
   config: {
     soundcloud: {
