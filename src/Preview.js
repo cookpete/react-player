@@ -102,7 +102,7 @@ export default class Preview extends Component {
         onClick={onClick}
         tabIndex={previewTabIndex}
         onKeyPress={this.handleKeyPress}
-        {...(previewAriaLabel ? { 'aria-label': previewAriaLabel } : {})}
+        aria-label={previewAriaLabel}
       >
         {isElement ? light : null}
         {playIcon || defaultPlayIcon}

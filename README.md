@@ -89,6 +89,7 @@ Prop | Description | Default
 `wrapper` | Element or component to use as the container element | `div`
 `playIcon` | Element or component to use as the play icon in light mode
 `previewTabIndex` | Set the tab index to be used on light mode | 0
+`previewAriaLabel` | Set a custom ARIA label for the video preview element | `Play Video`
 `config` | Override options for the various players, see [config prop](#config-prop)
 
 #### Callback props
