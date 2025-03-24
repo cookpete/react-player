@@ -19,7 +19,9 @@ const Players: PlayerEntry[] = [
     name: 'hls.js',
     canPlay: canPlay.hls,
     canEnablePIP: () => true,
-    player: lazy(() => import(/* webpackChunkName: 'reactPlayerHls' */ 'hls-video-element/react')),
+    player: lazy(
+      () => import(/* webpackChunkName: 'reactPlayerHls' */ 'hls-video-element/react')
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
   },
   {
     key: 'dash',
@@ -28,7 +30,7 @@ const Players: PlayerEntry[] = [
     canEnablePIP: () => true,
     player: lazy(
       () => import(/* webpackChunkName: 'reactPlayerDash' */ 'dash-video-element/react')
-    ),
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
   },
   {
     key: 'mux',
@@ -45,7 +47,7 @@ const Players: PlayerEntry[] = [
     canPlay: canPlay.youtube,
     player: lazy(
       () => import(/* webpackChunkName: 'reactPlayerYouTube' */ 'youtube-video-element/react')
-    ),
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
   },
   {
     key: 'vimeo',
@@ -53,7 +55,7 @@ const Players: PlayerEntry[] = [
     canPlay: canPlay.vimeo,
     player: lazy(
       () => import(/* webpackChunkName: 'reactPlayerVimeo' */ 'vimeo-video-element/react')
-    ),
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
   },
   {
     key: 'wistia',
@@ -62,7 +64,7 @@ const Players: PlayerEntry[] = [
     canEnablePIP: () => true,
     player: lazy(
       () => import(/* webpackChunkName: 'reactPlayerWistia' */ 'wistia-video-element/react')
-    ),
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
   },
   {
     key: 'html',

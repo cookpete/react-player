@@ -96,6 +96,7 @@ const Player: Player = React.forwardRef((props, ref) => {
       muted={props.muted}
       autoPlay={props.autoPlay}
       loop={props.loop}
+      config={props.config}
       onLoadStart={handleLoadStart}
       onPlay={handlePlay}
     >

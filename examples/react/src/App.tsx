@@ -202,6 +202,14 @@ class App extends Component {
               playbackRate={playbackRate}
               volume={volume}
               muted={muted}
+              config={{
+                youtube: {
+                  color: 'white'
+                },
+                vimeo: {
+                  color: 'ffffff'
+                }
+              }}
               onLoadStart={() => console.log('onLoadStart')}
               onReady={() => console.log('onReady')}
               onStart={(e) => console.log('onStart', e)}

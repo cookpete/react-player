@@ -84,6 +84,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
           ref={ref}
           activePlayer={player.player ?? (player as unknown as PlayerEntry['player'])}
           style={wrapper ? { width: '100%', height: '100%' } : { ...style, width, height }}
+          config={config}
         />
       );
     };

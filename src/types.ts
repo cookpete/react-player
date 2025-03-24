@@ -15,6 +15,7 @@ export interface VideoElementProps
   extends React.DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {
   playbackRate?: number;
   volume?: number;
+  config?: Config;
 }
 
 export interface ReactPlayerProps extends PreviewProps, VideoElementProps {
@@ -38,11 +39,11 @@ export interface PreviewProps {
 }
 
 export interface Config {
-  html: Record<string, unknown>;
-  hls: Record<string, unknown>;
-  dash: Record<string, unknown>;
-  mux: Record<string, unknown>;
-  youtube: Record<string, unknown>;
-  vimeo: Record<string, unknown>;
-  wistia: Record<string, unknown>;
+  html?: Record<string, unknown>;
+  hls?: Record<string, unknown>;
+  dash?: Record<string, unknown>;
+  mux?: Record<string, unknown>;
+  youtube?: Record<string, unknown>;
+  vimeo?: Record<string, unknown>;
+  wistia?: Record<string, unknown>;
 }
