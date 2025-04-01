@@ -35,6 +35,13 @@ class HTMLVideoElement extends Element {
   async load() {
     await Promise.resolve();
     this.dispatchEvent(new Event('loadstart'));
+
+    await Promise.resolve();
+    this.duration = 10;
+    this.dispatchEvent(new Event('durationchange'));
+    this.dispatchEvent(new Event('loadedmetadata'));
+    this.dispatchEvent(new Event('loadeddata'));
+    this.dispatchEvent(new Event('canplay'));
   }
 
   pause() {
