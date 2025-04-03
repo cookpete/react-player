@@ -82,7 +82,7 @@ Prop | Description
 `onPlay` | Called when media starts or resumes playing after pausing or buffering
 `onProgress` | Called when media data is loaded
 `onTimeUpdate` | Called when the media's current time changes
-`onDuration` | Callback containing duration of the media, in seconds
+`onDurationChange` | Callback containing duration of the media, in seconds
 `onPause` | Called when media is paused
 `onSeeking` | Called when media is seeking
 `onSeeked` | Called when media has finished seeking

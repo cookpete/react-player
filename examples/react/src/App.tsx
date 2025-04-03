@@ -144,7 +144,7 @@ class App extends Component {
   handleDurationChange = () => {
     if (!this.player) return;
 
-    console.log('onDuration', this.player.duration);
+    console.log('onDurationChange', this.player.duration);
     this.setState({ duration: this.player.duration });
   };
 
