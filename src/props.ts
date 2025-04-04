@@ -7,8 +7,8 @@ export const defaultProps: ReactPlayerProps = {
   loop: false,
   controls: false,
   playsInline: false,
-  width: '640px',
-  height: '360px',
+  width: '320px',
+  height: '180px',
 
   // native video props
   volume: 1,
@@ -19,7 +19,6 @@ export const defaultProps: ReactPlayerProps = {
   pip: false,
   light: false,
   fallback: null,
-  wrapper: 'div',
   previewTabIndex: 0,
   previewAriaLabel: '',
   oEmbedUrl: 'https://noembed.com/embed?url={url}',

@@ -76,27 +76,30 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
       if (!player) return null;
 
       const { style, width, height, wrapper } = props;
-      const config = props.config?.[player.key as keyof ReactPlayerProps['config']] || {};
+      const config = props.config?.[player.key as keyof ReactPlayerProps['config']];
 
       return (
         <Player
           {...props}
           ref={ref}
           activePlayer={player.player ?? (player as unknown as PlayerEntry['player'])}
-          style={wrapper ? { width: '100%', height: '100%' } : { ...style, width, height }}
+          className={wrapper ? undefined : className}
+          style={wrapper
+            ? { display: 'block', width: '100%', height: '100%' }
+            : { display: 'block', width, height, ...style }}
           config={config}
         />
       );
     };
 
     const Wrapper: ReactPlayerProps['wrapper'] =
-      wrapper == null ? ({ children }: { children?: React.ReactNode }) => children : wrapper;
+      wrapper == null ? ForwardChildren : wrapper;
 
     const UniversalSuspense =
-      fallback === false ? ({ children }: { children: React.ReactNode }) => children : Suspense;
+      fallback === false ? ForwardChildren : Suspense;
 
     return (
-      <Wrapper className={className} style={{ ...style, width, height }}>
+      <Wrapper className={className} style={{ width, height, ...style }}>
         <UniversalSuspense fallback={fallback}>
           {showPreview ? renderPreview(src) : renderActivePlayer(src)}
         </UniversalSuspense>
@@ -138,3 +141,5 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
 
   return ReactPlayer;
 };
+
+const ForwardChildren = ({ children }: { children?: React.ReactNode }) => children;

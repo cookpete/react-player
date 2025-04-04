@@ -79,6 +79,7 @@ const Player: Player = React.forwardRef((props, ref) => {
     <Player
       {...eventProps}
       style={props.style}
+      className={props.className}
       ref={useCallback(
         (node: HTMLVideoElement) => {
           playerRef.current = node;

@@ -125,39 +125,14 @@ The styles for the preview image and play icon can be overridden by targeting th
 
 #### Responsive player
 
-Set `width` and `height` to `100%` and wrap the player in a [fixed aspect ratio box](https://css-tricks.com/aspect-ratio-boxes) to get a responsive player:
+Set `width` to `100%`, `height` to `auto` and add an `aspectRatio` like `16 / 9` to get a responsive player:
 
 ```js
-class ResponsivePlayer extends Component {
-  render () {
-    return (
-      <div className='player-wrapper'>
-        <ReactPlayer
-          className='react-player'
-          url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
-          width='100%'
-          height='100%'
-        />
-      </div>
-    )
-  }
-}
+<ReactPlayer
+  url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+  style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
+/>
 ```
-
-```css
-.player-wrapper {
-  position: relative;
-  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
-}
-
-.react-player {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-```
-
-See [`jsFiddle` example](https://jsfiddle.net/e6w3rtj1/)
 
 #### SDK Overrides
 

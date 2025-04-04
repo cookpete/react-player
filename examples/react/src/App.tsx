@@ -1,16 +1,16 @@
 // biome-ignore lint/style/useImportType:
-import React, { Component } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import screenfull from 'screenfull';
 
 import { version } from '../../../package.json';
 import ReactPlayer from '../../../';
 import Duration from './Duration';
 
-class App extends Component {
-  player: HTMLVideoElement | null = null;
-  urlInput: HTMLInputElement | null = null;
+const App = () => {
+  const playerRef = useRef<HTMLVideoElement | null>(null);
+  const urlInputRef = useRef<HTMLInputElement | null>(null);
 
-  state = {
+  const [state, setState] = useState({
     src: '',
     pip: false,
     playing: false,
@@ -24,498 +24,519 @@ class App extends Component {
     playbackRate: 1.0,
     loop: false,
     seeking: false,
-  };
+    loadedSeconds: 0,
+    playedSeconds: 0,
+  });
 
-  load = (src?: string) => {
-    this.setState({
+  const load = (src: string) => {
+    setState(prevState => ({
+      ...prevState,
       src,
       played: 0,
       loaded: 0,
       pip: false,
-    });
+    }));
   };
 
-  handlePlayPause = () => {
-    this.setState({ playing: !this.state.playing });
+  const handlePlayPause = () => {
+    setState(prevState => ({ ...prevState, playing: !prevState.playing }));
   };
 
-  handleStop = () => {
-    this.setState({ src: '', playing: false });
+  const handleStop = () => {
+    setState(prevState => ({ ...prevState, src: '', playing: false }));
   };
 
-  handleToggleControls = () => {
-    this.setState({ controls: !this.state.controls });
+  const handleToggleControls = () => {
+    setState(prevState => ({ ...prevState, controls: !prevState.controls }));
   };
 
-  handleToggleLight = () => {
-    this.setState({ light: !this.state.light });
+  const handleToggleLight = () => {
+    setState(prevState => ({ ...prevState, light: !prevState.light }));
   };
 
-  handleToggleLoop = () => {
-    this.setState({ loop: !this.state.loop });
+  const handleToggleLoop = () => {
+    setState(prevState => ({ ...prevState, loop: !prevState.loop }));
   };
 
-  handleVolumeChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    this.setState({ volume: Number.parseFloat(e.currentTarget.value) });
+  const handleVolumeChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    const inputTarget = event.target as HTMLInputElement;
+    setState(prevState => ({ ...prevState, volume: Number.parseFloat(inputTarget.value) }));
   };
 
-  handleToggleMuted = () => {
-    this.setState({ muted: !this.state.muted });
+  const handleToggleMuted = () => {
+    setState(prevState => ({ ...prevState, muted: !prevState.muted }));
   };
 
-  handleSetPlaybackRate = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    this.setState({ playbackRate: Number.parseFloat(`${e.currentTarget.dataset.value}`) });
+  const handleSetPlaybackRate = (event: React.SyntheticEvent<HTMLButtonElement>) => {
+    const buttonTarget = event.target as HTMLButtonElement;
+    setState(prevState => ({
+      ...prevState,
+      playbackRate: Number.parseFloat(`${buttonTarget.dataset.value}`)
+    }));
   };
 
-  handleRateChange = () => {
-    this.setState({ playbackRate: this.player?.playbackRate });
+  const handleRateChange = () => {
+    const player = playerRef.current;
+    if (!player) return;
+
+    setState(prevState => ({ ...prevState, playbackRate: player.playbackRate }));
   };
 
-  handleTogglePIP = () => {
-    this.setState({ pip: !this.state.pip });
+  const handleTogglePIP = () => {
+    setState(prevState => ({ ...prevState, pip: !prevState.pip }));
   };
 
-  handlePlay = () => {
+  const handlePlay = () => {
     console.log('onPlay');
-    this.setState({ playing: true });
+    setState(prevState => ({ ...prevState, playing: true }));
   };
 
-  handleEnterPictureInPicture = () => {
+  const handleEnterPictureInPicture = () => {
     console.log('onEnterPictureInPicture');
-    this.setState({ pip: true });
+    setState(prevState => ({ ...prevState, pip: true }));
   };
 
-  handleLeavePictureInPicture = () => {
+  const handleLeavePictureInPicture = () => {
     console.log('onLeavePictureInPicture');
-    this.setState({ pip: false });
+    setState(prevState => ({ ...prevState, pip: false }));
   };
 
-  handlePause = () => {
+  const handlePause = () => {
     console.log('onPause');
-    this.setState({ playing: false });
+    setState(prevState => ({ ...prevState, playing: false }));
   };
 
-  handleSeekMouseDown = () => {
-    this.setState({ seeking: true });
+  const handleSeekMouseDown = () => {
+    setState(prevState => ({ ...prevState, seeking: true }));
   };
 
-  handleSeekChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    this.setState({ played: Number.parseFloat(e.currentTarget.value) });
+  const handleSeekChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    const inputTarget = event.target as HTMLInputElement;
+    setState(prevState => ({ ...prevState, played: Number.parseFloat(inputTarget.value) }));
   };
 
-  handleSeekMouseUp = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    this.setState({ seeking: false });
-    if (this.player) {
-      this.player.currentTime = Number.parseFloat(e.currentTarget.value) * this.player.duration;
+  const handleSeekMouseUp = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    const inputTarget = event.target as HTMLInputElement;
+    setState(prevState => ({ ...prevState, seeking: false }));
+    if (playerRef.current) {
+      playerRef.current.currentTime = Number.parseFloat(inputTarget.value) * playerRef.current.duration;
     }
   };
 
-  handleProgress = () => {
+  const handleProgress = () => {
+    const player = playerRef.current;
     // We only want to update time slider if we are not currently seeking
-    if (!this.player || this.state.seeking) return;
+    if (!player || state.seeking || !player.buffered?.length) return;
 
     console.log('onProgress');
 
-    this.setState({
-      loadedSeconds: this.player.buffered?.end(this.player.buffered?.length - 1),
-      loaded: this.player.buffered?.end(this.player.buffered?.length - 1) / this.player.duration,
-    });
+    setState(prevState => ({
+      ...prevState,
+      loadedSeconds: player.buffered?.end(player.buffered?.length - 1),
+      loaded: player.buffered?.end(player.buffered?.length - 1) / player.duration,
+    }));
   };
 
-  handleTimeUpdate = () => {
+  const handleTimeUpdate = () => {
+    const player = playerRef.current;
     // We only want to update time slider if we are not currently seeking
-    if (!this.player || this.state.seeking) return;
+    if (!player || state.seeking) return;
 
-    console.log('onTimeUpdate', this.player?.currentTime);
+    console.log('onTimeUpdate', player.currentTime);
 
-    if (!this.player?.duration) return;
+    if (!player.duration) return;
 
-    this.setState({
-      playedSeconds: this.player.currentTime,
-      played: this.player.currentTime / this.player.duration,
-    });
+    setState(prevState => ({
+      ...prevState,
+      playedSeconds: player.currentTime,
+      played: player.currentTime / player.duration,
+    }));
   };
 
-  handleEnded = () => {
+  const handleEnded = () => {
     console.log('onEnded');
-    this.setState({ playing: this.state.loop });
+    setState(prevState => ({ ...prevState, playing: prevState.loop }));
   };
 
-  handleDurationChange = () => {
-    if (!this.player) return;
+  const handleDurationChange = () => {
+    const player = playerRef.current;
+    if (!player) return;
 
-    console.log('onDurationChange', this.player.duration);
-    this.setState({ duration: this.player.duration });
+    console.log('onDurationChange', player.duration);
+    setState(prevState => ({ ...prevState, duration: player.duration }));
   };
 
-  handleClickFullscreen = () => {
+  const handleClickFullscreen = () => {
     const reactPlayer = document.querySelector('.react-player');
     if (reactPlayer) screenfull.request(reactPlayer);
   };
 
-  renderLoadButton = (src: string, label: string) => {
+  const renderLoadButton = (src: string, label: string) => {
     return (
-      <button type="button" onClick={() => this.load(src)}>
+      <button type="button" onClick={() => load(src)}>
         {label}
       </button>
     );
   };
 
-  ref = (player: HTMLVideoElement) => {
-    this.player = player;
+  const setPlayerRef = useCallback((player: HTMLVideoElement) => {
+    if (!player) return;
+    playerRef.current = player;
     console.log(player);
+  }, []);
+
+  const handleLoadCustomUrl = () => {
+    if (urlInputRef.current?.value) {
+      setState(prevState => ({ ...prevState, src: urlInputRef.current?.value || '' }));
+    }
   };
 
-  render() {
-    const {
-      src,
-      playing,
-      controls,
-      light,
-      volume,
-      muted,
-      loop,
-      played,
-      loaded,
-      duration,
-      playbackRate,
-      pip,
-    } = this.state;
-    const SEPARATOR = ' · ';
+  const {
+    src,
+    playing,
+    controls,
+    light,
+    volume,
+    muted,
+    loop,
+    played,
+    loaded,
+    duration,
+    playbackRate,
+    pip,
+  } = state;
 
-    return (
-      <div className="app">
-        <section className="section">
-          <h1>ReactPlayer Demo</h1>
-          <div className="player-wrapper">
-            <ReactPlayer
-              ref={this.ref}
-              className="react-player"
-              width="100%"
-              height="100%"
-              src={src}
-              pip={pip}
-              playing={playing}
-              controls={controls}
-              light={light}
-              loop={loop}
-              playbackRate={playbackRate}
-              volume={volume}
-              muted={muted}
-              config={{
-                youtube: {
-                  color: 'white'
-                },
-                vimeo: {
-                  color: 'ffffff'
-                }
-              }}
-              onLoadStart={() => console.log('onLoadStart')}
-              onReady={() => console.log('onReady')}
-              onStart={(e) => console.log('onStart', e)}
-              onPlay={this.handlePlay}
-              onEnterPictureInPicture={this.handleEnterPictureInPicture}
-              onLeavePictureInPicture={this.handleLeavePictureInPicture}
-              onPause={this.handlePause}
-              onRateChange={this.handleRateChange}
-              onSeeking={(e) => console.log('onSeeking', e)}
-              onSeeked={(e) => console.log('onSeeked', e)}
-              onEnded={this.handleEnded}
-              onError={(e) => console.log('onError', e)}
-              onTimeUpdate={this.handleTimeUpdate}
-              onProgress={this.handleProgress}
-              onDurationChange={this.handleDurationChange}
-            />
-          </div>
+  const SEPARATOR = ' · ';
 
-          <table>
-            <tbody>
-              <tr>
-                <th>Controls</th>
-                <td>
-                  <button type="button" onClick={this.handleStop}>
-                    Stop
-                  </button>
-                  <button type="button" onClick={this.handlePlayPause}>
-                    {playing ? 'Pause' : 'Play'}
-                  </button>
-                  <button type="button" onClick={this.handleClickFullscreen}>
-                    Fullscreen
-                  </button>
-                  {ReactPlayer.canEnablePIP?.(src) && (
-                    <button type="button" onClick={this.handleTogglePIP}>
-                      {pip ? 'Disable PiP' : 'Enable PiP'}
-                    </button>
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th>Speed</th>
-                <td>
-                  <button type="button" onClick={this.handleSetPlaybackRate} data-value={1}>
-                    1x
-                  </button>
-                  <button type="button" onClick={this.handleSetPlaybackRate} data-value={1.5}>
-                    1.5x
-                  </button>
-                  <button type="button" onClick={this.handleSetPlaybackRate} data-value={2}>
-                    2x
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <th>Seek</th>
-                <td>
-                  <input
-                    type="range"
-                    min={0}
-                    max={0.999999}
-                    step="any"
-                    value={played}
-                    onMouseDown={this.handleSeekMouseDown}
-                    onChange={this.handleSeekChange}
-                    onMouseUp={this.handleSeekMouseUp}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Volume</th>
-                <td>
-                  <input
-                    type="range"
-                    min={0}
-                    max={1}
-                    step="any"
-                    value={volume}
-                    onChange={this.handleVolumeChange}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  <label htmlFor="controls">Controls</label>
-                </th>
-                <td>
-                  <input
-                    id="controls"
-                    type="checkbox"
-                    checked={controls}
-                    onChange={this.handleToggleControls}
-                  />
-                  <em>&nbsp; Requires player reload for some players</em>
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  <label htmlFor="muted">Muted</label>
-                </th>
-                <td>
-                  <input
-                    id="muted"
-                    type="checkbox"
-                    checked={muted}
-                    onChange={this.handleToggleMuted}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  <label htmlFor="loop">Loop</label>
-                </th>
-                <td>
-                  <input
-                    id="loop"
-                    type="checkbox"
-                    checked={loop}
-                    onChange={this.handleToggleLoop}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  <label htmlFor="light">Light mode</label>
-                </th>
-                <td>
-                  <input
-                    id="light"
-                    type="checkbox"
-                    checked={light}
-                    onChange={this.handleToggleLight}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>Played</th>
-                <td>
-                  <progress max={1} value={played} />
-                </td>
-              </tr>
-              <tr>
-                <th>Loaded</th>
-                <td>
-                  <progress max={1} value={loaded} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-        <section className="section">
-          <table>
-            <tbody>
-              <tr>
-                <th>HTML</th>
-                <td>
-                  {this.renderLoadButton(
-                    'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4',
-                    'mp4'
-                  )}
-                  {this.renderLoadButton(
-                    'https://test-videos.co.uk/vids/bigbuckbunny/webm/vp8/360/Big_Buck_Bunny_360_10s_1MB.webm',
-                    'webm'
-                  )}
-                  {this.renderLoadButton(
-                    'https://filesamples.com/samples/video/ogv/sample_640x360.ogv',
-                    'ogv'
-                  )}
-                  {this.renderLoadButton(
-                    'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
-                    'mp3'
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th>HLS</th>
-                <td>
-                  {this.renderLoadButton(
-                    'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
-                    'HLS (m3u8)'
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th>DASH</th>
-                <td>
-                  {this.renderLoadButton(
-                    'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_640x360_800k.mpd',
-                    'DASH (mpd)'
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th>Mux</th>
-                <td>
-                  {this.renderLoadButton(
-                    'https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k',
-                    'Test A'
-                  )}
-                  {this.renderLoadButton(
-                    'https://stream.mux.com/Sc89iWAyNkhJ3P1rQ02nrEdCFTnfT01CZ2KmaEcxXfB008',
-                    'Test B'
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th>YouTube</th>
-                <td>
-                  {this.renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A')}
-                  {this.renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B')}
-                </td>
-              </tr>
-              <tr>
-                <th>Vimeo</th>
-                <td>
-                  {this.renderLoadButton('https://vimeo.com/90509568', 'Test A')}
-                  {this.renderLoadButton('https://vimeo.com/169599296', 'Test B')}
-                </td>
-              </tr>
-              <tr>
-                <th>Wistia</th>
-                <td>
-                  {this.renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}
-                  {this.renderLoadButton('https://home.wistia.com/medias/29b0fbf547', 'Test B')}
-                  {this.renderLoadButton('https://home.wistia.com/medias/bq6epni33s', 'Test C')}
-                </td>
-              </tr>
-              <tr>
-                <th>Custom</th>
-                <td>
-                  <input
-                    ref={(input) => {
-                      this.urlInput = input;
-                    }}
-                    type="text"
-                    placeholder="Enter URL"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => this.setState({ src: this.urlInput?.value })}
-                  >
-                    Load
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+  return (
+    <div className="app">
+      <section className="section">
+        <h1>ReactPlayer Demo</h1>
+        <div className="player-wrapper">
+          <ReactPlayer
+            ref={setPlayerRef}
+            className="react-player"
+            style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
+            src={src}
+            pip={pip}
+            playing={playing}
+            controls={controls}
+            light={light}
+            loop={loop}
+            playbackRate={playbackRate}
+            volume={volume}
+            muted={muted}
+            config={{
+              youtube: {
+                color: 'white'
+              },
+              vimeo: {
+                color: 'ffffff'
+              }
+            }}
+            onLoadStart={() => console.log('onLoadStart')}
+            onReady={() => console.log('onReady')}
+            onStart={(e) => console.log('onStart', e)}
+            onPlay={handlePlay}
+            onEnterPictureInPicture={handleEnterPictureInPicture}
+            onLeavePictureInPicture={handleLeavePictureInPicture}
+            onPause={handlePause}
+            onRateChange={handleRateChange}
+            onSeeking={(e) => console.log('onSeeking', e)}
+            onSeeked={(e) => console.log('onSeeked', e)}
+            onEnded={handleEnded}
+            onError={(e) => console.log('onError', e)}
+            onTimeUpdate={handleTimeUpdate}
+            onProgress={handleProgress}
+            onDurationChange={handleDurationChange}
+          />
+        </div>
 
-          <h2>State</h2>
+        <table>
+          <tbody>
+            <tr>
+              <th>Controls</th>
+              <td>
+                <button type="button" onClick={handleStop}>
+                  Stop
+                </button>
+                <button type="button" onClick={handlePlayPause}>
+                  {playing ? 'Pause' : 'Play'}
+                </button>
+                <button type="button" onClick={handleClickFullscreen}>
+                  Fullscreen
+                </button>
+                {ReactPlayer.canEnablePIP?.(src) && (
+                  <button type="button" onClick={handleTogglePIP}>
+                    {pip ? 'Disable PiP' : 'Enable PiP'}
+                  </button>
+                )}
+              </td>
+            </tr>
+            <tr>
+              <th>Speed</th>
+              <td>
+                <button type="button" onClick={handleSetPlaybackRate} data-value={1}>
+                  1x
+                </button>
+                <button type="button" onClick={handleSetPlaybackRate} data-value={1.5}>
+                  1.5x
+                </button>
+                <button type="button" onClick={handleSetPlaybackRate} data-value={2}>
+                  2x
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <th>Seek</th>
+              <td>
+                <input
+                  type="range"
+                  min={0}
+                  max={0.999999}
+                  step="any"
+                  value={played}
+                  onMouseDown={handleSeekMouseDown}
+                  onChange={handleSeekChange}
+                  onMouseUp={handleSeekMouseUp}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Volume</th>
+              <td>
+                <input
+                  type="range"
+                  min={0}
+                  max={1}
+                  step="any"
+                  value={volume}
+                  onChange={handleVolumeChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label htmlFor="controls">Controls</label>
+              </th>
+              <td>
+                <input
+                  id="controls"
+                  type="checkbox"
+                  checked={controls}
+                  onChange={handleToggleControls}
+                />
+                <em>&nbsp; Requires player reload for some players</em>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label htmlFor="muted">Muted</label>
+              </th>
+              <td>
+                <input
+                  id="muted"
+                  type="checkbox"
+                  checked={muted}
+                  onChange={handleToggleMuted}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label htmlFor="loop">Loop</label>
+              </th>
+              <td>
+                <input
+                  id="loop"
+                  type="checkbox"
+                  checked={loop}
+                  onChange={handleToggleLoop}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label htmlFor="light">Light mode</label>
+              </th>
+              <td>
+                <input
+                  id="light"
+                  type="checkbox"
+                  checked={light}
+                  onChange={handleToggleLight}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Played</th>
+              <td>
+                <progress max={1} value={played} />
+              </td>
+            </tr>
+            <tr>
+              <th>Loaded</th>
+              <td>
+                <progress max={1} value={loaded} />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section className="section">
+        <table>
+          <tbody>
+            <tr>
+              <th>HTML</th>
+              <td>
+                {renderLoadButton(
+                  'https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4',
+                  'mp4'
+                )}
+                {renderLoadButton(
+                  'https://test-videos.co.uk/vids/bigbuckbunny/webm/vp8/360/Big_Buck_Bunny_360_10s_1MB.webm',
+                  'webm'
+                )}
+                {renderLoadButton(
+                  'https://filesamples.com/samples/video/ogv/sample_640x360.ogv',
+                  'ogv'
+                )}
+                {renderLoadButton(
+                  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
+                  'mp3'
+                )}
+              </td>
+            </tr>
+            <tr>
+              <th>HLS</th>
+              <td>
+                {renderLoadButton(
+                  'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+                  'HLS (m3u8)'
+                )}
+              </td>
+            </tr>
+            <tr>
+              <th>DASH</th>
+              <td>
+                {renderLoadButton(
+                  'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps_640x360_800k.mpd',
+                  'DASH (mpd)'
+                )}
+              </td>
+            </tr>
+            <tr>
+              <th>Mux</th>
+              <td>
+                {renderLoadButton(
+                  'https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k',
+                  'Test A'
+                )}
+                {renderLoadButton(
+                  'https://stream.mux.com/Sc89iWAyNkhJ3P1rQ02nrEdCFTnfT01CZ2KmaEcxXfB008',
+                  'Test B'
+                )}
+              </td>
+            </tr>
+            <tr>
+              <th>YouTube</th>
+              <td>
+                {renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A')}
+                {renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B')}
+              </td>
+            </tr>
+            <tr>
+              <th>Vimeo</th>
+              <td>
+                {renderLoadButton('https://vimeo.com/90509568', 'Test A')}
+                {renderLoadButton('https://vimeo.com/169599296', 'Test B')}
+              </td>
+            </tr>
+            <tr>
+              <th>Wistia</th>
+              <td>
+                {renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}
+                {renderLoadButton('https://home.wistia.com/medias/29b0fbf547', 'Test B')}
+                {renderLoadButton('https://home.wistia.com/medias/bq6epni33s', 'Test C')}
+              </td>
+            </tr>
+            <tr>
+              <th>Custom</th>
+              <td>
+                <input
+                  ref={urlInputRef}
+                  type="text"
+                  placeholder="Enter URL"
+                />
+                <button
+                  type="button"
+                  onClick={handleLoadCustomUrl}
+                >
+                  Load
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-          <table>
-            <tbody>
-              <tr>
-                <th>src</th>
-                <td className={!src ? 'faded' : ''}>{src || 'null'}</td>
-              </tr>
-              <tr>
-                <th>playing</th>
-                <td>{playing ? 'true' : 'false'}</td>
-              </tr>
-              <tr>
-                <th>volume</th>
-                <td>{volume.toFixed(3)}</td>
-              </tr>
-              <tr>
-                <th>speed</th>
-                <td>{playbackRate}</td>
-              </tr>
-              <tr>
-                <th>played</th>
-                <td>{played.toFixed(3)}</td>
-              </tr>
-              <tr>
-                <th>loaded</th>
-                <td>{loaded.toFixed(3)}</td>
-              </tr>
-              <tr>
-                <th>duration</th>
-                <td>
-                  <Duration seconds={duration} />
-                </td>
-              </tr>
-              <tr>
-                <th>elapsed</th>
-                <td>
-                  <Duration seconds={duration * played} />
-                </td>
-              </tr>
-              <tr>
-                <th>remaining</th>
-                <td>
-                  <Duration seconds={duration * (1 - played)} />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-        <footer className="footer">
-          Version <strong>{version}</strong>
-          {SEPARATOR}
-          <a href="https://github.com/CookPete/react-player">GitHub</a>
-          {SEPARATOR}
-          <a href="https://www.npmjs.com/package/react-player">npm</a>
-        </footer>
-      </div>
-    );
-  }
-}
+        <h2>State</h2>
+
+        <table>
+          <tbody>
+            <tr>
+              <th>src</th>
+              <td className={!src ? 'faded' : ''}>{src || 'null'}</td>
+            </tr>
+            <tr>
+              <th>playing</th>
+              <td>{playing ? 'true' : 'false'}</td>
+            </tr>
+            <tr>
+              <th>volume</th>
+              <td>{volume.toFixed(3)}</td>
+            </tr>
+            <tr>
+              <th>speed</th>
+              <td>{playbackRate}</td>
+            </tr>
+            <tr>
+              <th>played</th>
+              <td>{played.toFixed(3)}</td>
+            </tr>
+            <tr>
+              <th>loaded</th>
+              <td>{loaded.toFixed(3)}</td>
+            </tr>
+            <tr>
+              <th>duration</th>
+              <td>
+                <Duration seconds={duration} />
+              </td>
+            </tr>
+            <tr>
+              <th>elapsed</th>
+              <td>
+                <Duration seconds={duration * played} />
+              </td>
+            </tr>
+            <tr>
+              <th>remaining</th>
+              <td>
+                <Duration seconds={duration * (1 - played)} />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <footer className="footer">
+        Version <strong>{version}</strong>
+        {SEPARATOR}
+        <a href="https://github.com/CookPete/react-player">GitHub</a>
+        {SEPARATOR}
+        <a href="https://www.npmjs.com/package/react-player">npm</a>
+      </footer>
+    </div>
+  );
+};
 
 export default App;
