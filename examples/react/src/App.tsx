@@ -10,8 +10,8 @@ const App = () => {
   const playerRef = useRef<HTMLVideoElement | null>(null);
   const urlInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [state, setState] = useState({
-    src: '',
+  const initialState = {
+    src: undefined,
     pip: false,
     playing: false,
     controls: false,
@@ -26,9 +26,15 @@ const App = () => {
     seeking: false,
     loadedSeconds: 0,
     playedSeconds: 0,
-  });
+  };
 
-  const load = (src: string) => {
+  type PlayerState = Omit<typeof initialState, 'src'> & {
+    src?: string;
+  };
+
+  const [state, setState] = useState<PlayerState>(initialState);
+
+  const load = (src?: string) => {
     setState(prevState => ({
       ...prevState,
       src,
@@ -43,7 +49,7 @@ const App = () => {
   };
 
   const handleStop = () => {
-    setState(prevState => ({ ...prevState, src: '', playing: false }));
+    setState(prevState => ({ ...prevState, src: undefined, playing: false }));
   };
 
   const handleToggleControls = () => {
@@ -187,7 +193,7 @@ const App = () => {
 
   const handleLoadCustomUrl = () => {
     if (urlInputRef.current?.value) {
-      setState(prevState => ({ ...prevState, src: urlInputRef.current?.value || '' }));
+      setState(prevState => ({ ...prevState, src: urlInputRef.current?.value }));
     }
   };
 
@@ -266,7 +272,7 @@ const App = () => {
                 <button type="button" onClick={handleClickFullscreen}>
                   Fullscreen
                 </button>
-                {ReactPlayer.canEnablePIP?.(src) && (
+                {src && ReactPlayer.canEnablePIP?.(src) && (
                   <button type="button" onClick={handleTogglePIP}>
                     {pip ? 'Disable PiP' : 'Enable PiP'}
                   </button>
