@@ -21,9 +21,9 @@ type ReactPlayer = React.ForwardRefExoticComponent<
   }>;
 
 export const createReactPlayer = (players: PlayerEntry[], playerFallback: PlayerEntry) => {
-  const getActivePlayer = (src: string) => {
+  const getActivePlayer = (src?: string) => {
     for (const player of [...customPlayers, ...players]) {
-      if (player.canPlay(src)) {
+      if (src && player.canPlay(src)) {
         return player;
       }
     }
@@ -70,8 +70,6 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     };
 
     const renderActivePlayer = (src?: string) => {
-      if (!src) return null;
-
       const player = getActivePlayer(src);
       if (!player) return null;
 

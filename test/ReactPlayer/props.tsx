@@ -6,12 +6,12 @@ import ReactPlayer from '../../src/index';
 import { render } from '../helpers/helpers';
 
 test('className', async (t) => {
-  const wrapper = render(<ReactPlayer src="file.mp4" className="react-player" />);
+  const wrapper = render(<ReactPlayer className="react-player" />);
   t.equal(wrapper.root.findByType('video').props.className, 'react-player');
 });
 
 test('style', (t) => {
-  const wrapper = render(<ReactPlayer src="file.mp4" style={{ marginTop: '1rem' }} />);
+  const wrapper = render(<ReactPlayer style={{ marginTop: '1rem' }} />);
   t.equal(wrapper.root.findByType('video').props.style.marginTop, '1rem');
 });
 

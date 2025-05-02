@@ -97,6 +97,29 @@ Prop | Description
 `onEnterPictureInPicture` | Called when entering picture-in-picture mode
 `onLeavePictureInPicture` | Called when leaving picture-in-picture mode
 
+#### Config prop
+
+There is a single `config` prop to override settings for each type of player:
+
+```jsx
+<ReactPlayer
+  url={url}
+  config={{
+    youtube: {
+      color: 'white',
+    },
+  }}
+/>
+```
+
+Settings for each player live under different keys:
+
+Key | Options
+--- | -------
+`youtube` | https://developers.google.com/youtube/player_parameters#Parameters
+`vimeo` | https://developer.vimeo.com/player/sdk/embed
+`hls` | https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning
+
 ### Methods
 
 #### Static Methods
@@ -141,7 +164,15 @@ Set `width` to `100%`, `height` to `auto` and add an `aspectRatio` like `16 / 9`
 
 #### SDK Overrides
 
-You can use your own version of any player SDK, assuming the correct `window` global is set before the player mounts. For example, to use a local version of [`hls.js`](https://cdnjs.com/libraries/hls.js), add `<script src='/path/hls.js'></script>` to your app. If `window.Hls` is available when ReactPlayer mounts, it will use that instead of loading `hls.js` from `cdnjs`. See [#605](https://github.com/cookpete/react-player/issues/605#issuecomment-492561909) for more information.
+You can use your own version of any player SDK by using NPM resolutions. For example, to use a specific version of `hls.js`, add the following to your `package.json`:
+
+```json
+{
+  "resolutions": {
+    "hls.js": "1.6.2"
+  }
+}
+```
 
 #### Adding custom players
 
