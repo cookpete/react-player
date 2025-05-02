@@ -9,10 +9,13 @@
 </p>
 
 <p align='center'>
-  A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia, Mixcloud, DailyMotion and Kaltura. Not using React? <a href='#standalone-player'>No problem.</a>
+  A React component for playing a variety of URLs, including file paths, HLS, DASH, YouTube, Vimeo, Wistia and Mux.
 </p>
 
 ---
+
+> Version 3 of ReactPlayer is a major update with a new architecture and many new features. It is not backwards compatible with v2, so please see the [migration guide](MIGRATING.md) for details.
+
 
 > Using Next.js and need to handle video upload/processing? Check out [next-video](https://github.com/muxinc/next-video).
 
@@ -60,13 +63,13 @@ Prop | Description | Default
 `volume` | Set the volume of the player, between `0` and `1`<br/>&nbsp; ◦ &nbsp;`null` uses default volume on all players [`#357`](https://github.com/cookpete/react-player/issues/357) | `null`
 `muted` | Mutes the player<br/>&nbsp; ◦ &nbsp;Only works if `volume` is set | `false`
 `playbackRate` | Set the playback rate of the player<br />&nbsp; ◦ &nbsp;Only supported by YouTube, Wistia, and file paths | `1`
-`width` | Set the width of the player | `640px`
-`height` | Set the height of the player | `360px`
+`width` | Set the width of the player | `320px`
+`height` | Set the height of the player | `180px`
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element | `{}`
 `playsInline` | Applies the `playsInline` attribute where supported | `false`
 `pip` | Set to `true` or `false` to enable or disable [picture-in-picture mode](https://developers.google.com/web/updates/2018/10/watch-video-using-picture-in-picture)<br/>&nbsp; ◦ &nbsp;Only available when playing file URLs in [certain browsers](https://caniuse.com/#feat=picture-in-picture) | `false`
 `fallback` | Element or component to use as a fallback if you are using lazy loading | `null`
-`wrapper` | Element or component to use as the container element | `div`
+`wrapper` | Element or component to use as the container element | null
 `playIcon` | Element or component to use as the play icon in light mode
 `previewTabIndex` | Set the tab index to be used on light mode | 0
 
@@ -79,11 +82,13 @@ Prop | Description
 `onClickPreview` | Called when user clicks the `light` mode preview
 `onReady` | Called when media is loaded and ready to play. If `playing` is set to `true`, media will play immediately
 `onStart` | Called when media starts playing
-`onPlay` | Called when media starts or resumes playing after pausing or buffering
+`onPlay` | Called when the `playing` prop is set to true
+`onPlaying` | Called when media actually starts playing
 `onProgress` | Called when media data is loaded
 `onTimeUpdate` | Called when the media's current time changes
 `onDurationChange` | Callback containing duration of the media, in seconds
 `onPause` | Called when media is paused
+`onWaiting` | Called when media is buffering and waiting for more data
 `onSeeking` | Called when media is seeking
 `onSeeked` | Called when media has finished seeking
 `onRateChange` | Called when playback rate of the player changed<br />&nbsp; ◦ &nbsp;Only supported by YouTube, Vimeo ([if enabled](https://developer.vimeo.com/player/sdk/reference#playbackratechange)), Wistia, and file paths
@@ -175,6 +180,12 @@ Since `v3` if the player supports multiple sources and / or tracks, it works the
   <track kind="subtitles" src="subs/subtitles.de.vtt" srclang="de">
 </ReactPlayer>
 ```
+
+### Migrating to `v3`
+
+ReactPlayer `v3` is a major update with a new architecture and many new features. It is not backwards compatible with `v2`, so please see the [migration guide](MIGRATING.md) for details. 
+
+Some providers have not been updated for `v3`, it is recommended to keep using `v2` and vote to add this provider to `v3` in [discussions](https://github.com/cookpete/react-player/discussions)
 
 ### Migrating to `v2`
 

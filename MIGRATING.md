@@ -1,3 +1,46 @@
+## Migrating to `v3.0`
+
+Breaking changes are in 🔥 __bold and on fire__.
+
+### Some player providers are not supported yet
+
+Since `v3.0` is a new architecture not all providers have been updated.
+It is recommended to keep using `v2` and vote to add this provider to `v3` in [discussions](https://github.com/cookpete/react-player/discussions).
+These include:
+
+  - `Dailymotion`
+  - `SoundCloud`
+  - `Streamable`
+  - `Twitch`
+  - `Facebook`
+  - `Mixcloud`
+  - `Kaltura`
+
+### Lazy players
+
+As of `v3.0` all the players are lazy loaded by default. 
+Due to the use of `lazy` and `Suspense`, 🔥 __React 16.6 or later is now required__.
+
+### Player instance methods
+
+As of `v3.0` use [`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) to call instance methods on the player. See [the demo app](examples/react/src/App.js) for an example of this. Since `v3`, the instance methods aim to be 🔥 __compatible 
+with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface__.
+
+### Player callback props
+
+As of `v3.0` some player callback props are renamed to be closer to the native
+[HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) event naming.
+
+- 🔥 __`onProgress` => `onTimeUpdate` and `onProgress`__
+- 🔥 __`onDuration` => `onDurationChange`__
+- 🔥 __`onPlaybackRateChange` => `onRateChange`__
+- 🔥 __`onSeek` => `onSeeking` and `onSeeked`__
+- 🔥 __`onBuffer` => `onWaiting`__
+- 🔥 __`onBufferEnd` => `onPlaying`__
+- 🔥 __`onEnablePIP` => `onEnterPictureInPicture`__
+- 🔥 __`onDisablePIP` => `onLeavePictureInPicture`__
+
+
 ## Migrating to `v2.0`
 
 Breaking changes are in 🔥 __bold and on fire__.
