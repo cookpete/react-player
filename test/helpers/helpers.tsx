@@ -1,22 +1,22 @@
 import { test } from 'zora'
 import sinon from 'sinon'
 import React from 'react'
-import { create } from 'react-test-renderer'
+import { ReactTestRenderer, act, create } from 'react-test-renderer'
 
-export function testPlayerMethods (Player, methods, props) {
-  for (const method of Object.keys(methods)) {
-    test(`${method}()`, t => {
-      const callPlayer = sinon.fake()
-      const instance = create(<Player {...props} />).getInstance()
-      t.truthy(instance[method])
-      instance.callPlayer = callPlayer
-      instance[method]()
-      if (methods[method]) {
-        t.ok(callPlayer.calledWith(methods[method]))
-      }
-      sinon.restore()
-    })
-  }
+export function render(comp: React.ReactElement): ReactTestRenderer {
+  let result;
+  act(() => {
+    result = create(comp, {
+      createNodeMock: (element) => {
+        if (element.type === 'video') {
+          const video = document.createElement('video');
+          video.setAttribute('src', element.props.src);
+          return video;
+        }
+      },
+    });
+  });
+  return result;
 }
 
 export function containsMatchingElement (wrapper, comp) {

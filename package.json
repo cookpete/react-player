@@ -31,7 +31,7 @@
     "clean": "rimraf dist demo coverage",
     "start": "run-p 'types -- -w' 'build:esm -- --watch=forever' 'build:demo -- --watch=forever --servedir=demo'",
     "lint": "biome lint src/*",
-    "test": "tester test/*.tsx test/*.js test/*/*.js --outdir=disttest --platform=node --format=esm --bundle --external:sinon --external:zora --target=esnext --sourcemap=inline",
+    "test": "tester test/*.tsx test/*/*.tsx test/*.js test/*/*.js --outdir=disttest --platform=node --format=esm --bundle --external:sinon --external:zora --target=esnext --sourcemap=inline",
     "test:coverage": "c8 --src src --exclude 'test/**' --exclude 'node_modules/**' --exclude 'scripts/**' --exclude-after-remap npm test",
     "test:codecov": "npm run test:coverage && c8 report --reporter json && codecov -f coverage/coverage-final.json",
     "types": "tsc",

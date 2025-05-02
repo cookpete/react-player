@@ -1,26 +1,11 @@
-import './helpers/server-safe-globals';
+import './helpers/server-safe-globals.js';
 import { test } from 'zora';
 import sinon from 'sinon';
 import { ReactTestRenderer, create, act } from 'react-test-renderer';
 import React from 'react';
 import Player from '../src/Player';
 import HtmlPlayer from '../src/HtmlPlayer';
-
-function render(comp: React.ReactElement): ReactTestRenderer {
-  let result;
-  act(() => {
-    result = create(comp, {
-      createNodeMock: (element) => {
-        if (element.type === 'video') {
-          const video = document.createElement('video');
-          video.setAttribute('src', element.props.src);
-          return video;
-        }
-      },
-    });
-  });
-  return result;
-}
+import { render } from './helpers/helpers';
 
 test('video.load()', async (t) => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
