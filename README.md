@@ -36,10 +36,10 @@ import React from 'react'
 import ReactPlayer from 'react-player'
 
 // Render a YouTube video player
-<ReactPlayer url='https://www.youtube.com/watch?v=LXb3EKWsInQ' />
+<ReactPlayer src='https://www.youtube.com/watch?v=LXb3EKWsInQ' />
 ```
 
-If your build system supports `import()` statements and code splitting enable this to lazy load the appropriate player for the `url` you pass in. This adds several `reactPlayer` chunks to your output, but reduces your main bundle size.
+If your build system supports `import()` statements and code splitting enable this to lazy load the appropriate player for the `src` you pass in. This adds several `reactPlayer` chunks to your output, but reduces your main bundle size.
 
 Demo page: [`https://cookpete.github.io/react-player`](https://cookpete.github.io/react-player)
 
@@ -103,7 +103,7 @@ There is a single `config` prop to override settings for each type of player:
 
 ```jsx
 <ReactPlayer
-  url={url}
+  src={src}
   config={{
     youtube: {
       color: 'white',
@@ -126,7 +126,7 @@ Key | Options
 
 Method | Description
 ------ | -----------
-`ReactPlayer.canPlay(url)` | Determine if a URL can be played. This does *not* detect media that is unplayable due to privacy settings, streaming permissions, etc. In that case, the `onError` prop will be invoked after attempting to play. Any URL that does not match any patterns will fall back to a native HTML5 media player.
+`ReactPlayer.canPlay(src)` | Determine if a URL can be played. This does *not* detect media that is unplayable due to privacy settings, streaming permissions, etc. In that case, the `onError` prop will be invoked after attempting to play. Any URL that does not match any patterns will fall back to a native HTML5 media player.
 `ReactPlayer.addCustomPlayer(CustomPlayer)` | Add a custom player. See [Adding custom players](#adding-custom-players)
 `ReactPlayer.removeCustomPlayers()` | Remove any players that have been added using `addCustomPlayer()`
 
@@ -157,7 +157,7 @@ Set `width` to `100%`, `height` to `auto` and add an `aspectRatio` like `16 / 9`
 
 ```js
 <ReactPlayer
-  url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+  src="https://www.youtube.com/watch?v=LXb3EKWsInQ"
   style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
 />
 ```
