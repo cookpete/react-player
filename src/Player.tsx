@@ -10,7 +10,7 @@ type Player = React.ForwardRefExoticComponent<
 >;
 
 const Player: Player = React.forwardRef((props, ref) => {
-  const { playing, playbackRate, volume, muted, pip } = props;
+  const { playing, pip } = props;
 
   const Player = props.activePlayer;
   const playerRef = useRef<HTMLVideoElement | null>(null);
@@ -26,9 +26,8 @@ const Player: Player = React.forwardRef((props, ref) => {
       playerRef.current.pause();
     }
 
-    playerRef.current.playbackRate = playbackRate ?? 1;
-    playerRef.current.volume = volume ?? 1;
-    playerRef.current.muted = muted ?? false;
+    playerRef.current.playbackRate = props.playbackRate ?? 1;
+    playerRef.current.volume = props.volume ?? 1;
   });
 
   useEffect(() => {
@@ -80,6 +79,7 @@ const Player: Player = React.forwardRef((props, ref) => {
       {...eventProps}
       style={props.style}
       className={props.className}
+      slot={props.slot}
       ref={useCallback(
         (node: HTMLVideoElement) => {
           playerRef.current = node;
@@ -93,10 +93,13 @@ const Player: Player = React.forwardRef((props, ref) => {
         [ref]
       )}
       src={props.src}
+      crossOrigin={props.crossOrigin}
+      preload={props.preload}
       controls={props.controls}
       muted={props.muted}
       autoPlay={props.autoPlay}
       loop={props.loop}
+      playsInline={props.playsInline}
       config={props.config}
       onLoadStart={handleLoadStart}
       onPlay={handlePlay}

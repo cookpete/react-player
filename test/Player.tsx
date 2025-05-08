@@ -1,7 +1,7 @@
 import './helpers/server-safe-globals.js';
 import { test } from 'zora';
 import sinon from 'sinon';
-import { ReactTestRenderer, create, act } from 'react-test-renderer';
+import { act } from 'react-test-renderer';
 import React from 'react';
 import Player from '../src/Player';
 import HtmlPlayer from '../src/HtmlPlayer';
@@ -63,10 +63,12 @@ test('video.volume = 0.5', async (t) => {
 });
 
 test('video.muted = true', async (t) => {
-  const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
+  let videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   const wrapper = render(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
+  t.equal(videoRef.current?.muted, false);
 
   act(() => {
+    videoRef = React.createRef();
     wrapper.update(<Player ref={videoRef} src="file.mp4" muted activePlayer={HtmlPlayer} />);
   });
   await Promise.resolve();
@@ -75,10 +77,12 @@ test('video.muted = true', async (t) => {
 });
 
 test('video.muted = false', async (t) => {
-  const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
+  let videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   const wrapper = render(<Player ref={videoRef} src="file.mp4" muted activePlayer={HtmlPlayer} />);
+  t.equal(videoRef.current?.muted, true);
 
   act(() => {
+    videoRef = React.createRef();
     wrapper.update(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
   });
   await Promise.resolve();
