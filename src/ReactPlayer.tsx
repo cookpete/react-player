@@ -36,7 +36,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
   const ReactPlayer: ReactPlayer = React.forwardRef((_props, ref) => {
     const props = merge(defaultProps, _props);
 
-    const { className, src, style, width, height, fallback, wrapper } = props;
+    const { src, slot, className, style, width, height, fallback, wrapper } = props;
     const [showPreview, setShowPreview] = useState(!!props.light);
 
     useEffect(() => {
@@ -81,6 +81,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
           {...props}
           ref={ref}
           activePlayer={player.player ?? (player as unknown as PlayerEntry['player'])}
+          slot={wrapper ? undefined : slot}
           className={wrapper ? undefined : className}
           style={wrapper
             ? { display: 'block', width: '100%', height: '100%' }
@@ -97,7 +98,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
       fallback === false ? ForwardChildren : Suspense;
 
     return (
-      <Wrapper className={className} style={{ width, height, ...style }}>
+      <Wrapper slot={slot} className={className} style={{ width, height, ...style }}>
         <UniversalSuspense fallback={fallback}>
           {showPreview ? renderPreview(src) : renderActivePlayer(src)}
         </UniversalSuspense>

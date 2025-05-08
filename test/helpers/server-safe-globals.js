@@ -15,10 +15,14 @@ class Element extends EventTarget {
 }
 
 class HTMLVideoElement extends Element {
+  #attrs = {
+    muted: false,
+    src: '',
+  };
+
   constructor() {
     super();
     this.paused = true;
-    this.muted = false;
     this.volume = 1;
     this.currentTime = 0;
     this.duration = NaN;
@@ -27,9 +31,31 @@ class HTMLVideoElement extends Element {
 
   setAttribute(name, value) {
     if (name === 'src') {
-      this.src = value;
+      this.#attrs.src = value;
       this.load();
+    } else {
+      this.#attrs[name] = value;
     }
+  }
+
+  getAttribute(name) {
+    return this.#attrs[name];
+  }
+
+  get src() {
+    return this.getAttribute('src');
+  }
+
+  set src(value) {
+    this.setAttribute('src', value);
+  }
+
+  get muted() {
+    return this.getAttribute('muted');
+  }
+
+  set muted(value) {
+    this.setAttribute('muted', !!value);
   }
 
   async load() {

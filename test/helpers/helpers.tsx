@@ -10,7 +10,8 @@ export function render(comp: React.ReactElement): ReactTestRenderer {
       createNodeMock: (element) => {
         if (element.type === 'video') {
           const video = document.createElement('video');
-          video.setAttribute('src', element.props.src);
+          video.src = element.props.src;
+          video.muted = element.props.muted;
           return video;
         }
       },
