@@ -21,6 +21,17 @@ These include:
 As of `v3.0` all the players are lazy loaded by default. 
 Due to the use of `lazy` and `Suspense`, 🔥 __React 16.6 or later is now required__.
 
+### Player props
+
+As of `v3.0` some player props are renamed to be closer to the native
+[HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) naming.
+
+- 🔥 __`url` => `src`__
+- 🔥 __`playsinline` => `playsInline`__
+- 🔥 __`progressInterval` deprecated
+- 🔥 __`stopOnUnmount` => deprecated
+- 🔥 __`wrapper` is `undefined` by default. Set to `div` if you want a wrapper element.
+
 ### Player instance methods
 
 As of `v3.0` use [`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) to call instance methods on the player. See [the demo app](examples/react/src/App.js) for an example of this. Since `v3`, the instance methods aim to be 🔥 __compatible 
