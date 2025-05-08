@@ -20,13 +20,13 @@ test('video.load()', async (t) => {
 
 test('video.play()', async (t) => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
-  const wrapper = render(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
+  const wrapper = render(<Player ref={videoRef} src="file.mp4" playing={false} activePlayer={HtmlPlayer} />);
 
   const play = sinon.fake();
   videoRef.current?.addEventListener('play', play);
 
   act(() => {
-    wrapper.update(<Player ref={videoRef} src="file.mp4" playing activePlayer={HtmlPlayer} />);
+    wrapper.update(<Player ref={videoRef} src="file.mp4" playing={true} activePlayer={HtmlPlayer} />);
   });
   await Promise.resolve();
 
@@ -36,13 +36,13 @@ test('video.play()', async (t) => {
 
 test('video.pause()', async (t) => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
-  const wrapper = render(<Player ref={videoRef} src="file.mp4" playing activePlayer={HtmlPlayer} />);
+  const wrapper = render(<Player ref={videoRef} src="file.mp4" playing={true} activePlayer={HtmlPlayer} />);
 
   const pause = sinon.fake();
   videoRef.current?.addEventListener('pause', pause);
 
   act(() => {
-    wrapper.update(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
+    wrapper.update(<Player ref={videoRef} src="file.mp4" playing={false} activePlayer={HtmlPlayer} />);
   });
   await Promise.resolve();
 

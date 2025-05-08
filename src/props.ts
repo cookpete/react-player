@@ -20,7 +20,7 @@ export const defaultProps: ReactPlayerProps = {
   playbackRate: 1,
 
   // custom props
-  // playing: false,
+  // playing: undefined,
   // pip: false,
   // light: false,
   // fallback: null,

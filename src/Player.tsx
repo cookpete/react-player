@@ -19,10 +19,11 @@ const Player: Player = React.forwardRef((props, ref) => {
   useEffect(() => {
     if (!playerRef.current) return;
 
-    if (playerRef.current.paused && playing) {
+    // Use strict equality for `playing`, if it's nullish, don't do anything.
+    if (playerRef.current.paused && playing === true) {
       playerRef.current.play();
     }
-    if (!playerRef.current.paused && !playing) {
+    if (!playerRef.current.paused && playing === false) {
       playerRef.current.pause();
     }
 

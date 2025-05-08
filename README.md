@@ -56,7 +56,7 @@ As of Chrome 66, [videos must be `muted` in order to play automatically](https:/
 Prop | Description | Default
 ---- | ----------- | -------
 `src` | The url of a video or song to play | `undefined`
-`playing` | Set to `true` or `false` to pause or play the media | `false`
+`playing` | Set to `true` or `false` to play or pause the media | `undefined`
 `preload` | Applies the `preload` attribute where supported | `undefined`
 `playsInline` | Applies the `playsInline` attribute where supported | `false`
 `crossOrigin` | Applies the `crossOrigin` attribute where supported | `undefined`
