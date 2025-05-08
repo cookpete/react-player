@@ -28,9 +28,9 @@ As of `v3.0` some player props are renamed to be closer to the native
 
 - 🔥 __`url` => `src`__
 - 🔥 __`playsinline` => `playsInline`__
-- 🔥 __`progressInterval` deprecated
-- 🔥 __`stopOnUnmount` => deprecated
-- 🔥 __`wrapper` is `undefined` by default. Set to `div` if you want a wrapper element.
+- 🔥 __`progressInterval`__ deprecated
+- 🔥 __`stopOnUnmount`__ deprecated
+- 🔥 __`wrapper`__ is `undefined` by default. Set to `div` if you want a wrapper element.
 
 ### Player instance methods
 
