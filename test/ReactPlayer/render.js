@@ -13,7 +13,7 @@ test.skip('render', (t) => {
 });
 
 test.skip('fallback player', (t) => {
-  const wrapper = create(<ReactPlayer url="http://example.com/random/path" />);
+  const wrapper = create(<ReactPlayer src="http://example.com/random/path" />);
   t.ok(
     wrapper
       .childAt(0)

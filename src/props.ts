@@ -2,7 +2,7 @@ import type { ReactPlayerProps } from './types.js';
 
 export const defaultProps: ReactPlayerProps = {
   // native video attrs
-  src: '',
+  src: undefined,
   muted: false,
   loop: false,
   controls: false,

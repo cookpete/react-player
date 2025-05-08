@@ -18,7 +18,7 @@ test('canPlay()', (t) => {
 test('addCustomPlayer()', (t) => {
   const CustomPlayer = React.forwardRef(() => <video />);
   CustomPlayer.displayName = 'CustomPlayer';
-  CustomPlayer.canPlay = (url) => /example\.com/.test(url);
+  CustomPlayer.canPlay = (src) => /example\.com/.test(src);
 
   ReactPlayer.addCustomPlayer(CustomPlayer);
   const wrapper = create(<ReactPlayer src="http://example.com/random/path" />);

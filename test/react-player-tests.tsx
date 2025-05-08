@@ -17,7 +17,7 @@
 // test('progress()', t => {
 //   const load = sinon.fake()
 //   const onProgress = sinon.fake()
-//   const instance = create(<Player url='file.mp4' onProgress={onProgress} />).getInstance()
+//   const instance = create(<Player src='file.mp4' onProgress={onProgress} />).getInstance()
 //   instance.handlePlayerMount({
 //     load,
 //     getCurrentTime: sinon.fake.returns(10),
@@ -38,7 +38,7 @@
 // test('progress() handlePlayerMount', t => {
 //   const load = sinon.fake()
 //   const onProgress = sinon.fake()
-//   const instance = create(<Player url='file.mp4' onProgress={onProgress} />).getInstance()
+//   const instance = create(<Player src='file.mp4' onProgress={onProgress} />).getInstance()
 //   instance.isReady = true
 //   instance.handlePlayerMount({
 //     load,

@@ -6,7 +6,7 @@ import HtmlPlayer from './HtmlPlayer.js';
 export type PlayerEntry = {
   key: string;
   name: string;
-  canPlay: (url: string) => boolean;
+  canPlay: (src: string) => boolean;
   canEnablePIP?: () => boolean;
   player?:
     | React.ComponentType<VideoElementProps>
