@@ -45,9 +45,9 @@
     "postpublish": "npm run clean"
   },
   "peerDependencies": {
-    "@types/react": "^17.0.0 || ^18",
-    "react": "^17.0.2 || ^18",
-    "react-dom": "^17.0.2 || ^18"
+    "@types/react": "^17.0.0 || ^18 || ^19",
+    "react": "^17.0.2 || ^18 || ^19",
+    "react-dom": "^17.0.2 || ^18 || ^19"
   },
   "dependencies": {
     "@mux/mux-player-react": "^3.4.0",
