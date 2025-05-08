@@ -1,84 +1,91 @@
 {
   "name": "react-player",
   "version": "2.16.0",
-  "description": "A React component for playing a variety of URLs, including file paths, YouTube, Facebook, Twitch, SoundCloud, Streamable, Vimeo, Wistia and DailyMotion",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
-  "scripts": {
-    "clean": "rimraf lib lazy demo coverage *.d.ts",
-    "start": "cp -r examples/react/public/ demo & npm run build:lib --watch=forever & builder examples/react/src/index.js --format=iife --bundle --outdir=demo --watch --servedir=demo --livereload",
-    "lint": "standard --verbose | snazzy",
-    "lint:fix": "standard --fix",
-    "lint:ts": "ts-standard --verbose types/*.d.ts | snazzy",
-    "lint:ts:fix": "ts-standard --fix types/*.d.ts",
-    "test": "tester test/*.js test/*/*.js --outdir=disttest --platform=node --format=esm --bundle --external:sinon --external:zora --target=esnext --sourcemap=inline",
-    "test:coverage": "c8 --src src --exclude 'test/**' --exclude 'node_modules/**' --exclude 'scripts/**' --exclude-after-remap npm test",
-    "test:codecov": "npm run test:coverage && c8 report --reporter json && codecov -f coverage/coverage-final.json",
-    "build": "npm run build:lib && npm run build:lazy && npm run build:dist && npm run build:es6",
-    "build:demo": "cp -r examples/react/public demo && npm run build:lib && builder examples/react/src/index.js --format=iife --bundle --outdir=demo --minify --sourcemap",
-    "build:lib": "builder src/*.js src/players/*.js --outdir=lib --format=cjs",
-    "build:lazy": "builder src/*.js src/players/*.js --outdir=lazy --format=cjs",
-    "build:dist": "builder src/index.js --outfile=dist/ReactPlayer.js --format=iife --bundle --minify --sourcemap --global-name=ReactPlayer --external:react --plugin:global-externals='{\"react\":\"globalThis.React\"}' --footer:js='ReactPlayer = ReactPlayer.default;'",
-    "build:standalone": "builder src/standalone.js --outfile=dist/ReactPlayer.standalone.js --format=iife --bundle --minify --sourcemap --global-name=renderReactPlayer --footer:js='renderReactPlayer = renderReactPlayer.default;'",
-    "build:es6": "builder src/standalone.js --outfile=dist/ReactPlayer.standalone.es6.js --format=esm --bundle --minify",
-    "preversion": "npm run lint && npm run test",
-    "version": "auto-changelog -p && npm run build:dist && npm run build:standalone && git add CHANGELOG.md dist",
-    "prepublishOnly": "npm run build && node scripts/pre-publish.js && cp -r types/* .",
-    "postpublish": "node scripts/post-publish.js && npm run clean"
+  "description": "A React component for playing a variety of URLs, including file paths, Mux, YouTube, Vimeo, and Wistia",
+  "author": "Pete Cook (https://github.com/cookpete)",
+  "license": "MIT",
+  "homepage": "https://github.com/cookpete/react-player",
+  "bugs": {
+    "url": "https://github.com/cookpete/react-player/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cookpete/react-player.git"
   },
-  "author": "Pete Cook (https://github.com/cookpete)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/cookpete/react-player/issues"
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
   },
-  "homepage": "https://github.com/cookpete/react-player",
+  "scripts": {
+    "clean": "rimraf dist demo coverage",
+    "start": "run-p 'types -- -w' 'build:esm -- --watch=forever' 'build:demo -- --watch=forever --servedir=demo'",
+    "lint": "biome lint src/*",
+    "test": "tester test/*.tsx test/*/*.tsx test/*.js test/*/*.js --outdir=disttest --platform=node --format=esm --bundle --external:sinon --external:zora --target=esnext --sourcemap=inline",
+    "test:coverage": "c8 --src src --exclude 'test/**' --exclude 'node_modules/**' --exclude 'scripts/**' --exclude-after-remap npm test",
+    "test:codecov": "npm run test:coverage && c8 report --reporter json && codecov -f coverage/coverage-final.json",
+    "types": "tsc",
+    "build": "run-s types build:*",
+    "build:esm": "builder \"src/**/*.*s*\" --outdir=dist --format=esm",
+    "prebuild:demo": "rimraf demo && cp -r examples/react/public demo",
+    "build:demo": "builder ./examples/react/src/index.js --format=esm --splitting --bundle --outdir=demo --minify",
+    "preversion": "run-s lint test",
+    "version": "auto-changelog -p && git add CHANGELOG.md",
+    "prepublishOnly": "npm run build",
+    "postpublish": "npm run clean"
+  },
   "peerDependencies": {
-    "react": ">=16.6.0"
+    "@types/react": "^17.0.0 || ^18",
+    "react": "^17.0.2 || ^18",
+    "react-dom": "^17.0.2 || ^18"
+  },
+  "dependencies": {
+    "@mux/mux-player-react": "^3.3.3",
+    "cloudflare-video-element": "^1.3.1",
+    "dash-video-element": "^0.1.1",
+    "deepmerge": "^4.0.0",
+    "hls-video-element": "^1.5.0",
+    "vimeo-video-element": "^1.4.1",
+    "wistia-video-element": "^1.3.1",
+    "youtube-video-element": "^1.5.1"
   },
   "devDependencies": {
-    "@types/node": "^14.0.24",
-    "@types/react": "^17.0.0",
+    "@biomejs/biome": "1.8.2",
+    "@types/node": "^20.14.6",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-test-renderer": "^18.3.0",
     "auto-changelog": "^2.0.0",
     "builder": "file:./scripts/builder",
     "c8": "^8.0.1",
     "codecov": "^3.6.5",
     "cross-env": "^7.0.2",
-    "esbuild": "^0.19.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-test-renderer": "^16.13.1",
+    "esbuild": "^0.21.5",
+    "npm-run-all": "^4.1.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-test-renderer": "^18.3.1",
     "rimraf": "^3.0.2",
     "screenfull": "^5.0.2",
     "sinon": "^16.0.0",
-    "snazzy": "^8.0.0",
-    "standard": "^17.1.0",
     "tester": "file:./scripts/tester",
-    "ts-standard": "^12.0.2",
-    "typescript": "^4.1.2",
+    "typescript": "^5.4.5",
     "zora": "^5.2.0"
-  },
-  "dependencies": {
-    "deepmerge": "^4.0.0",
-    "load-script": "^1.0.0",
-    "memoize-one": "^5.1.1",
-    "prop-types": "^15.7.2",
-    "react-fast-compare": "^3.0.1"
-  },
-  "standard": {
-    "ignore": [
-      "/dist/*",
-      "/examples/*"
-    ]
   },
   "auto-changelog": {
     "breakingPattern": "Breaking changes:"
   },
   "sideEffects": [
-    "./src/standalone.js",
     "./test/**/*"
   ],
   "keywords": [
@@ -88,13 +95,8 @@
     "video",
     "audio",
     "youtube",
-    "facebook",
-    "twitch",
-    "soundcloud",
-    "streamable",
     "vimeo",
     "wistia",
-    "dailymotion",
     "hls",
     "dash",
     "react-component"

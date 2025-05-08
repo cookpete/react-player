@@ -59,6 +59,7 @@ export async function build (positionals, args) {
     format: args.format,
     platform: args.platform,
     sourcemap: args.sourcemap,
+    splitting: args.splitting,
     globalName: args['global-name'],
     external: argsArray(args, 'external'),
     outExtension: argsObject(args, 'out-extension'),

@@ -20,13 +20,12 @@
 
 .player-wrapper {
   width: 480px;
-  height: 270px;
+  aspect-ratio: 16 / 9;
+  background: rgba(0, 0, 0, .1);
+  margin-bottom: 10px;
 }
 
-.react-player {
-  margin-bottom: 10px;
-  background: rgba(0, 0, 0, .1);
-}
+.react-player {}
 
 .faded {
   color: rgba(0, 0, 0, .5);
