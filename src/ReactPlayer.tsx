@@ -33,7 +33,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     return null;
   };
 
-  const ReactPlayer: ReactPlayer = React.forwardRef((_props, ref) => {
+  const ReactPlayer: ReactPlayer = React.forwardRef(({ children, ..._props } , ref) => {
     const props = merge(defaultProps, _props);
 
     const { src, slot, className, style, width, height, fallback, wrapper } = props;
@@ -87,6 +87,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
             ? { display: 'block', width: '100%', height: '100%' }
             : { display: 'block', width, height, ...style }}
           config={config}
+          children={children}
         />
       );
     };
