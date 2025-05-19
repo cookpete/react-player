@@ -87,8 +87,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
             ? { display: 'block', width: '100%', height: '100%' }
             : { display: 'block', width, height, ...style }}
           config={config}
-          children={children}
-        />
+        >{children}</Player>
       );
     };
 
