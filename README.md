@@ -71,9 +71,9 @@ Prop | Description | Default
 `style` | Add [inline styles](https://facebook.github.io/react/tips/inline-styles.html) to the root element | `{}`
 `light` | Set to `true` to show just the video thumbnail, which loads the full player on click<br />&nbsp; ◦ &nbsp;Pass in an image URL to override the preview image | `false`
 `fallback` | Element or component to use as a fallback if you are using lazy loading | `null`
-`wrapper` | Element or component to use as the container element | null
+`wrapper` | Element or component to use as the container element | `null`
 `playIcon` | Element or component to use as the play icon in light mode
-`previewTabIndex` | Set the tab index to be used on light mode | 0
+`previewTabIndex` | Set the tab index to be used on light mode | `0`
 
 #### Callback props
 
@@ -138,6 +138,69 @@ Use [`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) to call inst
 with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface.
 
 ### Advanced Usage
+
+#### Custom player controls
+
+By default ReactPlayer is a chromeless player. By setting the `controls` prop to `true`, you can enable the native controls for the player. However, the controls will look different for each player. The ones based on HTML5 media players will look like the native controls for that browser, while the ones based on third-party players will look like the native controls for that player.
+
+```jsx
+<ReactPlayer src='https://www.youtube.com/watch?v=LXb3EKWsInQ' controls />
+```
+
+If you like to add your own custom controls in a convenient way, you can use
+[Media Chrome](https://github.com/muxinc/media-chrome). Media Chrome is a library that provides a set of UI components that can be used to quickly build custom media controls.
+
+##### Simple example ([Codesandbox](https://codesandbox.io/p/sandbox/react-player-media-chrome-simple-nl3pg4))
+
+```tsx
+import ReactPlayer from "react-player";
+import {
+  MediaController,
+  MediaControlBar,
+  MediaTimeRange,
+  MediaTimeDisplay,
+  MediaVolumeRange,
+  MediaPlaybackRateButton,
+  MediaPlayButton,
+  MediaSeekBackwardButton,
+  MediaSeekForwardButton,
+  MediaMuteButton,
+  MediaFullscreenButton,
+} from "media-chrome/react";
+
+export default function Player() {
+  return (
+    <MediaController
+      style={{
+        width: "100%",
+        aspectRatio: "16/9",
+      }}
+    >
+      <ReactPlayer
+        slot="media"
+        src="https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k"
+        controls={false}
+        style={{
+          width: "100%",
+          height: "100%",
+          "--controls": "none",
+        }}
+      ></ReactPlayer>
+      <MediaControlBar>
+        <MediaPlayButton />
+        <MediaSeekBackwardButton seekOffset={10} />
+        <MediaSeekForwardButton seekOffset={10} />
+        <MediaTimeRange />
+        <MediaTimeDisplay showDuration />
+        <MediaMuteButton />
+        <MediaVolumeRange />
+        <MediaPlaybackRateButton />
+        <MediaFullscreenButton />
+      </MediaControlBar>
+    </MediaController>
+  );
+}
+```
 
 #### Light player
 
