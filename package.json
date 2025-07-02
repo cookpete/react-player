@@ -57,7 +57,7 @@
     "hls-video-element": "^1.5.5",
     "vimeo-video-element": "^1.5.1",
     "wistia-video-element": "^1.3.2",
-    "youtube-video-element": "^1.5.3"
+    "youtube-video-element": "^1.6.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
