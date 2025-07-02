@@ -449,6 +449,7 @@ const App = () => {
               <td>
                 {renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A')}
                 {renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B')}
+                {renderLoadButton('https://www.youtube.com/playlist?list=PLRfhDHeBTBJ7MU5DX4P_oBIRN457ah9lA', 'Playlist')}
               </td>
             </tr>
             <tr>
