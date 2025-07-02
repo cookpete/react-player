@@ -6,7 +6,7 @@ export const DASH_EXTENSIONS = /\.(mpd)($|\?)/i;
 // Match Mux m3u8 URLs without the extension so users can use hls.js with Mux by adding the `.m3u8` extension. https://regexr.com/7um5f
 export const MATCH_URL_MUX = /stream\.mux\.com\/(?!\w+\.m3u8)(\w+)/;
 export const MATCH_URL_YOUTUBE =
-  /(?:youtu\.be\/|youtube(?:-nocookie|education)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))((\w|-){11})/;
+  /(?:youtu\.be\/|youtube(?:-nocookie|education)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//;
 export const MATCH_URL_VIMEO = /vimeo\.com\/(?!progressive_redirect).+/;
 export const MATCH_URL_WISTIA =
   /(?:wistia\.(?:com|net)|wi\.st)\/(?:medias|embed)\/(?:iframe\/)?([^?]+)/;
