@@ -68,7 +68,7 @@ test('render()', t => {
     create(
       <iframe
         style={style}
-        src='https://www.mixcloud.com/widget/iframe/?feed=/mixcloud/meet-the-curators/'
+        src='https://player-widget.mixcloud.com/widget/iframe/?feed=/mixcloud/meet-the-curators/'
         frameBorder='0'
         allow='autoplay'
       />

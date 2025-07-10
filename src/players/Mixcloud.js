@@ -101,7 +101,7 @@ export default class Mixcloud extends Component {
         key={id}
         ref={this.ref}
         style={style}
-        src={`https://www.mixcloud.com/widget/iframe/?${query}`}
+        src={`https://player-widget.mixcloud.com/widget/iframe/?${query}`}
         frameBorder='0'
         allow='autoplay'
       />
