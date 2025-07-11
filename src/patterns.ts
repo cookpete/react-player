@@ -10,6 +10,8 @@ export const MATCH_URL_YOUTUBE =
 export const MATCH_URL_VIMEO = /vimeo\.com\/(?!progressive_redirect).+/;
 export const MATCH_URL_WISTIA =
   /(?:wistia\.(?:com|net)|wi\.st)\/(?:medias|embed)\/(?:iframe\/)?([^?]+)/;
+export const MATCH_URL_SPOTIFY = /open\.spotify\.com\/(\w+)\/(\w+)/i;
+export const MATCH_URL_TWITCH = /(?:www\.|go\.)?twitch\.tv\/([a-zA-Z0-9_]+|(videos?\/|\?video=)\d+)($|\?)/;
 
 const canPlayFile = (url: string, test: (u: string) => boolean) => {
   if (Array.isArray(url)) {
@@ -36,4 +38,6 @@ export const canPlay = {
   vimeo: (url: string) =>
     MATCH_URL_VIMEO.test(url) && !VIDEO_EXTENSIONS.test(url) && !HLS_EXTENSIONS.test(url),
   wistia: (url: string) => MATCH_URL_WISTIA.test(url),
+  spotify: (url: string) => MATCH_URL_SPOTIFY.test(url),
+  twitch: (url: string) => MATCH_URL_TWITCH.test(url),
 };

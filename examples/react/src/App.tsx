@@ -238,6 +238,9 @@ const App = () => {
               },
               vimeo: {
                 color: 'ffffff'
+              },
+              spotify: {
+                preferVideo: true
               }
             }}
             onLoadStart={() => console.log('onLoadStart')}
@@ -465,6 +468,19 @@ const App = () => {
                 {renderLoadButton('https://home.wistia.com/medias/e4a27b971d', 'Test A')}
                 {renderLoadButton('https://home.wistia.com/medias/29b0fbf547', 'Test B')}
                 {renderLoadButton('https://home.wistia.com/medias/bq6epni33s', 'Test C')}
+              </td>
+            </tr>
+            <tr>
+              <th>Spotify</th>
+              <td>
+                {renderLoadButton('https://open.spotify.com/episode/5Jo9ncrz2liWiKj8inZwD2', 'Test A')}
+              </td>
+            </tr>
+            <tr>
+              <th>Twitch</th>
+              <td>
+                {renderLoadButton('https://www.twitch.tv/videos/106400740', 'Test A')}
+                {renderLoadButton('https://www.twitch.tv/kronovi', 'Test B')}
               </td>
             </tr>
             <tr>
