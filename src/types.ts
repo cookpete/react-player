@@ -1,4 +1,9 @@
 import type { MediaHTMLAttributes, SyntheticEvent } from 'react';
+import type HlsVideoElement from 'hls-video-element';
+import type SpotifyAudioElement from 'spotify-audio-element';
+import type YouTubeVideoElement from 'youtube-video-element';
+import type VimeoVideoElement from 'vimeo-video-element';
+import type TwitchVideoElement from 'twitch-video-element';
 
 interface VideoHTMLAttributes<T> extends MediaHTMLAttributes<T> {
   height?: number | string | undefined;
@@ -39,11 +44,13 @@ export interface PreviewProps {
 }
 
 export interface Config {
-  html?: Record<string, unknown>;
-  hls?: Record<string, unknown>;
   dash?: Record<string, unknown>;
+  hls?: HlsVideoElement['config'];
+  html?: Record<string, unknown>;
   mux?: Record<string, unknown>;
-  youtube?: Record<string, unknown>;
-  vimeo?: Record<string, unknown>;
+  spotify?: SpotifyAudioElement['config'];
+  twitch?: TwitchVideoElement['config'];
+  vimeo?: VimeoVideoElement['config'];
   wistia?: Record<string, unknown>;
+  youtube?: YouTubeVideoElement['config'];
 }

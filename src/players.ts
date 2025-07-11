@@ -67,6 +67,24 @@ const Players: PlayerEntry[] = [
     ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
   },
   {
+    key: 'spotify',
+    name: 'Spotify',
+    canPlay: canPlay.spotify,
+    canEnablePIP: () => false,
+    player: lazy(
+      () => import(/* webpackChunkName: 'reactPlayerSpotify' */ 'spotify-audio-element/react')
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+  },
+  {
+    key: 'twitch',
+    name: 'Twitch',
+    canPlay: canPlay.twitch,
+    canEnablePIP: () => false,
+    player: lazy(
+      () => import(/* webpackChunkName: 'reactPlayerTwitch' */ 'twitch-video-element/react')
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+  },
+  {
     key: 'html',
     name: 'html',
     canPlay: canPlay.html,
