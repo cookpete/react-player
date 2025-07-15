@@ -50,16 +50,16 @@
     "react-dom": "^17.0.2 || ^18 || ^19"
   },
   "dependencies": {
-    "@mux/mux-player-react": "^3.5.0",
-    "cloudflare-video-element": "^1.3.2",
-    "dash-video-element": "^0.1.5",
+    "@mux/mux-player-react": "^3.5.1",
+    "cloudflare-video-element": "^1.3.3",
+    "dash-video-element": "^0.1.6",
     "deepmerge": "^4.0.0",
-    "hls-video-element": "^1.5.5",
-    "spotify-audio-element": "^1.0.1",
-    "twitch-video-element": "^0.1.0",
-    "vimeo-video-element": "^1.5.1",
-    "wistia-video-element": "^1.3.2",
-    "youtube-video-element": "^1.6.0"
+    "hls-video-element": "^1.5.6",
+    "spotify-audio-element": "^1.0.2",
+    "twitch-video-element": "^0.1.1",
+    "vimeo-video-element": "^1.5.2",
+    "wistia-video-element": "^1.3.3",
+    "youtube-video-element": "^1.6.1"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
