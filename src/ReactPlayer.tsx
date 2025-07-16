@@ -1,5 +1,4 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import merge from 'deepmerge';
 
 import { defaultProps } from './props.js';
 import Player from './Player.js';
@@ -33,8 +32,8 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     return null;
   };
 
-  const ReactPlayer: ReactPlayer = React.forwardRef(({ children, ..._props } , ref) => {
-    const props = merge(defaultProps, _props);
+  const ReactPlayer: ReactPlayer = React.forwardRef((_props, ref) => {
+    const props = { ...defaultProps, ..._props };
 
     const { src, slot, className, style, width, height, fallback, wrapper } = props;
     const [showPreview, setShowPreview] = useState(!!props.light);
@@ -83,19 +82,19 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
           activePlayer={player.player ?? (player as unknown as PlayerEntry['player'])}
           slot={wrapper ? undefined : slot}
           className={wrapper ? undefined : className}
-          style={wrapper
-            ? { display: 'block', width: '100%', height: '100%' }
-            : { display: 'block', width, height, ...style }}
+          style={
+            wrapper
+              ? { display: 'block', width: '100%', height: '100%' }
+              : { display: 'block', width, height, ...style }
+          }
           config={config}
-        >{children}</Player>
+        />
       );
     };
 
-    const Wrapper: ReactPlayerProps['wrapper'] =
-      wrapper == null ? ForwardChildren : wrapper;
+    const Wrapper: ReactPlayerProps['wrapper'] = wrapper == null ? ForwardChildren : wrapper;
 
-    const UniversalSuspense =
-      fallback === false ? ForwardChildren : Suspense;
+    const UniversalSuspense = fallback === false ? ForwardChildren : Suspense;
 
     return (
       <Wrapper slot={slot} className={className} style={{ width, height, ...style }}>
