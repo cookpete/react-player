@@ -33,19 +33,26 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     return null;
   };
 
-  const ReactPlayer: ReactPlayer = React.forwardRef(({ children, ..._props } , ref) => {
-    const props = merge(defaultProps, _props);
+  const ReactPlayer: ReactPlayer = React.forwardRef(({ children, playIcon: _playIcon, light: _light, fallback: _fallback, wrapper: _wrapper, ..._props } , ref) => {
+    const { playIcon: defaultPlayIcon, light: defaultLight, fallback: defaultFallback, wrapper: defaultWrapper, ..._defaultProps } = defaultProps;
+    const props = merge(_defaultProps, _props);
 
-    const { src, slot, className, style, width, height, fallback, wrapper } = props;
-    const [showPreview, setShowPreview] = useState(!!props.light);
+    // deepmerge does not handle React elements, so we need to extract and merge them manually
+    const playIcon = _playIcon ?? defaultPlayIcon;
+    const light = _light ?? defaultLight;
+    const fallback = _fallback ?? defaultFallback;
+    const wrapper = _wrapper ?? defaultWrapper;
+
+    const { src, slot, className, style, width, height } = props;
+    const [showPreview, setShowPreview] = useState(!!light);
 
     useEffect(() => {
-      if (props.light) {
+      if (light) {
         setShowPreview(true);
       } else {
         setShowPreview(false);
       }
-    }, [props.light]);
+    }, [light]);
 
     const handleClickPreview = (e: React.SyntheticEvent) => {
       setShowPreview(false);
@@ -55,7 +62,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     const renderPreview = (src?: string) => {
       if (!src) return null;
 
-      const { light, playIcon, previewTabIndex, oEmbedUrl, previewAriaLabel } = props;
+      const {  previewTabIndex, oEmbedUrl, previewAriaLabel } = props;
       return (
         <Preview
           src={src}
@@ -73,12 +80,16 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
       const player = getActivePlayer(src);
       if (!player) return null;
 
-      const { style, width, height, wrapper } = props;
+      const { style, width, height } = props;
       const config = props.config?.[player.key as keyof ReactPlayerProps['config']];
 
       return (
         <Player
           {...props}
+          playIcon={playIcon}
+          light={light}
+          fallback={fallback}
+          wrapper={wrapper}
           ref={ref}
           activePlayer={player.player ?? (player as unknown as PlayerEntry['player'])}
           slot={wrapper ? undefined : slot}
