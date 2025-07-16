@@ -33,8 +33,24 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     return null;
   };
 
-  const ReactPlayer: ReactPlayer = React.forwardRef(({ children, playIcon: _playIcon, light: _light, fallback: _fallback, wrapper: _wrapper, ..._props } , ref) => {
-    const { playIcon: defaultPlayIcon, light: defaultLight, fallback: defaultFallback, wrapper: defaultWrapper, ..._defaultProps } = defaultProps;
+  const ReactPlayer: ReactPlayer = React.forwardRef((
+    { 
+      children, 
+      playIcon: _playIcon, 
+      light: _light, 
+      fallback: _fallback, 
+      wrapper: _wrapper, 
+      ..._props 
+    }, 
+    ref
+  ) => {
+    const { 
+      playIcon: defaultPlayIcon, 
+      light: defaultLight, 
+      fallback: defaultFallback, 
+      wrapper: defaultWrapper, 
+      ..._defaultProps 
+    } = defaultProps;
     const props = merge(_defaultProps, _props);
 
     // deepmerge does not handle React elements, so we need to extract and merge them manually
