@@ -12,6 +12,7 @@ export const MATCH_URL_WISTIA =
   /(?:wistia\.(?:com|net)|wi\.st)\/(?:medias|embed)\/(?:iframe\/)?([^?]+)/;
 export const MATCH_URL_SPOTIFY = /open\.spotify\.com\/(\w+)\/(\w+)/i;
 export const MATCH_URL_TWITCH = /(?:www\.|go\.)?twitch\.tv\/([a-zA-Z0-9_]+|(videos?\/|\?video=)\d+)($|\?)/;
+export const MATCH_URL_TIKTOK = /tiktok\.com\/(?:@[^/]+\/video\/)?(\d+)(?:\/([\w-]+))?/;
 
 const canPlayFile = (url: string, test: (u: string) => boolean) => {
   if (Array.isArray(url)) {
@@ -40,4 +41,5 @@ export const canPlay = {
   wistia: (url: string) => MATCH_URL_WISTIA.test(url),
   spotify: (url: string) => MATCH_URL_SPOTIFY.test(url),
   twitch: (url: string) => MATCH_URL_TWITCH.test(url),
+  tiktok: (url: string) => MATCH_URL_TIKTOK.test(url),
 };

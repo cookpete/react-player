@@ -241,6 +241,18 @@ const App = () => {
               },
               spotify: {
                 preferVideo: true
+              },
+              tiktok: {
+                fullscreen_button: true,
+                progress_bar: true,
+                play_button: true,
+                volume_control: true,
+                timestamp: false,
+                music_info: false,
+                description: false,
+                rel: false,
+                native_context_menu: true,
+                closed_caption: false,
               }
             }}
             onLoadStart={() => console.log('onLoadStart')}
@@ -481,6 +493,13 @@ const App = () => {
               <td>
                 {renderLoadButton('https://www.twitch.tv/videos/106400740', 'Test A')}
                 {renderLoadButton('https://www.twitch.tv/kronovi', 'Test B')}
+              </td>
+            </tr>
+            <tr>
+              <th>TikTok</th>
+              <td>
+                {renderLoadButton('https://www.tiktok.com/@_luwes/video/7527476667770522893', 'Test A')}
+                {renderLoadButton('https://www.tiktok.com/@scout2015/video/6718335390845095173', 'Test B')}
               </td>
             </tr>
             <tr>
