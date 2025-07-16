@@ -11,3 +11,4 @@ yarn-error.log
 .vscode/
 /disttest/
 /dist/
+tsconfig.tsbuildinfo
