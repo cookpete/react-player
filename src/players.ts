@@ -85,6 +85,15 @@ const Players: PlayerEntry[] = [
     ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
   },
   {
+    key: 'tiktok',
+    name: 'TikTok',
+    canPlay: canPlay.tiktok,
+    canEnablePIP: () => false,
+    player: lazy(
+      () => import(/* webpackChunkName: 'reactPlayerTiktok' */ 'tiktok-video-element/react')
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+  },
+  {
     key: 'html',
     name: 'html',
     canPlay: canPlay.html,
