@@ -34,7 +34,7 @@ As of `v3.0` some player props are renamed to be closer to the native
 
 ### Player instance methods
 
-As of `v3.0` use [`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) to call instance methods on the player. See [the demo app](examples/react/src/App.js) for an example of this. Since `v3`, the instance methods aim to be 🔥 __compatible 
+As of `v3.0` use [`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) to call instance methods on the player. See [the demo app](examples/react/src/App.tsx) for an example of this. Since `v3`, the instance methods aim to be 🔥 __compatible 
 with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface__.
 
 ### Player callback props
