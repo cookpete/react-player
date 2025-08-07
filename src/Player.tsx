@@ -71,7 +71,7 @@ const Player: Player = React.forwardRef((props, ref) => {
   // to the underlying HTML video element, which causes React warnings about unknown
   // event handler properties
   const eventProps: Record<string, EventListenerOrEventListenerObject> = {};
-  const reactPlayerEventHandlers = ['onReady', 'onStart', 'onPlay', 'onPause', 'onEnded', 'onLoadStart'];
+  const reactPlayerEventHandlers = ['onReady', 'onStart'];
 
   for (const key in props) {
     if (key.startsWith('on') && !reactPlayerEventHandlers.includes(key)) {
