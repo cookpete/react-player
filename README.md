@@ -43,7 +43,7 @@ If your build system supports `import()` statements and code splitting enable th
 
 Demo page: [`https://cookpete.github.io/react-player`](https://cookpete.github.io/react-player)
 
-The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending. See [the demo source](https://github.com/cookpete/react-player/blob/master/examples/react/src/App.js) for a full example.
+The component parses a URL and loads in the appropriate markup and external SDKs to play media from [various sources](#supported-media). [Props](#props) can be passed in to control playback and react to events such as buffering or media ending. See [the demo source](https://github.com/cookpete/react-player/blob/master/examples/react/src/App.tsx) for a full example.
 
 For platforms without direct use of `npm` modules, a minified version of `ReactPlayer` is located in `dist` after installing. To generate this file yourself, checkout the repo and run `npm run build:dist`.
 
