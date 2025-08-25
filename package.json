@@ -1,6 +1,6 @@
 {
   "name": "react-player",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "A React component for playing a variety of URLs, including file paths, Mux, YouTube, Vimeo, and Wistia",
   "author": "Pete Cook (https://github.com/cookpete)",
   "license": "MIT",
