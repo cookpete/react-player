@@ -309,9 +309,10 @@ const App = () => {
               </td>
             </tr>
             <tr>
-              <th>Seek</th>
+              <th><label htmlFor="seek">Seek</label></th>
               <td>
                 <input
+                  id="seek"
                   type="range"
                   min={0}
                   max={0.999999}
@@ -324,9 +325,10 @@ const App = () => {
               </td>
             </tr>
             <tr>
-              <th>Volume</th>
+              <th><label htmlFor="volume">Volume</label></th>
               <td>
                 <input
+                  id="volume"
                   type="range"
                   min={0}
                   max={1}
