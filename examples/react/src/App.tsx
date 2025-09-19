@@ -432,7 +432,7 @@ const App = () => {
               <th>HLS</th>
               <td>
                 {renderLoadButton(
-                  'https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+                  'https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8',
                   'HLS (m3u8)'
                 )}
               </td>
