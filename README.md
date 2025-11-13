@@ -59,6 +59,7 @@ Prop | Description | Default
 `playing` | Set to `true` or `false` to play or pause the media | `undefined`
 `preload` | Applies the `preload` attribute where supported | `undefined`
 `playsInline` | Applies the `playsInline` attribute where supported | `false`
+`disableRemotePlayback` | Applies the `disableRemotePlayback` attribute where supported | `false`
 `crossOrigin` | Applies the `crossOrigin` attribute where supported | `undefined`
 `loop` | Set to `true` or `false` to loop the media | `false`
 `controls` | Set to `true` or `false` to display native player controls.<br/>&nbsp; ◦ &nbsp;For Vimeo videos, hiding controls must be enabled by the video owner. | `false`

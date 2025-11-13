@@ -12,6 +12,7 @@ export const defaultProps: ReactPlayerProps = {
   // loop: false,
   // controls: false,
   // playsInline: false,
+  // disableRemotePlayback: false,
   width: '320px',
   height: '180px',
 
