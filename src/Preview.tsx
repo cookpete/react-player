@@ -112,7 +112,7 @@ const Preview = ({
       className="react-player__preview"
       tabIndex={previewTabIndex}
       onClick={handleClick}
-      onKeyPress={handleKeyPress}
+      onKeyDown={handleKeyPress}
       {...(previewAriaLabel ? { 'aria-label': previewAriaLabel } : {})}
     >
       {isElement ? light : null}
