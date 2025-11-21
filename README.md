@@ -82,14 +82,14 @@ Callback props take a function that gets fired on various player events:
 
 Prop | Description
 ---- | -----------
-`onClickPreview` | Called when user clicks the `light` mode preview
-`onReady` | Called when media is loaded and ready to play. If `playing` is set to `true`, media will play immediately
+`onClickPreview` | Called when the user clicks the `light` mode preview
+`onReady` | Called when media is loaded and ready to play. If `playing` is set to `true`, the media will play immediately
 `onStart` | Called when media starts playing
 `onPlay` | Called when the `playing` prop is set to true
 `onPlaying` | Called when media actually starts playing
 `onProgress` | Called when media data is loaded
 `onTimeUpdate` | Called when the media's current time changes
-`onDurationChange` | Callback containing duration of the media, in seconds
+`onDurationChange` | Callback containing the duration of the media, in seconds
 `onPause` | Called when media is paused
 `onWaiting` | Called when media is buffering and waiting for more data
 `onSeeking` | Called when media is seeking
@@ -205,7 +205,7 @@ export default function Player() {
 
 #### Light player
 
-The `light` prop will render a video thumbnail with simple play icon, and only load the full player once a user has interacted with the image. [Noembed](https://noembed.com) is used to fetch thumbnails for a video URL. Note that automatic thumbnail fetching for Facebook, Wistia, Mixcloud and file URLs are not supported, and ongoing support for other URLs is not guaranteed.
+The `light` prop will render a video thumbnail with a simple play icon, and only load the full player once a user has interacted with the image. [Noembed](https://noembed.com) is used to fetch thumbnails for a video URL. Note that automatic thumbnail fetching for Facebook, Wistia, Mixcloud and file URLs are not supported, and ongoing support for other URLs is not guaranteed.
 
 If you want to pass in your own thumbnail to use, set `light` to the image URL rather than `true`.
 
