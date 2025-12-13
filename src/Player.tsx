@@ -10,7 +10,7 @@ type Player = React.ForwardRefExoticComponent<
 >;
 
 const Player: Player = React.forwardRef((props, ref) => {
-  const { playing, pip } = props;
+  const { playing, pip, playbackRate, volume, muted, src } = props;
 
   const Player = props.activePlayer;
   const playerRef = useRef<HTMLVideoElement | null>(null);
@@ -23,13 +23,23 @@ const Player: Player = React.forwardRef((props, ref) => {
     if (playerRef.current.paused && playing === true) {
       playerRef.current.play();
     }
+
     if (!playerRef.current.paused && playing === false) {
       playerRef.current.pause();
     }
 
-    playerRef.current.playbackRate = props.playbackRate ?? 1;
-    playerRef.current.volume = props.volume ?? 1;
-  });
+    if (playbackRate !== undefined && playerRef.current.playbackRate !== playbackRate) {
+      playerRef.current.playbackRate = playbackRate;
+    }
+
+    if (volume !== undefined && playerRef.current.volume !== volume) {
+      playerRef.current.volume = volume;
+    }
+
+    if (muted !== undefined && playerRef.current.muted !== muted) {
+      playerRef.current.muted = muted;
+    }
+  }, [muted, playbackRate, playing, volume]);
 
   useEffect(() => {
     if (!playerRef.current || !globalThis.document) return;

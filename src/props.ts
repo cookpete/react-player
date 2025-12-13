@@ -16,10 +16,6 @@ export const defaultProps: ReactPlayerProps = {
   width: '320px',
   height: '180px',
 
-  // native video props
-  volume: 1,
-  playbackRate: 1,
-
   // custom props
   // playing: undefined,
   // pip: false,
