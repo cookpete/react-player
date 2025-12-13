@@ -23,6 +23,7 @@ const Player: Player = React.forwardRef((props, ref) => {
     if (playerRef.current.paused && playing === true) {
       playerRef.current.play();
     }
+
     if (!playerRef.current.paused && playing === false) {
       playerRef.current.pause();
     }
