@@ -30,9 +30,11 @@ const Player: Player = React.forwardRef((props, ref) => {
     if (playbackRate !== undefined && playerRef.current.playbackRate !== playbackRate) {
       playerRef.current.playbackRate = playbackRate;
     }
+
     if (volume !== undefined && playerRef.current.volume !== volume) {
       playerRef.current.volume = volume;
     }
+
     if (muted !== undefined && playerRef.current.muted !== muted) {
       playerRef.current.muted = muted;
     }
