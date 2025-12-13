@@ -36,7 +36,7 @@ const Player: Player = React.forwardRef((props, ref) => {
     if (muted !== undefined && playerRef.current.muted !== muted) {
       playerRef.current.muted = muted;
     }
-  }, [muted, playbackRate, playing, src, volume]);
+  }, [muted, playbackRate, playing, volume]);
 
   useEffect(() => {
     if (!playerRef.current || !globalThis.document) return;
