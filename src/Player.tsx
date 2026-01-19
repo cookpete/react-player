@@ -3,6 +3,41 @@ import type { SyntheticEvent } from 'react';
 import type { PlayerEntry } from './players.js';
 import type { ReactPlayerProps } from './types.js';
 
+const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+const ensureLoadedIfNeeded = async (player: any) => {
+  // Some custom-element based players (eg. twitch-video-element) require an async `load()`
+  // to create their internal iframe before `play()` can be called safely.
+  if (typeof player?.load !== 'function') return;
+
+  try {
+    // Call load() first - it may create a new loadComplete promise
+    player.load();
+    
+    // Wait for loadComplete to resolve (the embed sends a "ready" event)
+    const maybeLoadComplete = player.loadComplete;
+    if (typeof maybeLoadComplete?.then === 'function') {
+      // Wait longer for Twitch embeds which can take time to initialize
+      // and may fail with 404 if the video URL is invalid
+      await Promise.race([maybeLoadComplete, wait(5000)]);
+    }
+    
+    // For Twitch player, also check readyState to ensure it's actually ready
+    // readyState >= 1 means metadata is loaded, >= 3 means can play
+    if (typeof player.readyState === 'number' && player.readyState < 1) {
+      // Wait a bit more and check again
+      await wait(500);
+      // If still not ready after waiting, the video might be invalid
+      if (player.readyState < 1) {
+        throw new Error('Player not ready - video may be unavailable');
+      }
+    }
+  } catch (err) {
+    // Re-throw so caller knows the player isn't ready
+    throw err;
+  }
+};
+
 type Player = React.ForwardRefExoticComponent<
   ReactPlayerProps & {
     activePlayer: PlayerEntry['player'];
@@ -13,22 +48,71 @@ const Player: Player = React.forwardRef((props, ref) => {
   const { playing, pip } = props;
 
   const Player = props.activePlayer;
-  const playerRef = useRef<HTMLVideoElement | null>(null);
+  // NOTE: many of our "players" are custom elements rather than HTMLVideoElement.
+  // Keep the ref broad and interact with it defensively.
+  const playerRef = useRef<any>(null);
   const startOnPlayRef = useRef(true);
+  const playTokenRef = useRef(0);
+  const playingRef = useRef<ReactPlayerProps['playing']>(playing);
+  playingRef.current = playing;
 
   useEffect(() => {
     if (!playerRef.current) return;
 
     // Use strict equality for `playing`, if it's nullish, don't do anything.
     if (playerRef.current.paused && playing === true) {
-      playerRef.current.play();
+      const player = playerRef.current;
+      const token = ++playTokenRef.current;
+      (async () => {
+        try {
+          await ensureLoadedIfNeeded(player);
+          if (playTokenRef.current !== token) return;
+          if (playingRef.current !== true) return;
+          
+          // Check if player is actually ready before attempting play
+          // For custom elements like Twitch, readyState should be >= 1
+          if (typeof player.readyState === 'number' && player.readyState < 1) {
+            // Player isn't ready - this might indicate the video URL is invalid
+            // Dispatch an error event so the error handler can catch it
+            const errorEvent = new Event('error', { bubbles: true, cancelable: true });
+            Object.defineProperty(errorEvent, 'target', { value: player, enumerable: true });
+            player.dispatchEvent?.(errorEvent);
+            return;
+          }
+          
+          await player.play?.();
+        } catch (err) {
+          // Surface play errors - don't silently ignore them
+          // This allows the onError handler to catch issues like invalid video URLs
+          const errorEvent = new Event('error', { bubbles: true, cancelable: true });
+          Object.defineProperty(errorEvent, 'target', { 
+            value: player, 
+            enumerable: true,
+            writable: false
+          });
+          if (err instanceof Error) {
+            Object.defineProperty(errorEvent, 'error', { 
+              value: err, 
+              enumerable: true,
+              writable: false
+            });
+          }
+          player.dispatchEvent?.(errorEvent);
+        }
+      })();
     }
-    if (!playerRef.current.paused && playing === false) {
-      playerRef.current.pause();
+    if (playing === false) {
+      try {
+        // Cancel any pending async play() call.
+        playTokenRef.current++;
+        playerRef.current.pause?.();
+      } catch {}
     }
 
-    playerRef.current.playbackRate = props.playbackRate ?? 1;
-    playerRef.current.volume = props.volume ?? 1;
+    try {
+      playerRef.current.playbackRate = props.playbackRate ?? 1;
+      playerRef.current.volume = props.volume ?? 1;
+    } catch {}
   });
 
   useEffect(() => {
@@ -86,7 +170,7 @@ const Player: Player = React.forwardRef((props, ref) => {
       className={props.className}
       slot={props.slot}
       ref={useCallback(
-        (node: HTMLVideoElement) => {
+        (node: any) => {
           playerRef.current = node;
 
           if (typeof ref === 'function') {

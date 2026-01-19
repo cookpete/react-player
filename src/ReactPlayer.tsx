@@ -78,6 +78,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
       return (
         <Player
           {...props}
+          key={`${player.key}-${src}`}
           ref={ref}
           activePlayer={player.player ?? (player as unknown as PlayerEntry['player'])}
           slot={wrapper ? undefined : slot}
