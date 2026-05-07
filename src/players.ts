@@ -94,6 +94,15 @@ const Players: PlayerEntry[] = [
     ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
   },
   {
+    key: 'peertube',
+    name: 'PeerTube',
+    canPlay: canPlay.peertube,
+    canEnablePIP: () => false,
+    player: lazy(
+      () => import(/* webpackChunkName: 'reactPlayerTiktok' */ 'peertube-video-element/react')
+    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+  },
+  {
     key: 'html',
     name: 'html',
     canPlay: canPlay.html,

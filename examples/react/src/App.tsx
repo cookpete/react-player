@@ -505,6 +505,12 @@ const App = () => {
               </td>
             </tr>
             <tr>
+              <th>PeerTube</th>
+              <td>
+                {renderLoadButton('https://video.mshparisnord.fr/w/p/aWDVVLYnVGutCDQogoEDf4', 'Test A')}
+              </td>
+            </tr>
+            <tr>
               <th>Custom</th>
               <td>
                 <input

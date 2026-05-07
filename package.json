@@ -54,6 +54,7 @@
     "cloudflare-video-element": "^1.3.4",
     "dash-video-element": "^0.3.0",
     "hls-video-element": "^1.5.9",
+    "peertube-video-element": "^1.1.0",
     "spotify-audio-element": "^1.0.3",
     "tiktok-video-element": "^0.1.1",
     "twitch-video-element": "^0.1.5",

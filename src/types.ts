@@ -5,6 +5,7 @@ import type YouTubeVideoElement from 'youtube-video-element';
 import type VimeoVideoElement from 'vimeo-video-element';
 import type TwitchVideoElement from 'twitch-video-element';
 import type TikTokVideoElement from 'tiktok-video-element';
+import type PeerTubeVideoElement from 'peertube-video-element';
 
 interface VideoHTMLAttributes<T> extends MediaHTMLAttributes<T> {
   height?: number | string | undefined;
@@ -55,4 +56,5 @@ export interface Config {
   vimeo?: VimeoVideoElement['config'];
   wistia?: Record<string, unknown>;
   youtube?: YouTubeVideoElement['config'];
+  peertube?: PeerTubeVideoElement['config'];
 }
