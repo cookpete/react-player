@@ -57,7 +57,7 @@
     "spotify-audio-element": "^1.0.3",
     "tiktok-video-element": "^0.1.1",
     "twitch-video-element": "^0.1.5",
-    "vimeo-video-element": "^1.6.1",
+    "vimeo-video-element": "^1.7.2",
     "wistia-video-element": "^1.3.5",
     "youtube-video-element": "^1.8.0"
   },
