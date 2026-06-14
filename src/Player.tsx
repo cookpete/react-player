@@ -81,6 +81,7 @@ const Player: Player = React.forwardRef((props, ref) => {
 
   return (
     <Player
+      key={props.src}
       {...eventProps}
       style={props.style}
       className={props.className}
