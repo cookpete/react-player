@@ -15,6 +15,7 @@ const Player: Player = React.forwardRef((props, ref) => {
   const Player = props.activePlayer;
   const playerRef = useRef<HTMLVideoElement | null>(null);
   const startOnPlayRef = useRef(true);
+  const lastDurationRef = useRef<number>();
 
   useEffect(() => {
     if (!playerRef.current) return;
@@ -51,6 +52,7 @@ const Player: Player = React.forwardRef((props, ref) => {
 
   const handleLoadStart = (event: SyntheticEvent<HTMLVideoElement>) => {
     startOnPlayRef.current = true;
+    lastDurationRef.current = undefined;
     props.onReady?.();
     props.onLoadStart?.(event);
   };
@@ -61,6 +63,29 @@ const Player: Player = React.forwardRef((props, ref) => {
       props.onStart?.(event);
     }
     props.onPlay?.(event);
+  };
+
+  const handleDurationChange = (event: SyntheticEvent<HTMLVideoElement>) => {
+    lastDurationRef.current = event.currentTarget.duration;
+    props.onDurationChange?.(event);
+  };
+
+  const checkDurationChange = (event: SyntheticEvent<HTMLVideoElement>) => {
+    const duration = event.currentTarget.duration;
+    if (Number.isNaN(duration) || duration === lastDurationRef.current) return;
+
+    lastDurationRef.current = duration;
+    event.currentTarget.dispatchEvent(new Event('durationchange'));
+  };
+
+  const handleProgress = (event: SyntheticEvent<HTMLVideoElement>) => {
+    checkDurationChange(event);
+    props.onProgress?.(event);
+  };
+
+  const handleTimeUpdate = (event: SyntheticEvent<HTMLVideoElement>) => {
+    checkDurationChange(event);
+    props.onTimeUpdate?.(event);
   };
 
   if (!Player) {
@@ -109,6 +134,9 @@ const Player: Player = React.forwardRef((props, ref) => {
       config={props.config}
       onLoadStart={handleLoadStart}
       onPlay={handlePlay}
+      onDurationChange={handleDurationChange}
+      onProgress={handleProgress}
+      onTimeUpdate={handleTimeUpdate}
     >
       {props.children}
     </Player>

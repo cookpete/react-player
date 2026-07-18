@@ -112,3 +112,24 @@ await test('video.duration', async (t) => {
 
   t.equal(videoRef.current?.duration, 10);
 });
+
+test('video.durationchange is dispatched when duration changes during timeupdate', (t) => {
+  const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
+  const wrapper = render(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
+  const video = videoRef.current;
+  const durationchange = sinon.fake();
+
+  video?.addEventListener('durationchange', durationchange);
+
+  if (video) {
+    video.duration = 20;
+    act(() => {
+      wrapper.root.findByType('video').props.onTimeUpdate({ currentTarget: video });
+    });
+    act(() => {
+      wrapper.root.findByType('video').props.onTimeUpdate({ currentTarget: video });
+    });
+  }
+
+  t.ok(durationchange.calledOnce);
+});
