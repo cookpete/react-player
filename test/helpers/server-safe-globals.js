@@ -107,4 +107,10 @@ const globalThisShim = {
 
 globalThis.document = document;
 globalThis.window = globalThisShim;
-Object.assign(globalThis, globalThisShim);
+for (const [key, value] of Object.entries(globalThisShim)) {
+  Object.defineProperty(globalThis, key, {
+    value,
+    configurable: true,
+    writable: true,
+  });
+}
