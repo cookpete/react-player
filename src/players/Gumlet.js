@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { callPlayer, getSDK } from '../utils'
 import { canPlay } from '../patterns'
 
-const SDK_URL = 'https://cdn.jsdelivr.net/npm/@gumlet/player.js@2.0/dist/player.min.js'
+const SDK_URL = 'https://cdn.jsdelivr.net/npm/@gumlet/player.js@3.0/dist/player.min.js'
 const SDK_GLOBAL = 'playerjs'
 
 export default class Gumlet extends Component {
