@@ -100,6 +100,7 @@ const Player: Player = React.forwardRef((props, ref) => {
       src={props.src}
       crossOrigin={props.crossOrigin}
       preload={props.preload}
+      poster={props.poster}
       controls={props.controls}
       muted={props.muted}
       autoPlay={props.autoPlay}
