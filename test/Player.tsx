@@ -102,6 +102,13 @@ test('video.playbackRate = 0.5', async (t) => {
   t.equal(videoRef.current?.playbackRate, 0.5);
 });
 
+test('video.poster is forwarded', (t) => {
+  const poster = 'https://example.com/poster.jpg';
+  const wrapper = render(<Player src="file.mp4" poster={poster} activePlayer={HtmlPlayer} />);
+
+  t.equal(wrapper.root.findByType('video').props.poster, poster);
+});
+
 await test('video.duration', async (t) => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   render(<Player ref={videoRef} src="https://stream.mux.com/a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M/low.mp4" activePlayer={HtmlPlayer} />);
