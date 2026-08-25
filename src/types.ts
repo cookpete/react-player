@@ -27,6 +27,7 @@ export interface VideoElementProps
 export interface ReactPlayerProps extends PreviewProps, VideoElementProps {
   config?: Config;
   fallback?: React.ReactNode;
+  onLoop?: (event: SyntheticEvent<HTMLVideoElement>, iteration: number) => void;
   onReady?: () => void;
   onStart?: (event: SyntheticEvent<HTMLVideoElement>) => void;
   pip?: boolean;

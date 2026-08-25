@@ -9,12 +9,28 @@ type Player = React.ForwardRefExoticComponent<
   }
 >;
 
+const LOOP_TIME_THRESHOLD = 0.5;
+
+function hasLooped(player: HTMLVideoElement, previousTime: number) {
+  const { currentTime, duration, playbackRate } = player;
+  if (!duration || !Number.isFinite(duration)) return false;
+
+  const threshold = LOOP_TIME_THRESHOLD * Math.max(playbackRate || 1, 1);
+  return (
+    currentTime < previousTime &&
+    currentTime <= threshold &&
+    previousTime >= duration - threshold
+  );
+}
+
 const Player: Player = React.forwardRef((props, ref) => {
   const { playing, pip } = props;
 
   const Player = props.activePlayer;
   const playerRef = useRef<HTMLVideoElement | null>(null);
   const startOnPlayRef = useRef(true);
+  const previousTimeRef = useRef(0);
+  const loopIterationRef = useRef(0);
 
   useEffect(() => {
     if (!playerRef.current) return;
@@ -51,6 +67,8 @@ const Player: Player = React.forwardRef((props, ref) => {
 
   const handleLoadStart = (event: SyntheticEvent<HTMLVideoElement>) => {
     startOnPlayRef.current = true;
+    previousTimeRef.current = 0;
+    loopIterationRef.current = 0;
     props.onReady?.();
     props.onLoadStart?.(event);
   };
@@ -63,6 +81,19 @@ const Player: Player = React.forwardRef((props, ref) => {
     props.onPlay?.(event);
   };
 
+  const handleTimeUpdate = (event: SyntheticEvent<HTMLVideoElement>) => {
+    const player = event.currentTarget;
+    const previousTime = previousTimeRef.current;
+    previousTimeRef.current = player.currentTime;
+
+    if ((player.loop ?? props.loop) && hasLooped(player, previousTime)) {
+      loopIterationRef.current += 1;
+      props.onLoop?.(event, loopIterationRef.current);
+    }
+
+    props.onTimeUpdate?.(event);
+  };
+
   if (!Player) {
     return null;
   }
@@ -71,7 +102,7 @@ const Player: Player = React.forwardRef((props, ref) => {
   // to the underlying HTML video element, which causes React warnings about unknown
   // event handler properties
   const eventProps: Record<string, EventListenerOrEventListenerObject> = {};
-  const reactPlayerEventHandlers = ['onReady', 'onStart'];
+  const reactPlayerEventHandlers = ['onReady', 'onStart', 'onLoop'];
 
   for (const key in props) {
     if (key.startsWith('on') && !reactPlayerEventHandlers.includes(key)) {
@@ -109,6 +140,7 @@ const Player: Player = React.forwardRef((props, ref) => {
       config={props.config}
       onLoadStart={handleLoadStart}
       onPlay={handlePlay}
+      onTimeUpdate={handleTimeUpdate}
     >
       {props.children}
     </Player>
