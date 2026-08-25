@@ -112,3 +112,60 @@ await test('video.duration', async (t) => {
 
   t.equal(videoRef.current?.duration, 10);
 });
+
+const timeUpdate = (wrapper, currentTime: number, loop = true) => {
+  wrapper.root.findByType('video').props.onTimeUpdate({
+    currentTarget: { currentTime, duration: 10, playbackRate: 1, loop },
+  });
+};
+
+test('onLoop', async (t) => {
+  const onLoop = sinon.fake();
+  const wrapper = render(<Player src="file.mp4" loop activePlayer={HtmlPlayer} onLoop={onLoop} />);
+
+  timeUpdate(wrapper, 5);
+  timeUpdate(wrapper, 9.8);
+  t.equal(onLoop.callCount, 0);
+
+  timeUpdate(wrapper, 0.1);
+  t.equal(onLoop.callCount, 1);
+  t.equal(onLoop.lastCall.args[1], 1);
+
+  timeUpdate(wrapper, 9.9);
+  timeUpdate(wrapper, 0);
+  t.equal(onLoop.callCount, 2);
+  t.equal(onLoop.lastCall.args[1], 2);
+});
+
+test('onLoop - ignores seeking backwards', async (t) => {
+  const onLoop = sinon.fake();
+  const wrapper = render(<Player src="file.mp4" loop activePlayer={HtmlPlayer} onLoop={onLoop} />);
+
+  timeUpdate(wrapper, 5);
+  timeUpdate(wrapper, 0);
+  t.equal(onLoop.callCount, 0);
+
+  timeUpdate(wrapper, 9.9);
+  timeUpdate(wrapper, 5);
+  t.equal(onLoop.callCount, 0);
+});
+
+test('onLoop - not called without loop', async (t) => {
+  const onLoop = sinon.fake();
+  const wrapper = render(<Player src="file.mp4" activePlayer={HtmlPlayer} onLoop={onLoop} />);
+
+  timeUpdate(wrapper, 9.9, false);
+  timeUpdate(wrapper, 0, false);
+  t.equal(onLoop.callCount, 0);
+});
+
+test('onLoop - onTimeUpdate still fires', async (t) => {
+  const onTimeUpdate = sinon.fake();
+  const wrapper = render(
+    <Player src="file.mp4" loop activePlayer={HtmlPlayer} onTimeUpdate={onTimeUpdate} />
+  );
+
+  timeUpdate(wrapper, 9.9);
+  timeUpdate(wrapper, 0);
+  t.equal(onTimeUpdate.callCount, 2);
+});

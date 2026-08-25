@@ -96,6 +96,7 @@ Prop | Description
 `onSeeked` | Called when media has finished seeking
 `onRateChange` | Called when playback rate of the player changed<br />&nbsp; ◦ &nbsp;Only supported by YouTube, Vimeo ([if enabled](https://developer.vimeo.com/player/sdk/reference#playbackratechange)), Wistia, and file paths
 `onEnded` | Called when media finishes playing<br />&nbsp; ◦ &nbsp;Does not fire when `loop` is set to `true`
+`onLoop` | Called when `loop` is set to `true` and the media restarts from the beginning<br />&nbsp; ◦ &nbsp;Receives the `timeupdate` event and the number of completed loops, starting at `1`<br />&nbsp; ◦ &nbsp;The count resets when a new `src` is loaded
 `onError` | Called when an error occurs whilst attempting to play media
 `onEnterPictureInPicture` | Called when entering picture-in-picture mode
 `onLeavePictureInPicture` | Called when leaving picture-in-picture mode

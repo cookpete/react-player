@@ -107,4 +107,6 @@ const globalThisShim = {
 
 globalThis.document = document;
 globalThis.window = globalThisShim;
-Object.assign(globalThis, globalThisShim);
+for (const [key, value] of Object.entries(globalThisShim)) {
+  try { globalThis[key] = value; } catch {}
+}
