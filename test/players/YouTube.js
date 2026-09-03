@@ -78,6 +78,32 @@ test('load() when ready', t => {
   getSDK.restore()
 })
 
+test('componentWillUnmount() destroys the player', t => {
+  const destroy = sinon.fake()
+  const renderer = create(<YouTube url={TEST_URL} config={TEST_CONFIG} />)
+  const instance = renderer.getInstance()
+  instance.player = { destroy }
+  renderer.unmount()
+  t.ok(destroy.calledOnce, 'destroy() is called on unmount')
+  t.ok(instance.player === null, 'the player reference is released')
+})
+
+test('componentWillUnmount() without a player', t => {
+  const renderer = create(<YouTube url={TEST_URL} config={TEST_CONFIG} />)
+  renderer.unmount()
+  t.ok(true, 'unmounting before the player is ready does not throw')
+})
+
+test('componentWillUnmount() when destroy() throws', t => {
+  const renderer = create(<YouTube url={TEST_URL} config={TEST_CONFIG} />)
+  const instance = renderer.getInstance()
+  instance.player = {
+    destroy: () => { throw new Error('The YouTube player is not attached to the DOM') }
+  }
+  renderer.unmount()
+  t.ok(instance.player === null, 'a throwing destroy() does not break unmounting')
+})
+
 test('onStateChange() - play', t => {
   const called = {}
   const onPlay = () => { called.onPlay = true }
