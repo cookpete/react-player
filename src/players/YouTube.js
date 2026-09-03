@@ -20,6 +20,21 @@ export default class YouTube extends Component {
     this.props.onMount && this.props.onMount(this)
   }
 
+  componentWillUnmount () {
+    // The YouTube iframe API keeps a reference to every player it creates, so
+    // removing the container from the DOM is not enough to release the iframe.
+    // Without destroy() the iframe stays detached but reachable from window.YT,
+    // leaking the player and everything its event handlers close over.
+    if (this.player && typeof this.player.destroy === 'function') {
+      try {
+        this.player.destroy()
+      } catch (error) {
+        // destroy() throws if the iframe has already been removed
+      }
+    }
+    this.player = null
+  }
+
   getID (url) {
     if (!url || url instanceof Array || MATCH_PLAYLIST.test(url)) {
       return null
