@@ -1,10 +1,13 @@
 import type { MediaHTMLAttributes, SyntheticEvent } from 'react';
-import type HlsVideoElement from 'hls-video-element';
-import type SpotifyAudioElement from 'spotify-audio-element';
-import type YouTubeVideoElement from 'youtube-video-element';
-import type VimeoVideoElement from 'vimeo-video-element';
-import type TwitchVideoElement from 'twitch-video-element';
-import type TikTokVideoElement from 'tiktok-video-element';
+import type { DashEngineConfig } from '@videojs/dash-video';
+import type { HlsEngineConfig } from '@videojs/hlsjs-video';
+import type { MuxSource } from '@videojs/mux-video';
+import type { SpotifyEngineConfig } from '@videojs/spotify-audio';
+import type { TikTokEngineConfig } from '@videojs/tiktok-video';
+import type { TwitchEngineConfig } from '@videojs/twitch-video';
+import type { VimeoEngineConfig } from '@videojs/vimeo-video';
+import type { WistiaSource } from '@videojs/wistia-video';
+import type { YouTubeEngineConfig } from '@videojs/youtube-video';
 
 interface VideoHTMLAttributes<T> extends MediaHTMLAttributes<T> {
   height?: number | string | undefined;
@@ -44,15 +47,20 @@ export interface PreviewProps {
   previewTabIndex?: number;
 }
 
+/**
+ * Player-specific settings. Each key maps onto the options of the engine that plays that kind
+ * of media (Video.js v10 `source.engine.*`), except `mux`, which takes the remaining
+ * `MuxSource` options (`playback`, `poster`, `storyboard`, `drm`, `engine`, ...).
+ */
 export interface Config {
-  dash?: Record<string, unknown>;
-  hls?: HlsVideoElement['config'];
+  dash?: DashEngineConfig['dashJs'];
+  hls?: HlsEngineConfig['hlsJs'];
   html?: Record<string, unknown>;
-  mux?: Record<string, unknown>;
-  spotify?: SpotifyAudioElement['config'];
-  tiktok?: TikTokVideoElement['config'];
-  twitch?: TwitchVideoElement['config'];
-  vimeo?: VimeoVideoElement['config'];
-  wistia?: Record<string, unknown>;
-  youtube?: YouTubeVideoElement['config'];
+  mux?: Omit<MuxSource, 'src' | 'playbackId'>;
+  spotify?: SpotifyEngineConfig;
+  tiktok?: TikTokEngineConfig;
+  twitch?: TwitchEngineConfig;
+  vimeo?: VimeoEngineConfig;
+  wistia?: Omit<WistiaSource, 'mediaId'>;
+  youtube?: YouTubeEngineConfig;
 }

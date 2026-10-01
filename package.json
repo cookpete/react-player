@@ -38,28 +38,28 @@
     "build": "run-s types build:*",
     "build:esm": "builder \"src/**/*.*s*\" --outdir=dist --format=esm",
     "prebuild:demo": "rimraf demo && cp -r examples/react/public demo",
-    "build:demo": "builder ./examples/react/src/index.js --format=esm --splitting --bundle --outdir=demo --minify",
+    "build:demo": "builder ./examples/react/src/index.js --format=esm --splitting --bundle --outdir=demo --minify --target=es2020",
     "preversion": "run-s lint test",
     "version": "auto-changelog -p && git add CHANGELOG.md",
     "prepublishOnly": "npm run build",
     "postpublish": "npm run clean"
   },
   "peerDependencies": {
-    "@types/react": "^17.0.0 || ^18 || ^19",
-    "react": "^17.0.2 || ^18 || ^19",
-    "react-dom": "^17.0.2 || ^18 || ^19"
+    "@types/react": "^18 || ^19",
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
   },
   "dependencies": {
-    "@mux/mux-player-react": "^3.8.0",
-    "cloudflare-video-element": "^1.3.4",
-    "dash-video-element": "^0.3.0",
-    "hls-video-element": "^1.5.9",
-    "spotify-audio-element": "^1.0.3",
-    "tiktok-video-element": "^0.1.1",
-    "twitch-video-element": "^0.1.5",
-    "vimeo-video-element": "^1.6.1",
-    "wistia-video-element": "^1.3.5",
-    "youtube-video-element": "^1.8.0"
+    "@videojs/dash-video": "^10.0.0",
+    "@videojs/hlsjs-video": "^10.0.0",
+    "@videojs/mux-video": "^10.0.0",
+    "@videojs/react": "^10.0.0",
+    "@videojs/spotify-audio": "^10.0.0",
+    "@videojs/tiktok-video": "^10.0.0",
+    "@videojs/twitch-video": "^10.0.0",
+    "@videojs/vimeo-video": "^10.0.0",
+    "@videojs/wistia-video": "^10.0.0",
+    "@videojs/youtube-video": "^10.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
