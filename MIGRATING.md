@@ -78,7 +78,7 @@ The `Config` TypeScript type is built from the v10 engine config types, so the c
 
 Mux URLs used to render [Mux Player](https://www.mux.com/player). They now render Video.js v10's `MuxVideo`, a plain video element:
 
-- 🔥 __No built-in player UI__. Set `controls` for the browser's native controls, or build your own, e.g. with [Media Chrome](https://github.com/muxinc/media-chrome). The `--controls` CSS variable no longer does anything.
+- 🔥 __No built-in player UI__. Set `controls` for the browser's native controls, or use a Video.js v10 skin or UI components, see [Custom controls](#custom-controls). The `--controls` CSS variable no longer does anything.
 - 🔥 __Mux Data is no longer sent automatically.__ Mux Player had it built in; `MuxVideo` sends nothing. Add the Mux Data extension instead, see [Mux Data and Google Cast](#mux-data-and-google-cast).
 - 🔥 __No automatic poster.__ Mux Player showed the Mux thumbnail before playback; `MuxVideo` doesn't. Use the `light` prop with the thumbnail URL instead, e.g. `light="https://image.mux.com/<playback-id>/thumbnail.webp"`.
 - Playback options and storyboard thumbnails still come from the playback ID and `config.mux`, e.g. `config={{ mux: { playback: { maxResolution: '1080p' } } }}`.
@@ -119,9 +119,23 @@ function Player({ src }) {
 - While casting, control playback through the v10 player (its controls, or the actions from `usePlayer`). ReactPlayer's `playing`, `volume` and `mediaRef` act on the local media, not the cast session.
 - ReactPlayer depends on `@videojs/react`. Import from the same version it uses (`^10`), so both share one copy and the media can find the player.
 
-### Media Chrome
+### Custom controls
 
-Media Chrome controls the element in `slot="media"`. 🔥 __For embeds, that element is now an `<iframe>`__, which Media Chrome can't control. File, HLS, DASH and Mux sources still render a `<video>` and keep working.
+In `v4`, build custom controls with Video.js v10 [skins](https://videojs.org/docs/framework/react/guides/skins) or [UI components](https://videojs.org/docs/framework/react/guides/ui-components): wrap ReactPlayer in v10's `VideoPlayer` and put a skin or individual controls around it. They work with every source, embeds included. See [Custom player controls](README.md#custom-player-controls) for examples.
+
+```jsx
+import ReactPlayer from 'react-player';
+import { VideoPlayer, VideoSkin } from '@videojs/react/video';
+import '@videojs/react/video/skin.css';
+
+<VideoPlayer>
+  <VideoSkin style={{ aspectRatio: '16 / 9' }}>
+    <ReactPlayer src={src} width="100%" height="100%" />
+  </VideoSkin>
+</VideoPlayer>
+```
+
+If you used Media Chrome, which `v3`'s README suggested: it controls the element in `slot="media"`, and 🔥 __for embeds that element is now an `<iframe>`__, which Media Chrome can't control. File, HLS, DASH and Mux sources still render a `<video>`, but moving to a v10 skin or UI components covers every source.
 
 ### URL matching
 

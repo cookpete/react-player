@@ -167,59 +167,58 @@ By default ReactPlayer is a chromeless player. By setting the `controls` prop to
 <ReactPlayer src='https://www.youtube.com/watch?v=LXb3EKWsInQ' controls />
 ```
 
-If you like to add your own custom controls in a convenient way, you can use
-[Media Chrome](https://github.com/muxinc/media-chrome). Media Chrome is a library that provides a set of UI components that can be used to quickly build custom media controls.
+For controls that look and work the same for every source, use the [Video.js v10](https://videojs.org) [skins](https://videojs.org/docs/framework/react/guides/skins) or [UI components](https://videojs.org/docs/framework/react/guides/ui-components). Wrap ReactPlayer in v10's `VideoPlayer`: ReactPlayer's media attaches to it, so the controls drive files, streams and embeds alike.
 
-##### Simple example ([Codesandbox](https://codesandbox.io/p/sandbox/react-player-media-chrome-simple-nl3pg4))
+##### Skins
 
-```tsx
-import ReactPlayer from "react-player";
-import {
-  MediaController,
-  MediaControlBar,
-  MediaTimeRange,
-  MediaTimeDisplay,
-  MediaVolumeRange,
-  MediaPlaybackRateButton,
-  MediaPlayButton,
-  MediaSeekBackwardButton,
-  MediaSeekForwardButton,
-  MediaMuteButton,
-  MediaFullscreenButton,
-} from "media-chrome/react";
+A skin is a complete, styled player interface:
+
+```jsx
+import ReactPlayer from 'react-player';
+import { VideoPlayer, VideoSkin } from '@videojs/react/video';
+import '@videojs/react/video/skin.css';
 
 export default function Player() {
   return (
-    <MediaController
-      style={{
-        width: "100%",
-        aspectRatio: "16/9",
-      }}
-    >
-      <ReactPlayer
-        slot="media"
-        src="https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k"
-        controls={false}
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-      ></ReactPlayer>
-      <MediaControlBar>
-        <MediaPlayButton />
-        <MediaSeekBackwardButton seekOffset={10} />
-        <MediaSeekForwardButton seekOffset={10} />
-        <MediaTimeRange />
-        <MediaTimeDisplay showDuration />
-        <MediaMuteButton />
-        <MediaVolumeRange />
-        <MediaPlaybackRateButton />
-        <MediaFullscreenButton />
-      </MediaControlBar>
-    </MediaController>
+    <VideoPlayer>
+      <VideoSkin style={{ aspectRatio: '16 / 9' }}>
+        <ReactPlayer src="https://www.youtube.com/watch?v=LXb3EKWsInQ" width="100%" height="100%" />
+      </VideoSkin>
+    </VideoPlayer>
   );
 }
 ```
+
+The video preset also has `NeutralVideoSkin` and `CompatVideoSkin`. See [customizing skins](https://videojs.org/docs/framework/react/guides/customize-skins) to restyle them or copy their source into your project.
+
+##### UI components
+
+To build your own interface, place individual controls inside the player:
+
+```jsx
+import ReactPlayer from 'react-player';
+import { Container, MuteButton, PlayButton } from '@videojs/react';
+import { VideoPlayer } from '@videojs/react/video';
+
+export default function Player() {
+  return (
+    <VideoPlayer>
+      <Container style={{ position: 'relative', aspectRatio: '16 / 9' }}>
+        <ReactPlayer src="https://www.youtube.com/watch?v=LXb3EKWsInQ" width="100%" height="100%" />
+        <div className="controls">
+          <PlayButton render={(props, state) => <button {...props}>{state.paused ? 'Play' : 'Pause'}</button>} />
+          <MuteButton render={(props, state) => <button {...props}>{state.muted ? 'Unmute' : 'Mute'}</button>} />
+        </div>
+      </Container>
+    </VideoPlayer>
+  );
+}
+```
+
+With either approach:
+
+- Leave `controls` off, so the provider's own controls don't show alongside yours.
+- The controls drive playback directly. Leave `playing` unset, or keep it in sync with `onPlay` and `onPause`, because ReactPlayer applies `playing` whenever it re-renders.
 
 #### Mux Data and Google Cast
 
@@ -239,7 +238,7 @@ import { VideoPlayer } from '@videojs/react/video';
 </VideoPlayer>
 ```
 
-Install `@videojs/mux-data` and `@videojs/google-cast` for the extensions you use. See the [migration guide](MIGRATING.md#mux-data-and-google-cast) for details.
+Install `@videojs/mux-data` and `@videojs/google-cast` for the extensions you use. Extensions combine with a [skin or UI components](#custom-player-controls) inside the same `VideoPlayer`. See the [migration guide](MIGRATING.md#mux-data-and-google-cast) for details.
 
 #### Light player
 
