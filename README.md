@@ -14,7 +14,7 @@
 
 ---
 
-> Version 3 of ReactPlayer is a major update with a new architecture and many new features. It is not backwards compatible with v2, so please see the [migration guide](MIGRATING.md) for details.
+> Version 4 of ReactPlayer plays every source with the [Video.js v10](https://videojs.org) media components. It is not backwards compatible with v3, so please see the [migration guide](MIGRATING.md) for details.
 
 
 > Using Next.js and need to handle video upload/processing? Check out [next-video](https://github.com/muxinc/next-video).
@@ -203,7 +203,6 @@ export default function Player() {
         style={{
           width: "100%",
           height: "100%",
-          "--controls": "none",
         }}
       ></ReactPlayer>
       <MediaControlBar>
@@ -298,6 +297,10 @@ Since `v3` if the player supports multiple sources and / or tracks, it works the
   <track kind="subtitles" src="subs/subtitles.de.vtt" srclang="de">
 </ReactPlayer>
 ```
+
+### Migrating to `v4`
+
+ReactPlayer `v4` plays every source with the Video.js v10 media components. It requires React 18, moves the media API from `ref` to the new `mediaRef` prop, and renames some `config` keys. See the [migration guide](MIGRATING.md#migrating-to-v40) for details.
 
 ### Migrating to `v3`
 
