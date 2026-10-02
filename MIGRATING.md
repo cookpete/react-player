@@ -79,11 +79,45 @@ The `Config` TypeScript type is built from the v10 engine config types, so the c
 Mux URLs used to render [Mux Player](https://www.mux.com/player). They now render Video.js v10's `MuxVideo`, a plain video element:
 
 - 🔥 __No built-in player UI__. Set `controls` for the browser's native controls, or build your own, e.g. with [Media Chrome](https://github.com/muxinc/media-chrome). The `--controls` CSS variable no longer does anything.
-- 🔥 __Mux Data is no longer sent automatically.__ Mux Player had it built in; `MuxVideo` sends nothing.
+- 🔥 __Mux Data is no longer sent automatically.__ Mux Player had it built in; `MuxVideo` sends nothing. Add the Mux Data extension instead, see [Mux Data and Google Cast](#mux-data-and-google-cast).
 - 🔥 __No automatic poster.__ Mux Player showed the Mux thumbnail before playback; `MuxVideo` doesn't. Use the `light` prop with the thumbnail URL instead, e.g. `light="https://image.mux.com/<playback-id>/thumbnail.webp"`.
 - Playback options and storyboard thumbnails still come from the playback ID and `config.mux`, e.g. `config={{ mux: { playback: { maxResolution: '1080p' } } }}`.
 
 URLs with the `.m3u8` extension (`https://stream.mux.com/<id>.m3u8`) still play with hls.js rather than Mux.
+
+### Mux Data and Google Cast
+
+ReactPlayer doesn't include analytics or casting itself. In `v4` they come from Video.js v10 [extensions](https://videojs.org/docs/framework/react/guides/architecture), which attach to a v10 player rather than to a media element. To use them, wrap ReactPlayer in v10's `VideoPlayer` and add the extension components next to it. ReactPlayer's media attaches to the surrounding player, whichever source it plays, so the extensions follow it as the source changes.
+
+Install the extensions you need:
+
+```bash
+npm install @videojs/mux-data @videojs/google-cast
+```
+
+```jsx
+import ReactPlayer from 'react-player';
+import { CastButton } from '@videojs/react';
+import { GoogleCast } from '@videojs/react/extensions/google-cast';
+import { MuxData } from '@videojs/react/extensions/mux-data';
+import { VideoPlayer } from '@videojs/react/video';
+
+function Player({ src }) {
+  return (
+    <VideoPlayer>
+      <ReactPlayer src={src} controls />
+      <MuxData metadata={{ video_title: 'My video' }} />
+      <GoogleCast />
+      <CastButton />
+    </VideoPlayer>
+  );
+}
+```
+
+- [`MuxData`](https://videojs.org/docs/framework/react/reference/components/mux-data) monitors whatever ReactPlayer plays. Mux-hosted sources need no `envKey`; set one for other sources, e.g. `<MuxData envKey="YOUR_ENV_KEY" />`. Mux Player props such as `metadata`, `envKey` and `debug` move to this component.
+- [`GoogleCast`](https://videojs.org/docs/framework/react/reference/components/google-cast) enables casting, and [`CastButton`](https://videojs.org/docs/framework/react/reference/components/cast-button) starts and stops a session. Embeds such as YouTube and Vimeo can't be cast as-is: pass the receiver a castable URL with `<GoogleCast src="..." />`.
+- While casting, control playback through the v10 player (its controls, or the actions from `usePlayer`). ReactPlayer's `playing`, `volume` and `mediaRef` act on the local media, not the cast session.
+- ReactPlayer depends on `@videojs/react`. Import from the same version it uses (`^10`), so both share one copy and the media can find the player.
 
 ### Media Chrome
 

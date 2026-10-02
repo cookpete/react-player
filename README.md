@@ -221,6 +221,26 @@ export default function Player() {
 }
 ```
 
+#### Mux Data and Google Cast
+
+Analytics and casting come from [Video.js v10](https://videojs.org) extensions. Wrap ReactPlayer in v10's `VideoPlayer` and add the extension components next to it:
+
+```jsx
+import { CastButton } from '@videojs/react';
+import { GoogleCast } from '@videojs/react/extensions/google-cast';
+import { MuxData } from '@videojs/react/extensions/mux-data';
+import { VideoPlayer } from '@videojs/react/video';
+
+<VideoPlayer>
+  <ReactPlayer src={src} controls />
+  <MuxData />
+  <GoogleCast />
+  <CastButton />
+</VideoPlayer>
+```
+
+Install `@videojs/mux-data` and `@videojs/google-cast` for the extensions you use. See the [migration guide](MIGRATING.md#mux-data-and-google-cast) for details.
+
 #### Light player
 
 The `light` prop will render a video thumbnail with simple play icon, and only load the full player once a user has interacted with the image. [Noembed](https://noembed.com) is used to fetch thumbnails for a video URL. Note that automatic thumbnail fetching for Facebook, Wistia, Mixcloud and file URLs are not supported, and ongoing support for other URLs is not guaranteed.
