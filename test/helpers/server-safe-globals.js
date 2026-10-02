@@ -100,7 +100,9 @@ const document = {
 const globalThisShim = {
   location: { origin: 'origin' },
   navigator: {},
-  URL: { createObjectURL: () => 'mockObjectURL' },
+  URL: class extends URL {
+    static createObjectURL = () => 'mockObjectURL';
+  },
   document,
   MediaStream,
 };
