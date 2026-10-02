@@ -1,3 +1,7 @@
+// Load zora before the `window` shim below, so it starts in Node mode rather than waiting for a
+// browser `load` event.
+import 'zora';
+
 // Prevent from Node.Timeout to hang the process
 const oldSetTimeout = globalThis.setTimeout;
 // @ts-ignore
@@ -12,6 +16,7 @@ class Element extends EventTarget {
   style = {};
   querySelector = () => new Element();
   contains = () => true;
+  setAttribute() {}
 }
 
 class HTMLVideoElement extends Element {
@@ -99,7 +104,7 @@ const document = {
 
 const globalThisShim = {
   location: { origin: 'origin' },
-  navigator: {},
+  navigator: { userAgent: 'node' },
   URL: class extends URL {
     static createObjectURL = () => 'mockObjectURL';
   },
@@ -107,6 +112,14 @@ const globalThisShim = {
   MediaStream,
 };
 
-globalThis.document = document;
 globalThis.window = globalThisShim;
-Object.assign(globalThis, globalThisShim);
+// defineProperty rather than assignment: Node 21+ defines `navigator` as a getter-only global.
+Object.defineProperties(
+  globalThis,
+  Object.fromEntries(
+    Object.entries(globalThisShim).map(([key, value]) => [
+      key,
+      { value, writable: true, configurable: true },
+    ])
+  )
+);

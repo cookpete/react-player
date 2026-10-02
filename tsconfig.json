@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "preserveWatchOutput": true,
-    "target": "es2022",
+    "target": "es2019",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -14,7 +14,6 @@
     "jsx": "react",
     "incremental": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
     "rootDir": "src",
     "outDir": "dist",
   },

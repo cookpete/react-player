@@ -9,6 +9,6 @@ yarn-error.log
 /es6
 .idea/
 .vscode/
-/disttest/
+
 /dist/
 tsconfig.tsbuildinfo
