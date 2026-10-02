@@ -2,12 +2,25 @@
   "name": "react-player",
   "version": "3.4.0",
   "description": "A React component for playing a variety of URLs, including file paths, Mux, YouTube, Vimeo, and Wistia",
-  "author": "Pete Cook (https://github.com/cookpete)",
-  "license": "MIT",
+  "keywords": [
+    "audio",
+    "dash",
+    "hls",
+    "media",
+    "player",
+    "react",
+    "react-component",
+    "video",
+    "vimeo",
+    "wistia",
+    "youtube"
+  ],
   "homepage": "https://github.com/cookpete/react-player",
   "bugs": {
     "url": "https://github.com/cookpete/react-player/issues"
   },
+  "license": "MIT",
+  "author": "Pete Cook (https://github.com/cookpete)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cookpete/react-player.git"
@@ -15,8 +28,11 @@
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
   "type": "module",
+  "sideEffects": [
+    "./test/**/*"
+  ],
+  "main": "dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -28,26 +44,23 @@
     }
   },
   "scripts": {
+    "prepare": "vp config --no-agent",
     "clean": "rimraf dist demo coverage",
-    "start": "run-p 'types -- -w' 'build:esm -- --watch=forever' 'build:demo -- --watch=forever --servedir=demo'",
-    "lint": "biome lint src/*",
-    "test": "tester test/*.tsx test/*/*.tsx test/*.js test/*/*.js --outdir=disttest --platform=node --format=esm --bundle --external:sinon --external:zora --target=esnext --sourcemap=inline",
-    "test:coverage": "c8 --src src --exclude 'test/**' --exclude 'node_modules/**' --exclude 'scripts/**' --exclude-after-remap npm test",
-    "test:codecov": "npm run test:coverage && c8 report --reporter json && codecov -f coverage/coverage-final.json",
-    "types": "tsc",
-    "build": "run-s types build:*",
-    "build:esm": "builder \"src/**/*.*s*\" --outdir=dist --format=esm",
-    "prebuild:demo": "rimraf demo && cp -r examples/react/public demo",
-    "build:demo": "builder ./examples/react/src/index.js --format=esm --splitting --bundle --outdir=demo --minify --target=es2020",
-    "preversion": "run-s lint test",
+    "start": "vp dev examples/react",
+    "dev": "vp pack --watch",
+    "lint": "vp check --no-lint && vp lint --quiet",
+    "lint:fix": "vp check --fix",
+    "format": "vp fmt --write",
+    "typecheck": "tsgo --noEmit",
+    "test": "vp test run",
+    "test:watch": "vp test",
+    "test:coverage": "vp test run --coverage",
+    "build": "vp pack",
+    "build:demo": "vp build examples/react",
+    "preversion": "pnpm lint && pnpm test",
     "version": "auto-changelog -p && git add CHANGELOG.md",
-    "prepublishOnly": "npm run build",
-    "postpublish": "npm run clean"
-  },
-  "peerDependencies": {
-    "@types/react": "^18 || ^19",
-    "react": "^18 || ^19",
-    "react-dom": "^18 || ^19"
+    "prepublishOnly": "pnpm build",
+    "postpublish": "pnpm clean"
   },
   "dependencies": {
     "@videojs/dash-video": "^10.0.0",
@@ -62,45 +75,27 @@
     "@videojs/youtube-video": "^10.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.2",
-    "@types/node": "^20.14.6",
+    "@types/node": "^22.18.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-test-renderer": "^18.3.0",
+    "@typescript/native-preview": "beta",
+    "@vitest/coverage-v8": "5.0.1",
     "auto-changelog": "^2.0.0",
-    "builder": "file:./scripts/builder",
-    "c8": "^8.0.1",
-    "codecov": "^3.6.5",
-    "cross-env": "^7.0.2",
-    "esbuild": "^0.21.5",
-    "npm-run-all": "^4.1.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-test-renderer": "^18.3.1",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.1.3",
     "screenfull": "^5.0.2",
-    "sinon": "^16.0.0",
-    "tester": "file:./scripts/tester",
-    "typescript": "^5.4.5",
-    "zora": "^5.2.0"
+    "vite-plus": "1.0.0"
+  },
+  "peerDependencies": {
+    "@types/react": "^18 || ^19",
+    "react": "^18 || ^19",
+    "react-dom": "^18 || ^19"
   },
   "auto-changelog": {
     "breakingPattern": "Breaking changes:"
   },
-  "sideEffects": [
-    "./test/**/*"
-  ],
-  "keywords": [
-    "react",
-    "media",
-    "player",
-    "video",
-    "audio",
-    "youtube",
-    "vimeo",
-    "wistia",
-    "hls",
-    "dash",
-    "react-component"
-  ]
+  "packageManager": "pnpm@12.6.0"
 }

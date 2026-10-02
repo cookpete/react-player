@@ -5,10 +5,7 @@ import type { Config } from './types.js';
  * component. Video.js v10 media take a structured `source` whose `engine` key carries engine
  * options namespaced by engine, so every player can take the same `config` and read its own key.
  */
-export type ToMediaProps = (
-  src: string | undefined,
-  config: Config | undefined
-) => Record<string, unknown>;
+export type ToMediaProps = (src: string | undefined, config: Config | undefined) => Record<string, unknown>;
 
 const splitConfig = ({ mux, wistia, ...engine }: Config = {}) => ({ mux, wistia, engine });
 

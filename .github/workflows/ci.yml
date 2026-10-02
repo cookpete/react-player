@@ -1,71 +1,76 @@
-name: Node.js CI
+name: CI
 
 on: [push, pull_request]
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --prefer-offline
+      - run: pnpm lint
+
+  typecheck:
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: npm
-    - run: npm ci
-    - run: npm run lint
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --prefer-offline
+      - run: pnpm typecheck
 
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: npm
-    - run: npm ci
-    - run: npm run test:coverage
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --prefer-offline
+      - run: pnpm test:coverage
 
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x, 20.x]
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: npm
-    - run: npm ci
-    - run: npm run build
-    - run: npm run build:demo
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --prefer-offline
+      - run: pnpm build
+      - run: pnpm build:demo
 
   deploy-preview:
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+
+    # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+    # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
 
     environment:
       name: github-preview
@@ -74,14 +79,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/configure-pages@v5
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
-      - run: npm ci
-      - run: npm run build
-      - run: npm run build:demo
+          node-version-file: '.node-version'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --prefer-offline
+      - run: pnpm build:demo
       - uses: actions/upload-pages-artifact@v3
         with:
           path: './demo'

@@ -2,32 +2,35 @@
 
 Thanks for contributing to ReactPlayer!
 
+This project uses [pnpm](https://pnpm.io) and [Vite+](https://viteplus.dev) (`vp`) for building, testing, linting and formatting. The Node version is pinned in `.node-version`.
+
 Running the demo locally is relatively easy:
 
 ```bash
 git clone https://github.com/CookPete/react-player.git
 cd react-player
-npm install # or yarn
-npm start
-open http://localhost:3000
+pnpm install
+pnpm start
 ```
 
 ## `dist` files
 
-There is **no need** to build or commit files in `dist` after making changes. The `dist` files are only there for [bower](http://bower.io) support, and there is very little point in polluting every commit or pull request with the changes. The `dist` files will be automatically built and committed when new versions are released, so your changes will be included then.
+There is **no need** to build or commit files in `dist` after making changes. The `dist` files will be automatically built when new versions are released, so your changes will be included then.
 
-## Linting
+## Linting and formatting
 
-This project uses [standard](https://github.com/feross/standard) code style. Be sure to lint the code after making changes and fix any issues that come up.
+Code is linted with Oxlint and formatted with Oxfmt via Vite+. A pre-commit hook runs `vp staged` to fix staged files automatically.
 
 ```bash
-npm run lint
+pnpm lint      # check formatting and lint
+pnpm lint:fix  # fix formatting and lint issues
+pnpm typecheck
 ```
 
 ## Testing
 
-This project uses [karma](https://karma-runner.github.io) with [mocha](https://github.com/mochajs/mocha) and [chai](https://github.com/chaijs/chai) for testing in the browser. Be sure to test `ReactPlayer` after making changes and, if you’re feeling generous, add some tests of your own.
+This project uses [Vitest](https://vitest.dev) via `vp test`. Be sure to test `ReactPlayer` after making changes and, if you’re feeling generous, add some tests of your own.
 
 ```bash
-npm test
+pnpm test
 ```

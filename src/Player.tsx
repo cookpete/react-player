@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import type { SyntheticEvent } from 'react';
+
 import type { PlayerEntry } from './players.js';
 import type { ReactPlayerProps } from './types.js';
 
@@ -75,7 +76,7 @@ const Player: Player = React.forwardRef((props, ref) => {
 
   for (const key in props) {
     if (key.startsWith('on') && !reactPlayerEventHandlers.includes(key)) {
-      eventProps[key] = props[key as keyof ReactPlayerProps];
+      eventProps[key] = props[key as keyof typeof props];
     }
   }
 

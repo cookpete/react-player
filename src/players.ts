@@ -1,17 +1,16 @@
 import { lazy } from 'react';
-import { canPlay } from './patterns.js';
-import type { VideoElementProps } from './types.js';
-import { createMediaPlayer } from './MediaPlayer.js';
-import { muxSource, wistiaSource, type ToMediaProps } from './sources.js';
+
 import HtmlPlayer from './HtmlPlayer.js';
+import { createMediaPlayer } from './MediaPlayer.js';
+import { canPlay } from './patterns.js';
+import { muxSource, wistiaSource, type ToMediaProps } from './sources.js';
+import type { VideoElementProps } from './types.js';
 
 export type PlayerEntry = {
   key: string;
   canPlay: (src: string) => boolean;
   canEnablePIP?: () => boolean;
-  player?:
-    | React.ComponentType<VideoElementProps>
-    | React.LazyExoticComponent<React.ComponentType<VideoElementProps>>;
+  player?: React.ComponentType<VideoElementProps> | React.LazyExoticComponent<React.ComponentType<VideoElementProps>>;
 };
 
 type LazyPlayer = React.LazyExoticComponent<React.ComponentType<VideoElementProps>>;
@@ -20,30 +19,23 @@ type LazyPlayer = React.LazyExoticComponent<React.ComponentType<VideoElementProp
 const lazyMedia = <P extends object>(
   load: () => Promise<React.ComponentType<P>>,
   toMediaProps?: ToMediaProps
-): LazyPlayer =>
-  lazy(async () => ({ default: createMediaPlayer(await load(), toMediaProps) })) as LazyPlayer;
+): LazyPlayer => lazy(async () => ({ default: createMediaPlayer(await load(), toMediaProps) })) as LazyPlayer;
 
 const Players: PlayerEntry[] = [
   {
     key: 'hls',
     canPlay: canPlay.hls,
     canEnablePIP: () => true,
-    player: lazyMedia(
-      () =>
-        import(/* webpackChunkName: 'reactPlayerHls' */ '@videojs/react/media/hlsjs-video').then(
-          (m) => m.HlsJsVideo
-        )
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerHls' */ '@videojs/react/media/hlsjs-video').then((m) => m.HlsJsVideo)
     ),
   },
   {
     key: 'dash',
     canPlay: canPlay.dash,
     canEnablePIP: () => true,
-    player: lazyMedia(
-      () =>
-        import(/* webpackChunkName: 'reactPlayerDash' */ '@videojs/react/media/dash-video').then(
-          (m) => m.DashVideo
-        )
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerDash' */ '@videojs/react/media/dash-video').then((m) => m.DashVideo)
     ),
   },
   {
@@ -51,31 +43,24 @@ const Players: PlayerEntry[] = [
     canPlay: canPlay.mux,
     canEnablePIP: () => true,
     player: lazyMedia(
-      () =>
-        import(/* webpackChunkName: 'reactPlayerMux' */ '@videojs/react/media/mux-video').then(
-          (m) => m.MuxVideo
-        ),
+      () => import(/* webpackChunkName: 'reactPlayerMux' */ '@videojs/react/media/mux-video').then((m) => m.MuxVideo),
       muxSource
     ),
   },
   {
     key: 'youtube',
     canPlay: canPlay.youtube,
-    player: lazyMedia(
-      () =>
-        import(
-          /* webpackChunkName: 'reactPlayerYouTube' */ '@videojs/react/media/youtube-video'
-        ).then((m) => m.YouTubeVideo)
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerYouTube' */ '@videojs/react/media/youtube-video').then(
+        (m) => m.YouTubeVideo
+      )
     ),
   },
   {
     key: 'vimeo',
     canPlay: canPlay.vimeo,
-    player: lazyMedia(
-      () =>
-        import(/* webpackChunkName: 'reactPlayerVimeo' */ '@videojs/react/media/vimeo-video').then(
-          (m) => m.VimeoVideo
-        )
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerVimeo' */ '@videojs/react/media/vimeo-video').then((m) => m.VimeoVideo)
     ),
   },
   {
@@ -84,9 +69,9 @@ const Players: PlayerEntry[] = [
     canEnablePIP: () => true,
     player: lazyMedia(
       () =>
-        import(
-          /* webpackChunkName: 'reactPlayerWistia' */ '@videojs/react/media/wistia-video'
-        ).then((m) => m.WistiaVideo),
+        import(/* webpackChunkName: 'reactPlayerWistia' */ '@videojs/react/media/wistia-video').then(
+          (m) => m.WistiaVideo
+        ),
       wistiaSource
     ),
   },
@@ -94,33 +79,26 @@ const Players: PlayerEntry[] = [
     key: 'spotify',
     canPlay: canPlay.spotify,
     canEnablePIP: () => false,
-    player: lazyMedia(
-      () =>
-        import(
-          /* webpackChunkName: 'reactPlayerSpotify' */ '@videojs/react/media/spotify-audio'
-        ).then((m) => m.SpotifyAudio)
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerSpotify' */ '@videojs/react/media/spotify-audio').then(
+        (m) => m.SpotifyAudio
+      )
     ),
   },
   {
     key: 'twitch',
     canPlay: canPlay.twitch,
     canEnablePIP: () => false,
-    player: lazyMedia(
-      () =>
-        import(
-          /* webpackChunkName: 'reactPlayerTwitch' */ '@videojs/react/media/twitch-video'
-        ).then((m) => m.TwitchVideo)
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerTwitch' */ '@videojs/react/media/twitch-video').then((m) => m.TwitchVideo)
     ),
   },
   {
     key: 'tiktok',
     canPlay: canPlay.tiktok,
     canEnablePIP: () => false,
-    player: lazyMedia(
-      () =>
-        import(
-          /* webpackChunkName: 'reactPlayerTiktok' */ '@videojs/react/media/tiktok-video'
-        ).then((m) => m.TikTokVideo)
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerTiktok' */ '@videojs/react/media/tiktok-video').then((m) => m.TikTokVideo)
     ),
   },
   {

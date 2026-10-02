@@ -1,4 +1,3 @@
-import type { SyntheticEvent } from 'react';
 import type { DashEngineConfig } from '@videojs/dash-video';
 import type { HlsEngineConfig } from '@videojs/hlsjs-video';
 import type { MuxSource } from '@videojs/mux-video';
@@ -8,14 +7,17 @@ import type { TwitchSourceEngineConfig } from '@videojs/twitch-video';
 import type { VimeoSourceEngineConfig } from '@videojs/vimeo-video';
 import type { WistiaSource } from '@videojs/wistia-video';
 import type { YouTubeSourceEngineConfig } from '@videojs/youtube-video';
+import type { SyntheticEvent } from 'react';
 
 interface VideoHTMLAttributes<T> extends React.VideoHTMLAttributes<T> {
   onEnterPictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
   onLeavePictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
 }
 
-export interface VideoElementProps
-  extends React.DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {
+export interface VideoElementProps extends React.DetailedHTMLProps<
+  VideoHTMLAttributes<HTMLVideoElement>,
+  HTMLVideoElement
+> {
   playbackRate?: number;
   volume?: number;
   config?: Config;
@@ -46,7 +48,8 @@ export interface PreviewProps {
  * the rest of those players' source options.
  */
 export interface Config
-  extends HlsEngineConfig,
+  extends
+    HlsEngineConfig,
     DashEngineConfig,
     YouTubeSourceEngineConfig,
     VimeoSourceEngineConfig,

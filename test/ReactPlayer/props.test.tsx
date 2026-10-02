@@ -1,32 +1,33 @@
 import '../helpers/server-safe-globals.js';
-import { test } from 'zora';
 import React from 'react';
 import { create } from 'react-test-renderer';
+import { expect, test } from 'vite-plus/test';
+
 import ReactPlayer from '../../src/index';
 import { render } from '../helpers/helpers';
 
-test('className', async (t) => {
+test('className', async () => {
   const wrapper = render(<ReactPlayer className="react-player" />);
-  t.equal(wrapper.root.findByType('video').props.className, 'react-player');
+  expect(wrapper.root.findByType('video').props.className).toBe('react-player');
 });
 
-test('style', (t) => {
+test('style', () => {
   const wrapper = render(<ReactPlayer style={{ marginTop: '1rem' }} />);
-  t.equal(wrapper.root.findByType('video').props.style.marginTop, '1rem');
+  expect(wrapper.root.findByType('video').props.style.marginTop).toBe('1rem');
 });
 
-test('config is not passed to a native video', (t) => {
+test('config is not passed to a native video', () => {
   const wrapper = render(<ReactPlayer src="file.mp4" config={{ youtube: { color: 'white' } }} />);
-  t.equal(wrapper.root.findByType('video').props.config, undefined);
+  expect(wrapper.root.findByType('video').props.config).toBeUndefined();
 });
 
-test('wrapper - string', (t) => {
+test('wrapper - string', () => {
   const wrapper = create(<ReactPlayer wrapper="span" />);
-  t.equal(wrapper.toJSON().type, 'span');
+  expect(wrapper.toJSON().type).toBe('span');
 });
 
-test('wrapper - element', (t) => {
+test('wrapper - element', () => {
   const Element = () => null;
   const wrapper = create(<ReactPlayer wrapper={Element} />);
-  t.ok(wrapper.root.findByType(Element));
+  expect(wrapper.root.findByType(Element)).toBeTruthy();
 });

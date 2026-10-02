@@ -1,7 +1,5 @@
-import { test } from 'zora'
-import sinon from 'sinon'
-import React from 'react'
-import { ReactTestRenderer, act, create } from 'react-test-renderer'
+import React from 'react';
+import { ReactTestRenderer, act, create } from 'react-test-renderer';
 
 export function render(comp: React.ReactElement): ReactTestRenderer {
   let result;
@@ -20,27 +18,27 @@ export function render(comp: React.ReactElement): ReactTestRenderer {
   return result;
 }
 
-export function containsMatchingElement (wrapper, comp) {
-  return isObjectContained(create(comp).toJSON(), wrapper.toJSON())
+export function containsMatchingElement(wrapper, comp) {
+  return isObjectContained(create(comp).toJSON(), wrapper.toJSON());
 }
 
-export function isObjectContained (subObject, jsonObject) {
+export function isObjectContained(subObject, jsonObject) {
   if (typeof subObject !== 'object' || typeof jsonObject !== 'object') {
-    return false
+    return false;
   }
 
   for (const key in subObject) {
     if (!(key in jsonObject)) {
-      return false
+      return false;
     }
 
     if (typeof subObject[key] === 'object' && typeof jsonObject[key] === 'object') {
       if (!isObjectContained(subObject[key], jsonObject[key])) {
-        return false
+        return false;
       }
     } else if (subObject[key] !== jsonObject[key]) {
-      return false
+      return false;
     }
   }
-  return true
+  return true;
 }

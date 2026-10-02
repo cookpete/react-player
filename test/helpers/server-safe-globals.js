@@ -1,17 +1,11 @@
-// Prevent from Node.Timeout to hang the process
-const oldSetTimeout = globalThis.setTimeout;
-// @ts-ignore
-globalThis.setTimeout = (callback, delay) => {
-  const timeout = oldSetTimeout(callback, delay);
-  oldSetTimeout(() => {
-    timeout.unref();
-  }, 100);
-};
-
 class Element extends EventTarget {
   style = {};
   querySelector = () => new Element();
   contains = () => true;
+  setAttribute() {}
+  getAttribute() {
+    return null;
+  }
 }
 
 class HTMLVideoElement extends Element {
@@ -99,12 +93,16 @@ const document = {
 
 const globalThisShim = {
   location: { origin: 'origin' },
-  navigator: {},
-  URL: { createObjectURL: () => 'mockObjectURL' },
+  navigator: { userAgent: 'node' },
   document,
   MediaStream,
 };
 
 globalThis.document = document;
-globalThis.window = globalThisShim;
-Object.assign(globalThis, globalThisShim);
+// Keep Node's real `URL`; the test runner relies on it.
+globalThis.window = { ...globalThisShim, URL };
+
+// Node 21+ defines some of these (e.g. `navigator`) as getter-only globals, so assignment would throw.
+for (const [key, value] of Object.entries(globalThisShim)) {
+  Object.defineProperty(globalThis, key, { value, configurable: true, writable: true });
+}

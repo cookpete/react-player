@@ -5,7 +5,7 @@
 
 .app {
   margin: auto;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
   text-align: center;
 }
@@ -21,12 +21,12 @@
 .player-wrapper {
   width: 480px;
   aspect-ratio: 16 / 9;
-  background: rgba(0, 0, 0, .1);
+  background: rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
 }
 
 .faded {
-  color: rgba(0, 0, 0,.6);
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .footer {

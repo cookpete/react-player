@@ -1,10 +1,9 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 
-import { defaultProps } from './props.js';
 import Player from './Player.js';
-
-import type { ReactPlayerProps } from './types.js';
 import type { PlayerEntry } from './players.js';
+import { defaultProps } from './props.js';
+import type { ReactPlayerProps } from './types.js';
 
 const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */ './Preview.js'));
 const customPlayers: PlayerEntry[] = [];
@@ -20,8 +19,7 @@ type ReactPlayer = React.ForwardRefExoticComponent<
   }>;
 
 export const createReactPlayer = (players: PlayerEntry[], playerFallback: PlayerEntry) => {
-  const findPlayer = (src: string) =>
-    [...customPlayers, ...players].find((player) => player.canPlay(src));
+  const findPlayer = (src: string) => [...customPlayers, ...players].find((player) => player.canPlay(src));
 
   const ReactPlayer: ReactPlayer = React.forwardRef((_props, ref) => {
     const props = { ...defaultProps, ..._props };
@@ -104,8 +102,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
   ReactPlayer.canPlay = (src?: string) => !!src && !!findPlayer(src);
 
   ReactPlayer.canEnablePIP = (src?: string) =>
-    !!src &&
-    [...customPlayers, ...players].some((player) => player.canPlay(src) && player.canEnablePIP?.());
+    !!src && [...customPlayers, ...players].some((player) => player.canPlay(src) && player.canEnablePIP?.());
 
   return ReactPlayer;
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { engineSource, type ToMediaProps } from './sources.js';
 import type { VideoElementProps } from './types.js';
 
@@ -20,11 +21,9 @@ export function createMediaPlayer<P extends object>(
   // The media components' own prop types differ per player; ReactPlayer passes a normalized set.
   const Media = MediaComponent as React.ComponentType<Record<string, unknown>>;
 
-  const MediaPlayer = React.forwardRef<HTMLVideoElement, VideoElementProps>(
-    ({ src, config, ...props }, ref) => (
-      <Media {...props} {...toMediaProps(src, config)} mediaRef={ref} />
-    )
-  );
+  const MediaPlayer = React.forwardRef<HTMLVideoElement, VideoElementProps>(({ src, config, ...props }, ref) => (
+    <Media {...props} {...toMediaProps(src, config)} mediaRef={ref} />
+  ));
 
   MediaPlayer.displayName = `MediaPlayer(${Media.displayName ?? Media.name ?? 'Media'})`;
 
