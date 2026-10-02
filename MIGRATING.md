@@ -93,14 +93,6 @@ Media Chrome controls the element in `slot="media"`. 🔥 __For embeds, that ele
 
 ReactPlayer picks a player with v10's `resolveAdapterType`, so it recognizes the same sources as the media it renders.
 
-🔥 __These URLs no longer match a service player__ and fall back to the HTML player:
-
-URL | `v3` | `v4`
---- | --- | ---
-`youtube.com/user/...`, `music.youtube.com/watch?v=...` | YouTube | HTML
-`vimeo.com/channels/<channel>/<id>`, `vimeo.com/showcase/<id>` | Vimeo | HTML
-`player.twitch.tv/?video=<id>` | Twitch | HTML
-
 Newly recognized: localized Spotify URLs (`open.spotify.com/intl-de/track/...`), `spotify:` URIs, `youtube/<id>` and `vimeo/<id>` shorthands, and `.flac` files.
 
 ### `react-player/patterns`
