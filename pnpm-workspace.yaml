@@ -2,6 +2,8 @@ minimumReleaseAge: 1440
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - 'undici-types@6.21.0'
+  - 'semver@5.7.2'
+  - 'semver@6.3.1'
 
 # Vite+ provides `vite` as an alias of its own core, which doesn't satisfy Vitest's semver peer range.
 peerDependencyRules:

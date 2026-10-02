@@ -57,6 +57,7 @@
     "test:coverage": "vp test run --coverage",
     "build": "vp pack",
     "build:demo": "vp build examples/react",
+    "codemod:v4": "jscodeshift --extensions=js,jsx,ts,tsx -t codemods/v4.ts",
     "preversion": "pnpm lint && pnpm test",
     "version": "auto-changelog -p && git add CHANGELOG.md",
     "prepublishOnly": "pnpm build",
@@ -75,6 +76,7 @@
     "@videojs/youtube-video": "^10.0.0"
   },
   "devDependencies": {
+    "@types/jscodeshift": "^17.3.0",
     "@types/node": "^22.18.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -82,6 +84,7 @@
     "@typescript/native-preview": "beta",
     "@vitest/coverage-v8": "5.0.1",
     "auto-changelog": "^2.0.0",
+    "jscodeshift": "^17.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-test-renderer": "^18.3.1",

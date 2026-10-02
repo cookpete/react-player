@@ -4,6 +4,25 @@ Breaking changes are in 🔥 __bold and on fire__.
 
 `v4.0` plays every source with the [Video.js v10](https://videojs.org) React media components (`@videojs/react/media/*`) instead of the standalone `*-video-element` packages and `@mux/mux-player-react`. Props, callbacks, static methods and per-player lazy loading work as before, apart from the changes below.
 
+### Codemod
+
+A [jscodeshift](https://github.com/facebook/jscodeshift) codemod makes most of the code changes below. Run it on your source directory, then review the diff:
+
+```bash
+npx jscodeshift --extensions=js,jsx,ts,tsx \
+  -t https://raw.githubusercontent.com/cookpete/react-player/master/codemods/v4.ts \
+  src
+```
+
+It changes:
+
+- `<ReactPlayer ref={...}>` to `mediaRef`, and `ref.current.api` to `.engine`
+- `config` keys and values: `hls` => `hlsJs`, `dash` => `dashJs`, removes `html`, and converts the Spotify, TikTok and Twitch options
+- `react-player/patterns`: `canPlay.youtube` => `canPlay('youtube')`, `MATCH_URL_YOUTUBE.test(url)` => `canPlay('youtube')(url)`, and a local copy of any removed regex used another way
+- custom player entries: removes `name`
+
+It leaves a `TODO(react-player v4)` comment, also listed in its output, wherever you need to decide what to do: `config` it can't follow, `config.mux` options from Mux Player, DOM access through the old `ref`, `.engine` for HLS, DASH and Mux, and custom player components. It only finds `config` objects written in the same file or typed as `Config`, so read the sections below for anything it reports.
+
 ### React 18 or later
 
 `@videojs/react` requires React 18, so 🔥 __React 17 is no longer supported__. The peer range is now `^18 || ^19`.
