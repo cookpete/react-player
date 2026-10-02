@@ -31,7 +31,30 @@ mediaRef.current.currentTime = 30;
 
 For files and streams `ref` and `mediaRef` are the same element, so existing `ref` code keeps working there. Switching to `mediaRef` makes it work for every player.
 
-If you used `ref.current.api` to reach an embed's own SDK, 🔥 __it is now `mediaRef.current.engine`__ for YouTube, Vimeo, Spotify, Twitch and TikTok (for example the YouTube IFrame API player). It can be `null` until the SDK has loaded. Wistia's `mediaRef` is the `<wistia-player>` element itself. The hls.js and dash.js instances are not exposed.
+If you used `ref.current.api` to reach the underlying engine, 🔥 __it is now `.engine` on the Video.js media__. It can be `null` until the engine has loaded.
+
+- For YouTube, Vimeo, Spotify, Twitch and TikTok, `mediaRef.current` is that media, so the embed's SDK is at `mediaRef.current.engine` (for example the YouTube IFrame API player). Wistia's `mediaRef` is the `<wistia-player>` element itself.
+- For HLS, DASH and Mux, `mediaRef.current` is the `<video>` element, which has no `engine`. The hls.js and dash.js instances are on the Video.js adapter that drives it. Render ReactPlayer inside a v10 player and read the adapter with `useMedia()`:
+
+```jsx
+import { createPlayer } from '@videojs/react';
+import { videoFeatures } from '@videojs/react/video';
+
+const { Player, useMedia } = createPlayer({ features: videoFeatures });
+
+function HlsStats() {
+  const media = useMedia();
+  const hls = media && 'engine' in media ? media.engine : null; // the hls.js instance
+  // ...
+}
+
+<Player>
+  <ReactPlayer src="https://example.com/stream.m3u8" />
+  <HlsStats />
+</Player>
+```
+
+The engine is an escape hatch that ties your code to hls.js or dash.js; prefer the media API where it covers your use case.
 
 The `ref` type is now `HTMLElement`, since it is not always a media element.
 
