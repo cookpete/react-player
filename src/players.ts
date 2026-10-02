@@ -26,7 +26,7 @@ const lazyMedia = <P extends object>(
 const Players: PlayerEntry[] = [
   {
     key: 'hls',
-    canPlay: canPlay.hls,
+    canPlay: canPlay('hls'),
     canEnablePIP: () => true,
     player: lazyMedia(
       () =>
@@ -37,7 +37,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'dash',
-    canPlay: canPlay.dash,
+    canPlay: canPlay('dash'),
     canEnablePIP: () => true,
     player: lazyMedia(
       () =>
@@ -48,7 +48,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'mux',
-    canPlay: canPlay.mux,
+    canPlay: canPlay('mux'),
     canEnablePIP: () => true,
     player: lazyMedia(
       () =>
@@ -60,7 +60,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'youtube',
-    canPlay: canPlay.youtube,
+    canPlay: canPlay('youtube'),
     player: lazyMedia(
       () =>
         import(
@@ -70,7 +70,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'vimeo',
-    canPlay: canPlay.vimeo,
+    canPlay: canPlay('vimeo'),
     player: lazyMedia(
       () =>
         import(/* webpackChunkName: 'reactPlayerVimeo' */ '@videojs/react/media/vimeo-video').then(
@@ -80,7 +80,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'wistia',
-    canPlay: canPlay.wistia,
+    canPlay: canPlay('wistia'),
     canEnablePIP: () => true,
     player: lazyMedia(
       () =>
@@ -92,7 +92,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'spotify',
-    canPlay: canPlay.spotify,
+    canPlay: canPlay('spotify'),
     canEnablePIP: () => false,
     player: lazyMedia(
       () =>
@@ -103,7 +103,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'twitch',
-    canPlay: canPlay.twitch,
+    canPlay: canPlay('twitch'),
     canEnablePIP: () => false,
     player: lazyMedia(
       () =>
@@ -114,7 +114,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'tiktok',
-    canPlay: canPlay.tiktok,
+    canPlay: canPlay('tiktok'),
     canEnablePIP: () => false,
     player: lazyMedia(
       () =>
@@ -125,7 +125,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'html',
-    canPlay: canPlay.html,
+    canPlay: canPlay('html'),
     canEnablePIP: () => true,
     player: HtmlPlayer,
   },
