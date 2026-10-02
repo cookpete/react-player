@@ -145,8 +145,17 @@ Method | Description
 
 #### Instance Methods
 
-Use [`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) to call instance methods on the player. See [the demo app](examples/react/src/App.js) for an example of this. Since `v3`, the instance methods aim to be compatible 
-with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface.
+Use the `mediaRef` prop to call instance methods on the player. See [the demo app](examples/react/src/App.tsx) for an example of this. The media is compatible with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface for every player: it is the `<video>` or `<audio>` element for files and streams, and a [Video.js v10](https://videojs.org/docs/framework/react/guides/media-sources) playback adapter for embeds such as YouTube and Vimeo.
+
+```jsx
+const mediaRef = useRef(null);
+
+<ReactPlayer src={src} mediaRef={mediaRef} />
+
+mediaRef.current.currentTime = 30;
+```
+
+[`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) points to the rendered DOM element: the `<video>` or `<audio>` element, or the embed's `<iframe>` (`<wistia-player>` for Wistia).
 
 ### Advanced Usage
 
@@ -264,6 +273,8 @@ Use `removeCustomPlayers` to clear all custom players:
 ```javascript
 ReactPlayer.removeCustomPlayers();
 ```
+
+Custom players follow the same contract as the Video.js v10 media components: they forward `ref` to the element they render and hand the HTMLMediaElement-compatible object that plays the media to the `mediaRef` prop. ReactPlayer controls playback (`playing`, `volume`, `playbackRate`, `pip`) through `mediaRef`.
 
 It is your responsibility to ensure that custom players keep up with any internal changes to ReactPlayer in later versions.
 

@@ -21,6 +21,14 @@ test('config is not passed to a native video', () => {
   expect(wrapper.root.findByType('video').props.config).toBeUndefined();
 });
 
+test('ref and mediaRef are both the native video element', () => {
+  const ref = React.createRef<HTMLElement>();
+  const mediaRef = React.createRef<HTMLVideoElement>();
+  render(<ReactPlayer src="file.mp4" ref={ref} mediaRef={mediaRef} />);
+  expect(ref.current).toBeTruthy();
+  expect(mediaRef.current).toBe(ref.current);
+});
+
 test('wrapper - string', () => {
   const wrapper = create(<ReactPlayer wrapper="span" />);
   expect(wrapper.toJSON().type).toBe('span');

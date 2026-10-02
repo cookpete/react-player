@@ -14,14 +14,19 @@ interface VideoHTMLAttributes<T> extends React.VideoHTMLAttributes<T> {
   onLeavePictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
 }
 
-export interface VideoElementProps extends React.DetailedHTMLProps<
-  VideoHTMLAttributes<HTMLVideoElement>,
-  HTMLVideoElement
-> {
+/**
+ * Props of a player component. Like the Video.js v10 media components, `ref` receives the rendered
+ * DOM element and `mediaRef` the object that plays the media: the element itself for `<video>` and
+ * `<audio>`, or the playback adapter for an embed.
+ */
+export interface VideoElementProps extends VideoHTMLAttributes<HTMLVideoElement> {
+  mediaRef?: React.Ref<HTMLVideoElement>;
   playbackRate?: number;
   volume?: number;
   config?: Config;
 }
+
+export type PlayerComponent = React.ComponentType<VideoElementProps & React.RefAttributes<HTMLElement>>;
 
 export interface ReactPlayerProps extends PreviewProps, VideoElementProps {
   fallback?: React.ReactNode;

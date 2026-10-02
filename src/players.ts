@@ -4,16 +4,16 @@ import HtmlPlayer from './HtmlPlayer.js';
 import { createMediaPlayer } from './MediaPlayer.js';
 import { canPlay } from './patterns.js';
 import { muxSource, wistiaSource, type ToMediaProps } from './sources.js';
-import type { VideoElementProps } from './types.js';
+import type { PlayerComponent } from './types.js';
 
 export type PlayerEntry = {
   key: string;
   canPlay: (src: string) => boolean;
   canEnablePIP?: () => boolean;
-  player?: React.ComponentType<VideoElementProps> | React.LazyExoticComponent<React.ComponentType<VideoElementProps>>;
+  player?: PlayerComponent | LazyPlayer;
 };
 
-type LazyPlayer = React.LazyExoticComponent<React.ComponentType<VideoElementProps>>;
+type LazyPlayer = React.LazyExoticComponent<PlayerComponent>;
 
 /** Lazily loads a `@videojs/react` media component and adapts it to ReactPlayer's props. */
 const lazyMedia = <P extends object>(

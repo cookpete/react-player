@@ -7,21 +7,40 @@ import { createMediaPlayer } from '../src/MediaPlayer';
 import Player from '../src/Player';
 import { render } from './helpers/helpers';
 
+/** Stand-in for the playback adapter an embed hands to `mediaRef`. */
+class FakeAdapter {
+  paused = true;
+  volume = 1;
+  playbackRate = 1;
+  constructor(public target: HTMLElement) {}
+  play() {
+    this.paused = false;
+  }
+  pause() {
+    this.paused = true;
+  }
+}
+
+const assignRef = <T,>(ref: unknown, value: T | null) => {
+  if (typeof ref === 'function') ref(value);
+  else if (ref) (ref as React.MutableRefObject<T | null>).current = value;
+};
+
 /**
- * Stand-in for a `@videojs/react` media component: takes `<video>`-like props plus a structured
- * `source`, and hands the media to `mediaRef`.
+ * Stand-in for a `@videojs/react` embed media component: takes `<video>`-like props plus a
+ * structured `source`, hands the rendered element to `ref` and its adapter to `mediaRef`.
  */
-const FakeMedia = React.forwardRef<HTMLVideoElement, Record<string, unknown>>((props, ref) => {
+const FakeMedia = React.forwardRef<HTMLElement, Record<string, unknown>>((props, ref) => {
   const { source, mediaRef, children, ...rest } = props;
+  const adapter = React.useRef<FakeAdapter | null>(null);
   return (
     <video
       {...rest}
       data-source={JSON.stringify(source)}
       ref={(node) => {
-        for (const r of [ref, mediaRef as React.Ref<HTMLVideoElement>]) {
-          if (typeof r === 'function') r(node);
-          else if (r) (r as React.MutableRefObject<HTMLVideoElement | null>).current = node;
-        }
+        if (node) adapter.current ??= new FakeAdapter(node);
+        assignRef(ref, node);
+        assignRef(mediaRef, node && adapter.current);
       }}
     >
       {children as React.ReactNode}
@@ -62,8 +81,8 @@ test('attributes, callbacks and children pass through unchanged', () => {
   expect(video.props.controls).toBe(true);
   expect(video.props.className).toBe('rp');
   expect(wrapper.root.findByType('track')).toBeTruthy();
-  expect(video.props.volume, 'volume is applied via the ref, not as a prop').toBeUndefined();
-  expect(video.props.playbackRate, 'playbackRate is applied via the ref, not as a prop').toBeUndefined();
+  expect(video.props.volume, 'volume is applied via the media, not as a prop').toBeUndefined();
+  expect(video.props.playbackRate, 'playbackRate is applied via the media, not as a prop').toBeUndefined();
 
   act(() => {
     video.props.onPlay(new Event('play'));
@@ -71,31 +90,46 @@ test('attributes, callbacks and children pass through unchanged', () => {
   expect(onPlay).toHaveBeenCalledOnce();
 });
 
-test('ref is the media and is driven by playing / volume / playbackRate', async () => {
-  const ref: React.RefObject<HTMLVideoElement> = React.createRef();
+test('ref is the rendered element and mediaRef the media', () => {
+  const ref = React.createRef<HTMLElement>();
+  const mediaRef = React.createRef<HTMLVideoElement>();
+  render(<Player ref={ref} mediaRef={mediaRef} src="file.mp4" activePlayer={FakePlayer} />);
+
+  expect(ref.current, 'ref receives the element').toBeTruthy();
+  expect(mediaRef.current, 'mediaRef receives the adapter').toBeInstanceOf(FakeAdapter);
+  expect((mediaRef.current as unknown as FakeAdapter).target).toBe(ref.current);
+});
+
+test('the media is driven by playing / volume / playbackRate', async () => {
+  const mediaRef = React.createRef<HTMLVideoElement>();
   const wrapper = render(
-    <Player ref={ref} src="file.mp4" playing volume={0.5} playbackRate={2} activePlayer={FakePlayer} />
+    <Player mediaRef={mediaRef} src="file.mp4" playing volume={0.5} playbackRate={2} activePlayer={FakePlayer} />
   );
   await Promise.resolve();
 
-  expect(ref.current).toBeTruthy();
-  expect(ref.current?.paused).toBe(false);
-  expect(ref.current?.volume).toBe(0.5);
-  expect(ref.current?.playbackRate).toBe(2);
+  expect(mediaRef.current?.paused).toBe(false);
+  expect(mediaRef.current?.volume).toBe(0.5);
+  expect(mediaRef.current?.playbackRate).toBe(2);
 
   act(() => {
     wrapper.update(
-      <Player ref={ref} src="file.mp4" playing={false} volume={0.5} playbackRate={2} activePlayer={FakePlayer} />
+      <Player
+        mediaRef={mediaRef}
+        src="file.mp4"
+        playing={false}
+        volume={0.5}
+        playbackRate={2}
+        activePlayer={FakePlayer}
+      />
     );
   });
-  expect(ref.current?.paused).toBe(true);
+  expect(mediaRef.current?.paused).toBe(true);
 });
 
-test('ReactPlayer ref is passed as mediaRef, not as the element ref', () => {
-  const ref: React.RefObject<HTMLVideoElement> = React.createRef();
-  const wrapper = render(<Player ref={ref} src="file.mp4" activePlayer={FakePlayer} />);
-  const media = wrapper.root.findByType(FakeMedia);
+test('the media, not the element, is driven without a mediaRef', async () => {
+  const ref = React.createRef<HTMLElement>();
+  render(<Player ref={ref} src="file.mp4" playing activePlayer={FakePlayer} />);
+  await Promise.resolve();
 
-  expect(typeof media.props.mediaRef === 'function' || media.props.mediaRef === ref).toBe(true);
-  expect(ref.current, 'ref receives the media').toBeTruthy();
+  expect((ref.current as HTMLVideoElement).paused, 'the element is not played').toBe(true);
 });

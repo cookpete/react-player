@@ -8,9 +8,7 @@ import type { ReactPlayerProps } from './types.js';
 const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */ './Preview.js'));
 const customPlayers: PlayerEntry[] = [];
 
-type ReactPlayer = React.ForwardRefExoticComponent<
-  Omit<ReactPlayerProps, 'ref'> & React.RefAttributes<HTMLVideoElement>
-> &
+type ReactPlayer = React.ForwardRefExoticComponent<ReactPlayerProps & React.RefAttributes<HTMLElement>> &
   Partial<{
     addCustomPlayer: (player: PlayerEntry) => void;
     removeCustomPlayers: () => void;

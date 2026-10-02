@@ -207,7 +207,7 @@ const App = () => {
         <h1>ReactPlayer Demo</h1>
         <div className="player-wrapper">
           <ReactPlayer
-            ref={setPlayerRef}
+            mediaRef={setPlayerRef}
             className="react-player"
             style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
             src={src}

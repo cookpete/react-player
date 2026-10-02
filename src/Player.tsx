@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import { useComposedRefs } from '@videojs/react';
+import React, { useEffect, useRef } from 'react';
 import type { SyntheticEvent } from 'react';
 
 import type { PlayerEntry } from './players.js';
@@ -7,7 +8,7 @@ import type { ReactPlayerProps } from './types.js';
 type Player = React.ForwardRefExoticComponent<
   ReactPlayerProps & {
     activePlayer: PlayerEntry['player'];
-  }
+  } & React.RefAttributes<HTMLElement>
 >;
 
 const Player: Player = React.forwardRef((props, ref) => {
@@ -15,6 +16,7 @@ const Player: Player = React.forwardRef((props, ref) => {
 
   const Player = props.activePlayer;
   const playerRef = useRef<HTMLVideoElement | null>(null);
+  const mediaRef = useComposedRefs(playerRef, props.mediaRef);
   const startOnPlayRef = useRef(true);
 
   useEffect(() => {
@@ -86,18 +88,8 @@ const Player: Player = React.forwardRef((props, ref) => {
       style={props.style}
       className={props.className}
       slot={props.slot}
-      ref={useCallback(
-        (node: HTMLVideoElement) => {
-          playerRef.current = node;
-
-          if (typeof ref === 'function') {
-            ref(node);
-          } else if (ref !== null) {
-            ref.current = node;
-          }
-        },
-        [ref]
-      )}
+      ref={ref}
+      mediaRef={mediaRef}
       src={props.src}
       crossOrigin={props.crossOrigin}
       preload={props.preload}
