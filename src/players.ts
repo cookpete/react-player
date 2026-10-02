@@ -24,7 +24,7 @@ const lazyMedia = <P extends object>(
 const Players: PlayerEntry[] = [
   {
     key: 'hls',
-    canPlay: canPlay.hls,
+    canPlay: canPlay('hls'),
     canEnablePIP: () => true,
     player: lazyMedia(() =>
       import(/* webpackChunkName: 'reactPlayerHls' */ '@videojs/react/media/hlsjs-video').then((m) => m.HlsJsVideo)
@@ -32,7 +32,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'dash',
-    canPlay: canPlay.dash,
+    canPlay: canPlay('dash'),
     canEnablePIP: () => true,
     player: lazyMedia(() =>
       import(/* webpackChunkName: 'reactPlayerDash' */ '@videojs/react/media/dash-video').then((m) => m.DashVideo)
@@ -40,7 +40,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'mux',
-    canPlay: canPlay.mux,
+    canPlay: canPlay('mux'),
     canEnablePIP: () => true,
     player: lazyMedia(
       () => import(/* webpackChunkName: 'reactPlayerMux' */ '@videojs/react/media/mux-video').then((m) => m.MuxVideo),
@@ -49,7 +49,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'youtube',
-    canPlay: canPlay.youtube,
+    canPlay: canPlay('youtube'),
     player: lazyMedia(() =>
       import(/* webpackChunkName: 'reactPlayerYouTube' */ '@videojs/react/media/youtube-video').then(
         (m) => m.YouTubeVideo
@@ -58,14 +58,14 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'vimeo',
-    canPlay: canPlay.vimeo,
+    canPlay: canPlay('vimeo'),
     player: lazyMedia(() =>
       import(/* webpackChunkName: 'reactPlayerVimeo' */ '@videojs/react/media/vimeo-video').then((m) => m.VimeoVideo)
     ),
   },
   {
     key: 'wistia',
-    canPlay: canPlay.wistia,
+    canPlay: canPlay('wistia'),
     canEnablePIP: () => true,
     player: lazyMedia(
       () =>
@@ -77,7 +77,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'spotify',
-    canPlay: canPlay.spotify,
+    canPlay: canPlay('spotify'),
     canEnablePIP: () => false,
     player: lazyMedia(() =>
       import(/* webpackChunkName: 'reactPlayerSpotify' */ '@videojs/react/media/spotify-audio').then(
@@ -87,7 +87,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'twitch',
-    canPlay: canPlay.twitch,
+    canPlay: canPlay('twitch'),
     canEnablePIP: () => false,
     player: lazyMedia(() =>
       import(/* webpackChunkName: 'reactPlayerTwitch' */ '@videojs/react/media/twitch-video').then((m) => m.TwitchVideo)
@@ -95,7 +95,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'tiktok',
-    canPlay: canPlay.tiktok,
+    canPlay: canPlay('tiktok'),
     canEnablePIP: () => false,
     player: lazyMedia(() =>
       import(/* webpackChunkName: 'reactPlayerTiktok' */ '@videojs/react/media/tiktok-video').then((m) => m.TikTokVideo)
@@ -103,7 +103,7 @@ const Players: PlayerEntry[] = [
   },
   {
     key: 'html',
-    canPlay: canPlay.html,
+    canPlay: canPlay('html'),
     canEnablePIP: () => true,
     player: HtmlPlayer,
   },
