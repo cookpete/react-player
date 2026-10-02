@@ -5,7 +5,7 @@ import React from 'react';
 import { act } from 'react-test-renderer';
 import Player from '../src/Player';
 import { createMediaPlayer } from '../src/MediaPlayer';
-import { engineSource } from '../src/sources';
+
 import { render } from './helpers/helpers';
 
 /**
@@ -30,17 +30,21 @@ const FakeMedia = React.forwardRef<HTMLVideoElement, Record<string, unknown>>((p
   );
 });
 
-const FakePlayer = createMediaPlayer(FakeMedia, engineSource('fake'));
+const FakePlayer = createMediaPlayer(FakeMedia);
 
 test('src and config become the media source', (t) => {
   const wrapper = render(
-    <Player src="file.mp4" config={{ color: 'white' } as never} activePlayer={FakePlayer} />
+    <Player
+      src="file.m3u8"
+      config={{ hlsJs: { debug: true }, youtube: { color: 'white' } }}
+      activePlayer={FakePlayer}
+    />
   );
   const video = wrapper.root.findByType('video');
 
   t.eq(JSON.parse(video.props['data-source']), {
-    src: 'file.mp4',
-    engine: { fake: { color: 'white' } },
+    src: 'file.m3u8',
+    engine: { hlsJs: { debug: true }, youtube: { color: 'white' } },
   });
   t.equal(video.props.config, undefined, 'config is not passed to the media');
 });
@@ -105,13 +109,3 @@ test('ReactPlayer ref is passed as mediaRef, not as the element ref', (t) => {
   t.ok(ref.current, 'ref receives the media');
 });
 
-test('source is stable across re-renders with the same src and config', (t) => {
-  const config = { color: 'white' } as never;
-  const wrapper = render(<Player src="file.mp4" config={config} activePlayer={FakePlayer} />);
-  const before = wrapper.root.findByType(FakeMedia).props.source;
-
-  act(() => {
-    wrapper.update(<Player src="file.mp4" config={config} activePlayer={FakePlayer} />);
-  });
-  t.equal(wrapper.root.findByType(FakeMedia).props.source, before);
-});

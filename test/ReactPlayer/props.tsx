@@ -15,6 +15,11 @@ test('style', (t) => {
   t.equal(wrapper.root.findByType('video').props.style.marginTop, '1rem');
 });
 
+test('config is not passed to a native video', (t) => {
+  const wrapper = render(<ReactPlayer src="file.mp4" config={{ youtube: { color: 'white' } }} />);
+  t.equal(wrapper.root.findByType('video').props.config, undefined);
+});
+
 test('wrapper - string', (t) => {
   const wrapper = create(<ReactPlayer wrapper="span" />);
   t.equal(wrapper.toJSON().type, 'span');

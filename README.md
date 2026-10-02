@@ -102,7 +102,7 @@ Prop | Description
 
 #### Config prop
 
-There is a single `config` prop to override settings for each type of player:
+There is a single `config` prop to override settings for every type of player:
 
 ```jsx
 <ReactPlayer
@@ -111,23 +111,27 @@ There is a single `config` prop to override settings for each type of player:
     youtube: {
       color: 'white',
     },
+    hlsJs: {
+      maxBufferLength: 60,
+    },
   }}
 />
 ```
 
-Settings for each player live under different keys and are passed to the engine that plays the media ([Video.js v10](https://github.com/videojs/v10) `source.engine.*` options):
+Engine settings are keyed by engine name and passed to the media as [Video.js v10](https://videojs.org/docs/framework/react/guides/media-sources) `source.engine`, so each player reads only its own key:
 
 Key | Options
 --- | -------
 `youtube` | https://developers.google.com/youtube/player_parameters#Parameters
 `vimeo` | https://developer.vimeo.com/player/sdk/embed
-`hls` | https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning
-`dash` | https://cdn.dashjs.org/latest/jsdoc/module-Settings.html
-`mux` | `MuxSource` options (`playback`, `poster`, `storyboard`, `drm`, `engine`) from [`@videojs/mux-video`](https://www.npmjs.com/package/@videojs/mux-video)
-`wistia` | https://docs.wistia.com/docs/javascript-player-api#embed-options
+`hlsJs` | https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning (also used by Mux)
+`nativeHls` | Options for the browser's own HLS playback (also used by Mux)
+`dashJs` | https://cdn.dashjs.org/latest/jsdoc/module-Settings.html
 `spotify` | Spotify embed options (`t`, `theme`, `preferVideo`)
 `twitch` | https://dev.twitch.tv/docs/embed/video-and-clips/#interactive-frames-for-live-streams-and-vods
 `tiktok` | https://developers.tiktok.com/doc/embed-player#player_parameters
+`mux` | `MuxSource` options (`playback`, `poster`, `storyboard`, `drm`) from [`@videojs/mux-video`](https://www.npmjs.com/package/@videojs/mux-video)
+`wistia` | https://docs.wistia.com/docs/javascript-player-api#embed-options
 
 ### Methods
 

@@ -1,21 +1,15 @@
-import type { MediaHTMLAttributes, SyntheticEvent } from 'react';
+import type { SyntheticEvent } from 'react';
 import type { DashEngineConfig } from '@videojs/dash-video';
 import type { HlsEngineConfig } from '@videojs/hlsjs-video';
 import type { MuxSource } from '@videojs/mux-video';
-import type { SpotifyEngineConfig } from '@videojs/spotify-audio';
-import type { TikTokEngineConfig } from '@videojs/tiktok-video';
-import type { TwitchEngineConfig } from '@videojs/twitch-video';
-import type { VimeoEngineConfig } from '@videojs/vimeo-video';
+import type { SpotifySourceEngineConfig } from '@videojs/spotify-audio';
+import type { TikTokSourceEngineConfig } from '@videojs/tiktok-video';
+import type { TwitchSourceEngineConfig } from '@videojs/twitch-video';
+import type { VimeoSourceEngineConfig } from '@videojs/vimeo-video';
 import type { WistiaSource } from '@videojs/wistia-video';
-import type { YouTubeEngineConfig } from '@videojs/youtube-video';
+import type { YouTubeSourceEngineConfig } from '@videojs/youtube-video';
 
-interface VideoHTMLAttributes<T> extends MediaHTMLAttributes<T> {
-  height?: number | string | undefined;
-  playsInline?: boolean | undefined;
-  poster?: string | undefined;
-  width?: number | string | undefined;
-  disablePictureInPicture?: boolean | undefined;
-  disableRemotePlayback?: boolean | undefined;
+interface VideoHTMLAttributes<T> extends React.VideoHTMLAttributes<T> {
   onEnterPictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
   onLeavePictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
 }
@@ -28,7 +22,6 @@ export interface VideoElementProps
 }
 
 export interface ReactPlayerProps extends PreviewProps, VideoElementProps {
-  config?: Config;
   fallback?: React.ReactNode;
   onReady?: () => void;
   onStart?: (event: SyntheticEvent<HTMLVideoElement>) => void;
@@ -48,19 +41,18 @@ export interface PreviewProps {
 }
 
 /**
- * Player-specific settings. Each key maps onto the options of the engine that plays that kind
- * of media (Video.js v10 `source.engine.*`), except `mux`, which takes the remaining
- * `MuxSource` options (`playback`, `poster`, `storyboard`, `drm`, `engine`, ...).
+ * Settings for every player, in one object. Engine options are keyed by engine name, exactly like
+ * Video.js v10's `source.engine`, and each player reads only its own key. `mux` and `wistia` take
+ * the rest of those players' source options.
  */
-export interface Config {
-  dash?: DashEngineConfig['dashJs'];
-  hls?: HlsEngineConfig['hlsJs'];
-  html?: Record<string, unknown>;
-  mux?: Omit<MuxSource, 'src' | 'playbackId'>;
-  spotify?: SpotifyEngineConfig;
-  tiktok?: TikTokEngineConfig;
-  twitch?: TwitchEngineConfig;
-  vimeo?: VimeoEngineConfig;
+export interface Config
+  extends HlsEngineConfig,
+    DashEngineConfig,
+    YouTubeSourceEngineConfig,
+    VimeoSourceEngineConfig,
+    SpotifySourceEngineConfig,
+    TwitchSourceEngineConfig,
+    TikTokSourceEngineConfig {
+  mux?: Omit<MuxSource, 'src' | 'playbackId' | 'engine'>;
   wistia?: Omit<WistiaSource, 'mediaId'>;
-  youtube?: YouTubeEngineConfig;
 }
