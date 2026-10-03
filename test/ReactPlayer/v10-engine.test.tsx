@@ -7,7 +7,7 @@ import { expect, test } from 'vite-plus/test';
 import ReactPlayer from '../../src/index';
 import { render } from '../helpers/helpers';
 
-test('useMedia() reaches the hls.js adapter, and its engine, behind a stream', async () => {
+test('mediaRef and useMedia() are the hls.js adapter, with its engine, behind a stream', async () => {
   const { Player, useMedia } = createPlayer({ features: [] });
   let media: unknown = null;
 
@@ -16,11 +16,12 @@ test('useMedia() reaches the hls.js adapter, and its engine, behind a stream', a
     return null;
   };
 
+  const ref = React.createRef<HTMLElement>();
   const mediaRef = React.createRef<HTMLVideoElement>();
   await act(async () => {
     render(
       <Player>
-        <ReactPlayer src="https://example.com/stream.m3u8" mediaRef={mediaRef} />
+        <ReactPlayer src="https://example.com/stream.m3u8" ref={ref} mediaRef={mediaRef} />
         <ReadMedia />
       </Player>
     );
@@ -30,8 +31,7 @@ test('useMedia() reaches the hls.js adapter, and its engine, behind a stream', a
   });
 
   expect(mediaRef.current).toBeTruthy();
-  expect(media).toBeTruthy();
-  expect(media, 'the player media is the adapter, not the element').not.toBe(mediaRef.current);
-  expect(media && 'engine' in (media as object)).toBe(true);
-  expect('engine' in (mediaRef.current as object)).toBe(false);
+  expect(media, 'mediaRef is the adapter the player uses').toBe(mediaRef.current);
+  expect('engine' in (mediaRef.current as object)).toBe(true);
+  expect(ref.current, 'ref is the rendered element, not the adapter').not.toBe(mediaRef.current);
 });

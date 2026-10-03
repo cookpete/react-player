@@ -64,16 +64,16 @@
     "postpublish": "pnpm clean"
   },
   "dependencies": {
-    "@videojs/dash-video": "^10.0.0",
-    "@videojs/hlsjs-video": "^10.0.0",
-    "@videojs/mux-video": "^10.0.0",
-    "@videojs/react": "^10.0.0",
-    "@videojs/spotify-audio": "^10.0.0",
-    "@videojs/tiktok-video": "^10.0.0",
-    "@videojs/twitch-video": "^10.0.0",
-    "@videojs/vimeo-video": "^10.0.0",
-    "@videojs/wistia-video": "^10.0.0",
-    "@videojs/youtube-video": "^10.0.0"
+    "@videojs/dash-video": "^10.0.1",
+    "@videojs/hlsjs-video": "^10.0.1",
+    "@videojs/mux-video": "^10.0.1",
+    "@videojs/react": "^10.0.1",
+    "@videojs/spotify-audio": "^10.0.1",
+    "@videojs/tiktok-video": "^10.0.1",
+    "@videojs/twitch-video": "^10.0.1",
+    "@videojs/vimeo-video": "^10.0.1",
+    "@videojs/wistia-video": "^10.0.1",
+    "@videojs/youtube-video": "^10.0.1"
   },
   "devDependencies": {
     "@types/jscodeshift": "^17.3.0",

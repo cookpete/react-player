@@ -39,7 +39,7 @@ const TIKTOK_FLAGS = new Set([
   'volume_control',
 ]);
 
-/** Members of the v3 `ref` that only a DOM element has. In v4 `mediaRef` is not an element for embeds. */
+/** Members of the v3 `ref` that only a DOM element has. In v4 `mediaRef` is not an element for streams and embeds. */
 const DOM_ONLY_MEMBERS = new Set([
   'classList',
   'closest',
@@ -231,13 +231,7 @@ function migrateRefUsage(ctx: Context, refs: AnyNode[]) {
       const name = path.node.property.name;
       if (name === 'api') {
         path.node.property = j.identifier('engine');
-        addTodo(
-          ctx,
-          path,
-          '`api` is now `engine` on the media, and can be null until the engine loads. For HLS, DASH and Mux sources ' +
-            '`mediaRef` is the <video> element, which has no engine: read hls.js or dash.js from the Video.js ' +
-            'player with useMedia() instead, see MIGRATING.md.'
-        );
+        ctx.changed = true;
       } else if (DOM_ONLY_MEMBERS.has(name)) {
         addTodo(ctx, path, domRefMessage);
       }
@@ -257,7 +251,7 @@ function migrateRefUsage(ctx: Context, refs: AnyNode[]) {
 }
 
 const domRefMessage =
-  '`mediaRef` is the media, which is not a DOM element for embeds such as YouTube. ' +
+  '`mediaRef` is the media, which is not a DOM element for streams and embeds such as HLS or YouTube. ' +
   'Pass a separate `ref` to <ReactPlayer> for DOM access.';
 
 // ---------------------------------------------------------------------------------------------------------------------

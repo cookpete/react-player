@@ -82,7 +82,7 @@ describe('ref', () => {
     ).toBeUndefined();
   });
 
-  test('api => engine, with a TODO', () => {
+  test('api => engine', () => {
     const { output, reports } = run(`
       import ReactPlayer from 'react-player';
 
@@ -98,8 +98,8 @@ describe('ref', () => {
     `);
     expect(output).toContain('playerRef.current?.engine.setQuality');
     expect(output).toContain('console.log(player.engine)');
-    expect(output).toMatch(/\/\/ TODO\(react-player v4\): `api` is now `engine`.*\n\s+playerRef\.current\?\.engine/);
-    expect(reports).toHaveLength(2);
+    expect(output).not.toContain('TODO');
+    expect(reports).toHaveLength(0);
   });
 
   test('flags DOM access through the ref', () => {

@@ -145,7 +145,7 @@ Method | Description
 
 #### Instance Methods
 
-Use the `mediaRef` prop to call instance methods on the player. See [the demo app](examples/react/src/App.tsx) for an example of this. The media is compatible with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface for every player: it is the `<video>` or `<audio>` element for files and streams, and a [Video.js v10](https://videojs.org/docs/framework/react/guides/media-sources) playback adapter for embeds such as YouTube and Vimeo.
+Use the `mediaRef` prop to call instance methods on the player. See [the demo app](examples/react/src/App.tsx) for an example of this. The media is compatible with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface for every player: it is the `<video>` or `<audio>` element for files, and a [Video.js v10](https://videojs.org/docs/framework/react/guides/media-sources) playback adapter for streams (HLS, DASH, Mux) and embeds such as YouTube and Vimeo.
 
 ```jsx
 const mediaRef = useRef(null);

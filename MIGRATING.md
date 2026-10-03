@@ -21,7 +21,7 @@ It changes:
 - `react-player/patterns`: `canPlay.youtube` => `canPlay('youtube')`, `MATCH_URL_YOUTUBE.test(url)` => `canPlay('youtube')(url)`, and a local copy of any removed regex used another way
 - custom player entries: removes `name`
 
-It leaves a `TODO(react-player v4)` comment, also listed in its output, wherever you need to decide what to do: `config` it can't follow, `config.mux` options from Mux Player, DOM access through the old `ref`, `.engine` for HLS, DASH and Mux, and custom player components. It only finds `config` objects written in the same file or typed as `Config`, so read the sections below for anything it reports.
+It leaves a `TODO(react-player v4)` comment, also listed in its output, wherever you need to decide what to do: `config` it can't follow, `config.mux` options from Mux Player, DOM access through the old `ref`, and custom player components. It only finds `config` objects written in the same file or typed as `Config`, so read the sections below for anything it reports.
 
 ### React 18 or later
 
@@ -32,7 +32,7 @@ It leaves a `TODO(react-player v4)` comment, also listed in its output, wherever
 ReactPlayer now follows the Video.js v10 media contract:
 
 - 🔥 __`ref` points to the rendered DOM element__: the `<video>` or `<audio>` element, or the embed's `<iframe>` (`<wistia-player>` for Wistia).
-- __`mediaRef` is new__ and points to the object that plays the media. It is compatible with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface for every player: the `<video>`/`<audio>` element for files and streams, and a Video.js playback adapter for embeds.
+- __`mediaRef` is new__ and points to the object that plays the media. It is compatible with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface for every player: the `<video>`/`<audio>` element for files, and a Video.js playback adapter for streams (HLS, DASH, Mux) and embeds.
 
 In `v3`, `ref` was a media element for every player, including the custom elements behind embeds. 🔥 __Use `mediaRef` for the media API__ (`play()`, `pause()`, `currentTime`, `duration`, ...):
 
@@ -48,29 +48,14 @@ const mediaRef = useRef(null);
 mediaRef.current.currentTime = 30;
 ```
 
-For files and streams `ref` and `mediaRef` are the same element, so existing `ref` code keeps working there. Switching to `mediaRef` makes it work for every player.
+For files `ref` and `mediaRef` are the same element, so existing `ref` code keeps working there. Switching to `mediaRef` makes it work for every player.
 
-If you used `ref.current.api` to reach the underlying engine, 🔥 __it is now `.engine` on the Video.js media__. It can be `null` until the engine has loaded.
-
-- For YouTube, Vimeo, Spotify, Twitch and TikTok, `mediaRef.current` is that media, so the embed's SDK is at `mediaRef.current.engine` (for example the YouTube IFrame API player). Wistia's `mediaRef` is the `<wistia-player>` element itself.
-- For HLS, DASH and Mux, `mediaRef.current` is the `<video>` element, which has no `engine`. The hls.js and dash.js instances are on the Video.js adapter that drives it. Render ReactPlayer inside a v10 player and read the adapter with `useMedia()`:
+If you used `ref.current.api` to reach the underlying engine, 🔥 __it is now `mediaRef.current.engine`__. It can be `null` until the engine has loaded. It is the hls.js instance for HLS and Mux, dash.js for DASH, and the embed's SDK for YouTube, Vimeo, Spotify, Twitch and TikTok (for example the YouTube IFrame API player). Wistia's `mediaRef` is the `<wistia-player>` element itself.
 
 ```jsx
-import { createPlayer } from '@videojs/react';
-import { videoFeatures } from '@videojs/react/video';
-
-const { Player, useMedia } = createPlayer({ features: videoFeatures });
-
-function HlsStats() {
-  const media = useMedia();
-  const hls = media && 'engine' in media ? media.engine : null; // the hls.js instance
-  // ...
-}
-
-<Player>
-  <ReactPlayer src="https://example.com/stream.m3u8" />
-  <HlsStats />
-</Player>
+const mediaRef = useRef(null);
+<ReactPlayer mediaRef={mediaRef} src="https://example.com/stream.m3u8" />
+mediaRef.current.engine; // the hls.js instance
 ```
 
 The engine is an escape hatch that ties your code to hls.js or dash.js; prefer the media API where it covers your use case.
