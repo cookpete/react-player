@@ -1,8 +1,8 @@
 export const AUDIO_EXTENSIONS =
-  /\.(m4a|m4b|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i;
-export const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)(#t=[,\d+]+)?($|\?)/i;
-export const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i;
-export const DASH_EXTENSIONS = /\.(mpd)($|\?)/i;
+  /\.(m4a|m4b|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|[?#])/i;
+export const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)($|[?#])/i;
+export const HLS_EXTENSIONS = /\.(m3u8)($|[?#])/i;
+export const DASH_EXTENSIONS = /\.(mpd)($|[?#])/i;
 // Match Mux m3u8 URLs without the extension so users can use hls.js with Mux by adding the `.m3u8` extension. https://regexr.com/7um5f
 export const MATCH_URL_MUX = /stream\.mux\.com\/(?!\w+\.m3u8)(\w+)/;
 export const MATCH_URL_YOUTUBE =
