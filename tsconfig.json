@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "preserveWatchOutput": true,
     "target": "es2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -12,11 +11,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react",
-    "incremental": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
     "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "dist"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

@@ -1,17 +1,14 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 
-import { defaultProps } from './props.js';
 import Player from './Player.js';
-
-import type { ReactPlayerProps } from './types.js';
 import type { PlayerEntry } from './players.js';
+import { defaultProps } from './props.js';
+import type { ReactPlayerProps } from './types.js';
 
 const Preview = lazy(() => import(/* webpackChunkName: 'reactPlayerPreview' */ './Preview.js'));
 const customPlayers: PlayerEntry[] = [];
 
-type ReactPlayer = React.ForwardRefExoticComponent<
-  Omit<ReactPlayerProps, 'ref'> & React.RefAttributes<HTMLVideoElement>
-> &
+type ReactPlayer = React.ForwardRefExoticComponent<ReactPlayerProps & React.RefAttributes<HTMLElement>> &
   Partial<{
     addCustomPlayer: (player: PlayerEntry) => void;
     removeCustomPlayers: () => void;
@@ -20,17 +17,7 @@ type ReactPlayer = React.ForwardRefExoticComponent<
   }>;
 
 export const createReactPlayer = (players: PlayerEntry[], playerFallback: PlayerEntry) => {
-  const getActivePlayer = (src?: string) => {
-    for (const player of [...customPlayers, ...players]) {
-      if (src && player.canPlay(src)) {
-        return player;
-      }
-    }
-    if (playerFallback) {
-      return playerFallback;
-    }
-    return null;
-  };
+  const findPlayer = (src: string) => [...customPlayers, ...players].find((player) => player.canPlay(src));
 
   const ReactPlayer: ReactPlayer = React.forwardRef((_props, ref) => {
     const props = { ...defaultProps, ..._props };
@@ -69,11 +56,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     };
 
     const renderActivePlayer = (src?: string) => {
-      const player = getActivePlayer(src);
-      if (!player) return null;
-
-      const { style, width, height, wrapper } = props;
-      const config = props.config?.[player.key as keyof ReactPlayerProps['config']];
+      const player = (src && findPlayer(src)) || playerFallback;
 
       return (
         <Player
@@ -87,7 +70,6 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
               ? { display: 'block', width: '100%', height: '100%' }
               : { display: 'block', width, height, ...style }
           }
-          config={config}
         />
       );
     };
@@ -115,27 +97,10 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     customPlayers.length = 0;
   };
 
-  ReactPlayer.canPlay = (src?: string) => {
-    if (src) {
-      for (const Player of [...customPlayers, ...players]) {
-        if (Player.canPlay(src)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
+  ReactPlayer.canPlay = (src?: string) => !!src && !!findPlayer(src);
 
-  ReactPlayer.canEnablePIP = (src?: string) => {
-    if (src) {
-      for (const Player of [...customPlayers, ...players]) {
-        if (Player.canPlay(src) && Player.canEnablePIP?.()) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
+  ReactPlayer.canEnablePIP = (src?: string) =>
+    !!src && [...customPlayers, ...players].some((player) => player.canPlay(src) && player.canEnablePIP?.());
 
   return ReactPlayer;
 };

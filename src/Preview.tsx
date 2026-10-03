@@ -48,9 +48,7 @@ const Preview = ({
     const data = await response.json();
 
     if (data.thumbnail_url) {
-      const fetchedImage = data.thumbnail_url
-        .replace('height=100', 'height=480')
-        .replace('-d_295x166', '-d_640');
+      const fetchedImage = data.thumbnail_url.replace('height=100', 'height=480').replace('-d_295x166', '-d_640');
       setImage(fetchedImage);
       cache[src] = fetchedImage;
     }
@@ -89,7 +87,7 @@ const Preview = ({
       borderRadius: ICON_SIZE,
       width: ICON_SIZE,
       height: ICON_SIZE,
-      position: isElement ? 'absolute' as const : undefined,
+      position: isElement ? ('absolute' as const) : undefined,
       ...flexCenter,
     },
     playIcon: {

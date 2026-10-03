@@ -1,28 +1,28 @@
 import './helpers/server-safe-globals.js';
-import { test } from 'zora';
-import sinon from 'sinon';
-import { act } from 'react-test-renderer';
 import React from 'react';
-import Player from '../src/Player';
+import { act } from 'react-test-renderer';
+import { expect, test, vi } from 'vite-plus/test';
+
 import HtmlPlayer from '../src/HtmlPlayer';
+import Player from '../src/Player';
 import { render } from './helpers/helpers';
 
-test('video.load()', async (t) => {
+test('video.load()', async () => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   render(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
 
-  const loadstart = sinon.fake();
+  const loadstart = vi.fn();
   videoRef.current?.addEventListener('loadstart', loadstart);
 
   await Promise.resolve();
-  t.ok(loadstart.calledOnce);
+  expect(loadstart).toHaveBeenCalledOnce();
 });
 
-test('video.play()', async (t) => {
+test('video.play()', async () => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   const wrapper = render(<Player ref={videoRef} src="file.mp4" playing={false} activePlayer={HtmlPlayer} />);
 
-  const play = sinon.fake();
+  const play = vi.fn();
   videoRef.current?.addEventListener('play', play);
 
   act(() => {
@@ -30,15 +30,15 @@ test('video.play()', async (t) => {
   });
   await Promise.resolve();
 
-  t.ok(play.calledOnce);
-  t.equal(videoRef.current?.paused, false);
+  expect(play).toHaveBeenCalledOnce();
+  expect(videoRef.current?.paused).toBe(false);
 });
 
-test('video.pause()', async (t) => {
+test('video.pause()', async () => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   const wrapper = render(<Player ref={videoRef} src="file.mp4" playing={true} activePlayer={HtmlPlayer} />);
 
-  const pause = sinon.fake();
+  const pause = vi.fn();
   videoRef.current?.addEventListener('pause', pause);
 
   act(() => {
@@ -46,11 +46,11 @@ test('video.pause()', async (t) => {
   });
   await Promise.resolve();
 
-  t.ok(pause.calledOnce);
-  t.equal(videoRef.current?.paused, true);
+  expect(pause).toHaveBeenCalledOnce();
+  expect(videoRef.current?.paused).toBe(true);
 });
 
-test('video.volume = 0.5', async (t) => {
+test('video.volume = 0.5', async () => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   const wrapper = render(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
 
@@ -59,13 +59,13 @@ test('video.volume = 0.5', async (t) => {
   });
   await Promise.resolve();
 
-  t.equal(videoRef.current?.volume, 0.5);
+  expect(videoRef.current?.volume).toBe(0.5);
 });
 
-test('video.muted = true', async (t) => {
+test('video.muted = true', async () => {
   let videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   const wrapper = render(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
-  t.equal(videoRef.current?.muted, false);
+  expect(videoRef.current?.muted).toBe(false);
 
   act(() => {
     videoRef = React.createRef();
@@ -73,13 +73,13 @@ test('video.muted = true', async (t) => {
   });
   await Promise.resolve();
 
-  t.equal(videoRef.current?.muted, true);
+  expect(videoRef.current?.muted).toBe(true);
 });
 
-test('video.muted = false', async (t) => {
+test('video.muted = false', async () => {
   let videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   const wrapper = render(<Player ref={videoRef} src="file.mp4" muted activePlayer={HtmlPlayer} />);
-  t.equal(videoRef.current?.muted, true);
+  expect(videoRef.current?.muted).toBe(true);
 
   act(() => {
     videoRef = React.createRef();
@@ -87,10 +87,10 @@ test('video.muted = false', async (t) => {
   });
   await Promise.resolve();
 
-  t.equal(videoRef.current?.muted, false);
+  expect(videoRef.current?.muted).toBe(false);
 });
 
-test('video.playbackRate = 0.5', async (t) => {
+test('video.playbackRate = 0.5', async () => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
   const wrapper = render(<Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} />);
 
@@ -99,16 +99,22 @@ test('video.playbackRate = 0.5', async (t) => {
   });
   await Promise.resolve();
 
-  t.equal(videoRef.current?.playbackRate, 0.5);
+  expect(videoRef.current?.playbackRate).toBe(0.5);
 });
 
-await test('video.duration', async (t) => {
+test('video.duration', async () => {
   const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
-  render(<Player ref={videoRef} src="https://stream.mux.com/a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M/low.mp4" activePlayer={HtmlPlayer} />);
+  render(
+    <Player
+      ref={videoRef}
+      src="https://stream.mux.com/a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M/low.mp4"
+      activePlayer={HtmlPlayer}
+    />
+  );
 
   await new Promise((resolve) => {
     videoRef.current?.addEventListener('durationchange', resolve);
   });
 
-  t.equal(videoRef.current?.duration, 10);
+  expect(videoRef.current?.duration).toBe(10);
 });

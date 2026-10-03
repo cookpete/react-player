@@ -1,9 +1,9 @@
 // biome-ignore lint/style/useImportType:
 import React, { useState, useRef, useCallback } from 'react';
+import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
 
 import { version } from '../../../package.json';
-import ReactPlayer from '../../../';
 import Duration from './Duration';
 
 const App = () => {
@@ -35,7 +35,7 @@ const App = () => {
   const [state, setState] = useState<PlayerState>(initialState);
 
   const load = (src?: string) => {
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       src,
       played: 0,
@@ -45,39 +45,39 @@ const App = () => {
   };
 
   const handlePlayPause = () => {
-    setState(prevState => ({ ...prevState, playing: !prevState.playing }));
+    setState((prevState) => ({ ...prevState, playing: !prevState.playing }));
   };
 
   const handleStop = () => {
-    setState(prevState => ({ ...prevState, src: undefined, playing: false }));
+    setState((prevState) => ({ ...prevState, src: undefined, playing: false }));
   };
 
   const handleToggleControls = () => {
-    setState(prevState => ({ ...prevState, controls: !prevState.controls }));
+    setState((prevState) => ({ ...prevState, controls: !prevState.controls }));
   };
 
   const handleToggleLight = () => {
-    setState(prevState => ({ ...prevState, light: !prevState.light }));
+    setState((prevState) => ({ ...prevState, light: !prevState.light }));
   };
 
   const handleToggleLoop = () => {
-    setState(prevState => ({ ...prevState, loop: !prevState.loop }));
+    setState((prevState) => ({ ...prevState, loop: !prevState.loop }));
   };
 
   const handleVolumeChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const inputTarget = event.target as HTMLInputElement;
-    setState(prevState => ({ ...prevState, volume: Number.parseFloat(inputTarget.value) }));
+    setState((prevState) => ({ ...prevState, volume: Number.parseFloat(inputTarget.value) }));
   };
 
   const handleToggleMuted = () => {
-    setState(prevState => ({ ...prevState, muted: !prevState.muted }));
+    setState((prevState) => ({ ...prevState, muted: !prevState.muted }));
   };
 
   const handleSetPlaybackRate = (event: React.SyntheticEvent<HTMLButtonElement>) => {
     const buttonTarget = event.target as HTMLButtonElement;
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
-      playbackRate: Number.parseFloat(`${buttonTarget.dataset.value}`)
+      playbackRate: Number.parseFloat(`${buttonTarget.dataset.value}`),
     }));
   };
 
@@ -85,45 +85,45 @@ const App = () => {
     const player = playerRef.current;
     if (!player) return;
 
-    setState(prevState => ({ ...prevState, playbackRate: player.playbackRate }));
+    setState((prevState) => ({ ...prevState, playbackRate: player.playbackRate }));
   };
 
   const handleTogglePIP = () => {
-    setState(prevState => ({ ...prevState, pip: !prevState.pip }));
+    setState((prevState) => ({ ...prevState, pip: !prevState.pip }));
   };
 
   const handlePlay = () => {
     console.log('onPlay');
-    setState(prevState => ({ ...prevState, playing: true }));
+    setState((prevState) => ({ ...prevState, playing: true }));
   };
 
   const handleEnterPictureInPicture = () => {
     console.log('onEnterPictureInPicture');
-    setState(prevState => ({ ...prevState, pip: true }));
+    setState((prevState) => ({ ...prevState, pip: true }));
   };
 
   const handleLeavePictureInPicture = () => {
     console.log('onLeavePictureInPicture');
-    setState(prevState => ({ ...prevState, pip: false }));
+    setState((prevState) => ({ ...prevState, pip: false }));
   };
 
   const handlePause = () => {
     console.log('onPause');
-    setState(prevState => ({ ...prevState, playing: false }));
+    setState((prevState) => ({ ...prevState, playing: false }));
   };
 
   const handleSeekMouseDown = () => {
-    setState(prevState => ({ ...prevState, seeking: true }));
+    setState((prevState) => ({ ...prevState, seeking: true }));
   };
 
   const handleSeekChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const inputTarget = event.target as HTMLInputElement;
-    setState(prevState => ({ ...prevState, played: Number.parseFloat(inputTarget.value) }));
+    setState((prevState) => ({ ...prevState, played: Number.parseFloat(inputTarget.value) }));
   };
 
   const handleSeekMouseUp = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const inputTarget = event.target as HTMLInputElement;
-    setState(prevState => ({ ...prevState, seeking: false }));
+    setState((prevState) => ({ ...prevState, seeking: false }));
     if (playerRef.current) {
       playerRef.current.currentTime = Number.parseFloat(inputTarget.value) * playerRef.current.duration;
     }
@@ -136,7 +136,7 @@ const App = () => {
 
     console.log('onProgress');
 
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       loadedSeconds: player.buffered?.end(player.buffered?.length - 1),
       loaded: player.buffered?.end(player.buffered?.length - 1) / player.duration,
@@ -152,7 +152,7 @@ const App = () => {
 
     if (!player.duration) return;
 
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       playedSeconds: player.currentTime,
       played: player.currentTime / player.duration,
@@ -161,7 +161,7 @@ const App = () => {
 
   const handleEnded = () => {
     console.log('onEnded');
-    setState(prevState => ({ ...prevState, playing: prevState.loop }));
+    setState((prevState) => ({ ...prevState, playing: prevState.loop }));
   };
 
   const handleDurationChange = () => {
@@ -169,7 +169,7 @@ const App = () => {
     if (!player) return;
 
     console.log('onDurationChange', player.duration);
-    setState(prevState => ({ ...prevState, duration: player.duration }));
+    setState((prevState) => ({ ...prevState, duration: player.duration }));
   };
 
   const handleClickFullscreen = () => {
@@ -193,24 +193,11 @@ const App = () => {
 
   const handleLoadCustomUrl = () => {
     if (urlInputRef.current?.value) {
-      setState(prevState => ({ ...prevState, src: urlInputRef.current?.value }));
+      setState((prevState) => ({ ...prevState, src: urlInputRef.current?.value }));
     }
   };
 
-  const {
-    src,
-    playing,
-    controls,
-    light,
-    volume,
-    muted,
-    loop,
-    played,
-    loaded,
-    duration,
-    playbackRate,
-    pip,
-  } = state;
+  const { src, playing, controls, light, volume, muted, loop, played, loaded, duration, playbackRate, pip } = state;
 
   const SEPARATOR = ' · ';
 
@@ -220,7 +207,7 @@ const App = () => {
         <h1>ReactPlayer Demo</h1>
         <div className="player-wrapper">
           <ReactPlayer
-            ref={setPlayerRef}
+            mediaRef={setPlayerRef}
             className="react-player"
             style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
             src={src}
@@ -234,26 +221,26 @@ const App = () => {
             muted={muted}
             config={{
               youtube: {
-                color: 'white'
+                color: 'white',
               },
               vimeo: {
-                color: 'ffffff'
+                color: 'ffffff',
               },
               spotify: {
-                preferVideo: true
+                preferVideo: true,
               },
               tiktok: {
-                fullscreen_button: true,
-                progress_bar: true,
-                play_button: true,
-                volume_control: true,
-                timestamp: false,
-                music_info: false,
-                description: false,
-                rel: false,
-                native_context_menu: true,
-                closed_caption: false,
-              }
+                fullscreen_button: 1,
+                progress_bar: 1,
+                play_button: 1,
+                volume_control: 1,
+                timestamp: 0,
+                music_info: 0,
+                description: 0,
+                rel: 0,
+                native_context_menu: 1,
+                closed_caption: 0,
+              },
             }}
             onLoadStart={() => console.log('onLoadStart')}
             onReady={() => console.log('onReady')}
@@ -309,7 +296,9 @@ const App = () => {
               </td>
             </tr>
             <tr>
-              <th><label htmlFor="seek">Seek</label></th>
+              <th>
+                <label htmlFor="seek">Seek</label>
+              </th>
               <td>
                 <input
                   id="seek"
@@ -325,7 +314,9 @@ const App = () => {
               </td>
             </tr>
             <tr>
-              <th><label htmlFor="volume">Volume</label></th>
+              <th>
+                <label htmlFor="volume">Volume</label>
+              </th>
               <td>
                 <input
                   id="volume"
@@ -343,12 +334,7 @@ const App = () => {
                 <label htmlFor="controls">Controls</label>
               </th>
               <td>
-                <input
-                  id="controls"
-                  type="checkbox"
-                  checked={controls}
-                  onChange={handleToggleControls}
-                />
+                <input id="controls" type="checkbox" checked={controls} onChange={handleToggleControls} />
                 <em>&nbsp; Requires player reload for some players</em>
               </td>
             </tr>
@@ -357,12 +343,7 @@ const App = () => {
                 <label htmlFor="muted">Muted</label>
               </th>
               <td>
-                <input
-                  id="muted"
-                  type="checkbox"
-                  checked={muted}
-                  onChange={handleToggleMuted}
-                />
+                <input id="muted" type="checkbox" checked={muted} onChange={handleToggleMuted} />
               </td>
             </tr>
             <tr>
@@ -370,12 +351,7 @@ const App = () => {
                 <label htmlFor="loop">Loop</label>
               </th>
               <td>
-                <input
-                  id="loop"
-                  type="checkbox"
-                  checked={loop}
-                  onChange={handleToggleLoop}
-                />
+                <input id="loop" type="checkbox" checked={loop} onChange={handleToggleLoop} />
               </td>
             </tr>
             <tr>
@@ -383,12 +359,7 @@ const App = () => {
                 <label htmlFor="light">Light mode</label>
               </th>
               <td>
-                <input
-                  id="light"
-                  type="checkbox"
-                  checked={light}
-                  onChange={handleToggleLight}
-                />
+                <input id="light" type="checkbox" checked={light} onChange={handleToggleLight} />
               </td>
             </tr>
             <tr>
@@ -420,14 +391,8 @@ const App = () => {
                   'https://test-videos.co.uk/vids/bigbuckbunny/webm/vp8/360/Big_Buck_Bunny_360_10s_1MB.webm',
                   'webm'
                 )}
-                {renderLoadButton(
-                  'https://filesamples.com/samples/video/ogv/sample_640x360.ogv',
-                  'ogv'
-                )}
-                {renderLoadButton(
-                  'https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3',
-                  'mp3'
-                )}
+                {renderLoadButton('https://filesamples.com/samples/video/ogv/sample_640x360.ogv', 'ogv')}
+                {renderLoadButton('https://storage.googleapis.com/media-session/elephants-dream/the-wires.mp3', 'mp3')}
               </td>
             </tr>
             <tr>
@@ -451,14 +416,8 @@ const App = () => {
             <tr>
               <th>Mux</th>
               <td>
-                {renderLoadButton(
-                  'https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k',
-                  'Test A'
-                )}
-                {renderLoadButton(
-                  'https://stream.mux.com/Sc89iWAyNkhJ3P1rQ02nrEdCFTnfT01CZ2KmaEcxXfB008',
-                  'Test B'
-                )}
+                {renderLoadButton('https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k', 'Test A')}
+                {renderLoadButton('https://stream.mux.com/Sc89iWAyNkhJ3P1rQ02nrEdCFTnfT01CZ2KmaEcxXfB008', 'Test B')}
               </td>
             </tr>
             <tr>
@@ -466,7 +425,10 @@ const App = () => {
               <td>
                 {renderLoadButton('https://www.youtube.com/watch?v=oUFJJNQGwhk', 'Test A')}
                 {renderLoadButton('https://www.youtube.com/watch?v=jNgP6d9HraI', 'Test B')}
-                {renderLoadButton('https://www.youtube.com/playlist?list=PLRfhDHeBTBJ7MU5DX4P_oBIRN457ah9lA', 'Playlist')}
+                {renderLoadButton(
+                  'https://www.youtube.com/playlist?list=PLRfhDHeBTBJ7MU5DX4P_oBIRN457ah9lA',
+                  'Playlist'
+                )}
               </td>
             </tr>
             <tr>
@@ -486,9 +448,7 @@ const App = () => {
             </tr>
             <tr>
               <th>Spotify</th>
-              <td>
-                {renderLoadButton('https://open.spotify.com/episode/5Jo9ncrz2liWiKj8inZwD2', 'Test A')}
-              </td>
+              <td>{renderLoadButton('https://open.spotify.com/episode/5Jo9ncrz2liWiKj8inZwD2', 'Test A')}</td>
             </tr>
             <tr>
               <th>Twitch</th>
@@ -507,15 +467,8 @@ const App = () => {
             <tr>
               <th>Custom</th>
               <td>
-                <input
-                  ref={urlInputRef}
-                  type="text"
-                  placeholder="Enter URL"
-                />
-                <button
-                  type="button"
-                  onClick={handleLoadCustomUrl}
-                >
+                <input ref={urlInputRef} type="text" placeholder="Enter URL" />
+                <button type="button" onClick={handleLoadCustomUrl}>
                   Load
                 </button>
               </td>

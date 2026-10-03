@@ -1,102 +1,109 @@
 import { lazy } from 'react';
-import { canPlay } from './patterns.js';
-import type { VideoElementProps } from './types.js';
+
 import HtmlPlayer from './HtmlPlayer.js';
+import { createMediaPlayer } from './MediaPlayer.js';
+import { canPlay } from './patterns.js';
+import { muxSource, wistiaSource, type ToMediaProps } from './sources.js';
+import type { PlayerComponent } from './types.js';
 
 export type PlayerEntry = {
   key: string;
-  name: string;
   canPlay: (src: string) => boolean;
   canEnablePIP?: () => boolean;
-  player?:
-    | React.ComponentType<VideoElementProps>
-    | React.LazyExoticComponent<React.ComponentType<VideoElementProps>>;
+  player?: PlayerComponent | LazyPlayer;
 };
+
+type LazyPlayer = React.LazyExoticComponent<PlayerComponent>;
+
+/** Lazily loads a `@videojs/react` media component and adapts it to ReactPlayer's props. */
+const lazyMedia = <P extends object>(
+  load: () => Promise<React.ComponentType<P>>,
+  toMediaProps?: ToMediaProps
+): LazyPlayer => lazy(async () => ({ default: createMediaPlayer(await load(), toMediaProps) })) as LazyPlayer;
 
 const Players: PlayerEntry[] = [
   {
     key: 'hls',
-    name: 'hls.js',
-    canPlay: canPlay.hls,
+    canPlay: canPlay('hls'),
     canEnablePIP: () => true,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerHls' */ 'hls-video-element/react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerHls' */ '@videojs/react/media/hlsjs-video').then((m) => m.HlsJsVideo)
+    ),
   },
   {
     key: 'dash',
-    name: 'dash.js',
-    canPlay: canPlay.dash,
+    canPlay: canPlay('dash'),
     canEnablePIP: () => true,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerDash' */ 'dash-video-element/react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerDash' */ '@videojs/react/media/dash-video').then((m) => m.DashVideo)
+    ),
   },
   {
     key: 'mux',
-    name: 'Mux',
-    canPlay: canPlay.mux,
+    canPlay: canPlay('mux'),
     canEnablePIP: () => true,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerMux' */ '@mux/mux-player-react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    player: lazyMedia(
+      () => import(/* webpackChunkName: 'reactPlayerMux' */ '@videojs/react/media/mux-video').then((m) => m.MuxVideo),
+      muxSource
+    ),
   },
   {
     key: 'youtube',
-    name: 'YouTube',
-    canPlay: canPlay.youtube,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerYouTube' */ 'youtube-video-element/react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    canPlay: canPlay('youtube'),
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerYouTube' */ '@videojs/react/media/youtube-video').then(
+        (m) => m.YouTubeVideo
+      )
+    ),
   },
   {
     key: 'vimeo',
-    name: 'Vimeo',
-    canPlay: canPlay.vimeo,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerVimeo' */ 'vimeo-video-element/react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    canPlay: canPlay('vimeo'),
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerVimeo' */ '@videojs/react/media/vimeo-video').then((m) => m.VimeoVideo)
+    ),
   },
   {
     key: 'wistia',
-    name: 'Wistia',
-    canPlay: canPlay.wistia,
+    canPlay: canPlay('wistia'),
     canEnablePIP: () => true,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerWistia' */ 'wistia-video-element/react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    player: lazyMedia(
+      () =>
+        import(/* webpackChunkName: 'reactPlayerWistia' */ '@videojs/react/media/wistia-video').then(
+          (m) => m.WistiaVideo
+        ),
+      wistiaSource
+    ),
   },
   {
     key: 'spotify',
-    name: 'Spotify',
-    canPlay: canPlay.spotify,
+    canPlay: canPlay('spotify'),
     canEnablePIP: () => false,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerSpotify' */ 'spotify-audio-element/react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerSpotify' */ '@videojs/react/media/spotify-audio').then(
+        (m) => m.SpotifyAudio
+      )
+    ),
   },
   {
     key: 'twitch',
-    name: 'Twitch',
-    canPlay: canPlay.twitch,
+    canPlay: canPlay('twitch'),
     canEnablePIP: () => false,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerTwitch' */ 'twitch-video-element/react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerTwitch' */ '@videojs/react/media/twitch-video').then((m) => m.TwitchVideo)
+    ),
   },
   {
     key: 'tiktok',
-    name: 'TikTok',
-    canPlay: canPlay.tiktok,
+    canPlay: canPlay('tiktok'),
     canEnablePIP: () => false,
-    player: lazy(
-      () => import(/* webpackChunkName: 'reactPlayerTiktok' */ 'tiktok-video-element/react')
-    ) as React.LazyExoticComponent<React.ComponentType<VideoElementProps>>,
+    player: lazyMedia(() =>
+      import(/* webpackChunkName: 'reactPlayerTiktok' */ '@videojs/react/media/tiktok-video').then((m) => m.TikTokVideo)
+    ),
   },
   {
     key: 'html',
-    name: 'html',
-    canPlay: canPlay.html,
+    canPlay: canPlay('html'),
     canEnablePIP: () => true,
     player: HtmlPlayer,
   },

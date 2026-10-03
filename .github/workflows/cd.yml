@@ -11,20 +11,20 @@ on:
         required: true
         description: Version
         options:
-        - conventional
-        - patch
-        - minor
-        - major
-        - prerelease
-        - from-package
-        - from-git
+          - conventional
+          - patch
+          - minor
+          - major
+          - prerelease
+          - from-package
+          - from-git
       prerelease:
         type: choice
         description: Pre-release
         options:
-        -
-        - canary
-        - beta
+          -
+          - canary
+          - beta
       dryrun:
         description: 'Dry-run'
         type: boolean
@@ -44,20 +44,23 @@ jobs:
       CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0 # Fetch all history for all tags and branches
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version-file: '.node-version'
+          cache: pnpm
           # this line is required for the setup-node action to be able to run the npm publish below.
           registry-url: 'https://registry.npmjs.org'
       - uses: fregante/setup-git-user@v1
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test:coverage
-      - run: npm run build
-      - run: npm run build:demo
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test:coverage
+      - run: pnpm build
+      - run: pnpm build:demo
       - run: npx --yes wet-run@1.0.1 release ${{ inputs.version }} ${{ inputs.dryrun && '--dry-run' || '' }} ${{ inputs.prerelease && format('--prerelease {0}', inputs.prerelease) || '' }} --provenance --github-release --verbose
       - name: Get NPM version
         id: npm-version

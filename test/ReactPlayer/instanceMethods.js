@@ -1,7 +1,8 @@
-import { test } from 'zora';
-import sinon from 'sinon';
 import React from 'react';
 import { create } from 'react-test-renderer';
+import sinon from 'sinon';
+import { test } from 'zora';
+
 import ReactPlayer from '../../src/index';
 
 const COMMON_METHODS = ['getDuration', 'getCurrentTime', 'getSecondsLoaded', 'getInternalPlayer'];

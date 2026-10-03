@@ -1,45 +1,20 @@
-export const AUDIO_EXTENSIONS =
-  /\.(m4a|m4b|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i;
+import { resolveAdapterType, resolveMimeType, type AdapterType } from '@videojs/react';
+
+export const AUDIO_EXTENSIONS = /\.(m4a|m4b|mp4a|mpga|mp2|mp2a|mp3|m2a|m3a|wav|weba|aac|oga|spx)($|\?)/i;
 export const VIDEO_EXTENSIONS = /\.(mp4|og[gv]|webm|mov|m4v)(#t=[,\d+]+)?($|\?)/i;
-export const HLS_EXTENSIONS = /\.(m3u8)($|\?)/i;
-export const DASH_EXTENSIONS = /\.(mpd)($|\?)/i;
-// Match Mux m3u8 URLs without the extension so users can use hls.js with Mux by adding the `.m3u8` extension. https://regexr.com/7um5f
-export const MATCH_URL_MUX = /stream\.mux\.com\/(?!\w+\.m3u8)(\w+)/;
-export const MATCH_URL_YOUTUBE =
-  /(?:youtu\.be\/|youtube(?:-nocookie|education)?\.com\/(?:embed\/|v\/|watch\/|watch\?v=|watch\?.+&v=|shorts\/|live\/))((\w|-){11})|youtube\.com\/playlist\?list=|youtube\.com\/user\//;
-export const MATCH_URL_VIMEO = /vimeo\.com\/(?!progressive_redirect).+/;
-export const MATCH_URL_WISTIA =
-  /(?:wistia\.(?:com|net)|wi\.st)\/(?:medias|embed)\/(?:iframe\/)?([^?]+)/;
-export const MATCH_URL_SPOTIFY = /open\.spotify\.com\/(\w+)\/(\w+)/i;
-export const MATCH_URL_TWITCH = /(?:www\.|go\.)?twitch\.tv\/([a-zA-Z0-9_]+|(videos?\/|\?video=)\d+)($|\?)/;
-export const MATCH_URL_TIKTOK = /tiktok\.com\/(?:player\/v1\/|share\/video\/|@[^/]+\/video\/)([0-9]+)/;
 
-const canPlayFile = (url: string, test: (u: string) => boolean) => {
-  if (Array.isArray(url)) {
-    for (const item of url) {
-      if (typeof item === 'string' && canPlayFile(item, test)) {
-        return true;
-      }
-      if (canPlayFile(item.src, test)) {
-        return true;
-      }
-    }
-    return false;
-  }
-  return test(url);
+export type PlayerKey = Exclude<AdapterType, 'video' | 'audio'> | 'html';
+
+/** The key of the built-in player that plays `url`, from its Video.js adapter type. */
+const resolvePlayerKey = (url: string): PlayerKey | null => {
+  const type = resolveAdapterType(url);
+  // Mux stream URLs with the `.m3u8` extension resolve to `mux`, but are played with hls.js so
+  // users can opt into it by adding the extension.
+  if (type === 'mux' && resolveMimeType(url) === 'application/x-mpegurl') return 'hls';
+  if (type === 'video' || type === 'audio') return 'html';
+  // The extension patterns cover formats Video.js doesn't recognize (e.g. m4v, weba, oga).
+  if (!type && (AUDIO_EXTENSIONS.test(url) || VIDEO_EXTENSIONS.test(url))) return 'html';
+  return type;
 };
 
-export const canPlay = {
-  html: (url: string) =>
-    canPlayFile(url, (u: string) => AUDIO_EXTENSIONS.test(u) || VIDEO_EXTENSIONS.test(u)),
-  hls: (url: string) => canPlayFile(url, (u: string) => HLS_EXTENSIONS.test(u)),
-  dash: (url: string) => canPlayFile(url, (u: string) => DASH_EXTENSIONS.test(u)),
-  mux: (url: string) => MATCH_URL_MUX.test(url),
-  youtube: (url: string) => MATCH_URL_YOUTUBE.test(url),
-  vimeo: (url: string) =>
-    MATCH_URL_VIMEO.test(url) && !VIDEO_EXTENSIONS.test(url) && !HLS_EXTENSIONS.test(url),
-  wistia: (url: string) => MATCH_URL_WISTIA.test(url),
-  spotify: (url: string) => MATCH_URL_SPOTIFY.test(url),
-  twitch: (url: string) => MATCH_URL_TWITCH.test(url),
-  tiktok: (url: string) => MATCH_URL_TIKTOK.test(url),
-};
+export const canPlay = (key: PlayerKey) => (url: string) => resolvePlayerKey(url) === key;

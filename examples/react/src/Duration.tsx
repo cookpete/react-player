@@ -20,5 +20,5 @@ function format(seconds: number) {
 }
 
 function pad(string: string | number) {
-  return (`0${string}`).slice(-2);
+  return `0${string}`.slice(-2);
 }

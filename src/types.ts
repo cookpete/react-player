@@ -1,31 +1,34 @@
-import type { MediaHTMLAttributes, SyntheticEvent } from 'react';
-import type HlsVideoElement from 'hls-video-element';
-import type SpotifyAudioElement from 'spotify-audio-element';
-import type YouTubeVideoElement from 'youtube-video-element';
-import type VimeoVideoElement from 'vimeo-video-element';
-import type TwitchVideoElement from 'twitch-video-element';
-import type TikTokVideoElement from 'tiktok-video-element';
+import type { DashEngineConfig } from '@videojs/dash-video';
+import type { HlsEngineConfig } from '@videojs/hlsjs-video';
+import type { MuxSource } from '@videojs/mux-video';
+import type { SpotifySourceEngineConfig } from '@videojs/spotify-audio';
+import type { TikTokSourceEngineConfig } from '@videojs/tiktok-video';
+import type { TwitchSourceEngineConfig } from '@videojs/twitch-video';
+import type { VimeoSourceEngineConfig } from '@videojs/vimeo-video';
+import type { WistiaSource } from '@videojs/wistia-video';
+import type { YouTubeSourceEngineConfig } from '@videojs/youtube-video';
+import type { SyntheticEvent } from 'react';
 
-interface VideoHTMLAttributes<T> extends MediaHTMLAttributes<T> {
-  height?: number | string | undefined;
-  playsInline?: boolean | undefined;
-  poster?: string | undefined;
-  width?: number | string | undefined;
-  disablePictureInPicture?: boolean | undefined;
-  disableRemotePlayback?: boolean | undefined;
+interface VideoHTMLAttributes<T> extends React.VideoHTMLAttributes<T> {
   onEnterPictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
   onLeavePictureInPicture?: ((this: HTMLVideoElement, ev: Event) => void) | undefined;
 }
 
-export interface VideoElementProps
-  extends React.DetailedHTMLProps<VideoHTMLAttributes<HTMLVideoElement>, HTMLVideoElement> {
+/**
+ * Props of a player component. Like the Video.js v10 media components, `ref` receives the rendered
+ * DOM element and `mediaRef` the object that plays the media: the element itself for `<video>` and
+ * `<audio>`, or the playback adapter for a stream or an embed.
+ */
+export interface VideoElementProps extends VideoHTMLAttributes<HTMLVideoElement> {
+  mediaRef?: React.Ref<HTMLVideoElement>;
   playbackRate?: number;
   volume?: number;
   config?: Config;
 }
 
+export type PlayerComponent = React.ComponentType<VideoElementProps & React.RefAttributes<HTMLElement>>;
+
 export interface ReactPlayerProps extends PreviewProps, VideoElementProps {
-  config?: Config;
   fallback?: React.ReactNode;
   onReady?: () => void;
   onStart?: (event: SyntheticEvent<HTMLVideoElement>) => void;
@@ -44,15 +47,20 @@ export interface PreviewProps {
   previewTabIndex?: number;
 }
 
-export interface Config {
-  dash?: Record<string, unknown>;
-  hls?: HlsVideoElement['config'];
-  html?: Record<string, unknown>;
-  mux?: Record<string, unknown>;
-  spotify?: SpotifyAudioElement['config'];
-  tiktok?: TikTokVideoElement['config'];
-  twitch?: TwitchVideoElement['config'];
-  vimeo?: VimeoVideoElement['config'];
-  wistia?: Record<string, unknown>;
-  youtube?: YouTubeVideoElement['config'];
+/**
+ * Settings for every player, in one object. Engine options are keyed by engine name, exactly like
+ * Video.js v10's `source.engine`, and each player reads only its own key. `mux` and `wistia` take
+ * the rest of those players' source options.
+ */
+export interface Config
+  extends
+    HlsEngineConfig,
+    DashEngineConfig,
+    YouTubeSourceEngineConfig,
+    VimeoSourceEngineConfig,
+    SpotifySourceEngineConfig,
+    TwitchSourceEngineConfig,
+    TikTokSourceEngineConfig {
+  mux?: Omit<MuxSource, 'src' | 'playbackId' | 'engine'>;
+  wistia?: Omit<WistiaSource, 'mediaId'>;
 }

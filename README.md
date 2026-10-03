@@ -14,7 +14,7 @@
 
 ---
 
-> Version 3 of ReactPlayer is a major update with a new architecture and many new features. It is not backwards compatible with v2, so please see the [migration guide](MIGRATING.md) for details.
+> Version 4 of ReactPlayer plays every source with the [Video.js v10](https://videojs.org) media components. It is not backwards compatible with v3, so please see the [migration guide](MIGRATING.md) for details.
 
 
 > Using Next.js and need to handle video upload/processing? Check out [next-video](https://github.com/muxinc/next-video).
@@ -102,7 +102,7 @@ Prop | Description
 
 #### Config prop
 
-There is a single `config` prop to override settings for each type of player:
+There is a single `config` prop to override settings for every type of player:
 
 ```jsx
 <ReactPlayer
@@ -111,17 +111,27 @@ There is a single `config` prop to override settings for each type of player:
     youtube: {
       color: 'white',
     },
+    hlsJs: {
+      maxBufferLength: 60,
+    },
   }}
 />
 ```
 
-Settings for each player live under different keys:
+Engine settings are keyed by engine name and passed to the media as [Video.js v10](https://videojs.org/docs/framework/react/guides/media-sources) `source.engine`, so each player reads only its own key:
 
 Key | Options
 --- | -------
 `youtube` | https://developers.google.com/youtube/player_parameters#Parameters
 `vimeo` | https://developer.vimeo.com/player/sdk/embed
-`hls` | https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning
+`hlsJs` | https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning (also used by Mux)
+`nativeHls` | Options for the browser's own HLS playback (also used by Mux)
+`dashJs` | https://cdn.dashjs.org/latest/jsdoc/module-Settings.html
+`spotify` | Spotify embed options (`t`, `theme`, `preferVideo`)
+`twitch` | https://dev.twitch.tv/docs/embed/video-and-clips/#interactive-frames-for-live-streams-and-vods
+`tiktok` | https://developers.tiktok.com/doc/embed-player#player_parameters
+`mux` | `MuxSource` options (`playback`, `poster`, `storyboard`, `drm`) from [`@videojs/mux-video`](https://www.npmjs.com/package/@videojs/mux-video)
+`wistia` | https://docs.wistia.com/docs/javascript-player-api#embed-options
 
 ### Methods
 
@@ -135,8 +145,17 @@ Method | Description
 
 #### Instance Methods
 
-Use [`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) to call instance methods on the player. See [the demo app](examples/react/src/App.js) for an example of this. Since `v3`, the instance methods aim to be compatible 
-with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface.
+Use the `mediaRef` prop to call instance methods on the player. See [the demo app](examples/react/src/App.tsx) for an example of this. The media is compatible with the [HTMLMediaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement) interface for every player: it is the `<video>` or `<audio>` element for files, and a [Video.js v10](https://videojs.org/docs/framework/react/guides/media-sources) playback adapter for streams (HLS, DASH, Mux) and embeds such as YouTube and Vimeo.
+
+```jsx
+const mediaRef = useRef(null);
+
+<ReactPlayer src={src} mediaRef={mediaRef} />
+
+mediaRef.current.currentTime = 30;
+```
+
+[`ref`](https://react.dev/learn/manipulating-the-dom-with-refs) points to the rendered DOM element: the `<video>` or `<audio>` element, or the embed's `<iframe>` (`<wistia-player>` for Wistia).
 
 ### Advanced Usage
 
@@ -148,60 +167,78 @@ By default ReactPlayer is a chromeless player. By setting the `controls` prop to
 <ReactPlayer src='https://www.youtube.com/watch?v=LXb3EKWsInQ' controls />
 ```
 
-If you like to add your own custom controls in a convenient way, you can use
-[Media Chrome](https://github.com/muxinc/media-chrome). Media Chrome is a library that provides a set of UI components that can be used to quickly build custom media controls.
+For controls that look and work the same for every source, use the [Video.js v10](https://videojs.org) [skins](https://videojs.org/docs/framework/react/guides/skins) or [UI components](https://videojs.org/docs/framework/react/guides/ui-components). Wrap ReactPlayer in v10's `VideoPlayer`: ReactPlayer's media attaches to it, so the controls drive files, streams and embeds alike.
 
-##### Simple example ([Codesandbox](https://codesandbox.io/p/sandbox/react-player-media-chrome-simple-nl3pg4))
+##### Skins
 
-```tsx
-import ReactPlayer from "react-player";
-import {
-  MediaController,
-  MediaControlBar,
-  MediaTimeRange,
-  MediaTimeDisplay,
-  MediaVolumeRange,
-  MediaPlaybackRateButton,
-  MediaPlayButton,
-  MediaSeekBackwardButton,
-  MediaSeekForwardButton,
-  MediaMuteButton,
-  MediaFullscreenButton,
-} from "media-chrome/react";
+A skin is a complete, styled player interface:
+
+```jsx
+import ReactPlayer from 'react-player';
+import { VideoPlayer, VideoSkin } from '@videojs/react/video';
+import '@videojs/react/video/skin.css';
 
 export default function Player() {
   return (
-    <MediaController
-      style={{
-        width: "100%",
-        aspectRatio: "16/9",
-      }}
-    >
-      <ReactPlayer
-        slot="media"
-        src="https://stream.mux.com/maVbJv2GSYNRgS02kPXOOGdJMWGU1mkA019ZUjYE7VU7k"
-        controls={false}
-        style={{
-          width: "100%",
-          height: "100%",
-          "--controls": "none",
-        }}
-      ></ReactPlayer>
-      <MediaControlBar>
-        <MediaPlayButton />
-        <MediaSeekBackwardButton seekOffset={10} />
-        <MediaSeekForwardButton seekOffset={10} />
-        <MediaTimeRange />
-        <MediaTimeDisplay showDuration />
-        <MediaMuteButton />
-        <MediaVolumeRange />
-        <MediaPlaybackRateButton />
-        <MediaFullscreenButton />
-      </MediaControlBar>
-    </MediaController>
+    <VideoPlayer>
+      <VideoSkin style={{ aspectRatio: '16 / 9' }}>
+        <ReactPlayer src="https://www.youtube.com/watch?v=LXb3EKWsInQ" width="100%" height="100%" />
+      </VideoSkin>
+    </VideoPlayer>
   );
 }
 ```
+
+The video preset also has `NeutralVideoSkin` and `CompatVideoSkin`. See [customizing skins](https://videojs.org/docs/framework/react/guides/customize-skins) to restyle them or copy their source into your project.
+
+##### UI components
+
+To build your own interface, place individual controls inside the player:
+
+```jsx
+import ReactPlayer from 'react-player';
+import { Container, MuteButton, PlayButton } from '@videojs/react';
+import { VideoPlayer } from '@videojs/react/video';
+
+export default function Player() {
+  return (
+    <VideoPlayer>
+      <Container style={{ position: 'relative', aspectRatio: '16 / 9' }}>
+        <ReactPlayer src="https://www.youtube.com/watch?v=LXb3EKWsInQ" width="100%" height="100%" />
+        <div className="controls">
+          <PlayButton render={(props, state) => <button {...props}>{state.paused ? 'Play' : 'Pause'}</button>} />
+          <MuteButton render={(props, state) => <button {...props}>{state.muted ? 'Unmute' : 'Mute'}</button>} />
+        </div>
+      </Container>
+    </VideoPlayer>
+  );
+}
+```
+
+With either approach:
+
+- Leave `controls` off, so the provider's own controls don't show alongside yours.
+- The controls drive playback directly. Leave `playing` unset, or keep it in sync with `onPlay` and `onPause`, because ReactPlayer applies `playing` whenever it re-renders.
+
+#### Mux Data and Google Cast
+
+Analytics and casting come from [Video.js v10](https://videojs.org) extensions. Wrap ReactPlayer in v10's `VideoPlayer` and add the extension components next to it:
+
+```jsx
+import { CastButton } from '@videojs/react';
+import { GoogleCast } from '@videojs/react/extensions/google-cast';
+import { MuxData } from '@videojs/react/extensions/mux-data';
+import { VideoPlayer } from '@videojs/react/video';
+
+<VideoPlayer>
+  <ReactPlayer src={src} controls />
+  <MuxData />
+  <GoogleCast />
+  <CastButton />
+</VideoPlayer>
+```
+
+Install `@videojs/mux-data` and `@videojs/google-cast` for the extensions you use. Extensions combine with a [skin or UI components](#custom-player-controls) inside the same `VideoPlayer`. See the [migration guide](MIGRATING.md#mux-data-and-google-cast) for details.
 
 #### Light player
 
@@ -255,6 +292,8 @@ Use `removeCustomPlayers` to clear all custom players:
 ReactPlayer.removeCustomPlayers();
 ```
 
+Custom players follow the same contract as the Video.js v10 media components: they forward `ref` to the element they render and hand the HTMLMediaElement-compatible object that plays the media to the `mediaRef` prop. ReactPlayer controls playback (`playing`, `volume`, `playbackRate`, `pip`) through `mediaRef`.
+
 It is your responsibility to ensure that custom players keep up with any internal changes to ReactPlayer in later versions.
 
 #### Mobile considerations
@@ -278,6 +317,10 @@ Since `v3` if the player supports multiple sources and / or tracks, it works the
 </ReactPlayer>
 ```
 
+### Migrating to `v4`
+
+ReactPlayer `v4` plays every source with the Video.js v10 media components. It requires React 18, moves the media API from `ref` to the new `mediaRef` prop, and renames some `config` keys. See the [migration guide](MIGRATING.md#migrating-to-v40) for details.
+
 ### Migrating to `v3`
 
 ReactPlayer `v3` is a major update with a new architecture and many new features. It is not backwards compatible with `v2`, so please see the [migration guide](MIGRATING.md) for details. 
@@ -291,12 +334,13 @@ ReactPlayer `v2` changes single player imports and adds lazy loading players. Su
 ### Supported media
 
 * [Supported file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Supported_media_formats) are playing using [`<video>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/video) or [`<audio>`](https://developer.mozilla.org/en/docs/Web/HTML/Element/audio) elements
-* HLS streams are played using [`hls.js`](https://github.com/video-dev/hls.js)
-* DASH streams are played using [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js)
-* Mux videos use the [`<mux-player>`](https://github.com/muxinc/elements/blob/main/packages/mux-player/README.md) element
-* YouTube videos use the [YouTube iFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
-* Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/sdk)
-* Wistia videos use the [Wistia Player API](https://wistia.com/doc/player-api)
+* All other media are played with the [Video.js v10](https://github.com/videojs/v10) React media components (`@videojs/react/media/*`):
+  * HLS streams are played using [`hls.js`](https://github.com/video-dev/hls.js)
+  * DASH streams are played using [`dash.js`](https://github.com/Dash-Industry-Forum/dash.js)
+  * Mux videos use [`@videojs/mux-video`](https://www.npmjs.com/package/@videojs/mux-video)
+  * YouTube videos use the [YouTube iFrame Player API](https://developers.google.com/youtube/iframe_api_reference)
+  * Vimeo videos use the [Vimeo Player API](https://developer.vimeo.com/player/sdk)
+  * Wistia videos use the [Wistia Player API](https://wistia.com/doc/player-api)
 
 ### Contributing
 

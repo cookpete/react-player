@@ -11,4 +11,5 @@ yarn-error.log
 .vscode/
 /disttest/
 /dist/
-tsconfig.tsbuildinfo
+*.tsbuildinfo
+.vite-hooks/_/
