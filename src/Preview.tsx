@@ -18,20 +18,8 @@ const Preview = ({
   const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!src || !light || !oEmbedUrl) return;
-    fetchImage({ src, light, oEmbedUrl });
-  }, [src, light, oEmbedUrl]);
-
-  const fetchImage = async ({
-    src,
-    light,
-    oEmbedUrl,
-  }: {
-    src: string;
-    light: boolean | string | React.ReactElement;
-    oEmbedUrl: string;
-  }) => {
-    if (React.isValidElement(light)) {
+    if (!src || !light || !oEmbedUrl || React.isValidElement(light)) {
+      setImage(null);
       return;
     }
     if (typeof light === 'string') {
@@ -44,17 +32,30 @@ const Preview = ({
     }
     setImage(null);
 
-    const response = await fetch(oEmbedUrl.replace('{url}', src));
-    const data = await response.json();
+    let cancelled = false;
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(oEmbedUrl.replace('{url}', src));
+        if (!response.ok) return;
+        const data = await response.json();
 
-    if (data.thumbnail_url) {
-      const fetchedImage = data.thumbnail_url
-        .replace('height=100', 'height=480')
-        .replace('-d_295x166', '-d_640');
-      setImage(fetchedImage);
-      cache[src] = fetchedImage;
-    }
-  };
+        if (!cancelled && data.thumbnail_url) {
+          const fetchedImage = data.thumbnail_url
+            .replace('height=100', 'height=480')
+            .replace('-d_295x166', '-d_640');
+          setImage(fetchedImage);
+          cache[src] = fetchedImage;
+        }
+      } catch {
+        // A thumbnail is optional; keep the playable preview on fetch failure.
+      }
+    };
+
+    void fetchImage();
+    return () => {
+      cancelled = true;
+    };
+  }, [src, light, oEmbedUrl]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {
