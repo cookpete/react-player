@@ -101,10 +101,12 @@ const Player: Player = React.forwardRef((props, ref) => {
       crossOrigin={props.crossOrigin}
       preload={props.preload}
       controls={props.controls}
+      controlsList={props.controlsList}
       muted={props.muted}
       autoPlay={props.autoPlay}
       loop={props.loop}
       playsInline={props.playsInline}
+      disablePictureInPicture={props.disablePictureInPicture}
       disableRemotePlayback={props.disableRemotePlayback}
       config={props.config}
       onLoadStart={handleLoadStart}
