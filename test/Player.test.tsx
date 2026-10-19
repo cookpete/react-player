@@ -3,6 +3,7 @@ import { test } from 'zora';
 import sinon from 'sinon';
 import React from 'react';
 import Player from '../src/Player';
+import { render } from './helpers/helpers.js';
 
 // Mock the activePlayer component
 const MockActivePlayer = React.forwardRef<HTMLVideoElement, any>((props, ref) => {
@@ -43,4 +44,26 @@ test('filters out ReactPlayer-specific event handlers to prevent React warnings'
 
   // Restore console.warn
   console.warn = originalWarn;
+});
+
+test('forwards controlsList and disablePictureInPicture to the active player', async (t) => {
+  let receivedProps: Record<string, unknown> | null = null;
+  const CapturingPlayer = React.forwardRef<HTMLVideoElement, any>((props, ref) => {
+    receivedProps = props;
+    return React.createElement('video', { ...props, ref });
+  });
+
+  render(
+    React.createElement(Player, {
+      activePlayer: CapturingPlayer,
+      src: 'video.mp4',
+      controls: true,
+      controlsList: 'nodownload noplaybackrate',
+      disablePictureInPicture: true,
+    })
+  );
+
+  t.ok(receivedProps);
+  t.equal(receivedProps?.controlsList, 'nodownload noplaybackrate');
+  t.equal(receivedProps?.disablePictureInPicture, true);
 });

@@ -59,6 +59,8 @@ Prop | Description | Default
 `playing` | Set to `true` or `false` to play or pause the media | `undefined`
 `preload` | Applies the `preload` attribute where supported | `undefined`
 `playsInline` | Applies the `playsInline` attribute where supported | `false`
+`controlsList` | Applies the `controlsList` attribute where supported. `nodownload` hides the download item and `noplaybackrate` hides playback speed in the native menu | `undefined`
+`disablePictureInPicture` | Applies the `disablePictureInPicture` attribute where supported. Hides the browser picture-in-picture button. This is separate from `pip`, which requests picture-in-picture mode | `false`
 `disableRemotePlayback` | Applies the `disableRemotePlayback` attribute where supported | `false`
 `crossOrigin` | Applies the `crossOrigin` attribute where supported | `undefined`
 `loop` | Set to `true` or `false` to loop the media | `false`
@@ -122,6 +124,7 @@ Key | Options
 `youtube` | https://developers.google.com/youtube/player_parameters#Parameters
 `vimeo` | https://developer.vimeo.com/player/sdk/embed
 `hls` | https://github.com/video-dev/hls.js/blob/master/docs/API.md#fine-tuning
+`html` | `{ attributes }` spread onto the underlying `<video>` or `<audio>` element. Replaces v2 `config.file.attributes`
 
 ### Methods
 
