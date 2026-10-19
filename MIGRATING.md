@@ -28,6 +28,7 @@ As of `v3.0` some player props are renamed to be closer to the native
 
 - 🔥 __`url` => `src`__
 - 🔥 __`playsinline` => `playsInline`__
+- `controlsList` and `disablePictureInPicture` are props on the player. v2 `config.file.attributes` is now `config.html.attributes`
 - 🔥 __`progressInterval`__ deprecated
 - 🔥 __`stopOnUnmount`__ deprecated
 - 🔥 __`wrapper`__ is `undefined` by default. Set to `div` if you want a wrapper element.

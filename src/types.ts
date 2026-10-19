@@ -44,10 +44,16 @@ export interface PreviewProps {
   previewTabIndex?: number;
 }
 
+export interface HtmlPlayerConfig {
+  // Native attributes for the underlying <video>/<audio>, such as controlsList.
+  // This replaces v2's config.file.attributes.
+  attributes?: VideoHTMLAttributes<HTMLVideoElement>;
+}
+
 export interface Config {
   dash?: Record<string, unknown>;
   hls?: HlsVideoElement['config'];
-  html?: Record<string, unknown>;
+  html?: HtmlPlayerConfig;
   mux?: Record<string, unknown>;
   spotify?: SpotifyAudioElement['config'];
   tiktok?: TikTokVideoElement['config'];

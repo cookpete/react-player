@@ -15,6 +15,7 @@ const App = () => {
     pip: false,
     playing: false,
     controls: false,
+    hideControls: false,
     light: false,
     volume: 1,
     muted: false,
@@ -54,6 +55,10 @@ const App = () => {
 
   const handleToggleControls = () => {
     setState(prevState => ({ ...prevState, controls: !prevState.controls }));
+  };
+
+  const handleToggleHideControls = () => {
+    setState(prevState => ({ ...prevState, hideControls: !prevState.hideControls }));
   };
 
   const handleToggleLight = () => {
@@ -201,6 +206,7 @@ const App = () => {
     src,
     playing,
     controls,
+    hideControls,
     light,
     volume,
     muted,
@@ -227,6 +233,8 @@ const App = () => {
             pip={pip}
             playing={playing}
             controls={controls}
+            controlsList={hideControls ? 'nodownload noplaybackrate' : undefined}
+            disablePictureInPicture={hideControls}
             light={light}
             loop={loop}
             playbackRate={playbackRate}
@@ -350,6 +358,20 @@ const App = () => {
                   onChange={handleToggleControls}
                 />
                 <em>&nbsp; Requires player reload for some players</em>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <label htmlFor="hideControls">Hide download, speed and PiP</label>
+              </th>
+              <td>
+                <input
+                  id="hideControls"
+                  type="checkbox"
+                  checked={hideControls}
+                  onChange={handleToggleHideControls}
+                />
+                <em>&nbsp; Native controls on file URLs</em>
               </td>
             </tr>
             <tr>
