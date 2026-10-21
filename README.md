@@ -83,6 +83,7 @@ Callback props take a function that gets fired on various player events:
 Prop | Description
 ---- | -----------
 `onClickPreview` | Called when user clicks the `light` mode preview
+`onPreviewError` | Called with an `Error` if automatic thumbnail fetching fails; the preview remains clickable without an image
 `onReady` | Called when media is loaded and ready to play. If `playing` is set to `true`, media will play immediately
 `onStart` | Called when media starts playing
 `onPlay` | Called when the `playing` prop is set to true

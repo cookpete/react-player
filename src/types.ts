@@ -39,6 +39,7 @@ export interface PreviewProps {
   light?: boolean | string | React.ReactElement;
   oEmbedUrl?: string;
   onClickPreview?: (event: React.SyntheticEvent) => void;
+  onPreviewError?: (error: Error) => void;
   playIcon?: React.ReactNode;
   previewAriaLabel?: string;
   previewTabIndex?: number;
