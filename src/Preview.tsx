@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import type { PreviewProps } from './types';
 
@@ -11,29 +11,18 @@ const Preview = ({
   light,
   oEmbedUrl,
   onClickPreview,
+  onPreviewError,
   playIcon,
   previewTabIndex,
   previewAriaLabel,
 }: PreviewProps) => {
   const [image, setImage] = useState<string | null>(null);
+  const onPreviewErrorRef = useRef(onPreviewError);
+  onPreviewErrorRef.current = onPreviewError;
 
   useEffect(() => {
     if (!src || !light || !oEmbedUrl) return;
-    fetchImage({ src, light, oEmbedUrl });
-  }, [src, light, oEmbedUrl]);
-
-  const fetchImage = async ({
-    src,
-    light,
-    oEmbedUrl,
-  }: {
-    src: string;
-    light: boolean | string | React.ReactElement;
-    oEmbedUrl: string;
-  }) => {
-    if (React.isValidElement(light)) {
-      return;
-    }
+    if (React.isValidElement(light)) return;
     if (typeof light === 'string') {
       setImage(light);
       return;
@@ -44,17 +33,34 @@ const Preview = ({
     }
     setImage(null);
 
-    const response = await fetch(oEmbedUrl.replace('{url}', src));
-    const data = await response.json();
+    let cancelled = false;
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(oEmbedUrl.replace('{url}', src));
+        if (!response.ok) {
+          throw new Error(`Preview image request failed with status ${response.status}`);
+        }
+        const data = await response.json();
 
-    if (data.thumbnail_url) {
-      const fetchedImage = data.thumbnail_url
-        .replace('height=100', 'height=480')
-        .replace('-d_295x166', '-d_640');
-      setImage(fetchedImage);
-      cache[src] = fetchedImage;
-    }
-  };
+        if (typeof data.thumbnail_url === 'string' && !cancelled) {
+          const fetchedImage = data.thumbnail_url
+            .replace('height=100', 'height=480')
+            .replace('-d_295x166', '-d_640');
+          setImage(fetchedImage);
+          cache[src] = fetchedImage;
+        }
+      } catch (error) {
+        if (!cancelled) {
+          onPreviewErrorRef.current?.(error instanceof Error ? error : new Error(String(error)));
+        }
+      }
+    };
+    void fetchImage();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [src, light, oEmbedUrl]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {

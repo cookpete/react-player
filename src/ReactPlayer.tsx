@@ -54,7 +54,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
     const renderPreview = (src?: string) => {
       if (!src) return null;
 
-      const { light, playIcon, previewTabIndex, oEmbedUrl, previewAriaLabel } = props;
+      const { light, playIcon, previewTabIndex, oEmbedUrl, previewAriaLabel, onPreviewError } = props;
       return (
         <Preview
           src={src}
@@ -64,6 +64,7 @@ export const createReactPlayer = (players: PlayerEntry[], playerFallback: Player
           previewAriaLabel={previewAriaLabel}
           oEmbedUrl={oEmbedUrl}
           onClickPreview={handleClickPreview}
+          onPreviewError={onPreviewError}
         />
       );
     };
