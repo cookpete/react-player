@@ -112,3 +112,46 @@ await test('video.duration', async (t) => {
 
   t.equal(videoRef.current?.duration, 10);
 });
+
+test('onSeeking and onSeeked receive the native event', async (t) => {
+  const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
+  const onSeeking = sinon.fake();
+  const onSeeked = sinon.fake();
+  render(
+    <Player ref={videoRef} src="file.mp4" activePlayer={HtmlPlayer} onSeeking={onSeeking} onSeeked={onSeeked} />
+  );
+
+  const seeking = new Event('seeking');
+  const seeked = new Event('seeked');
+  videoRef.current?.dispatchEvent(seeking);
+  videoRef.current?.dispatchEvent(seeked);
+
+  t.ok(onSeeking.calledOnceWith(seeking));
+  t.ok(onSeeked.calledOnceWith(seeked));
+});
+
+test('onSeeked is not passed to players whose element defines its own onSeeked method', async (t) => {
+  // Mimics youtube-video-element / vimeo-video-element, where an `onSeeked` prop
+  // would overwrite the element's own `onSeeked({ time })` method.
+  const elementOnSeeked = sinon.fake();
+  const receivedProps: Record<string, unknown>[] = [];
+  const MockCustomPlayer = React.forwardRef<HTMLVideoElement, any>((props, ref) => {
+    receivedProps.push(props);
+    return React.createElement('video', { src: props.src, ref });
+  });
+
+  const videoRef: React.Ref<HTMLVideoElement> = React.createRef();
+  const onSeeked = sinon.fake();
+  render(<Player ref={videoRef} src="file.mp4" activePlayer={MockCustomPlayer} onSeeked={onSeeked} />);
+
+  const video = videoRef.current as HTMLVideoElement & { onSeeked?: (p: { time: number }) => void };
+  video.onSeeked = elementOnSeeked;
+  video.addEventListener('seeked', () => video.onSeeked?.({ time: video.currentTime }));
+
+  const seeked = new Event('seeked');
+  video.dispatchEvent(seeked);
+
+  t.ok(receivedProps.every((props) => !('onSeeked' in props) && !('onSeeking' in props)));
+  t.ok(elementOnSeeked.calledOnce);
+  t.ok(onSeeked.calledOnceWith(seeked));
+});
